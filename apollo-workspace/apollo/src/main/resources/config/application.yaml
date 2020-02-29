@@ -15,9 +15,17 @@ spring:
     basename: i18n/common, i18n/apollo
     encoding: UTF-8
     use-code-as-default-message: true
-    
+  jpa:
+    properties:
+      hibernate:
+       dialect: org.hibernate.dialect.MariaDB53Dialect
+       #current_session_context_class: thread
+       hbm2ddl.auto: create-drop
+       #format_sql: false
+       #show_sql: true
+
 ###############################################
-############# MYUNIVAQ PROPERTIES #############
+############# APOLLO PROPERTIES #############
 ###############################################
 
 apollo:

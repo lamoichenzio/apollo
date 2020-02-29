@@ -5,3 +5,7 @@ spring:
     username: apollo
     password: apollo
     driver-class-name: com.mysql.cj.jdbc.Driver
+    
+###############################################
+############# APOLLO PROPERTIES #############
+###############################################
