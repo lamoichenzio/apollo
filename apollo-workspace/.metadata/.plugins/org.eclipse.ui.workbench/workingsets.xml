@@ -10,4 +10,5 @@
 <item elementID="=apollo/target\/generated-test-sources\/test-annotations=/optional=/true=/=/maven.pomderived=/true=/=/ignore_optional_problems=/true=/=/m2e-apt=/true=/=/test=/true=/" factoryID="org.eclipse.jdt.ui.PersistableJavaElementFactory"/>
 </workingSet>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1582975627632_2" label="Window Working Set" name="Aggregate for window 1582975627632"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1582976789857_3" label="Window Working Set" name="Aggregate for window 1582976789857"/>
 </workingSetManager>
