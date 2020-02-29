@@ -1,0 +1,1 @@
+INDEX VERSION 1.131+/home/giordano/Documenti/progetti/java/eclipse-projects/apollo-workspace/.metadata/.plugins/org.eclipse.jdt.core
