@@ -1,0 +1,24 @@
+server:
+  servlet:
+    context-path: /apollo
+
+spring:
+  application:
+    name: Apollo
+  profiles:
+    active: dev
+  #jackson:
+    #default-property-inclusion: NON_NULL
+    #serialization:
+      #write-dates-as-timestamps: true
+  messages:
+    basename: i18n/common, i18n/apollo
+    encoding: UTF-8
+    use-code-as-default-message: true
+    
+###############################################
+############# MYUNIVAQ PROPERTIES #############
+###############################################
+
+apollo:
+  dateformat: dd/MM/yyyy
