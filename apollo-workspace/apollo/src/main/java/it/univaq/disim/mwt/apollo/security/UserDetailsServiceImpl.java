@@ -9,6 +9,7 @@ import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.domain.User;
 
+
 public class UserDetailsServiceImpl implements UserDetailsService{
 	
 	@Autowired

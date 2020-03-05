@@ -13,13 +13,13 @@ import it.univaq.disim.mwt.apollo.domain.User;
 
 @SpringBootApplication
 public class ApolloApplication {
-    
+	
 	public static void main(String[] args) {
 		SpringApplication.run(ApolloApplication.class, args);
 	}
 
 	@Bean
-    public CommandLineRunner loadData(UserRepository utenteRepository, RoleRepository roleRepository) {
+    public CommandLineRunner loadData(UserRepository utenteRepository, RoleRepository roleRepository, PasswordEncoder encoder) {
         return (args) -> {
             Role adminRole = new Role();
             adminRole.setNome("ADMIN");
@@ -28,8 +28,8 @@ public class ApolloApplication {
             
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword("admin");
-
+            String password = encoder.encode("password");
+            admin.setPassword(password);
             admin.setRole(adminRole);
             utenteRepository.save(admin);
 
