@@ -13,13 +13,13 @@
                 <div class="card shadow zindex-100 mb-0">
                     <div class="card-body px-md-5 py-5">
                         <div class="mb-5">
-                            <h6 class="h3">Password reset</h6>
-                            <p class="text-muted mb-0">Enter your email below to proceed.</p>
+                            <h6 class="h3" th:text="#{common.passwordreset}">Password reset</h6>
+                            <p class="text-muted mb-0" th:text="#{common.enteremailbelow}">Enter your email below to proceed.</p>
                         </div>
                         <span class="clearfix"></span>
                         <form role="form">
                             <div class="form-group">
-                                <label class="form-control-label">Email address</label>
+                                <label class="form-control-label" th:text="#{common.emailaddress}">Email address</label>
                                 <div class="input-group input-group-merge">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="far fa-user"></i></span>
@@ -28,13 +28,13 @@
                                 </div>
                             </div>
                             <div class="mt-4"><button type="button" class="btn btn-sm btn-primary btn-icon rounded-pill">
-                          <span class="btn-inner--text">Reset password</span>
+                          <span class="btn-inner--text" th:text="#{common.reset}">Reset</span>
                           <span class="btn-inner--icon"><i class="far fa-long-arrow-alt-right"></i></span>
                         </button></div>
                         </form>
                     </div>
-                    <div class="card-footer px-md-5"><small>Not registered?</small>
-                        <a href="#" class="small font-weight-bold">Create account</a></div>
+                    <div class="card-footer px-md-5" th:text="#{common.notregistered}"><small>Not registered?</small>
+                        <a href="#" class="small font-weight-bold" th:text="#{common.createaccount}">Create account</a></div>
                 </div>
             </div>
         </div>
