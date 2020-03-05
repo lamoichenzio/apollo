@@ -11,23 +11,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import it.univaq.disim.mwt.apollo.domain.StandardUser;
 import it.univaq.disim.mwt.apollo.domain.User;
 
-@SuppressWarnings("serial")
 public class UserDetailsImpl implements UserDetails {
-
+	
 	private static final String ROLE_PREFIX = "ROLE_";
 	private static final SimpleGrantedAuthority ROLE_STANDARD = new SimpleGrantedAuthority(ROLE_PREFIX + "standard");
-
+	
 	private User user;
 
-	public UserDetailsImpl(User user) {
+	public UserDetailsImpl(User utente) {
 		super();
-		this.user = user;
+		this.user = utente;
 	}
 
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> result = new ArrayList<GrantedAuthority>();
+
 		result.add(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole()));
+
 		if (user instanceof StandardUser) {
 			result.add(ROLE_STANDARD);
 		}
@@ -72,5 +73,6 @@ public class UserDetailsImpl implements UserDetails {
 	public User getUtente() {
 		return user;
 	}
+	
 
 }
