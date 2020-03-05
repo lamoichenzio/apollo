@@ -28,7 +28,7 @@ public class ApolloApplication {
             
             User admin = new User();
             admin.setUsername("admin");
-            String password = encoder.encode("password");
+            String password = encoder.encode("admin");
             admin.setPassword(password);
             admin.setRole(adminRole);
             utenteRepository.save(admin);
