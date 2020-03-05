@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.loginPage("/")
 			.loginProcessingUrl("/login")
 			.failureUrl("/?error=invalidlogin")
-			.defaultSuccessUrl("/common/dashboard", false).and().logout()
+			.defaultSuccessUrl("/dashboard", false).and().logout()
 			.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/common/accessdenied").and()
 			.authorizeRequests()
 			// Specificare le url che sono soggette ad autenticazione ed autorizzazione
