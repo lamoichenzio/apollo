@@ -2,9 +2,10 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.UserService;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.UserRepository;
 import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.repository.UserRepository;
 
 public class UserServiceImpl implements UserService {
 
@@ -12,13 +13,8 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	@Override
-	public User findUserByUsername(String username) {
-		return userRepository.findUserByUsername(username);
-	}
-
-	@Override
-	public void updateProfile(User user) {
-		userRepository.save(user);
+	public User findByUsername(String username){
+		return userRepository.findByUsername(username);
 	}
 
 }

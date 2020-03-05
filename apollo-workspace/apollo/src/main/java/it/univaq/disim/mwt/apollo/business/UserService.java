@@ -4,7 +4,6 @@ import it.univaq.disim.mwt.apollo.domain.User;
 
 public interface UserService {
 	
-	User findUserByUsername(String username);
+	User findByUsername(String username) throws BusinessException;
 	
-	void updateProfile(User user);
 }
