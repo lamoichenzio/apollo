@@ -1,9 +1,5 @@
 package it.univaq.disim.mwt.apollo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,10 +13,6 @@ import it.univaq.disim.mwt.apollo.domain.User;
 
 @SpringBootApplication
 public class ApolloApplication {
-
-	/*
-	 * @Autowired private PasswordEncoder passwordEncoder;
-	 */
     
 	public static void main(String[] args) {
 		SpringApplication.run(ApolloApplication.class, args);

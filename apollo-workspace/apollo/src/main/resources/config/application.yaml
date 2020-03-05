@@ -20,10 +20,8 @@ spring:
       hibernate:
        dialect: org.hibernate.dialect.MariaDB53Dialect
        #current_session_context_class: thread
-       #hbm2ddl.auto: validate
-       hbm2ddl.auto: create-drop
+       hbm2ddl.auto: create
        #format_sql: false
-       #show_sql: true
 
 ###############################################
 ############# APOLLO PROPERTIES #############
