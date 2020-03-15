@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import it.univaq.disim.mwt.apollo.domain.StandardUser;
 import it.univaq.disim.mwt.apollo.domain.User;
 
+@SuppressWarnings("serial")
 public class UserDetailsImpl implements UserDetails {
 	
 	private static final String ROLE_PREFIX = "ROLE_";

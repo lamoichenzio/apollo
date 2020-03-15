@@ -17,7 +17,7 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class User {
 	
 	@Id

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import it.univaq.disim.mwt.apollo.domain.Role;
 
-@Repository
 public interface RoleRepository extends JpaRepository<Role, Long>{
 
 }
