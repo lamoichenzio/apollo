@@ -1,15 +1,13 @@
 package it.univaq.disim.mwt.apollo.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -18,27 +16,25 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Table(name = "USERS")
-@DiscriminatorColumn(name = "USER_TYPE")
-public class User {
+@Table(name = "SURVEYS")
+public class Survey {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(AccessLevel.NONE)
 	private Long id;
 	
-	@Column(unique = true)
-	private String username;
+	@Column(nullable = false)
+	private String name;
+	private String description;
+	private boolean secret;
+	private boolean active;
+	private Date startDate;
+	private Date endDate;
+	private String urlId;
 	
-	private String password;
-	private String email;
-	private Date birthdate;
-	private Gender gender;
-	private String firstname;
-	private String lastname;
+	@ManyToOne
+	private User owner;
 	
-	@OneToOne
-	private Role role;
-	
-	
+//	private List<Question> questions;
 }
