@@ -10,6 +10,5 @@ public class FileQuestion extends Question {
 	private Integer maximumFileNumber;
 	
 	private Integer maximumDimension;
-	
-	private ArrayList<File> files;
+
 }

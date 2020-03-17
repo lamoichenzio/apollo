@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AccessLevel;
@@ -13,7 +15,9 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-public class Question {
+@Entity
+@Table(name = "QUESTIONS")
+public abstract class Question {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +25,10 @@ public class Question {
 	private Long id;
 	
 	private String title;
-	
 	private String category;
+	
+	@ManyToOne
+	private Survey survey;
 	
 	private ArrayList<Answer> answers;
 	
