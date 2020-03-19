@@ -71,7 +71,7 @@ public class UserDetailsImpl implements UserDetails {
 		return "UserDetailsImpl [username=" + user.getUsername() + "]";
 	}
 
-	public User getUtente() {
+	public User getUser() {
 		return user;
 	}
 	
