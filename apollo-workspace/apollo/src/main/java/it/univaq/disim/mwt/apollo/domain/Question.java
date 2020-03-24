@@ -1,35 +1,33 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import java.util.ArrayList;
+import java.io.File;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @Entity
 @Table(name = "QUESTIONS")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Question {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Setter(AccessLevel.NONE)
 	private Long id;
 	
 	private String title;
-	private String category;
+	private File file;
 	
 	@ManyToOne
-	private Survey survey;
+	private QuestionGroup questionGroup;
 	
-	private ArrayList<Answer> answers;
-	
+	public abstract String getType();
 }

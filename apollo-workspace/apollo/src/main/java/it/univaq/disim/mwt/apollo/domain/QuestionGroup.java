@@ -1,11 +1,9 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,31 +18,27 @@ import lombok.Setter;
 
 @Data
 @Entity
-@Table(name = "SURVEYS")
-public class Survey {
+@Table(name = "QUESTION_GROUPS")
+public class QuestionGroup {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column(nullable = false)
-	private String name;
+	private String title;
 	private String description;
-	private boolean secret;
-	private boolean active;
-	private Date startDate;
-	private Date endDate;
-	private String urlId;
 	
 	@ManyToOne
-	private User owner;
-	
-	@OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+	private Survey survey;
+
+	@OneToMany(mappedBy = "questionGroup", 
+			cascade = CascadeType.ALL)
 	@Setter(AccessLevel.NONE)
-	private Set<QuestionGroup> questionGroups = new HashSet<>();
+	private Set<Question> questions = new HashSet<>();
 	
-	public void addQuestionGroup(QuestionGroup questionGroup) {
-		questionGroup.setSurvey(this);
-		questionGroups.add(questionGroup);
+	public void addQuestion(Question question) {
+		question.setQuestionGroup(this);
+		questions.add(question);
 	}
+
 }

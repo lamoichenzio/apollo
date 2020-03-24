@@ -1,6 +1,7 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -20,7 +21,7 @@ public class StandardUser extends User{
 			mappedBy = "owner", 
 			cascade = CascadeType.REMOVE)
 	@Setter(AccessLevel.NONE)
-	private List<Survey> surveys;
+	private Set<Survey> surveys = new HashSet<>();
 	
 	public void addSurvey(Survey survey) {
 		survey.setOwner(this);
