@@ -40,8 +40,7 @@ public class Survey {
 	private String urlId;
 	
 	@DBRef
-	@Setter(AccessLevel.NONE)
-	private String ownerId;
+	private User owner;
 	
 	@DBRef
 	@Setter(AccessLevel.NONE)
@@ -51,8 +50,5 @@ public class Survey {
 		questionGroup.setSurvey(this);
 		questionGroups.add(questionGroup);
 	}
-	
-	public void setOwnerId(Long ownerId) {
-		this.ownerId = Long.toString(ownerId);
-	}
+
 }

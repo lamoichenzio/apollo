@@ -80,7 +80,7 @@ public class ApolloApplication {
             Survey survey = new Survey();
             survey.setName("Test");
             survey.setDescription("Test");
-            survey.setOwnerId(standardUser.getId());
+            survey.setOwner(standardUser);
             Date now = new Date();
             survey.setStartDate(now);
             Calendar cal = Calendar.getInstance();
