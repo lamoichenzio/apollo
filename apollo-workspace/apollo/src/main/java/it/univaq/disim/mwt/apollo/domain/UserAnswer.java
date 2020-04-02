@@ -13,18 +13,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
 @Data
-@Entity
-@Table(name = "USER_ANSWERS")
+@Document(collection="UserAnswers")
 public class UserAnswer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private String id;
 	
 	@ManyToOne
 	private Survey survey;

@@ -12,17 +12,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
-@Entity
-@Table(name = "MULTI_CHOICE_MATRIX_ASWER_VALUES")
+@ToString
 public class MultiChoiceMatrixAnswerValue {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private String id;
 	
 	@ElementCollection
-	@CollectionTable(name="MultiChoicheMatrixAnswerStringValues")
 	private List<String> matrixAnswerValues;
 }

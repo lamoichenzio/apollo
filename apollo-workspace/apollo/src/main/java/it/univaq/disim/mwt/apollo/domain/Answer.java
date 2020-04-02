@@ -1,30 +1,22 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "ANSWERS")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Document(collection = "Answers")
 public abstract class Answer {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private String id;
 	
-	@OneToOne
+	@DBRef
 	private Question question;
 	
-	@ManyToOne
+	@DBRef
 	private UserAnswer userAnswer; 
 }

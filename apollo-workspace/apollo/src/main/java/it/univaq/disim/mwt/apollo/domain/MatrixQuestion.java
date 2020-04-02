@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import it.univaq.disim.mwt.apollo.domain.types.ChoiceType;
 import lombok.AccessLevel;
@@ -16,8 +16,7 @@ import lombok.Getter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "MATRIX_QUESTIONS")
+@Document(collection = "MatrixQuestions")
 public class MatrixQuestion extends Question{
 	
 	@ElementCollection

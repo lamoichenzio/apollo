@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.univaq.disim.mwt.apollo.business.UserService;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.UserRepository;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 @Service

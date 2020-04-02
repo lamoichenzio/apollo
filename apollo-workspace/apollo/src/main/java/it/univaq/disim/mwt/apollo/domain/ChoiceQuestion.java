@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import it.univaq.disim.mwt.apollo.domain.types.ChoiceType;
 import lombok.AccessLevel;
@@ -14,8 +15,7 @@ import lombok.Getter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "CHOICE_QUESTIONS")
+@Document(collection = "ChoiceQuestions")
 public class ChoiceQuestion extends Question {
 	
 	@Getter(AccessLevel.NONE)

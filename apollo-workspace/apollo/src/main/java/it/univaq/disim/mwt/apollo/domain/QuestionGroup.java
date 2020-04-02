@@ -12,27 +12,29 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
 @Data
-@Entity
-@Table(name = "QUESTION_GROUPS")
+@Document(collection = "QuestionGroups")
 public class QuestionGroup {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private String id;
 	
 	private String title;
 	private String description;
 	
-	@ManyToOne
+	@DBRef
 	private Survey survey;
 
-	@OneToMany(mappedBy = "questionGroup", 
-			cascade = CascadeType.ALL)
+    // Genera sub-document embedded (@DBRef per salvataggio via document references)
+	@DBRef
 	@Setter(AccessLevel.NONE)
 	private Set<Question> questions = new HashSet<>();
 	

@@ -14,18 +14,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 
 @Data
-@Entity
-@Table(name = "SURVEYS")
+@Document(collection = "Surveys")
 public class Survey {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private String id;
 	
 	@Column(nullable = false)
 	private String name;
@@ -36,15 +39,20 @@ public class Survey {
 	private Date endDate;
 	private String urlId;
 	
-	@ManyToOne
-	private User owner;
+	@DBRef
+	@Setter(AccessLevel.NONE)
+	private String ownerId;
 	
-	@OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+	@DBRef
 	@Setter(AccessLevel.NONE)
 	private Set<QuestionGroup> questionGroups = new HashSet<>();
 	
 	public void addQuestionGroup(QuestionGroup questionGroup) {
 		questionGroup.setSurvey(this);
 		questionGroups.add(questionGroup);
+	}
+	
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = Long.toString(ownerId);
 	}
 }

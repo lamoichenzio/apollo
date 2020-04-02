@@ -5,11 +5,21 @@ spring:
     username: apollo
     password: apollo
     driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/apollo
+      authentication-database: apollo
+      #host: localhost
+      #port: 27017
+      database: apollo
+      username: apollo
+      password: apollo
   jpa:
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+
     
 ###############################################
 ############# APOLLO PROPERTIES #############

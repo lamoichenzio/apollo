@@ -1,15 +1,11 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "SINGLE_ANSWERS")
+@Document(collection="SingleAnswers")
 public class SingleAnswer extends Answer {
 
 	private String answer;

@@ -14,7 +14,7 @@ import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.SurveyRepository;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 
 @Service
@@ -43,7 +43,7 @@ public class SurveyServiceImpl implements SurveyService {
 
 	@Override
 	public Survey findSurveyById(Long id) throws BusinessException {
-		return surveyRepository.getOne(id);
+		return surveyRepository.findFirstById(id);
 	}
 
 	@Override
