@@ -3,8 +3,8 @@ package it.univaq.disim.mwt.apollo.domain;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
 
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import it.univaq.disim.mwt.apollo.domain.types.ChoiceType;
@@ -15,7 +15,8 @@ import lombok.Getter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Document(collection = "ChoiceQuestions")
+@Document(collection = "Questions")
+@TypeAlias("ChoiceQuestion")
 public class ChoiceQuestion extends Question {
 	
 	@Getter(AccessLevel.NONE)

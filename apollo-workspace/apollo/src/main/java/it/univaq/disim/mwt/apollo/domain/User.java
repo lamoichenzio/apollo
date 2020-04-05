@@ -1,7 +1,6 @@
 package it.univaq.disim.mwt.apollo.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -39,6 +38,5 @@ public class User {
 	
 	@OneToOne
 	private Role role;
-	
 	
 }

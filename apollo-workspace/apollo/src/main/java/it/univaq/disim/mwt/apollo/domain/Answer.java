@@ -2,6 +2,7 @@ package it.univaq.disim.mwt.apollo.domain;
 
 import javax.persistence.Id;
 
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 

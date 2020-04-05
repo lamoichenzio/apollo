@@ -3,15 +3,11 @@ package it.univaq.disim.mwt.apollo.domain;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,6 +17,7 @@ import lombok.Setter;
 
 @Data
 @Document(collection = "QuestionGroups")
+@TypeAlias("QuestionGroup")
 public class QuestionGroup {
 	
 	@Id

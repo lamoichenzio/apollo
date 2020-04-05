@@ -4,27 +4,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.data.mongodb.MongoDbFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.QuestionRepository;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.Gender;
-import it.univaq.disim.mwt.apollo.domain.InputQuestion;
-import it.univaq.disim.mwt.apollo.domain.Question;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.StandardUser;
 import it.univaq.disim.mwt.apollo.domain.Survey;
@@ -32,10 +29,11 @@ import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.types.ChoiceType;
 
 
-@EnableMongoRepositories(basePackages = "it.univaq.disim.mwt.apollo.business.impl.repositories.mongo")
-@EnableJpaRepositories(basePackages = "it.univaq.disim.mwt.apollo.business.impl.repositories.jpa")
 @SpringBootApplication
 public class ApolloApplication {
+	
+	@Autowired
+	SurveyService surveyService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ApolloApplication.class, args);
@@ -46,7 +44,7 @@ public class ApolloApplication {
     		UserRepository utenteRepository, 
     		RoleRepository roleRepository, 
     		SurveyRepository surveyRepository,
-    		QuestionRepository questionRepository,
+    		ChoiceQuestionRepository choiceQuestionRepository,
     		PasswordEncoder encoder) {
 		
         return (args) -> {
@@ -89,19 +87,24 @@ public class ApolloApplication {
             survey.setEndDate(cal.getTime());
             surveyRepository.save(survey);
             
-            // QUESTION
+            // CHOICE QUESTION
             ChoiceQuestion question = new ChoiceQuestion();
             question.setTitle("Test question");
             question.setType(ChoiceType.RADIO);
             question.setOtherChoice(false);
-            ArrayList<String> options = new ArrayList<String>() { 
+            @SuppressWarnings("serial")
+			ArrayList<String> options = new ArrayList<String>() { 
                 { 
                     add("Option 1"); 
                     add("Option 2"); 
                 }
             };
             question.setOptions(options);
-            questionRepository.save(question);
+            choiceQuestionRepository.save(question);
+            
+            // Print results
+            List<Survey> surveys = surveyService.findAllSurveys();
+            System.out.print(surveys);
 
         };
     }

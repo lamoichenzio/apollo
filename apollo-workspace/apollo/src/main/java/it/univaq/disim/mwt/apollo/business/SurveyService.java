@@ -12,7 +12,7 @@ public interface SurveyService {
 	
 	ResponseGrid<Survey> findAllSurveysPaginated(RequestGrid request) throws BusinessException;
 	
-	Survey findSurveyById(Long id) throws BusinessException;
+	Survey findSurveyById(String id) throws BusinessException;
 	
 	void createSurvey(Survey survey) throws BusinessException;
 	
