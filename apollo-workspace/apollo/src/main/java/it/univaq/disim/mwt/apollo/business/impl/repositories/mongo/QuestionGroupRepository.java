@@ -8,7 +8,11 @@ import it.univaq.disim.mwt.apollo.domain.QuestionGroup;
 @Repository
 public interface QuestionGroupRepository extends MongoRepository<QuestionGroup, String> {
     
-	// CRUD Operations
-	QuestionGroup findFirstById(String Id);
+	/**
+	 * Find first QuestionGroup by id.
+	 * @param id This is the id of the QuestionGroup you want to find.
+	 * @return QuestionGroup
+	 */
+	QuestionGroup findFirstById(String id);
 
 }

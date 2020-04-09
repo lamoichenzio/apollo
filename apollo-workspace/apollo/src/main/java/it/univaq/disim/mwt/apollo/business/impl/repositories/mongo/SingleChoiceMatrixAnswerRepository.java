@@ -8,4 +8,11 @@ import it.univaq.disim.mwt.apollo.domain.SingleChoiceMatrixAnswer;
 @Repository
 public interface SingleChoiceMatrixAnswerRepository extends MongoRepository<SingleChoiceMatrixAnswer, String>{
 
+	/**
+	 * Find first SingleChoiceMatrixAnswer by id.
+	 * @param id This is the id of the SingleChoiceMatrixAnswer you want to find.
+	 * @return SingleChoiceMatrixAnswer
+	 */
+	SingleChoiceMatrixAnswer findFirstById(String id);
+	
 }

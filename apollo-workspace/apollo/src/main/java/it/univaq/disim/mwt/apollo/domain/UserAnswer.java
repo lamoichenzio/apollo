@@ -4,13 +4,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AccessLevel;
@@ -25,12 +23,12 @@ public class UserAnswer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@ManyToOne
+	@DBRef
 	private Survey survey;
 	
 	private Date date;
 	
-	@OneToMany(mappedBy = "userAnswer", cascade = CascadeType.ALL)
+	@DBRef
 	@Setter(AccessLevel.NONE)
 	private Set<Answer> answers = new HashSet<>();
 	

@@ -8,4 +8,10 @@ import it.univaq.disim.mwt.apollo.domain.UserAnswer;
 @Repository
 public interface UserAnswerRepository extends MongoRepository<UserAnswer, String>{
 
+	/**
+	 * Find first UserAnswer by id.
+	 * @param id This is the id of the UserAnswer you want to find.
+	 * @return UserAnswer
+	 */
+	UserAnswer findFirstById(String id);
 }

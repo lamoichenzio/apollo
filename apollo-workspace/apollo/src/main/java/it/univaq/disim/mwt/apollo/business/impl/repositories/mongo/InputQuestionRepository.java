@@ -8,8 +8,12 @@ import it.univaq.disim.mwt.apollo.domain.InputQuestion;
 @Repository
 public interface InputQuestionRepository extends MongoRepository<InputQuestion, String> {
     
-	// CRUD Operations
-	InputQuestion findFirstById(String Id);
+	/**
+	 * Find first InputQuestion by id.
+	 * @param id This is the id of the InputQuestion you want to find.
+	 * @return InputQuestion
+	 */
+	InputQuestion findFirstById(String id);
 
 }
 

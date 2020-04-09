@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
@@ -34,6 +33,9 @@ public class ApolloApplication {
 	
 	@Autowired
 	SurveyService surveyService;
+	
+	@Autowired
+	QuestionService questionService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ApolloApplication.class, args);
@@ -105,6 +107,11 @@ public class ApolloApplication {
             // Print results
             List<Survey> surveys = surveyService.findAllSurveys();
             System.out.print(surveys);
+            System.out.print("\n");
+            
+            List<ChoiceQuestion> questions = questionService.findAllChoiceQuestions();
+            System.out.print(questions);
+            System.out.print("\n");
 
         };
     }

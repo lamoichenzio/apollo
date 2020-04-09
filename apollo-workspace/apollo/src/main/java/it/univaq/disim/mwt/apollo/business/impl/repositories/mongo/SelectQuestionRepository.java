@@ -8,7 +8,11 @@ import it.univaq.disim.mwt.apollo.domain.SelectQuestion;
 @Repository
 public interface SelectQuestionRepository extends MongoRepository<SelectQuestion, String> {
     
-	// CRUD Operations
-	SelectQuestion findFirstById(String Id);
+	/**
+	 * Find first SelectQuestion by id.
+	 * @param id This is the id of the SelectQuestion you want to find.
+	 * @return SelectQuestion
+	 */
+	SelectQuestion findFirstById(String id);
 
 }

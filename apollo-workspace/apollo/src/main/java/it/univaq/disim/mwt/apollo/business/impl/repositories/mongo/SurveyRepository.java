@@ -8,7 +8,11 @@ import it.univaq.disim.mwt.apollo.domain.Survey;
 @Repository
 public interface SurveyRepository extends MongoRepository<Survey, String> {
 	
-	// CRUD Operations
-    Survey findFirstById(String Id);
+	/**
+	 * Find first Survey by id.
+	 * @param id This is the id of the Survey you want to find.
+	 * @return Survey
+	 */
+    Survey findFirstById(String id);
     
 }

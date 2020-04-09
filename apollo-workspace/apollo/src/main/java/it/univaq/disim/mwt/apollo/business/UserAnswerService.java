@@ -12,11 +12,11 @@ public interface UserAnswerService {
 	
 	ResponseGrid<UserAnswer> findAllUserAnswersPaginated(RequestGrid request) throws BusinessException;
 	
-	UserAnswer findQuestionById(String id) throws BusinessException;
+	UserAnswer findUserAnswerById(String id) throws BusinessException;
 	
-	void createQuestionGrpup(UserAnswer UserAnswer) throws BusinessException;
+	void createUserAnswer(UserAnswer userAnswer) throws BusinessException;
 	
-	void updateUserAnswer(UserAnswer UserAnswer) throws BusinessException;
+	void updateUserAnswer(UserAnswer userAnswer) throws BusinessException;
 	
-	void deleteUserAnswer(UserAnswer UserAnswer) throws BusinessException;
+	void deleteUserAnswer(UserAnswer userAnswer) throws BusinessException;
 }
