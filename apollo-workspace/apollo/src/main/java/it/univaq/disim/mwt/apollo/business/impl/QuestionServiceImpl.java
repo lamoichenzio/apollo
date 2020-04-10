@@ -16,7 +16,6 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SelectQuestio
 import it.univaq.disim.mwt.apollo.domain.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.MatrixQuestion;
-import it.univaq.disim.mwt.apollo.domain.Question;
 import it.univaq.disim.mwt.apollo.domain.SelectQuestion;
 
 @Service

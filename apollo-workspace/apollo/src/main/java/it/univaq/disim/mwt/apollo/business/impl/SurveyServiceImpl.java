@@ -49,6 +49,11 @@ public class SurveyServiceImpl implements SurveyService {
 				page.getContent()
 				);
 	}
+	
+	@Override
+	public List<Survey> findSurveysByName(String name) throws BusinessException {
+		return surveyRepository.findSurveysByName(name);
+	}
 
 	@Override
 	public Survey findSurveyById(String id) throws BusinessException {
@@ -69,5 +74,5 @@ public class SurveyServiceImpl implements SurveyService {
 	public void deleteSurvey(Survey survey) throws BusinessException {
 		surveyRepository.delete(survey);
 	}
-	
+
 }

@@ -8,8 +8,11 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -26,16 +29,23 @@ public class Survey {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
+	@Indexed
 	@Column(nullable = false)
 	private String name;
+	
 	private String description;
 	private boolean secret;
 	private boolean active;
+	
+	@CreatedDate
+	private Date createdDate;
+	
 	private Date startDate;
 	private Date endDate;
+	
 	private String urlId;
 	
-	@DBRef
+	@OneToMany
 	private User owner;
 	
 	@DBRef
