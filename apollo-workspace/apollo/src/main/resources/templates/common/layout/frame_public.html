@@ -15,6 +15,7 @@
 <!-- Favicon -->
 <link rel="icon" href="./dist/img/brand/favicon.png"
 	th:href="@{/dist/img/brand/favicon.png}" type="image/png">
+
 <!-- Font Awesome 5 -->
 <link rel="stylesheet"
 	href="./dist/libs/%40fortawesome/fontawesome-pro/css/all.min.css"
@@ -24,6 +25,7 @@
 <link rel="stylesheet"
 	href="./dist/libs/fullcalendar/dist/fullcalendar.min.css"
 	th:href="@{/dist/libs/fullcalendar/dist/fullcalendar.min.css}">
+
 <link rel="stylesheet"
 	href="./dist/libs/sweetalert2/dist/sweetalert2.min.css"
 	th:href="@{/dist/libs/sweetalert2/dist/sweetalert2.min.css}">
@@ -31,29 +33,34 @@
 <link rel="stylesheet"
 	href="./dist/libs/%40fancyapps/fancybox/dist/jquery.fancybox.min.css"
 	th:href="@{/dist/libs/%40fancyapps/fancybox/dist/jquery.fancybox.min.css}">
+
 <link rel="stylesheet" href="./dist/libs/animate.css/animate.min.css"
 	th:href="@{/dist/libs/animate.css/animate.min.css}">
 
 <!-- Purpose CSS -->
-<link rel="stylesheet" href="./dist/css/purpose.css" id="stylesheet"
+<link rel="stylesheet" href="./dist/css/purpose.css"
 	th:href="@{/dist/css/purpose.css}">
 
+<!-- Custom styles for this page -->
+<link href="./dist/libs/datatables/dataTables.bootstrap4.min.css"
+	th:href="@{/dist/libs/datatables/dataTables.bootstrap4.css}"
+	rel="stylesheet">
 </head>
 
 <body class="application application-offset">
 
 	<!-- Application container -->
 	<div class="container-fluid container-application">
-	
+
 		<!--  Sidenav -->
 		<div th:replace="~{common/layout/sidenav :: sidenav}"></div>
-		
-		
+
+
 		<!-- Content -->
 		<div class="main-content position-relative">
 			<!-- Main nav -->
 			<div th:replace="~{common/layout/mainnav :: mainnav}"></div>
-			
+
 			<!-- Omnisearch -->
 			<div id="omnisearch" class="omnisearch">
 				<div class="container">
@@ -102,12 +109,11 @@
 			</div>
 
 			<!-- Page content -->
-			<div class="page-content" layout:fragment="page-content">
-			</div>
+			<div class="page-content" layout:fragment="page-content"></div>
 
 			<!-- Footer -->
 			<div th:replace="~{common/layout/footer :: footer}"></div>
-			
+
 		</div>
 	</div>
 
@@ -151,12 +157,39 @@
 	<script src="./dist/libs/dropzone/dist/min/dropzone.min.js"
 		th:href="@{/dist/libs/dropzone/dist/min/dropzone.min.js}"></script>
 
-	<!-- table-listing -->
+
+
+	<!--	table-listing -->
 	<script src="./dist/libs/jquery-mask-plugin/dist/jquery.mask.min.js"
 		th:href="@{/dist/libs/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
 
+
+	<script src="./dist/libs/datatables/jquery.dataTables.js"
+		th:href="@{/dist/libs/datatables/jquery.dataTables.js}"></script>
+	<script src="./dist/libs/datatables/dataTables.bootstrap4.min.js"
+		th:href="@{/dist/libs/datatables/dataTables.bootstrap4.min.js}"></script>
+
+
 	<!-- Purpose JS -->
 	<script src="./dist/js/purpose.js" th:href="@{/dist/js/purpose.js}"></script>
+
+	<script type="text/javascript">
+		// Call the dataTables jQuery plugin
+		$(document).ready(function() {
+			$('#dataTable').DataTable({
+				"search" : {
+					"smart" : true
+				},
+				"columnDefs" : [ {
+					"orderable" : false,
+					"targets" : 5
+				} ],
+				language : {
+					searchPlaceholder : "Search records ..."
+				}
+			});
+		});
+	</script>
 
 
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -170,6 +203,7 @@
 		gtag('js', new Date());
 		gtag('config', 'UA-104437451-1');
 	</script>
+
 	<!-- End Google Tag Manager -->
 </body>
 
