@@ -3,16 +3,103 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorate="~{common/layout/frame_public}">
 <body>
-		
+
 	<div layout:fragment="page-content">
 		<!-- Page title -->
 		<div class="page-title">
 			<div class="row justify-content-between align-items-center">
-				<div class="col-md-6 mb-3 mb-m	d-0">
-				
+				<div
+					class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+					<!-- Page title + Go Back button -->
+					<div class="d-inline-block">
+						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Projects</h5>
+					</div>
+					<!-- Additional info -->
+					<div class="align-items-center ml-4 d-inline-flex">
+						<span class="h4 text-info mb-0 mr-2">9</span> <span
+							class="text-sm opacity-7 text-white">Running projects</span>
+					</div>
+					<!-- Optional link -->
+					<a href="card-listing.html"
+						class="text-sm text-info d-none d-lg-inline-block ml-4">See
+						cards</a>
+				</div>
+				<div
+					class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
+					<a href="#modal-project-create"
+						class="btn btn-sm btn-white btn-icon-only rounded-circle ml-4"
+						data-toggle="modal"> <span class="btn-inner--icon"><i
+							class="far fa-plus"></i></span>
+					</a>
 				</div>
 			</div>
-		</div>		
+		</div>
+		<!-- Listing -->
+		<div class="card">
+
+			<!-- Table -->
+
+			<div class="table-responsive">
+				<table class="table" id="dataTable" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Status</th>
+							<th>Completions</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<div class="media align-items-center">
+
+									<!-- SURVEY ICON -->
+									<img alt="Image placeholder"
+										src="./dist/img/theme/light/brand-avatar-1.png"
+										class="avatar  rounded-circle">
+
+									<!-- SURVEY NAME -->
+									<div class="media-body ml-4">
+										<a href="overview.html" class="name mb-0 h6 text-sm">Survey 1</a>
+									</div>
+								</div>
+							</td>
+
+							<!-- SURVEY STATUS -->
+							<td><span class="badge badge-dot mr-4"> <i
+									class="bg-warning"></i> <span class="status">Online</span>
+							</span></td>
+
+							<!-- NUMBER OF COMPLETIONS -->
+							<td class="budget">1000</td>
+
+							<!-- MANAGE ICON -->
+							<td class="text-right">
+								<div class="dropdown" data-toggle="dropdown">
+									<a href="#" class="action-item" role="button"
+										data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false"> <i class="far fa-ellipsis-h"></i>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right">
+										<a href="#" class="dropdown-item">Refresh</a> <a href="#"
+											class="dropdown-item">Disable</a> <a href="#"
+											class="dropdown-item">Delete</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- Load more -->
+	<div class="mt-4 text-center">
+		<a href="#"
+			class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3">Load
+			more ...</a>
+	</div>
 	</div>
 
 </body>

@@ -1829,7 +1829,7 @@ pre code {
     }
 }
 
-.table {
+/* .table {
     width: 100%;
     margin-bottom: 1rem;
     color: #8492a6;
@@ -2118,7 +2118,7 @@ pre code {
 .table-dark.table-hover tbody tr:hover {
     color: #f8f8fb;
     background-color: hsla(0, 0%, 100%, .075)
-}
+} */
 
 @media (max-width:575.98px) {
     .table-responsive-sm {
@@ -2756,10 +2756,32 @@ textarea.form-control.is-invalid {
     }
 }
 
-.btn {
+/* .btn {
     display: inline-block;
     font-weight: 600;
     color: #8492a6;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .75rem 1.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-box-shadow .15s ease-in-out
+}
+ */
+.btn {
+    display: inline-block;
+    font-weight: 600;
+    color: #fff;
     text-align: center;
     vertical-align: middle;
     -webkit-user-select: none;
@@ -17341,9 +17363,27 @@ a.text-muted:hover {
     height: 150px!important
 }
 
-.btn-square {
+/* .btn-square {
     width: 108px!important;
     height: 108px!important;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column
+} */
+
+/* CUSTOM */
+.btn-square {
+    width: 78px!important;
+    height: 78px!important;
     padding: 1rem;
     border-radius: 1rem;
     display: -webkit-box;
@@ -20140,6 +20180,31 @@ textarea[resize=horizontal] {
     height: 290px
 }
 
+.application .sidenav-user .btn {
+    width: 78px!important;
+    height: 78px!important;
+    float: left;
+    background: transparent;
+    color: #D1D3E2;
+    margin: 0 0 4px
+}
+
+.application .sidenav-user .btn:nth-child(odd) {
+    margin-right: 24px
+}
+
+.application .sidenav-user .btn.active {
+    background-color: #fff;
+    color: #6e00ff;
+    -webkit-box-shadow: 0 1rem 3rem rgba(31, 45, 61, .125)!important;
+    box-shadow: 0 1rem 3rem rgba(31, 45, 61, .125)!important
+}
+
+.application .sidenav-user .btn:hover:not(.active) {
+    color: #fff;
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05)
+}
 .application .page-title+.nav-tabs {
     margin-bottom: 20px
 }
