@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo.domain;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -34,11 +35,12 @@ public class Survey {
 	private String name;
 	
 	private String description;
+	private File icon;
 	private boolean secret;
 	private boolean active;
 	
 	@CreatedDate
-	private Date createdDate;
+	private Date creationDate;
 	
 	private Date startDate;
 	private Date endDate;
