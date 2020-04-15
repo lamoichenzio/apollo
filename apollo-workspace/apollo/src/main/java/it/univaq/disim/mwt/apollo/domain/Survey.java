@@ -48,7 +48,7 @@ public class Survey {
 	private String urlId;
 	
 	@OneToMany
-	private User owner;
+	private User user;
 	
 	@DBRef
 	@Setter(AccessLevel.NONE)

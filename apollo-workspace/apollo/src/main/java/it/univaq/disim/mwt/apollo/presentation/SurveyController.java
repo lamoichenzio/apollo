@@ -13,6 +13,7 @@ import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.User;
 
 @Controller
 @RequestMapping("/surveys")
@@ -23,14 +24,15 @@ public class SurveyController {
 	
 	@GetMapping("/dashboard")
 	public String dashboard() {
-		return "common/dashboard";
+		return "/common/dashboard";
 	}
 	
 	@PostMapping("/findallpaginated")
 	@ResponseBody
 	public ResponseGrid<Survey> findAllPaginated(@RequestBody RequestGrid requestGrid) 
 			throws BusinessException{
-		return surveyService.findAllSurveysPaginated(requestGrid);
+		User user = Utility.getUser();
+		return surveyService.findAllSurveysByUserPaginated(requestGrid, user);
 	}
 
 }

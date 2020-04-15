@@ -80,7 +80,7 @@ public class ApolloApplication {
             Survey survey = new Survey();
             survey.setName("Test");
             survey.setDescription("Test");
-            survey.setOwner(standardUser);
+            survey.setUser(standardUser);
             Date now = new Date();
             survey.setStartDate(now);
             Calendar cal = Calendar.getInstance();
@@ -103,16 +103,6 @@ public class ApolloApplication {
             };
             question.setOptions(options);
             choiceQuestionRepository.save(question);
-            
-            // Print results
-            List<Survey> surveys = surveyService.findAllSurveys();
-            System.out.print(surveys);
-            System.out.print("\n");
-            
-            List<ChoiceQuestion> questions = questionService.findAllChoiceQuestions();
-            System.out.print(questions);
-            System.out.print("\n");
-
         };
     }
     
