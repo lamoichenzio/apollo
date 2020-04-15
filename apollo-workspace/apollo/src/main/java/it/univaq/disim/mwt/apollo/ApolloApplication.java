@@ -1,6 +1,6 @@
 package it.univaq.disim.mwt.apollo;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -22,7 +22,6 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyReposit
 import it.univaq.disim.mwt.apollo.domain.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.Gender;
 import it.univaq.disim.mwt.apollo.domain.Role;
-import it.univaq.disim.mwt.apollo.domain.StandardUser;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.types.ChoiceType;
@@ -50,11 +49,15 @@ public class ApolloApplication {
     		PasswordEncoder encoder) {
 		
         return (args) -> {
-        	// ROLE
+        	// ROLES
             Role adminRole = new Role();
             adminRole.setNome("ADMIN");
             adminRole.setDescrizione("amministratore");
             roleRepository.save(adminRole);
+            Role standardRole = new Role();
+            standardRole.setNome("STANDARD");
+            standardRole.setDescrizione("standard user");
+            roleRepository.save(standardRole);
             
             // USER
             User admin = new User();
@@ -65,7 +68,7 @@ public class ApolloApplication {
             utenteRepository.save(admin);
             
             // STANDARD USER
-            StandardUser standardUser = new StandardUser();
+            User standardUser = new User();
             standardUser.setUsername("pippo");
             standardUser.setPassword(encoder.encode("pippo"));
             standardUser.setFirstname("Pippo");
@@ -74,6 +77,7 @@ public class ApolloApplication {
             Date birthdate = new GregorianCalendar(1994, Calendar.NOVEMBER, 13).getTime();
             standardUser.setBirthdate(birthdate);
             standardUser.setGender(Gender.MALE);
+            standardUser.setRole(standardRole);
             utenteRepository.save(standardUser);
             
             // SURVEY
@@ -94,13 +98,7 @@ public class ApolloApplication {
             question.setTitle("Test question");
             question.setType(ChoiceType.RADIO);
             question.setOtherChoice(false);
-            @SuppressWarnings("serial")
-			ArrayList<String> options = new ArrayList<String>() { 
-                { 
-                    add("Option 1"); 
-                    add("Option 2"); 
-                }
-            };
+			List<String> options = Arrays.asList("Option 1", "Option 2"); 
             question.setOptions(options);
             choiceQuestionRepository.save(question);
         };
