@@ -45,6 +45,93 @@
 <link href="./dist/libs/datatables/dataTables.bootstrap4.min.css"
 	th:href="@{/dist/libs/datatables/dataTables.bootstrap4.css}"
 	rel="stylesheet">
+
+<!-- Scripts -->
+
+<!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+<!-- Purpose CSS -->
+
+<script src="./dist/js/purpose.core.js"
+	th:src="@{/dist/js/purpose.core.js}"></script>
+<!-- Page JS -->
+<script src="./dist/libs/apexcharts/dist/apexcharts.min.js"
+	th:src="@{/dist/libs/apexcharts/dist/apexcharts.min.js}"></script>
+<script src="./dist/libs/moment/min/moment.min.js"
+	th:src="@{/dist/libs/moment/min/moment.min.js}"></script>
+<script src="./dist/libs/fullcalendar/dist/fullcalendar.min.js"
+	th:src="@{/dist/libs/fullcalendar/dist/fullcalendar.min.js}"></script>
+
+<script
+	src="./dist/libs/%40fancyapps/fancybox/dist/jquery.fancybox.min.js"
+	th:src="@{/dist/libs/%40fancyapps/fancybox/dist/jquery.fancybox.min.js}"></script>
+
+<!-- Page JS -->
+<script src="./dist/libs/dragula/dist/dragula.min.js"
+	th:src="@{/dist/libs/dragula/dist/dragula.min.js}"></script>
+<script src="./dist/libs/sweetalert2/dist/sweetalert2.min.js"
+	th:src="@{/dist/libs/sweetalert2/dist/sweetalert2.min.js}"></script>
+
+<!-- Create New scripts -->
+<script src="./dist/libs/select2/dist/js/select2.min.js"
+	th:src="@{/dist/libs/select2/dist/js/select2.min.js}"></script>
+<script src="./dist/libs/flatpickr/dist/flatpickr.min.js"
+	th:src="@{/dist/libs/flatpickr/dist/flatpickr.min.js}"></script>
+
+<!-- kanban -->
+<script
+	src="./dist/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"
+	th:src="@{/dist/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js}"></script>
+<script src="./dist/libs/autosize/dist/autosize.min.js"
+	th:src="@{/dist/libs/autosize/dist/autosize.min.js}"></script>
+<script src="./dist/libs/dropzone/dist/min/dropzone.min.js"
+	th:src="@{/dist/libs/dropzone/dist/min/dropzone.min.js}"></script>
+
+
+
+<!--	table-listing -->
+<script src="./dist/libs/jquery-mask-plugin/dist/jquery.mask.min.js"
+	th:src="@{/dist/libs/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
+
+
+<script src="./dist/libs/datatables/jquery.dataTables.js"
+	th:src="@{/dist/libs/datatables/jquery.dataTables.js}"></script>
+<script src="./dist/libs/datatables/dataTables.bootstrap4.min.js"
+	th:src="@{/dist/libs/datatables/dataTables.bootstrap4.min.js}"></script>
+
+
+<!-- Purpose JS -->
+<script src="./dist/js/purpose.js" th:src="@{/dist/js/purpose.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+	$.extend( true, $.fn.dataTable.defaults, {
+		"processing": true,
+		"serverSide": true,
+		"language": {"url": "[(@{'/i18n/datatables/'+ ${#locale.language} + '.properties'})]"},
+		"ajax": {
+			"type": "POST",	
+            dataType: "json",
+            "contentType": "application/json",
+		    "data": function ( d ) {
+                return JSON.stringify( d );
+            }
+		}
+	});
+</script>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script> -->
+<script>
+	window.dataLayer = window.dataLayer || [];
+
+	function gtag() {
+		dataLayer.push(arguments);
+	}
+	gtag('js', new Date());
+	gtag('config', 'UA-104437451-1');
+</script>
+
+<!-- End Google Tag Manager -->
 </head>
 
 <body class="application application-offset">
@@ -116,95 +203,6 @@
 
 		</div>
 	</div>
-
-	<!-- Scripts -->
-
-	<!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
-	<!-- Purpose CSS -->
-
-	<script src="./dist/js/purpose.core.js"
-		th:href="@{/dist/js/purpose.core.js}"></script>
-	<!-- Page JS -->
-	<script src="./dist/libs/apexcharts/dist/apexcharts.min.js"
-		th:href="@{/dist/libs/apexcharts/dist/apexcharts.min.js}"></script>
-	<script src="./dist/libs/moment/min/moment.min.js"
-		th:href="@{/dist/libs/moment/min/moment.min.js}"></script>
-	<script src="./dist/libs/fullcalendar/dist/fullcalendar.min.js"
-		th:href="@{/dist/libs/fullcalendar/dist/fullcalendar.min.js}"></script>
-
-	<script
-		src="./dist/libs/%40fancyapps/fancybox/dist/jquery.fancybox.min.js"
-		th:href="@{/dist/libs/%40fancyapps/fancybox/dist/jquery.fancybox.min.js}"></script>
-
-	<!-- Page JS -->
-	<script src="./dist/libs/dragula/dist/dragula.min.js"
-		th:href="@{/dist/libs/dragula/dist/dragula.min.js}"></script>
-	<script src="./dist/libs/sweetalert2/dist/sweetalert2.min.js"
-		th:href="@{/dist/libs/sweetalert2/dist/sweetalert2.min.js}"></script>
-
-	<!-- Create New scripts -->
-	<script src="./dist/libs/select2/dist/js/select2.min.js"
-		th:href="@{/dist/libs/select2/dist/js/select2.min.js}"></script>
-	<script src="./dist/libs/flatpickr/dist/flatpickr.min.js"
-		th:href="@{/dist/libs/flatpickr/dist/flatpickr.min.js}"></script>
-
-	<!-- kanban -->
-	<script
-		src="./dist/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"
-		th:href="@{/dist/libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js}"></script>
-	<script src="./dist/libs/autosize/dist/autosize.min.js"
-		th:href="@{/dist/libs/autosize/dist/autosize.min.js}"></script>
-	<script src="./dist/libs/dropzone/dist/min/dropzone.min.js"
-		th:href="@{/dist/libs/dropzone/dist/min/dropzone.min.js}"></script>
-
-
-
-	<!--	table-listing -->
-	<script src="./dist/libs/jquery-mask-plugin/dist/jquery.mask.min.js"
-		th:href="@{/dist/libs/jquery-mask-plugin/dist/jquery.mask.min.js}"></script>
-
-
-	<script src="./dist/libs/datatables/jquery.dataTables.js"
-		th:href="@{/dist/libs/datatables/jquery.dataTables.js}"></script>
-	<script src="./dist/libs/datatables/dataTables.bootstrap4.min.js"
-		th:href="@{/dist/libs/datatables/dataTables.bootstrap4.min.js}"></script>
-
-
-	<!-- Purpose JS -->
-	<script src="./dist/js/purpose.js" th:href="@{/dist/js/purpose.js}"></script>
-
-	<script type="text/javascript">
-		// Call the dataTables jQuery plugin
-		$(document).ready(function() {
-			$('#dataTable').DataTable({
-				"search" : {
-					"smart" : true
-				},
-				"columnDefs" : [ {
-					"orderable" : false,
-					"targets" : 3
-				} ],
-				language : {
-					searchPlaceholder : "Search records ..."
-				}
-			});
-		});
-	</script>
-
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script> -->
-	<script>
-		window.dataLayer = window.dataLayer || [];
-
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-		gtag('config', 'UA-104437451-1');
-	</script>
-
-	<!-- End Google Tag Manager -->
 </body>
 
 </html>

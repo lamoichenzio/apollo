@@ -3,7 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorate="~{common/layout/frame_public}">
 <body>
-
 	<div layout:fragment="page-content">
 		<!-- Page title -->
 		<div class="page-title">
@@ -40,66 +39,52 @@
 			<!-- Table -->
 
 			<div class="table-responsive">
-				<table class="table" id="dataTable" width="100%" cellspacing="0">
+				<table class="table" id="survey_table" width="100%" cellspacing="0">
 					<thead>
 						<tr>
-							<th>Name</th>
-							<th>Status</th>
-							<th>Completions</th>
-							<th></th>
+							<th th:text="#{survey.icon}">Icon</th>
+							<th th:text="#{survey.name}">Name</th>
+							<th th:text="#{survey.status}">Status</th>
+							<th th:text="#{survey.creationDate}">Creation Date</th>
+							<th th:text="#{survey.completions}">Completions</th>
+							<th th:text="#{common.actions}">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
-								<div class="media align-items-center">
-
-									<!-- SURVEY ICON -->
-									<img alt="Image placeholder"
-										src="./dist/img/theme/light/brand-avatar-1.png"
-										class="avatar  rounded-circle">
-
-									<!-- SURVEY NAME -->
-									<div class="media-body ml-4">
-										<a href="overview.html" class="name mb-0 h6 text-sm">Survey 1</a>
-									</div>
-								</div>
-							</td>
-
-							<!-- SURVEY STATUS -->
-							<td><span class="badge badge-dot mr-4"> <i
-									class="bg-warning"></i> <span class="status">Online</span>
-							</span></td>
-
-							<!-- NUMBER OF COMPLETIONS -->
-							<td class="budget">1000</td>
-
-							<!-- MANAGE ICON -->
-							<td class="text-right">
-								<div class="dropdown" data-toggle="dropdown">
-									<a href="#" class="action-item" role="button"
-										data-toggle="dropdown" aria-haspopup="true"
-										aria-expanded="false"> <i class="far fa-ellipsis-h"></i>
-									</a>
-									<div class="dropdown-menu dropdown-menu-right">
-										<a href="#" class="dropdown-item">Refresh</a> <a href="#"
-											class="dropdown-item">Disable</a> <a href="#"
-											class="dropdown-item">Delete</a>
-									</div>
-								</div>
-							</td>
-						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
+		<script th:inline="javascript">
+				$(document).ready(function() {
+					$('#survey_table').DataTable({
+						"columns":[
+							{"data":"icon"},        
+							{"data":"name"},
+			                {"data":"active"},
+			                {"data":"creationDate"},		                
+			                { "data": "action",
+			                    "searchable": false,
+			                    "sortable": false,
+			                    "defaultContent": "",
+			                    "render": function ( data, type, row, meta ) {
+			                    	return "<a href='[(@{/surveys/update})]?id=" + row.id + "'><i class='fas fa-edit'></i></a>" + " | "+ 
+			                       		   "<a href='[(@{/surveys/delete})]?id=" + row.id + "'><i class='fas fa-trash'></a>";
+			                     }
+		                	}
+				        ],
+				        "ajax": {
+						    "url": "[(@{/surveys/findallpaginated})]"
+						},
+					});
+				});
+		</script>
+<!-- 		<!-- Load more --> -->
+<!-- 		<div class="mt-4 text-center"> -->
+<!-- 			<a href="#" -->
+<!-- 				class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3">Load -->
+<!-- 				more ...</a> -->
+<!-- 		</div> -->
 	</div>
-	<!-- Load more -->
-	<div class="mt-4 text-center">
-		<a href="#"
-			class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3">Load
-			more ...</a>
-	</div>
-
 </body>
 </html>
