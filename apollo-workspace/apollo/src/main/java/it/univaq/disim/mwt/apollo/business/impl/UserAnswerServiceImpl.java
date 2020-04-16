@@ -2,6 +2,8 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.UserAnswerRep
 import it.univaq.disim.mwt.apollo.domain.UserAnswer;
 
 @Service
+@Transactional
 public class UserAnswerServiceImpl implements UserAnswerService {
 
 	@Autowired

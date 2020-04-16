@@ -5,12 +5,15 @@ import java.util.List;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.User;
 
 public interface SurveyService {
 	
 	List<Survey> findAllSurveys() throws BusinessException;
 	
 	ResponseGrid<Survey> findAllSurveysPaginated(RequestGrid request) throws BusinessException;
+
+	ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid request, User user) throws BusinessException;
 	
 	List<Survey> findSurveysByName(String name) throws BusinessException;
 	

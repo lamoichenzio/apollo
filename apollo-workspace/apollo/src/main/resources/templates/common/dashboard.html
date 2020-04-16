@@ -46,8 +46,8 @@
 							<th th:text="#{survey.name}">Name</th>
 							<th th:text="#{survey.status}">Status</th>
 							<th th:text="#{survey.creationDate}">Creation Date</th>
-							<th th:text="#{survey.completions}">Completions</th>
-							<th th:text="#{common.actions}">Actions</th>
+<!-- 							<th th:text="#{survey.completions}">Completions</th> -->
+							<th th:text="#{common.action}">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -62,7 +62,7 @@
 							{"data":"icon"},        
 							{"data":"name"},
 			                {"data":"active"},
-			                {"data":"creationDate"},		                
+			                {"data":"creationDate"},
 			                { "data": "action",
 			                    "searchable": false,
 			                    "sortable": false,
@@ -79,7 +79,7 @@
 					});
 				});
 		</script>
-<!-- 		<!-- Load more --> -->
+<!-- 		<!-- Load more --> 
 <!-- 		<div class="mt-4 text-center"> -->
 <!-- 			<a href="#" -->
 <!-- 				class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3">Load -->
