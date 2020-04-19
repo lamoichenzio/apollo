@@ -1,7 +1,6 @@
-package it.univaq.disim.mwt.apollo.domain;
+package it.univaq.disim.mwt.apollo.domain.answers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import javax.persistence.ElementCollection;
 
@@ -13,10 +12,11 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Document(collection="Answers")
-@TypeAlias("SingleChoiceMatrixAnswer")
-public class SingleChoiceMatrixAnswer extends Answer {
+@Document(collection = "Answers")
+@TypeAlias("MultiAnswer")
+public class MultiAnswer extends Answer {
 
 	@ElementCollection
-	private Map<String, String> answer = new HashMap<>();
+	private List<String> answers;
+	
 }

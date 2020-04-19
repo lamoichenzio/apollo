@@ -1,9 +1,8 @@
-package it.univaq.disim.mwt.apollo.domain;
+package it.univaq.disim.mwt.apollo.domain.questions;
 
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import it.univaq.disim.mwt.apollo.domain.types.InputType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

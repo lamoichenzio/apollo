@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.domain;
+package it.univaq.disim.mwt.apollo.domain.questions;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import javax.persistence.ElementCollection;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import it.univaq.disim.mwt.apollo.domain.types.ChoiceType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

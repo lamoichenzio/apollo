@@ -73,12 +73,12 @@ public class SurveyController {
 		return "redirect:/common/dashboard";
 	}
 	
-	@GetMapping("/delete")
-	public String delete(@RequestParam String id, Model model) throws BusinessException {
-		Survey survey = surveyService.findSurveyById(id);
-		model.addAttribute("survey", survey);
-		return "/common/form";
-	}
+//	@GetMapping("/delete")
+//	public String delete(@RequestParam String id, Model model) throws BusinessException {
+//		Survey survey = surveyService.findSurveyById(id);
+//		model.addAttribute("survey", survey);
+//		return "/common/form";
+//	}
 	
 	@PostMapping("/delete")
 	public String delete(@ModelAttribute("survey") Survey survey) throws BusinessException {

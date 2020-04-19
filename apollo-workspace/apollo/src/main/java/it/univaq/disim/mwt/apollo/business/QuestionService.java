@@ -4,10 +4,10 @@ import java.util.List;
 
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
-import it.univaq.disim.mwt.apollo.domain.ChoiceQuestion;
-import it.univaq.disim.mwt.apollo.domain.InputQuestion;
-import it.univaq.disim.mwt.apollo.domain.MatrixQuestion;
-import it.univaq.disim.mwt.apollo.domain.SelectQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
 
 
 public interface QuestionService {

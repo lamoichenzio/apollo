@@ -12,7 +12,7 @@ import it.univaq.disim.mwt.apollo.business.UserAnswerService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.UserAnswerRepository;
-import it.univaq.disim.mwt.apollo.domain.UserAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.UserAnswer;
 
 @Service
 @Transactional

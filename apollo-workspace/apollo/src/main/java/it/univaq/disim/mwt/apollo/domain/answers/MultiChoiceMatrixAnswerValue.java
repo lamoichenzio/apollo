@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.domain;
+package it.univaq.disim.mwt.apollo.domain.answers;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-@ToString
 public class MultiChoiceMatrixAnswerValue {
 	
 	@Id

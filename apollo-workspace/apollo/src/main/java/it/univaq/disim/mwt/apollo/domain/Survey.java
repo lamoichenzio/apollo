@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;

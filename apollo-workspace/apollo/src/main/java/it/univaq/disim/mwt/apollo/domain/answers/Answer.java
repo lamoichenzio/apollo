@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.domain;
+package it.univaq.disim.mwt.apollo.domain.answers;
 
 import java.util.Date;
 
@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import lombok.Data;
 
 @Data

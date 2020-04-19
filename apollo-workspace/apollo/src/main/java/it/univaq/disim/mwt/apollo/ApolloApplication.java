@@ -19,12 +19,12 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.Gender;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.types.ChoiceType;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 
 
 @SpringBootApplication

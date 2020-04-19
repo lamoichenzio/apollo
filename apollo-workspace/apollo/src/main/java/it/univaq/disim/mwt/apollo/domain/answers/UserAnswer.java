@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.domain;
+package it.univaq.disim.mwt.apollo.domain.answers;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;

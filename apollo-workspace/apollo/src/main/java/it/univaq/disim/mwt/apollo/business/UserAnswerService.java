@@ -4,7 +4,7 @@ import java.util.List;
 
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
-import it.univaq.disim.mwt.apollo.domain.UserAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.UserAnswer;
 
 public interface UserAnswerService {
 	

@@ -15,10 +15,10 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MultiAnswerRe
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MultiChoiceMatrixAnswerRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SingleAnswerRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SingleChoiceMatrixAnswerRepository;
-import it.univaq.disim.mwt.apollo.domain.MultiAnswer;
-import it.univaq.disim.mwt.apollo.domain.MultiChoiceMatrixAnswer;
-import it.univaq.disim.mwt.apollo.domain.SingleAnswer;
-import it.univaq.disim.mwt.apollo.domain.SingleChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 
 @Service
 @Transactional
