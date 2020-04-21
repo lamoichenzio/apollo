@@ -34,8 +34,8 @@ public interface QuestionService {
 	
 	void updateQuestion(ChoiceQuestion question) throws BusinessException;
 	void updateQuestion(InputQuestion question) throws BusinessException;
-	void updateMatrixQuestion(MatrixQuestion question) throws BusinessException;
-	void updateSelectQuestion(SelectQuestion question) throws BusinessException;
+	void updateQuestion(MatrixQuestion question) throws BusinessException;
+	void updateQuestion(SelectQuestion question) throws BusinessException;
 	
 	void deleteQuestion(ChoiceQuestion question) throws BusinessException;
 	void deleteQuestion(InputQuestion question) throws BusinessException;

@@ -131,12 +131,12 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public void updateMatrixQuestion(MatrixQuestion question) throws BusinessException {
+	public void updateQuestion(MatrixQuestion question) throws BusinessException {
 		matrixQuestionRepository.save(question);
 	}
 
 	@Override
-	public void updateSelectQuestion(SelectQuestion question) throws BusinessException {
+	public void updateQuestion(SelectQuestion question) throws BusinessException {
 		selectQuestionRepository.save(question);
 	}
 
