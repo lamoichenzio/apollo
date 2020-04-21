@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{pages/layout/frame_public}">
+
+<body>
+	<div layout:fragment="page-content">
+		<!-- Page title -->
+		<div class="page-title">
+			<div class="row justify-content-between align-items-center">
+				<div
+					class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+					<!-- Page title + Go Back button -->
+					<div class="d-inline-block">
+						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">New
+							Survey</h5>
+					</div>
+					<!-- 					Additional info
+					<div class="align-items-center ml-4 d-inline-flex">
+						<span class="h4 text-info mb-0 mr-2">9</span> <span
+							class="text-sm opacity-7 text-white">Running projects</span>
+					</div>
+					Optional link
+					<a href="card-listing.html"
+						class="text-sm text-info d-none d-lg-inline-block ml-4">See
+						cards</a> -->
+				</div>
+
+			</div>
+		</div>
+		<!-- Listing -->
+		<div class="card">
+			<!-- Card header -->
+			<div class="card-header actions-toolbar">
+				<div class="actions-search" id="actions-search">
+					<div class="input-group input-group-merge input-group-flush">
+						<div class="input-group-prepend">
+							<span class="input-group-text bg-transparent"><i
+								class="far fa-search"></i></span>
+						</div>
+						<input type="text" class="form-control form-control-flush"
+							placeholder="Type and hit enter ...">
+						<div class="input-group-append">
+							<a href="#" class="input-group-text bg-transparent"
+								data-action="search-close" data-target="#actions-search"><i
+								class="far fa-times"></i></a>
+						</div>
+					</div>
+				</div>
+				<div class="row justify-content-between align-items-center">
+					<div class="col">
+						<input type="text"
+							class="form-control form-control-flush form-control-xl p-0 text-primary"
+							placeholder="Enter a name for the survey">
+					</div>
+					<div class="col text-right">
+						<div class="actions">
+							<a href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search"><i class="far fa-save"></i></a> <a
+								href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search"><i class="far fa-cog"></i></a> <a
+								href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search"><i
+								class="far fa-trash text-danger"></i></a>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Card body -->
+			<div class="card-body">
+				<h5 class="mb-3">Group 1</h5>
+
+				<div class="card border shadow-none bg-gray-100">
+
+					<div
+						class="card-body row align-items-center mx-2 justify-content-center">
+
+						<div class="col-12">
+							<div class="row align-items-center mx-0 justify-content-center">
+								<div class="col-1"></div>
+								<div class="col-8 card border shadow-none p-3">
+									<form>
+										<div class="align-items-center">
+											<label class="form-control-label">Text Area Question</label>
+											<textarea class="form-control" data-toggle="autosize"
+												placeholder="This textarea will autosize while you type"
+												rows="1"></textarea>
+										</div>
+
+									</form>
+
+								</div>
+								<div class="col-1 card border-0 shadow-none bg-gray-100">
+									<div class="dropdown" data-toggle="dropdown">
+										<a href="#" class="action-item" role="button"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false"> <i class="far fa-cog"></i>
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a href="#" class="dropdown-item">Edit</a> <a href="#"
+												class="dropdown-item text-danger">Delete</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+
+						<div class="col-12">
+							<div class="row align-items-center mx-0 justify-content-center">
+								<div class="col-1"></div>
+								<div class="col-8 card border shadow-none p-3">
+									<form>
+										<div class="align-items-center">
+											<label class="form-control-label">Input text Question</label>
+											<input type="text" class="form-control"
+												placeholder="Default input">
+										</div>
+
+									</form>
+
+								</div>
+								<div class="col-1 card border-0 shadow-none bg-gray-100">
+									<div class="dropdown" data-toggle="dropdown">
+										<a href="#" class="action-item" role="button"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false"> <i class="far fa-cog"></i>
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a href="#" class="dropdown-item">Edit</a> <a href="#"
+												class="dropdown-item text-danger">Delete</a>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+						<div class="col-12">
+							<div class="row align-items-center mx-0 justify-content-center">
+								<div class="col-1"></div>
+								<div class="col-8 card border shadow-none p-3">
+									<form>
+										<div class="align-items-center">
+											<label class="form-control-label">Input text Question</label>
+											<div>
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input"
+														id="customCheck1"> <label
+														class="custom-control-label" for="customCheck1">Mele</label>
+												</div>
+
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input"
+														id="customCheck2"> <label
+														class="custom-control-label" for="customCheck2">Banane</label>
+												</div>
+
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input"
+														id="customCheck3"> <label
+														class="custom-control-label" for="customCheck3">Arance</label>
+												</div>
+
+												<div class="custom-control custom-checkbox">
+													<input type="checkbox" class="custom-control-input"
+														id="customCheck4"> <label
+														class="custom-control-label" for="customCheck4">Limoni</label>
+												</div>
+
+											</div>
+										</div>
+									</form>
+
+								</div>
+								<div class="col-1 card border-0 shadow-none bg-gray-100">
+									<div class="dropdown" data-toggle="dropdown">
+										<a href="#" class="action-item" role="button"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false"> <i class="far fa-cog"></i>
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a href="#" class="dropdown-item">Edit</a> <a href="#"
+												class="dropdown-item text-danger">Delete</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<div class="col-12">
+							<div class="row align-items-center mx-0 justify-content-center">
+								<div class="col-1"></div>
+								<div class="col-8 card border shadow-none p-3">
+									<form>
+										<div>
+											<label class="form-control-label">Input text Question</label>
+											<div class="custom-control custom-radio">
+												<input type="radio" id="customRadio1" name="customRadio"
+													class="custom-control-input"> <label
+													class="custom-control-label" for="customRadio1">Toggle
+													this custom radio</label>
+											</div>
+											<div class="custom-control custom-radio">
+												<input type="radio" id="customRadio2" name="customRadio"
+													class="custom-control-input"> <label
+													class="custom-control-label" for="customRadio2">Or
+													toggle this other custom radio</label>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="col-1 card border-0 shadow-none bg-gray-100">
+									<div class="dropdown" data-toggle="dropdown">
+										<a href="#" class="action-item" role="button"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false"> <i class="far fa-cog"></i>
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a href="#" class="dropdown-item">Edit</a> <a href="#"
+												class="dropdown-item text-danger">Delete</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+
+
+						<div class="col-12">
+							<div class="row align-items-center mx-0 justify-content-center">
+								<div class="col-1"></div>
+								<div class="col-8 card border shadow-none p-3">
+									<form>
+										<div class="align-items-center">
+											<label class="form-control-label">Select Question</label> <select
+												class="custom-select">
+												<option selected>Open this select menu</option>
+												<option value="1">One</option>
+												<option value="2">Two</option>
+												<option value="3">Three</option>
+											</select>
+										</div>
+									</form>
+								</div>
+								<div class="col-1 card border-0 shadow-none bg-gray-100">
+									<div class="dropdown" data-toggle="dropdown">
+										<a href="#" class="action-item" role="button"
+											data-toggle="dropdown" aria-haspopup="true"
+											aria-expanded="false"> <i class="far fa-cog"></i>
+										</a>
+										<div class="dropdown-menu dropdown-menu-right">
+											<a href="#" class="dropdown-item">Edit</a> <a href="#"
+												class="dropdown-item text-danger">Delete</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+
+						<!-- <div class="col-12">
+								<div class="row align-items-center mx-0 justify-content-center">
+									<div class="col-1"></div>
+									<div class="col-8 card border-0 shadow-none p-3">
+										<form>
+											<div class="align-items-center">
+												<label class="form-control-label">Matrix
+													Question</label>
+													QUI é DA FARE LA MATRIX
+											</div>
+										</form>
+									</div>
+									<div class="col-1 card border-0 shadow-none">
+										<div class="dropdown" data-toggle="dropdown">
+											<a href="#" class="action-item" role="button"
+												data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false"> <i class="far fa-cog"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right">
+												<a href="#" class="dropdown-item">Edit</a> <a href="#"
+													class="dropdown-item text-danger">Delete</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div> -->
+
+						<div class="row justify-content-center">
+							<div class="col-auto d-flex align-items-center">
+								<a href="#modal-create-new-group">
+									<div class="col-auto" data-toggle="modal">
+										<div
+											class="icon icon-primary btn-sm rounded-circle icon-shape">
+											<i class="far fa-plus"></i>
+										</div>
+									</div>
+								</a>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+
+				<!-- Card body -->
+				<div class="card-body">
+
+					<div class="row justify-content-center">
+						<div class="col-auto d-flex align-items-center">
+							<a href="#modal-create-new-group"> <!-- 						<div class="col-auto" data-toggle="modal">
+										<div class="btn btn-primary btn-icon-only rounded-circle ">
+											<span><i class="far fa-plus"></i></span>
+										</div>
+										<span>New Group</span>
+									</div>
+									 -->
+								<button type="button" class="btn btn-primary btn-icon rounded-pill">
+									<span class="btn-inner--icon"> <i class="far fa-plus"></i>
+									</span> <span class="btn-inner--text">New Group</span>
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- Empty container -->
+
+			</div>
+		</div>
+
+
+	</div>
+
+
+	</div>
+</body>
+
+</html>

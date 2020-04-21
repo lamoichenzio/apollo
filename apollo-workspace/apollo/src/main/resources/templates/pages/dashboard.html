@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{pages/layout/frame_public}">
+
+<body>
+	<div layout:fragment="page-content">
+		<!-- Page title -->
+		<div class="page-title">
+			<div class="row justify-content-between align-items-center">
+				<div
+					class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+					<!-- Page title + Go Back button -->
+					<div class="d-inline-block">
+						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Projects</h5>
+					</div>
+					<!-- Additional info -->
+					<div class="align-items-center ml-4 d-inline-flex">
+						<span class="h4 text-info mb-0 mr-2">9</span> <span class="text-sm opacity-7 text-white">Running
+							projects</span>
+					</div>
+					<!-- Optional link -->
+					<a href="card-listing.html" class="text-sm text-info d-none d-lg-inline-block ml-4">See
+						cards</a>
+				</div>
+				<div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
+					<a href="#modal-project-create" class="btn btn-sm btn-white btn-icon-only rounded-circle ml-4"
+						data-toggle="modal"> <span class="btn-inner--icon"><i class="far fa-plus"></i></span>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- Listing -->
+		<div class="card">
+
+			<!-- Table -->
+
+			<div class="table-responsive">
+				<table class="table" id="survey_table" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th th:text="#{survey.icon}">Icon</th>
+							<th th:text="#{survey.name}">Name</th>
+							<th th:text="#{survey.status}">Status</th>
+							<th th:text="#{survey.creationDate}">Creation Date</th>
+							<!-- 							<th th:text="#{survey.completions}">Completions</th> -->
+							<th th:text="#{common.action}">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script th:inline="javascript">
+			$(document).ready(function () {
+				$('#survey_table').DataTable({
+					"columns": [
+						{ "data": "icon" },
+						{ "data": "name" },
+						{ "data": "active" },
+						{ "data": "creationDate" },
+						{
+							"data": "action",
+							"searchable": false,
+							"sortable": false,
+							"defaultContent": "",
+							"render": function (data, type, row, meta) {
+								return "<a href='[(@{/surveys/update})]?id=" + row.id + "'><i class='fas fa-edit'></i></a>" + " | " +
+									"<a href='[(@{/surveys/delete})]?id=" + row.id + "'><i class='fas fa-trash'></a>";
+							}
+						}
+					],
+					"ajax": {
+						"url": "[(@{/surveys/findallpaginated})]"
+					},
+				});
+			});
+		</script>
+		<!-- 		<!-- Load more -->
+		<!-- 		<div class="mt-4 text-center"> -->
+		<!-- 			<a href="#" -->
+		<!-- 				class="btn btn-sm btn-neutral rounded-pill shadow hover-translate-y-n3">Load -->
+		<!-- 				more ...</a> -->
+		<!-- 		</div> -->
+	</div>
+</body>
+
+</html>

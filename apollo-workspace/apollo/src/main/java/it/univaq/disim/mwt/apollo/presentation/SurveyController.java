@@ -30,8 +30,9 @@ public class SurveyController {
 	
 	@GetMapping("/dashboard")
 	public String dashboard() {
-		return "/common/dashboard";
+		return "/pages/dashboard";
 	}
+	
 	
 	@PostMapping("/findallpaginated")
 	@ResponseBody
@@ -45,45 +46,45 @@ public class SurveyController {
 	public String createStart(Model model) {
 		Survey survey = new Survey();
 		model.addAttribute("survey", survey);
-		return "/common/form";
+		return "/pages/create";
 	}
 	
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
 		if(errors.hasErrors()) {
-			return "/common/form";
+			return "/pages/create";
 		}
 		surveyService.createSurvey(survey);
-		return "redirect:/common/dashboard";
+		return "redirect:/pages/dashboard";
 	}
 	
 	@GetMapping("/update")
 	public String updateStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
-		return "/common/form";
+		return "/pages/form";
 	}
 	
 	@PostMapping("/update")
 	public String update(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
 		if(errors.hasErrors()) {
-			return "/common/form";
+			return "/pages/form";
 		}
 		surveyService.updateSurvey(survey);
-		return "redirect:/common/dashboard";
+		return "redirect:/pages/dashboard";
 	}
 	
 //	@GetMapping("/delete")
 //	public String delete(@RequestParam String id, Model model) throws BusinessException {
 //		Survey survey = surveyService.findSurveyById(id);
 //		model.addAttribute("survey", survey);
-//		return "/common/form";
+//		return "/pages/form";
 //	}
 	
 	@PostMapping("/delete")
 	public String delete(@ModelAttribute("survey") Survey survey) throws BusinessException {
 		surveyService.deleteSurvey(survey);
-		return "redirect:/common/list";
+		return "redirect:/pages/list";
 	}
 
 }

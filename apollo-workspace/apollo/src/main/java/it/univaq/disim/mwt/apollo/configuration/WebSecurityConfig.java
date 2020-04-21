@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.loginProcessingUrl("/login")
 			.failureUrl("/?error=invalidlogin")
 			.defaultSuccessUrl("/surveys/dashboard", false).and().logout()
-			.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/common/accessdenied").and()
+			.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/pages/accessdenied").and()
 			.authorizeRequests()
 			// Specificare le url che sono soggette ad autenticazione ed autorizzazione
 			.antMatchers("/", "/static/**", "/favicon.ico").permitAll()
