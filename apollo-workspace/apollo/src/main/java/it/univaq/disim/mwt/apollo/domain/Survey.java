@@ -46,7 +46,6 @@ public class Survey {
 	private Date startDate;
 	private Date endDate;
 	
-	@Indexed(unique = true)
 	private String urlId;
 	
 	@OneToMany
