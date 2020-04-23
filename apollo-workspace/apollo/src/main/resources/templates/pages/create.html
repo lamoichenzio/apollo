@@ -5,6 +5,79 @@
 
 <body>
 	<div layout:fragment="page-content">
+
+		<!-- MODAL NEW QUESTION GROUP-->
+		<div class="modal fade" id="modal-create-new-group" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						<!-- Project name -->
+						<div class="form-group">
+							<label class="form-control-label"> Group name </label> <input
+								type="text" class="form-control">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-link text-danger">Cancel</button>
+						<button type="button" class="btn btn-sm btn-primary rounded-pill "
+							data-dismiss="modal">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- MODAL NEW QUESTION -->
+		<div class="modal fade" id="modal-create-question" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-xl"
+				role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title align-items-center">
+							<div>
+								<h6 class="mb-0">Select a question type</h6>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="modal-body">
+
+						<div class="row">
+
+							<div
+								class="card card-pricing border-0 text-center hover-scale-110 shadow-lg bg-primary popular">
+								<div class="card-header py-0 border-0">
+									<span
+										class="h6 d-inline-block mx-auto px-4 py-1 rounded-bottom shadow-sm bg-white">Text
+										Input</span>
+								</div>
+								<hr class="divider divider-fade divider-dark my-0" />
+								<div class="card-body">
+
+									<button type="button" class="btn btn-sm btn-neutral mb-3">Add</button>
+								</div>
+							</div>
+
+
+
+
+
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-link text-danger">Cancel</button>
+						<button type="button" class="btn btn-sm btn-primary rounded-pill "
+							data-dismiss="modal">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		˙
 		<!-- Page title -->
 		<div class="page-title">
 			<div class="row justify-content-between align-items-center">
@@ -15,15 +88,6 @@
 						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">New
 							Survey</h5>
 					</div>
-					<!-- 					Additional info
-					<div class="align-items-center ml-4 d-inline-flex">
-						<span class="h4 text-info mb-0 mr-2">9</span> <span
-							class="text-sm opacity-7 text-white">Running projects</span>
-					</div>
-					Optional link
-					<a href="card-listing.html"
-						class="text-sm text-info d-none d-lg-inline-block ml-4">See
-						cards</a> -->
 				</div>
 
 			</div>
@@ -68,240 +132,20 @@
 				</div>
 			</div>
 
-			<!-- Card body -->
+			<!-- SUVERY CONTAINER -->
 			<div class="card-body">
+
+				<!-- GROUP CONTAINER -->
 				<h5 class="mb-3">Group 1</h5>
-
 				<div class="card border shadow-none bg-gray-100">
-
 					<div
 						class="card-body row align-items-center mx-2 justify-content-center">
 
-						<div class="col-12">
-							<div class="row align-items-center mx-0 justify-content-center">
-								<div class="col-1"></div>
-								<div class="col-8 card border shadow-none p-3">
-									<form>
-										<div class="align-items-center">
-											<label class="form-control-label">Text Area Question</label>
-											<textarea class="form-control" data-toggle="autosize"
-												placeholder="This textarea will autosize while you type"
-												rows="1"></textarea>
-										</div>
-
-									</form>
-
-								</div>
-								<div class="col-1 card border-0 shadow-none bg-gray-100">
-									<div class="dropdown" data-toggle="dropdown">
-										<a href="#" class="action-item" role="button"
-											data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false"> <i class="far fa-cog"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a href="#" class="dropdown-item">Edit</a> <a href="#"
-												class="dropdown-item text-danger">Delete</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-
-
-
-						<div class="col-12">
-							<div class="row align-items-center mx-0 justify-content-center">
-								<div class="col-1"></div>
-								<div class="col-8 card border shadow-none p-3">
-									<form>
-										<div class="align-items-center">
-											<label class="form-control-label">Input text Question</label>
-											<input type="text" class="form-control"
-												placeholder="Default input">
-										</div>
-
-									</form>
-
-								</div>
-								<div class="col-1 card border-0 shadow-none bg-gray-100">
-									<div class="dropdown" data-toggle="dropdown">
-										<a href="#" class="action-item" role="button"
-											data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false"> <i class="far fa-cog"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a href="#" class="dropdown-item">Edit</a> <a href="#"
-												class="dropdown-item text-danger">Delete</a>
-										</div>
-									</div>
-								</div>
-							</div>
-
-						</div>
-
-
-						<div class="col-12">
-							<div class="row align-items-center mx-0 justify-content-center">
-								<div class="col-1"></div>
-								<div class="col-8 card border shadow-none p-3">
-									<form>
-										<div class="align-items-center">
-											<label class="form-control-label">Input text Question</label>
-											<div>
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input"
-														id="customCheck1"> <label
-														class="custom-control-label" for="customCheck1">Mele</label>
-												</div>
-
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input"
-														id="customCheck2"> <label
-														class="custom-control-label" for="customCheck2">Banane</label>
-												</div>
-
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input"
-														id="customCheck3"> <label
-														class="custom-control-label" for="customCheck3">Arance</label>
-												</div>
-
-												<div class="custom-control custom-checkbox">
-													<input type="checkbox" class="custom-control-input"
-														id="customCheck4"> <label
-														class="custom-control-label" for="customCheck4">Limoni</label>
-												</div>
-
-											</div>
-										</div>
-									</form>
-
-								</div>
-								<div class="col-1 card border-0 shadow-none bg-gray-100">
-									<div class="dropdown" data-toggle="dropdown">
-										<a href="#" class="action-item" role="button"
-											data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false"> <i class="far fa-cog"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a href="#" class="dropdown-item">Edit</a> <a href="#"
-												class="dropdown-item text-danger">Delete</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-						<div class="col-12">
-							<div class="row align-items-center mx-0 justify-content-center">
-								<div class="col-1"></div>
-								<div class="col-8 card border shadow-none p-3">
-									<form>
-										<div>
-											<label class="form-control-label">Input text Question</label>
-											<div class="custom-control custom-radio">
-												<input type="radio" id="customRadio1" name="customRadio"
-													class="custom-control-input"> <label
-													class="custom-control-label" for="customRadio1">Toggle
-													this custom radio</label>
-											</div>
-											<div class="custom-control custom-radio">
-												<input type="radio" id="customRadio2" name="customRadio"
-													class="custom-control-input"> <label
-													class="custom-control-label" for="customRadio2">Or
-													toggle this other custom radio</label>
-											</div>
-										</div>
-									</form>
-								</div>
-								<div class="col-1 card border-0 shadow-none bg-gray-100">
-									<div class="dropdown" data-toggle="dropdown">
-										<a href="#" class="action-item" role="button"
-											data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false"> <i class="far fa-cog"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a href="#" class="dropdown-item">Edit</a> <a href="#"
-												class="dropdown-item text-danger">Delete</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-
-
-						<div class="col-12">
-							<div class="row align-items-center mx-0 justify-content-center">
-								<div class="col-1"></div>
-								<div class="col-8 card border shadow-none p-3">
-									<form>
-										<div class="align-items-center">
-											<label class="form-control-label">Select Question</label> <select
-												class="custom-select">
-												<option selected>Open this select menu</option>
-												<option value="1">One</option>
-												<option value="2">Two</option>
-												<option value="3">Three</option>
-											</select>
-										</div>
-									</form>
-								</div>
-								<div class="col-1 card border-0 shadow-none bg-gray-100">
-									<div class="dropdown" data-toggle="dropdown">
-										<a href="#" class="action-item" role="button"
-											data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false"> <i class="far fa-cog"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-right">
-											<a href="#" class="dropdown-item">Edit</a> <a href="#"
-												class="dropdown-item text-danger">Delete</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-						<!-- <div class="col-12">
-								<div class="row align-items-center mx-0 justify-content-center">
-									<div class="col-1"></div>
-									<div class="col-8 card border-0 shadow-none p-3">
-										<form>
-											<div class="align-items-center">
-												<label class="form-control-label">Matrix
-													Question</label>
-													QUI é DA FARE LA MATRIX
-											</div>
-										</form>
-									</div>
-									<div class="col-1 card border-0 shadow-none">
-										<div class="dropdown" data-toggle="dropdown">
-											<a href="#" class="action-item" role="button"
-												data-toggle="dropdown" aria-haspopup="true"
-												aria-expanded="false"> <i class="far fa-cog"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right">
-												<a href="#" class="dropdown-item">Edit</a> <a href="#"
-													class="dropdown-item text-danger">Delete</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
-
+						<!-- GROUP CONTENTS -->
+						<!-- ADD QUESTION BUTTON -->
 						<div class="row justify-content-center">
 							<div class="col-auto d-flex align-items-center">
-								<a href="#modal-create-new-group">
+								<a href="#modal-create-question" data-toggle="modal">
 									<div class="col-auto" data-toggle="modal">
 										<div
 											class="icon icon-primary btn-sm rounded-circle icon-shape">
@@ -313,23 +157,15 @@
 						</div>
 
 					</div>
-
 				</div>
 
-
-				<!-- Card body -->
+				<!-- ADD GROUP BUTTON -->
 				<div class="card-body">
-
 					<div class="row justify-content-center">
 						<div class="col-auto d-flex align-items-center">
-							<a href="#modal-create-new-group"> <!-- 						<div class="col-auto" data-toggle="modal">
-										<div class="btn btn-primary btn-icon-only rounded-circle ">
-											<span><i class="far fa-plus"></i></span>
-										</div>
-										<span>New Group</span>
-									</div>
-									 -->
-								<button type="button" class="btn btn-primary btn-icon rounded-pill">
+							<a href="#modal-create-new-group" data-toggle="modal">
+								<button type="button"
+									class="btn btn-primary btn-icon rounded-pill">
 									<span class="btn-inner--icon"> <i class="far fa-plus"></i>
 									</span> <span class="btn-inner--text">New Group</span>
 								</button>
@@ -337,9 +173,6 @@
 						</div>
 					</div>
 				</div>
-
-
-				<!-- Empty container -->
 
 			</div>
 		</div>
@@ -349,6 +182,7 @@
 
 
 	</div>
+
 </body>
 
 </html>
