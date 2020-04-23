@@ -1,1 +1,4 @@
 apollo-workspace/.metadata
+
+### MacOS ###
+*.DS_Store
