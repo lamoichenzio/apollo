@@ -12,29 +12,35 @@
 			</div>
 			<div class="col-sm-6 mb-md-0">
 				<ul class="nav justify-content-center justify-content-md-end">
-					<li class="nav-item dropdown border-right"><a class="nav-link"
-						href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-						aria-expanded="false"> <img alt="Image placeholder"
-							src="./dist/img/icons/flags/ro.svg"
-							th:src="@{/dist/img/icons/flags/ro.svg}">
-							<span class="h6 text-sm mb-0">RO</span>
-					</a>
+					<li class="nav-item dropdown border-right">
+						<a class="nav-link"
+							href="#" 
+							role="button" 
+							data-toggle="dropdown" 
+							aria-haspopup="true"
+							aria-expanded="false"> 
+							<img 
+								alt="Image placeholder" 
+								src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'" 
+								th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
+							<span th:text="${#locale.language}=='en' ? #{common.en} : #{common.it} " class="h6 text-sm mb-0"></span>
+
+						</a>
 						<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-							<a href="#" class="dropdown-item"><img
+							<a href="#" 
+								th:href="@{?lang=en}"
+								class="dropdown-item"><img
 								alt="Image placeholder" 
-								src="./dist/img/icons/flags/es.svg"
-								th:src="@{/dist/img/icons/flags/es.svg}"
-								class="mr-2">Spanish</a> 
-							<a href="#" class="dropdown-item"><img
+								src="./dist/img/icons/flags/en.svg"
+								th:src="@{/dist/img/icons/flags/en.svg}"	
+								class="mr-2">[[#{common.english}]]</a> 
+							<a href="#" 
+								th:href="@{?lang=it}"
+								class="dropdown-item"><img
 								alt="Image placeholder" 
-								src="./dist/img/icons/flags/us.svg"
-								th:src="@{/dist/img/icons/flags/us.svg}"	
-								class="mr-2">English</a> 
-							<a href="#" class="dropdown-item"><img
-								alt="Image placeholder" 
-								src="./dist/img/icons/flags/gr.svg"
-								th:src="@{/dist/img/icons/flags/gr.svg}"
-								class="mr-2">Greek</a>
+								src="./dist/img/icons/flags/it.svg"
+								th:src="@{/dist/img/icons/flags/it.svg}"
+								class="mr-2">[[#{common.italian}]]</a>
 						</div></li>
 					<li class="nav-item"><a class="nav-link" href="#">Support</a>
 					</li>
