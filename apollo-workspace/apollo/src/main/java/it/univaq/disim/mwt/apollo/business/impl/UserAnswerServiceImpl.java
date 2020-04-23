@@ -34,7 +34,7 @@ public class UserAnswerServiceImpl implements UserAnswerService {
 
 	@Override
 	public UserAnswer findUserAnswerById(String id) throws BusinessException {
-		return userAnswerRepository.findFirstById(id);
+		return userAnswerRepository.findById(id).get();
 	}
 
 	@Override

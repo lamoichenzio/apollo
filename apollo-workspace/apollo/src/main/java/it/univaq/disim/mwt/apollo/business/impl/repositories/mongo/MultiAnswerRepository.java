@@ -8,11 +8,4 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
 @Repository
 public interface MultiAnswerRepository extends MongoRepository<MultiAnswer, String> {
 	
-	/**
-	 * Find first MultiAnswer by id.
-	 * @param id This is the id of the MultiAnswer you want to find.
-	 * @return MultiAnswer
-	 */
-	MultiAnswer findFirstById(String id);
-
 }

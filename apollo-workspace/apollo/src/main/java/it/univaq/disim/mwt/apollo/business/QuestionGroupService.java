@@ -13,12 +13,13 @@ public interface QuestionGroupService {
 	
 	ResponseGrid<QuestionGroup> findAllQuestionGroupsPaginated(RequestGrid request) throws BusinessException;
 	
-	QuestionGroup findQuestionById(String id) throws BusinessException;
+	QuestionGroup findQuestionGroupById(String id) throws BusinessException;
 	
-	void createQuestionGrpup(QuestionGroup questionGroup) throws BusinessException;
+	void createQuestionGroup(QuestionGroup questionGroup) throws BusinessException;
 	
 	void updateQuestionGroup(QuestionGroup questionGroup) throws BusinessException;
 	
 	void deleteQuestionGroup(QuestionGroup questionGroup) throws BusinessException;
 	
+	void deleteQuestionGroupById(String id) throws BusinessException;
 }

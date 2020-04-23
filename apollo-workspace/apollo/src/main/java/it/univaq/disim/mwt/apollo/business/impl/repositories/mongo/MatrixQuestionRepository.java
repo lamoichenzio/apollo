@@ -8,11 +8,4 @@ import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 @Repository
 public interface MatrixQuestionRepository extends MongoRepository<MatrixQuestion, String> {
     
-	/**
-	 * Find first MatixQuestion by id.
-	 * @param id This is the id of the MatrixQuestion you want to find.
-	 * @return MatrixQuestion
-	 */
-	MatrixQuestion findFirstById(String id);
-
 }

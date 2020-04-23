@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -25,7 +27,11 @@ public class QuestionGroup {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
+	@NotBlank
+	@Size(max=100)
 	private String title;
+	
+	@Size(max=200)
 	private String description;
 	
 	@DBRef

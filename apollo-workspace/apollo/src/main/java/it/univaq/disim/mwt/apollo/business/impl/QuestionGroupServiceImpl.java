@@ -33,12 +33,12 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 	}
 
 	@Override
-	public QuestionGroup findQuestionById(String id) throws BusinessException {
-		return questionGroupRepository.findFirstById(id);
+	public QuestionGroup findQuestionGroupById(String id) throws BusinessException {
+		return questionGroupRepository.findById(id).get();
 	}
 
 	@Override
-	public void createQuestionGrpup(QuestionGroup questionGroup) throws BusinessException {
+	public void createQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
 		questionGroupRepository.save(questionGroup);
 	}
 
@@ -52,4 +52,9 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 		questionGroupRepository.delete(questionGroup);
 	}
 
+	@Override
+	public void deleteQuestionGroupById(String id) throws BusinessException {
+		questionGroupRepository.deleteById(id);
+	}
+	
 }

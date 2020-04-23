@@ -82,22 +82,22 @@ public class QuestionServiceImpl implements QuestionService{
 
 	@Override
 	public ChoiceQuestion findChoiceQuestionById(String id) throws BusinessException {
-		return choiceQuestionRepository.findFirstById(id);
+		return choiceQuestionRepository.findById(id).get();
 	}
 
 	@Override
 	public InputQuestion findInputQuestionById(String id) throws BusinessException {
-		return inputQuestionRepository.findFirstById(id);
+		return inputQuestionRepository.findById(id).get();
 	}
 
 	@Override
 	public MatrixQuestion findMatrixQuestionById(String id) throws BusinessException {
-		return matrixQuestionRepository.findFirstById(id);
+		return matrixQuestionRepository.findById(id).get();
 	}
 
 	@Override
 	public SelectQuestion findSelectQuestionById(String id) throws BusinessException {
-		return selectQuestionRepository.findFirstById(id);
+		return selectQuestionRepository.findById(id).get();
 	}
 
 	@Override

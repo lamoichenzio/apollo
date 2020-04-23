@@ -84,22 +84,22 @@ public class AnswerServiceImpl implements AnswerService {
 
 	@Override
 	public MultiAnswer findMultiAnswerById(String id) throws BusinessException {
-		return multiAnswerRepository.findFirstById(id);
+		return multiAnswerRepository.findById(id).get();
 	}
 
 	@Override
 	public MultiChoiceMatrixAnswer findMultiChoiceMatrixAnswerById(String id) throws BusinessException {
-		return multiChoiceMatrixAnswerRepository.findFirstById(id);
+		return multiChoiceMatrixAnswerRepository.findById(id).get();
 	}
 
 	@Override
 	public SingleAnswer findSingleAnswerById(String id) throws BusinessException {
-		return singleAnswerRepository.findFirstById(id);
+		return singleAnswerRepository.findById(id).get();
 	}
 
 	@Override
 	public SingleChoiceMatrixAnswer findSingleChoiceMatrixAnswerById(String id) throws BusinessException {
-		return singleChoiceMatrixAnswerRepository.findFirstById(id);
+		return singleChoiceMatrixAnswerRepository.findById(id).get();
 	}
 
 	@Override
