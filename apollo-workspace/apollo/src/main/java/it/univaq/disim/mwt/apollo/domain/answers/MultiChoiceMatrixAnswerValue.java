@@ -6,7 +6,6 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Id;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 public class MultiChoiceMatrixAnswerValue {

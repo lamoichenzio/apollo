@@ -5,6 +5,8 @@ import java.io.File;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -20,11 +22,14 @@ public abstract class Question {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
+	@NotNull
 	@Indexed(unique=false)
+	@Size(max=255)
 	private String title;
 	
 	private File file;
 	
+	@NotNull
 	@DBRef
 	private QuestionGroup questionGroup;
 	
