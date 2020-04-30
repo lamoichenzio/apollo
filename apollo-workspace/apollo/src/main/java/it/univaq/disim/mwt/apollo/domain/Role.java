@@ -20,8 +20,8 @@ public class Role {
 	@Setter(AccessLevel.NONE)
 	private Long id;
 	
-	private String nome;
-	private String descrizione;
+	private String name;
+	private String description;
 
 	
 }

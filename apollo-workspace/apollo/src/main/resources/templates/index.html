@@ -17,7 +17,7 @@
 								<p class="text-muted mb-0" th:text="#{common.makelogin}">Sign
 									in to your account to continue.</p>
 							</div>
-							<form role="form" action="#" th:attr="action=@{/login}"
+							<form role="form" action="#" th:action="@{/login}"
 								method="post">
 								<div class="form-group">
 									<label class="form-control-label" th:text="#{common.username}">Username</label>
@@ -65,7 +65,7 @@
 						</div>
 						<div class="card-footer px-md-5">
 							<small th:text="#{common.notregistered}" class="mr-3">Not registered?</small> 
-							<a href="#" class="small font-weight-bold" th:text="#{common.createaccount}">Create account</a>
+							<a href="#" th:href="@{/user/create}" class="small font-weight-bold" th:text="#{common.createaccount}">Create account</a>
 						</div>
 					</div>
 				</div>
