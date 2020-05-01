@@ -9,5 +9,5 @@ import it.univaq.disim.mwt.apollo.domain.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	User findByUsername(String username);
-
+	User findUserByEmail(String email);
 }

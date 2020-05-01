@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import it.univaq.disim.mwt.apollo.business.RoleService;
 import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.exceptions.DuplicateEntryException;
+import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.User;
@@ -36,15 +36,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) throws BusinessException {
+	public void createUser(User user) throws BusinessException{
 		Role standard = roleService.getStandardRole();
 		user.setRole(standard);
 		user.setPassword(encoder.encode(user.getPassword()));
+		if(userRepository.findUserByEmail(user.getEmail()) != null) {
+			throw new DoubleEntryException();
+		}
 		try {
 			userRepository.save(user);
-		}
-		catch(DataIntegrityViolationException e) {
-			throw new DuplicateEntryException(e);
 		}
 		catch(DataAccessException e) {
 			throw new BusinessException(e);

@@ -13,33 +13,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.exceptions.DuplicateEntryException;
+import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
 import it.univaq.disim.mwt.apollo.domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService service;
-		
+
 	@GetMapping("/create")
 	public String create(Model model) {
 		User user = new User();
 		model.addAttribute(user);
 		return "auth/register";
 	}
-	
+
 	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("user") User user, Errors errors, Model model) throws BusinessException {
-		if(errors.hasErrors()) {
+	public String create(@Valid @ModelAttribute("user") User user, Errors errors, Model model)
+			throws BusinessException {
+		if (errors.hasErrors()) {
 			return "auth/register";
 		}
 		try {
 			service.createUser(user);
-		}catch(DuplicateEntryException e) {
-			model.addAttribute("duplicateEmail", e);
-			return "index";
+		} catch (DoubleEntryException e) {
+			model.addAttribute("duplicateEmail", true);
+			return "auth/register";
 		}
 		model.addAttribute("userCreated", true);
 		return "index";
