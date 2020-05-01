@@ -3,7 +3,6 @@ package it.univaq.disim.mwt.apollo;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.Gender;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;

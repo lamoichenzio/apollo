@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;

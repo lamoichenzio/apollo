@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.UserService;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.exceptions.DuplicateEntryException;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 @Controller
@@ -30,11 +31,17 @@ public class UserController {
 	}
 	
 	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("user") User user, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("user") User user, Errors errors, Model model) throws BusinessException {
 		if(errors.hasErrors()) {
 			return "auth/register";
 		}
-		service.createUser(user);
-		return "redirect:/";
+		try {
+			service.createUser(user);
+		}catch(DuplicateEntryException e) {
+			model.addAttribute("duplicateEmail", e);
+			return "index";
+		}
+		model.addAttribute("userCreated", true);
+		return "index";
 	}
 }

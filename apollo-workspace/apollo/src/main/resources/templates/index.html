@@ -17,6 +17,9 @@
 								<p class="text-muted mb-0" th:text="#{common.makelogin}">Sign
 									in to your account to continue.</p>
 							</div>
+							<div th:if="${userCreated}">
+								<div class="success" th:text="#{common.usercreated}">User created</div>
+							</div>
 							<form role="form" action="#" th:action="@{/login}"
 								method="post">
 								<div class="form-group">
