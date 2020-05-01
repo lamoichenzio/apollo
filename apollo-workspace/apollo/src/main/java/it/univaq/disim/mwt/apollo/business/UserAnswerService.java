@@ -19,4 +19,6 @@ public interface UserAnswerService {
 	void updateUserAnswer(UserAnswer userAnswer) throws BusinessException;
 	
 	void deleteUserAnswer(UserAnswer userAnswer) throws BusinessException;
+	
+	void deleteUserAnswerById(String id) throws BusinessException;
 }
