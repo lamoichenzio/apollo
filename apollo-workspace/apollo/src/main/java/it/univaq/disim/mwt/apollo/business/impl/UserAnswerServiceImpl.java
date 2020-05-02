@@ -51,4 +51,9 @@ public class UserAnswerServiceImpl implements UserAnswerService {
 		userAnswerRepository.delete(userAnswer);
 	}
 
+	@Override
+	public void deleteUserAnswerById(String id) throws BusinessException {
+		userAnswerRepository.deleteById(id);
+	}
+	
 }
