@@ -15,7 +15,6 @@ import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
 import it.univaq.disim.mwt.apollo.domain.User;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/user")
@@ -40,7 +39,7 @@ public class UserController {
 		try {
 			service.createUser(user);
 		} catch (DoubleEntryException e) {
-			model.addAttribute("duplicateEmail", true);
+			model.addAttribute("duplicate", true);
 			return "auth/register";
 		}
 		model.addAttribute("userCreated", true);

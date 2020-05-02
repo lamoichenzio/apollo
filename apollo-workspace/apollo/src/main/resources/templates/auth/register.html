@@ -55,6 +55,8 @@
 									</div>
 									<div th:if="${#fields.hasErrors('username')}"
 										th:each="err: ${#fields.errors('username')}" th:utext="${err}">errors</div>
+									<div th:if="${duplicate}"
+										th:utext="#{errors.duplicate}">errors</div>
 								</div>
 								<div class="form-group">
 									<label class="form-control-label"
@@ -69,7 +71,6 @@
 									</div>
 									<div th:if="${#fields.hasErrors('email')}"
 										th:each="err: ${#fields.errors('email')}" th:utext="${err}">errors</div>
-									<div th:if="${duplicateEmail}" th:text="#{errors.duplicate.email}">errors</div>
 								</div>
 								<div class="form-group mb-4">
 									<label class="form-control-label" th:text="#{common.password}">Password</label>

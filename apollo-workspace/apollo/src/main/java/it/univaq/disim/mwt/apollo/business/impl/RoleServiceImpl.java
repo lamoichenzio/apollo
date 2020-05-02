@@ -1,9 +1,9 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.disim.mwt.apollo.business.RoleService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
@@ -11,7 +11,7 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.domain.Role;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 public class RoleServiceImpl implements RoleService{
 
 	@Autowired

@@ -22,18 +22,17 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Setter(AccessLevel.NONE)
 	private Long id;
 	
 	@NotBlank
 	@Size(min = 4)
+	@Column(unique = true)
 	private String username;
 
 	@NotBlank
 	@Size(min = 5)
 	private String password;
 	
-	@Column(unique=true)
 	@Email
 	private String email;
 		

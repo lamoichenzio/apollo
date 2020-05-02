@@ -90,6 +90,14 @@ public class ApolloApplication {
             survey.setEndDate(cal.getTime());
             surveyRepository.save(survey);
             
+            Survey survey2 = new Survey();
+            survey2.setName("Test");
+            survey2.setDescription("Test");
+            survey2.setUser(standardUser);
+            survey2.setStartDate(now);            
+            survey2.setEndDate(cal.getTime());
+            surveyRepository.save(survey2);
+            
             // CHOICE QUESTION
             ChoiceQuestion question = new ChoiceQuestion();
             question.setTitle("Test question");
