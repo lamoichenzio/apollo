@@ -41,20 +41,30 @@ public class SurveyController {
 		return surveyService.findAllSurveysByUserPaginated(requestGrid, user);
 	}
 	
+	@GetMapping("/detail")
+	public String detailStart(@RequestParam String id, Model model) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		model.addAttribute("survey", survey);
+		return "/common/surveys/detail";
+	}
+	
 	@GetMapping("/create")
 	public String createStart(Model model) {
 		Survey survey = new Survey();
 		model.addAttribute("survey", survey);
-		return "/common/form";
+		return "/common/surveys/form";
 	}
 	
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
 		if(errors.hasErrors()) {
-			return "/common/form";
+			return "/common/surveys/form";
 		}
+		User user = Utility.getUser();
+		survey.setUser(user);
+		
 		surveyService.createSurvey(survey);
-		return "redirect:/common/dashboard";
+		return "redirect:/surveys/detail?id="+survey.getId();
 	}
 	
 	@GetMapping("/update")

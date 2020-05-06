@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{common/layout/frame_public}">
+<body>
+<div layout:fragment="page-content">
+<script th:src="@{/script/survey_ajax.js}"></script>
+
+<div class="row">
+
+	<div class="col-12">
+		<div class="card card-info">
+			<div class="card-header"><h3 class="card-title"></h3>[[${survey.name}]]</div>
+			<div class="card-header"><span class=""></span>[[${survey.description}]]</div>
+			
+			<div style="border:1px solid grey;border-radius:3px">
+				<div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
+  					<button id="create_group" type="button" class="btn btn-info" th:onclick="javascript:openQuestionGroupModal()">New Group</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div id="modal_holder"></div>
+	</div>
+
+</div>
+
+</div>
+</body>
+</html>

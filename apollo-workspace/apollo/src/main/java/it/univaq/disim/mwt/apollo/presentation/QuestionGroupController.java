@@ -22,12 +22,13 @@ public class QuestionGroupController {
 	
 	@Autowired
 	private QuestionGroupService service;
+	
 
 	@GetMapping("/create")
 	public String createStart(Model model) {
 		QuestionGroup group = new QuestionGroup();
 		model.addAttribute("group", group);
-		return "group/form";
+		return "/common/surveys/questiongroups/form :: questionGroupForm";
 	}
 	
 	@PostMapping("/create")
@@ -35,8 +36,9 @@ public class QuestionGroupController {
 		if(errors.hasErrors()) {
 			return "group/form";
 		}
+		// TO DO: insert survey reference
 		service.createQuestionGroup(group);
-		return "redirect:/common/form";
+		return "/common/surveys/questiongroups/form :: questionGroupForm";
 	}
 	
 	@GetMapping("/update")
