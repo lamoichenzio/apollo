@@ -5,7 +5,6 @@
 
 <body>
 	<div layout:fragment="page-content">
-
 		<!-- MODAL NEW QUESTION GROUP-->
 		<div class="modal fade" id="modal-create-new-group" tabindex="-1"
 			role="dialog" aria-hidden="true">
@@ -14,8 +13,8 @@
 					<div class="modal-body">
 						<!-- Project name -->
 						<div class="form-group">
-							<label class="form-control-label"> Group name </label> <input
-								type="text" class="form-control">
+							<label class="form-control-label"> Group name </label>
+							<input type="text" class="form-control">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -27,44 +26,70 @@
 			</div>
 		</div>
 
-
-		<!-- MODAL NEW QUESTION -->
-		<div class="modal fade" id="modal-create-question" tabindex="-1"
+		<!-- MODAL NEW CHOICE QUESTION -->
+		<div class="modal fade" id="modal-choice-question" tabindex="-1"
 			role="dialog" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-xl"
-				role="document">
+			<div class="modal-dialog modal-dialog-centered modal" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<div class="modal-title align-items-center">
 							<div>
-								<h6 class="mb-0">Select a question type</h6>
+
+								<!-- MODAL TITLE -->
+								<h6 class="mb-0">Question with choice</h6>
+
+							</div>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+
+									<!-- QUESTION TEXT -->
+									<label class="form-control-label">Question:</label>
+									<textarea class="form-control" data-toggle="autosize"
+										placeholder="This textarea will autosize while you type"
+										rows="1"></textarea>
+
+								</div>
 							</div>
 						</div>
 
-					</div>
-
-					<div class="modal-body">
 
 						<div class="row">
+							<div class="col-md-12">
 
-							<div
-								class="card card-pricing border-0 text-center hover-scale-110 shadow-lg bg-primary popular">
-								<div class="card-header py-0 border-0">
-									<span
-										class="h6 d-inline-block mx-auto px-4 py-1 rounded-bottom shadow-sm bg-white">Text
-										Input</span>
-								</div>
-								<hr class="divider divider-fade divider-dark my-0" />
-								<div class="card-body">
+								<!-- OPTIONS TEXT -->
+								<label class="form-control-label">Options:</label>
 
-									<button type="button" class="btn btn-sm btn-neutral mb-3">Add</button>
+								<!-- Option have to be placed here -->
+
+								<!-- OPTIONS BLOCK -->
+								<div class="row form-group">
+									<div class="col-11">
+										<input class="form-control" type="text"
+											placeholder="Write an option">
+									</div>
+									<!-- DELETE BUTTON -->
+									<div class="col-1 align-self-center">
+										<i class="far fa-trash text-danger"></i>
+									</div>
 								</div>
+
+								<!-- ADD BUTTON BLOCK -->
+								<div class="row justify-content-center align-items-center">
+									<button type="button"
+										class="btn btn-sm btn-soft-primary btn-icon rounded-pill">
+										<span class="btn-inner--icon">
+											<i class="far fa-plus"></i>
+										</span>
+										<!-- ADD OPTION BUTTON -->
+										<span class="btn-inner--text">Add Option</span>
+									</button>
+								</div>
+
 							</div>
-
-
-
-
-
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -76,8 +101,46 @@
 			</div>
 		</div>
 
+		<!-- MODAL NEW INPUT QUESTION -->
+		<div class="modal fade" id="modal-input-question" tabindex="-1"
+			role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<div class="modal-title align-items-center">
+							<div>
 
-		˙
+								<!-- MODAL TITLE -->
+								<h6 class="mb-0">Question Input</h6>
+
+							</div>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+
+									<!-- QUESTION TEXT -->
+									<label class="form-control-label">Question:</label>
+									<textarea class="form-control" data-toggle="autosize"
+										placeholder="This textarea will autosize while you type"
+										rows="1"></textarea>
+
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-link text-danger">Cancel</button>
+						<button type="button" class="btn btn-sm btn-primary rounded-pill "
+							data-dismiss="modal">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Page title -->
 		<div class="page-title">
 			<div class="row justify-content-between align-items-center">
@@ -99,15 +162,17 @@
 				<div class="actions-search" id="actions-search">
 					<div class="input-group input-group-merge input-group-flush">
 						<div class="input-group-prepend">
-							<span class="input-group-text bg-transparent"><i
-								class="far fa-search"></i></span>
+							<span class="input-group-text bg-transparent">
+								<i class="far fa-search"></i>
+							</span>
 						</div>
 						<input type="text" class="form-control form-control-flush"
 							placeholder="Type and hit enter ...">
 						<div class="input-group-append">
 							<a href="#" class="input-group-text bg-transparent"
-								data-action="search-close" data-target="#actions-search"><i
-								class="far fa-times"></i></a>
+								data-action="search-close" data-target="#actions-search">
+								<i class="far fa-times"></i>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -120,60 +185,42 @@
 					<div class="col text-right">
 						<div class="actions">
 							<a href="#" class="action-item mr-3" data-action="search-open"
-								data-target="#actions-search"><i class="far fa-save"></i></a> <a
-								href="#" class="action-item mr-3" data-action="search-open"
-								data-target="#actions-search"><i class="far fa-cog"></i></a> <a
-								href="#" class="action-item mr-3" data-action="search-open"
-								data-target="#actions-search"><i
-								class="far fa-trash text-danger"></i></a>
-
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- SUVERY CONTAINER -->
-			<div class="card-body">
-
-				<!-- GROUP CONTAINER -->
-				<h5 class="mb-3">Group 1</h5>
-				<div class="card border shadow-none bg-gray-100">
-					<div
-						class="card-body row align-items-center mx-2 justify-content-center">
-
-						<!-- GROUP CONTENTS -->
-						<!-- ADD QUESTION BUTTON -->
-						<div class="row justify-content-center">
-							<div class="col-auto d-flex align-items-center">
-								<a href="#modal-create-question" data-toggle="modal">
-									<div class="col-auto" data-toggle="modal">
-										<div
-											class="icon icon-primary btn-sm rounded-circle icon-shape">
-											<i class="far fa-plus"></i>
-										</div>
-									</div>
-								</a>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<!-- ADD GROUP BUTTON -->
-				<div class="card-body">
-					<div class="row justify-content-center">
-						<div class="col-auto d-flex align-items-center">
-							<a href="#modal-create-new-group" data-toggle="modal">
-								<button type="button"
-									class="btn btn-primary btn-icon rounded-pill">
-									<span class="btn-inner--icon"> <i class="far fa-plus"></i>
-									</span> <span class="btn-inner--text">New Group</span>
-								</button>
+								data-target="#actions-search">
+								<i class="far fa-save"></i>
+							</a>
+							<a href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search">
+								<i class="far fa-cog"></i>
+							</a>
+							<a href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search">
+								<i class="far fa-trash text-danger"></i>
 							</a>
 						</div>
 					</div>
 				</div>
+			</div>
+			<!-- SUVERY CONTAINER -->
 
+			
+
+
+
+			<!-- ADD GROUP BUTTON -->
+			<div class="card-body my-4">
+				<div class="row justify-content-center">
+					<div class="col-auto d-flex align-items-center">
+						<a href="#modal-create-new-group" data-toggle="modal">
+							<button type="button"
+								class="btn btn-primary btn-icon rounded-pill">
+								<span class="btn-inner--icon">
+									<i class="far fa-plus"></i>
+								</span>
+								<span class="btn-inner--text">New Group</span>
+							</button>
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 
