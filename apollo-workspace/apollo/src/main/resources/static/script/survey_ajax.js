@@ -10,9 +10,10 @@ $(function() {
 
 
 function openQuestionGroupModal() {
+    const id = $("#id").val();
     $.ajax({
         type: "GET",
-        url: "/apollo/questiongroups/create",
+        url: "/apollo/questiongroups/create?id="+id,
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
@@ -29,7 +30,8 @@ function openQuestionGroupModal() {
 
 function submitQuestionGroup(event) {
     // Get survey id
-    var id = getUrlParameter('id');
+    //var id = getUrlParameter('id');
+    
 
     $("#question_group_modal").submit(function(event) {
         event.preventDefault();

@@ -9,7 +9,8 @@
 				<h4 class="modal-title" th:text="#{common.newQuestionGroup}"></h4>
 			</div>
 			<div class="modal-body">
-				<form id="question_group_form" th:action="@{/questiongroup/create}" th:object="${group}" class="form-horizontal" method="post">
+				<form id="question_group_form" th:action="@{/questiongroups/create}" th:object="${group}" class="form-horizontal" method="post">
+					<input type="hidden" name="survey_id" th:value="${survey_id}">
 					<div class="card-body">
 						<div class="form-group row">
 							<label for="codice" class="col-sm-2 col-form-label" th:text="#{group.title}"></label>
@@ -27,7 +28,7 @@
 						</div>
 					</div>
 					<div class="card-footer">
-						<button id="question_group_submit" type="submit" class="btn btn-info" th:text="#{common.submit}" th:onclick="javascript:submitQuestionGroup(event)"></button>
+						<button id="question_group_submit" type="submit" class="btn btn-info" th:text="#{common.submit}"></button>
 						<a id="back_to_detail" href="#" class="btn btn-default float-right" th:text="#{common.cancel}"></a>	
 					</div>
 				</form>
