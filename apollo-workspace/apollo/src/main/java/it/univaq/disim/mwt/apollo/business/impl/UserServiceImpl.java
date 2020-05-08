@@ -21,10 +21,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private RoleService roleService;
-	
+		
 	@Autowired
 	private PasswordEncoder encoder;
 	
@@ -40,8 +37,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createUser(User user) throws BusinessException{
-		Role standard = roleService.getStandardRole();
-		user.setRole(standard);
 		user.setPassword(encoder.encode(user.getPassword()));
 		try {
 			userRepository.save(user);

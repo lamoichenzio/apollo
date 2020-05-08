@@ -64,6 +64,7 @@ public class ApolloApplication {
             admin.setLastname("Admin");
             String password = encoder.encode("admin");
             admin.setPassword(password);
+            admin.setPasswordConfirm(password);
             admin.setRole(adminRole);
             utenteRepository.save(admin);
             
@@ -71,6 +72,7 @@ public class ApolloApplication {
             User standardUser = new User();
             standardUser.setUsername("pippo");
             standardUser.setPassword(encoder.encode("pippo"));
+            standardUser.setPasswordConfirm(encoder.encode("pippo"));
             standardUser.setFirstname("Pippo");
             standardUser.setLastname("Franco");
             standardUser.setEmail("prova@example.it");
