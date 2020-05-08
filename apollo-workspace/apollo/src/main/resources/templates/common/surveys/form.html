@@ -4,6 +4,20 @@
 
 <body>
 	<div layout:fragment="page-content">
+		<!-- <script th:inline="javascript">
+			$(document).ready(function () {
+				var del = [
+					[${
+						#
+						request.getRequestURI().endsWith('delete') ? true : false
+					}]
+				];
+				if (del) {
+					$(":input[type='text']").attr('disabled', 'disabled');
+				}
+			});
+		</script> -->
+
 		<div class="row">
 
 			<div id="content" class="col-12">
