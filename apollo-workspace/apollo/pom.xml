@@ -111,16 +111,19 @@
 			<plugin>
 		        <groupId>org.codehaus.mojo</groupId>
 		        <artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.11</version>
 		
 		        <dependencies>
 		          <!-- NB: You must use Maven 2.0.9 or above or these are ignored (see MNG-2972) -->
 		          <dependency>
 		            <groupId>org.aspectj</groupId>
 		            <artifactId>aspectjrt</artifactId>
+					  <version>1.9.5</version>
 		          </dependency>
 		          <dependency>
 		            <groupId>org.aspectj</groupId>
 		            <artifactId>aspectjtools</artifactId>
+					  <version>1.5.4</version>
 		          </dependency>
 		        </dependencies>
 		        <!--

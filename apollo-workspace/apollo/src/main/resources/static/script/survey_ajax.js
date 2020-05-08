@@ -8,6 +8,24 @@ $(function() {
 
 });
 
+function openSurveyModal() {
+    $.ajax({
+        type: "GET",
+        url: "/apollo/surveys/create",
+        dataType: 'html',
+        contentType: 'text/html; charset=UTF-8',
+        cache: false,
+        timeout: 600000,
+        success: function (response) {
+            $("#modal_holder").html(response);
+            $("#modal-create-new-survey").modal("show");
+        },
+        error: function (e) {
+            console.log('ERROR', e);
+        }
+    });
+}
+
 
 function openQuestionGroupModal() {
     const id = $("#id").val();
@@ -20,7 +38,7 @@ function openQuestionGroupModal() {
         timeout: 600000,
         success: function (response) {
             $("#modal_holder").html(response);
-            $("#question_group_modal").modal("show");
+            $("#modal-create-new-group").modal("show");
         },
         error: function (e) {
             console.log('ERROR', e);
@@ -33,7 +51,7 @@ function submitQuestionGroup(event) {
     //var id = getUrlParameter('id');
     
 
-    $("#question_group_modal").submit(function(event) {
+    $("#modal-create-new-group").submit(function(event) {
         event.preventDefault();
 
         let request = $("#question_group_form").serialize();
@@ -50,6 +68,11 @@ function submitQuestionGroup(event) {
                     console.log('ERROR');
                 } else {
                     console.log('SUCCESS');
+                    $("#modal-create-new-group").modal("hide");
+                    
+                    
+                    
+                    // eliminare il modal
                     // TO DO: close modal and add new section in survey detail page
                 }
             }

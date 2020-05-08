@@ -1,0 +1,155 @@
+<div class="card-body pb-0" th:fragment="productTemplate" title="group-container">
+
+	<!-- GROUP CONTAINER -->
+	<h5 class="mb-3">[[${group.name}]]</h5>
+	<div class="card border mb-0 shadow-none bg-gray-100">
+		<div
+			class="card-body row align-items-center mx-2 justify-content-center">
+
+
+			<!-- TEXTAREA QUESTION -->
+			<div class="col-12">
+				<div class="row align-items-center mx-0 justify-content-center">
+					<div class="col-1"></div>
+					<div class="col-8 card border shadow-none p-3">
+						<form>
+							<div class="align-items-center">
+								<label class="form-control-label">Text Area Question</label>
+								<textarea class="form-control" disabled="disabled"
+									data-toggle="autosize"
+									placeholder="This textarea will autosize while you type"
+									rows="1"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="col-1 card border-0 shadow-none bg-gray-100">
+						<div class="dropdown" data-toggle="dropdown">
+							<a href="#" class="action-item" role="button"
+								data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">
+								<i class="far fa-cog"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a href="#" class="dropdown-item">Edit</a>
+								<a href="#" class="dropdown-item text-danger">Delete</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- GROUP CONTENTS -->
+			<!-- ADD QUESTION BUTTON -->
+			<div class="container">
+
+
+				<div class="row justify-content-md-center">
+
+					<div class="col-auto">
+						<a data-toggle="collapse" href="#collapseExample">
+							<div class="col-auto">
+								<div class="icon icon-primary btn-sm rounded-circle icon-shape">
+									<i class="far fa-plus"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+
+
+				<div class="row collapse" id="collapseExample">
+
+					<div class="col-12 mt-4 mb-0">
+						<div class="row justify-content-md-center align-items-center">
+
+							<a href="#modal-choice-question" data-toggle="modal">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/radio_single.svg}">
+										</div>
+										<div class="col-12">
+											<span>Radio Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+							<a href="#modal-choice-question" data-toggle="modal">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/check_single.svg}">
+										</div>
+										<div class="col-12">
+											<span>Check Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+
+							<a href="#modal-input-question" data-toggle="modal">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/input_text.svg}">
+										</div>
+										<div class="col-12">
+											<span>Input Text Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+
+							<div
+								class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+								<div class="col-12 align-self-center">
+									<div class="col-12">
+										<img alt="Radio Question"
+											th:src="@{/dist/img/icons/custom/radio_multi.svg}">
+									</div>
+									<div class="col-12">
+										<span>Matrix Radio Question</span>
+									</div>
+
+								</div>
+							</div>
+
+
+							<div
+								class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+								<div class="col-12 align-self-center">
+									<div class="col-12">
+										<img alt="Radio Question"
+											th:src="@{/dist/img/icons/custom/check_multi.svg}">
+									</div>
+									<div class="col-12">
+										<span>Matrix Check Question</span>
+									</div>
+
+								</div>
+							</div>
+
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>

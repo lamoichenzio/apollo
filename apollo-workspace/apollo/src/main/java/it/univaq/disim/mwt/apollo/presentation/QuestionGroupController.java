@@ -14,57 +14,49 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
-import it.univaq.disim.mwt.apollo.business.SurveyService;
-import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 
 @Controller
 @RequestMapping("/questiongroups")
 public class QuestionGroupController {
-
+	
 	@Autowired
 	private QuestionGroupService service;
 	
-	@Autowired
-	private SurveyService surveyService;
 
 	@GetMapping("/create")
-	public String createStart(@RequestParam String id, Model model) {
+	public String createStart(Model model) {
 		QuestionGroup group = new QuestionGroup();
 		model.addAttribute("group", group);
-		model.addAttribute("survey_id", id);
-		return "/common/surveys/questiongroups/form :: questionGroupForm";
+		return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 	}
-
+	
 	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("group") QuestionGroup group, @ModelAttribute("survey_id") String id,
-			Errors errors) throws BusinessException {
-		if (errors.hasErrors()) {
+	public String create(@Valid @ModelAttribute("group") QuestionGroup group, Errors errors) throws BusinessException {
+		if(errors.hasErrors()) {
 			return "group/form";
 		}
+		// TO DO: insert survey reference
 		service.createQuestionGroup(group);
-		Survey survey = surveyService.findSurveyById(id);
-		survey.addQuestionGroup(group);
-		surveyService.updateSurvey(survey);
-		return "redirect:/surveys/detail?id="+survey.getId();
+		return "/common/surveys/components/question_group/question_group_container :: questionGroupForm";
 	}
-
+	
 	@GetMapping("/update")
 	public String updateStart(@RequestParam String id, Model model) throws BusinessException {
 		QuestionGroup group = service.findQuestionGroupById(id);
 		model.addAttribute("group", group);
 		return "group/form";
 	}
-
+	
 	@PostMapping("/update")
 	public String update(@Valid @ModelAttribute("group") QuestionGroup group, Errors errors) throws BusinessException {
-		if (errors.hasErrors()) {
+		if(errors.hasErrors()) {
 			return "group/form";
 		}
 		service.updateQuestionGroup(group);
 		return "redirect:/common/form";
 	}
-
+	
 	@GetMapping("/delete")
 	public String delete(@RequestParam String id) throws BusinessException {
 		service.deleteQuestionGroupById(id);
