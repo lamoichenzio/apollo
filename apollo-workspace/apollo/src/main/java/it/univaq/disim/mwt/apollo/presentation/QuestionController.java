@@ -1,5 +1,8 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.univaq.disim.mwt.apollo.business.BusinessException;
+import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
+import it.univaq.disim.mwt.apollo.business.impl.QuestionGroupServiceImpl;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.QuestionGroupRepository;
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
 
 @Controller
@@ -26,13 +35,44 @@ public class QuestionController {
 	@Autowired
 	private QuestionService questionService;
 	
+
+	@Autowired
+	private QuestionGroupService questionGroupService;
+	
 	/** CREATE **/
 	
+	
 	@GetMapping("/choicequestion/create")
-	public String createChoiceStart(Model model) {
+	public String createChoiceStart(@RequestParam String id, Model model) {
 		ChoiceQuestion question = new ChoiceQuestion();
-		model.addAttribute("choicequestion", question);
-		return "/choicequestion/form";
+		model.addAttribute("question", question);
+		model.addAttribute("group_id", id);		
+		return "/common/surveys/components/questions/modals/choice_question_modal :: questionChoiceForm";
+	}
+	
+
+	@PostMapping("/choicequestion/create")
+	public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, @ModelAttribute("group_id") String id, Errors errors) throws BusinessException {
+		if (errors.hasErrors()) {
+			System.out.println("ERROR: " + errors.toString());
+			return "/choicequestion/form";
+		}
+		
+		// TEMPORANEI
+		
+		List<String> options = new ArrayList<>();
+		options.add("Option 1");
+		options.add("Option 2");
+		options.add("Option 3");
+		question.setOptions(options);
+		question.setType(ChoiceType.RADIO);
+
+		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
+		question.setQuestionGroup(group);
+		System.out.println("I'M HERE");
+	
+		questionService.createQuestion(question);
+		return "redirect:/surveys/detail?id="+ question.getQuestionGroup().getSurvey().getId();
 	}
 	
 	@GetMapping("/inputquestion/create")
@@ -55,17 +95,7 @@ public class QuestionController {
 		model.addAttribute("selectquestion", question);
 		return "/selectquestion/form";
 	}
-	
-	@PostMapping("/choicequestion/create")
-	public String create(@Valid @ModelAttribute("choicequestion") ChoiceQuestion question, Errors errors) throws BusinessException {
-		if (errors.hasErrors()) {
-			return "/choicequestion/form";
-		}
-		
-		questionService.createQuestion(question);
-		
-		return "redirect:/common/form";
-	}
+
 	
 	@PostMapping("/inputquestion/create")
 	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors) throws BusinessException {

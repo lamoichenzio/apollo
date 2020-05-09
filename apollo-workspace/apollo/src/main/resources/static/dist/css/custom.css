@@ -1,0 +1,29 @@
+.question-selector{
+	
+	width: 10em;
+	height: 10em;
+	background-color: #6E00FF;
+	text-align: center;	
+		color: #fff;
+	border-radius: 8pt;
+	
+}
+
+/* .question-selector:hover {
+-ms-transform: scale(1.2); IE 9
+  -webkit-transform: scale(1.2); Safari 3-8
+  transform: scale(1.2); 
+  } */
+
+.question-selector img{
+	
+	width: 6em;
+	height: 6em;
+	
+}
+
+.question-selector span{
+	
+	font-size: 10pt;
+	
+}

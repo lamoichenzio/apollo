@@ -32,14 +32,22 @@ public class QuestionGroupController {
 	public String createStart(@RequestParam String id, Model model) {
 		QuestionGroup group = new QuestionGroup();
 		model.addAttribute("group", group);
+		System.out.println("GROUP ID SURVEY: " + id);
 		model.addAttribute("survey_id", id);
-		return "/common/surveys/questiongroups/form :: questionGroupForm";
+		return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 	}
+	
 
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("group") QuestionGroup group, @ModelAttribute("survey_id") String id,
 			Errors errors) throws BusinessException {
+	
+		
 		if (errors.hasErrors()) {
+			
+			System.out.println("ERROR group "+ group.getTitle());
+			System.out.println("ERROR survey "+ id);
+			
 			return "group/form";
 		}
 		service.createQuestionGroup(group);
@@ -48,6 +56,7 @@ public class QuestionGroupController {
 		surveyService.updateSurvey(survey);
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}
+	
 
 	@GetMapping("/update")
 	public String updateStart(@RequestParam String id, Model model) throws BusinessException {

@@ -2,44 +2,91 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:th="http://www.thymeleaf.org"
 	layout:decorate="~{common/layout/frame_public}">
+
 <body>
-<div layout:fragment="page-content">
-<script th:src="@{/script/survey_ajax.js}"></script>
+	<div layout:fragment="page-content">
+		<script th:src="@{/script/survey_ajax.js}"></script>
 
-<div class="row">
+		<div class="col-md-12">
+			<div id="modal_holder"></div>
+		</div>
 
-	<div class="col-12">
-		<div class="card card-info">
-			<div class="card-header"><h3 class="card-title"></h3>[[${survey.name}]]</div>
-			<div class="card-header"><span class=""></span>[[${survey.description}]]</div>
-			<form action="#" th:action="@{/surveys/update}" method="POST" th:object="${survey}">
-				<input type="hidden" th:field="*{id}"/>
-				<table>
-					<thead>
-						<th th:text="#{survey.questiongroups}">Question Groups</th>
-					</thead>
-					<tbody>
-						<tr th:each="questiongroup : *{questionGroups}">
-							<td>[[${questiongroup.title}]]</td>
-						</tr>
-					</tbody>
-				</table>
-				<div style="border:1px solid grey;border-radius:3px">
-					<div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
-						  <button id="create_group" type="button" class="btn btn-info" th:onclick="javascript:openQuestionGroupModal()">New Group</button>
+		<!-- Page title -->
+		<div class="page-title">
+			<div class="row justify-content-between align-items-center">
+				<div
+					class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+					<!-- Page title + Go Back button -->
+					<div class="d-inline-block">
+						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[${survey.name}]]</h5>
 					</div>
 				</div>
-				<button type="submit" th:text="#{survey.update}" class="btn btn-info">Update</button>
-			</form>
+
+			</div>
 		</div>
+		<!-- Listing -->
+		<div class="card">
+			<!-- Card header -->
+			<div class="card-header actions-toolbar">
+				<div class="row justify-content-between align-items-center">
+					<div class="col">
+						<input type="text"
+							class="form-control form-control-flush form-control-xl p-0 text-primary"
+							placeholder="Enter a name for the survey"  th:value="${survey.description}">
+					</div>
+					<div class="col text-right">
+						<div class="actions">
+							<a href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search">
+								<i class="far fa-save"></i>
+							</a>
+							<a href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search">
+								<i class="far fa-cog"></i>
+							</a>
+							<a href="#" class="action-item mr-3" data-action="search-open"
+								data-target="#actions-search">
+								<i class="far fa-trash text-danger"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- SUVERY CONTAINER -->
+
+
+
+			<div th:each="questiongroup : *{survey.questionGroups}">
+
+				<div th:replace="common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})"></div>
+				
+			</div>
+
+			<!-- ADD GROUP BUTTON -->
+
+			<div class="card-body my-4">
+				<div class="row justify-content-center">
+					<div class="col-auto d-flex align-items-center">
+
+						<button id="create_group" type="button"
+							class="btn btn-primary btn-icon rounded-pill"
+							th:onclick="javascript:openQuestionGroupModal([[${survey.id}]])">
+							<span class="btn-inner--icon">
+								<i class="far fa-plus"></i>
+							</span>
+							<span class="btn-inner--text">New Group</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
 	</div>
 
-	<div class="col-md-12">
-		<div id="modal_holder"></div>
+
 	</div>
 
-</div>
-
-</div>
 </body>
+
 </html>

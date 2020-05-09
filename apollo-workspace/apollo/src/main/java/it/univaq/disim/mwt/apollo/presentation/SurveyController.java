@@ -20,6 +20,7 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 
 @Controller
 @RequestMapping("/surveys")
@@ -48,17 +49,36 @@ public class SurveyController {
 		return "/common/surveys/detail";
 	}
 	
+//	@GetMapping("/create")
+//	public String createStart(Model model) {
+//		Survey survey = new Survey();
+//		model.addAttribute("survey", survey);
+//		return "/common/surveys/form";
+//	}
+	
 	@GetMapping("/create")
 	public String createStart(Model model) {
 		Survey survey = new Survey();
 		model.addAttribute("survey", survey);
-		return "/common/surveys/form";
-	}
+		return "/common/surveys/modals/new_survey_modal :: surveyForm";
+	}	
+	
+//	@PostMapping("/create")
+//	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
+//		if(errors.hasErrors()) {
+//			return "/common/surveys/form";
+//		}
+//		User user = Utility.getUser();
+//		survey.setUser(user);
+//		
+//		surveyService.createSurvey(survey);
+//		return "redirect:/surveys/detail?id="+survey.getId();
+//	}
 	
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
-		if(errors.hasErrors()) {
-			return "/common/surveys/form";
+		if (errors.hasErrors()) {
+			return "survey/dashboard";
 		}
 		User user = Utility.getUser();
 		survey.setUser(user);

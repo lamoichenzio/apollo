@@ -1,0 +1,141 @@
+<div class="card-body pb-0" th:fragment="group" title="group-container">
+
+		<div class="col-md-12">
+			<div id="modal_question_holder"></div>
+		</div>
+
+	<!-- GROUP CONTAINER -->
+	<h5 class="mb-1">[[${groupInfo.title}]]</h5>
+	<h6 class="mb-3">[[${groupInfo.description}]]</h6>
+	<div class="card border mb-0 shadow-none bg-gray-100">
+		<div
+			class="card-body row align-items-center mx-2 justify-content-center">
+
+
+			<!-- GROUP CONTENTS -->
+			
+			<div th:each="question : *{groupInfo.questions}">
+			
+			<!-- DA SISTEMARE -->
+			
+			<!-- <div th:replace="common/surveys/components/questions/single_choice.html :: question(question=${question})"></div> -->				
+			
+				<span>[[${question.title}]]</p>>
+			
+			</div>
+
+			<!-- ADD QUESTION BUTTON -->
+			<div class="container">
+
+
+				<div class="row justify-content-md-center">
+
+					<div class="col-auto">
+						<a data-toggle="collapse" th:href="@{#collapseExample} + ${groupInfo.id}">
+							<div class="col-auto">
+								<div class="icon icon-primary btn-sm rounded-circle icon-shape">
+									<i class="far fa-plus"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+
+
+				<div class="row collapse" th:id="@{collapseExample} + ${groupInfo.id}">
+
+					<div class="col-12 mt-4 mb-0">
+						<div class="row justify-content-md-center align-items-center">
+
+							<a th:onClick="javascript:openChoicheQuestionModal([[${groupInfo.id}]])">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/radio_single.svg}">
+										</div>
+										<div class="col-12">
+											<span>Radio Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+							<a href="#modal-choice-question" data-toggle="modal">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/check_single.svg}">
+										</div>
+										<div class="col-12">
+											<span>Check Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+
+							<a href="#modal-input-question" data-toggle="modal">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/input_text.svg}">
+										</div>
+										<div class="col-12">
+											<span>Input Text Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+
+							<div
+								class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+								<div class="col-12 align-self-center">
+									<div class="col-12">
+										<img alt="Radio Question"
+											th:src="@{/dist/img/icons/custom/radio_multi.svg}">
+									</div>
+									<div class="col-12">
+										<span>Matrix Radio Question</span>
+									</div>
+
+								</div>
+							</div>
+
+
+							<div
+								class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+								<div class="col-12 align-self-center">
+									<div class="col-12">
+										<img alt="Radio Question"
+											th:src="@{/dist/img/icons/custom/check_multi.svg}">
+									</div>
+									<div class="col-12">
+										<span>Matrix Check Question</span>
+									</div>
+
+								</div>
+							</div>
+
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
