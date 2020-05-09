@@ -55,7 +55,7 @@ public class SurveyController {
 //		model.addAttribute("survey", survey);
 //		return "/common/surveys/form";
 //	}
-	
+
 	@GetMapping("/create")
 	public String createStart(Model model) {
 		Survey survey = new Survey();
@@ -78,7 +78,7 @@ public class SurveyController {
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
-			return "survey/dashboard";
+			return "/common/surveys/modals/new_survey_modal :: surveyForm";
 		}
 		User user = Utility.getUser();
 		survey.setUser(user);

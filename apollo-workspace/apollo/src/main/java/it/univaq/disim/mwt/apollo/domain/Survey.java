@@ -5,11 +5,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.TypeAlias;
@@ -32,7 +33,7 @@ public class Survey {
 	private String id;
 	
 	@Indexed
-	@Column(nullable = false)
+	@Size(max = 50)
 	private String name;
 	
 	private String description;

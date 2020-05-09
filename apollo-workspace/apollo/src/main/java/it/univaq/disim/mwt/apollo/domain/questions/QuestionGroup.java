@@ -31,13 +31,11 @@ public class QuestionGroup {
 	@Size(max=100)
 	private String title;
 	
-	@Size(max=200)
 	private String description;
 	
 	@DBRef
 	private Survey survey;
 
-    // Genera sub-document embedded (@DBRef per salvataggio via document references)
 	@DBRef
 	@Setter(AccessLevel.NONE)
 	private Set<Question> questions = new HashSet<>();

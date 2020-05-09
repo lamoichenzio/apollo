@@ -13,17 +13,16 @@
 					<input type="hidden" name="survey_id" th:value="${survey_id}">
 					<div class="card-body">
 						<div class="form-group row">
-							<label for="codice" class="col-sm-2 col-form-label" th:text="#{group.title}"></label>
+							<label for="title" class="col-sm-2 col-form-label" th:text="#{group.title}"></label>
 							<div class="col-sm-6">
-								<input type="text" th:field="*{title}" class="form-control" />
+								<input type="text" th:field="*{title}" class="form-control" required/>
 								<span th:if="${#fields.hasErrors('title')}" th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label for="codice" class="col-sm-2 col-form-label" th:text="#{group.description}"></label>
+							<label for="description" class="col-sm-2 col-form-label" th:text="#{group.description}"></label>
 							<div class="col-sm-6">
 								<input type="text" th:field="*{description}" class="form-control" />
-								<span th:if="${#fields.hasErrors('description')}" th:each="err: ${#fields.errors('description')}" th:utext="${err}"></span>
 							</div>
 						</div>
 					</div>

@@ -52,13 +52,11 @@
 					</div>
 				</div>
 			</div>
-			<!-- SUVERY CONTAINER -->
-
-
+			<!-- SURVEY CONTAINER -->
 
 			<div th:each="questiongroup : *{survey.questionGroups}">
 
-				<div th:replace="common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})"></div>
+				<div th:replace="~{common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})}"></div>
 				
 			</div>
 
@@ -70,7 +68,9 @@
 
 						<button id="create_group" type="button"
 							class="btn btn-primary btn-icon rounded-pill"
-							th:onclick="javascript:openQuestionGroupModal([[${survey.id}]])">
+							th:onclick="openModalRequest(
+								[[@{questiongroups/create}+'?id='+${survey.id}]],
+								'#modal_holder','#modal-create-new-group')">
 							<span class="btn-inner--icon">
 								<i class="far fa-plus"></i>
 							</span>

@@ -2,10 +2,10 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
@@ -22,8 +22,13 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 	QuestionGroupRepository questionGroupRepository;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public List<QuestionGroup> findAllQuestionGroups() throws BusinessException {
-		return questionGroupRepository.findAll();
+		try {			
+			return questionGroupRepository.findAll();
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
@@ -33,28 +38,49 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public QuestionGroup findQuestionGroupById(String id) throws BusinessException {
-		return questionGroupRepository.findById(id).get();
+		try {			
+			return questionGroupRepository.findById(id).get();
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void createQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
-		questionGroupRepository.save(questionGroup);
+		try {			
+			questionGroupRepository.save(questionGroup);
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void updateQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
-		questionGroupRepository.save(questionGroup);
+		try {			
+			questionGroupRepository.save(questionGroup);
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void deleteQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
-		questionGroupRepository.delete(questionGroup);
+		try {			
+			questionGroupRepository.delete(questionGroup);
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public void deleteQuestionGroupById(String id) throws BusinessException {
-		questionGroupRepository.deleteById(id);
+		try {			
+			questionGroupRepository.deleteById(id);
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 	
 }
