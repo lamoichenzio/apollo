@@ -21,24 +21,28 @@ function openModalRequest(url, modalHolder, modalId) {
     });
 }
 
-// function openChoicheQuestionModal(group_id) {
-//
-//     $.ajax({
-//         type: "GET",
-//         url: "/apollo/questions/choicequestion/create?id=" + group_id,
-//         dataType: 'html',
-//         contentType: 'text/html; charset=UTF-8',
-//         cache: false,
-//         timeout: 600000,
-//         success: function (response) {
-//             $("#modal_question_holder").html(response);
-//             $("#modal-new-choice-question").modal("show");
-//         },
-//         error: function (e) {
-//             console.log('ERROR', e);
-//         }
-//     });
-// }
+function openChoicheQuestionModal(url, group_id) {
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+            "id": group_id
+        },
+        dataType: 'html',
+        contentType: 'text/html; charset=UTF-8',
+        cache: false,
+        timeout: 600000,
+        success: function (response) {
+            $("#modal_question_holder").html(response);
+            $("#modal-new-choice-question").modal("show");
+        },
+        error: function (e) {
+            console.log('ERROR', e);
+        }
+    });
+}
+
 //
 // function submitChoicheQuestion(event) {
 //
@@ -100,26 +104,27 @@ function openModalRequest(url, modalHolder, modalId) {
 // }
 //
 //
-// function openQuestionGroupModal(survey_id) {
-//
-//     const id = survey_id;
-//
-//     $.ajax({
-//         type: "GET",
-//         url: "/apollo/questiongroups/create?id=" + id,
-//         dataType: 'html',
-//         contentType: 'text/html; charset=UTF-8',
-//         cache: false,
-//         timeout: 600000,
-//         success: function (response) {
-//             $("#modal_holder").html(response);
-//             $("#modal-create-new-group").modal("show");
-//         },
-//         error: function (e) {
-//             console.log('ERROR', e);
-//         }
-//     });
-// }
+function openQuestionGroupModal(url, survey_id) {
+    console.log(url);
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {
+          'id': survey_id
+        },
+        dataType: 'html',
+        contentType: 'text/html; charset=UTF-8',
+        cache: false,
+        timeout: 600000,
+        success: function (response) {
+            $("#modal_holder").html(response);
+            $("#modal-create-new-group").modal("show");
+        },
+        error: function (e) {
+            console.log('ERROR', e);
+        }
+    });
+}
 //
 //
 // function submitQuestionGroup(event) {

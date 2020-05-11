@@ -61,16 +61,13 @@
 			</div>
 
 			<!-- ADD GROUP BUTTON -->
-
 			<div class="card-body my-4">
 				<div class="row justify-content-center">
 					<div class="col-auto d-flex align-items-center">
 
 						<button id="create_group" type="button"
 							class="btn btn-primary btn-icon rounded-pill"
-							th:onclick="openModalRequest(
-								[[@{questiongroups/create}+'?id='+${survey.id}]],
-								'#modal_holder','#modal-create-new-group')">
+							th:onclick="javascript:openQuestionGroupModal([[@{/questiongroups/create}]], [[${survey.id}]])">
 							<span class="btn-inner--icon">
 								<i class="far fa-plus"></i>
 							</span>
