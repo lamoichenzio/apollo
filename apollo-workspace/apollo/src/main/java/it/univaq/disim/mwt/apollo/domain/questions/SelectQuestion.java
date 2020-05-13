@@ -17,15 +17,8 @@ import lombok.EqualsAndHashCode;
 @TypeAlias("SelectQuestion")
 public class SelectQuestion extends Question {
 	
-	private static final String type = "SELECT";
-
 	@NotNull
 	@ElementCollection
 	private List<String> options;
-	
-	@Override
-	public String getType() {
-		return type.toString();
-	}
-	
+
 }

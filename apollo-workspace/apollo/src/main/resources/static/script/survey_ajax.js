@@ -21,7 +21,7 @@ function openModalRequest(url, modalHolder, modalId) {
     });
 }
 
-function openChoicheQuestionModal(url, group_id) {
+function openQuestionModal(url, modal_holder, modal_id, group_id) {
 
     $.ajax({
         type: "GET",
@@ -34,8 +34,8 @@ function openChoicheQuestionModal(url, group_id) {
         cache: false,
         timeout: 600000,
         success: function (response) {
-            $("#modal_question_holder").html(response);
-            $("#modal-new-choice-question").modal("show");
+            $(modal_holder).html(response);
+            $(modal_id).modal("show");
         },
         error: function (e) {
             console.log('ERROR', e);
@@ -104,27 +104,27 @@ function openChoicheQuestionModal(url, group_id) {
 // }
 //
 //
-function openQuestionGroupModal(url, survey_id) {
-    console.log(url);
-    $.ajax({
-        type: "GET",
-        url: url,
-        data: {
-          'id': survey_id
-        },
-        dataType: 'html',
-        contentType: 'text/html; charset=UTF-8',
-        cache: false,
-        timeout: 600000,
-        success: function (response) {
-            $("#modal_holder").html(response);
-            $("#modal-create-new-group").modal("show");
-        },
-        error: function (e) {
-            console.log('ERROR', e);
-        }
-    });
-}
+// function openQuestionGroupModal(url, survey_id) {
+//     console.log(url);
+//     $.ajax({
+//         type: "GET",
+//         url: url,
+//         data: {
+//           'id': survey_id
+//         },
+//         dataType: 'html',
+//         contentType: 'text/html; charset=UTF-8',
+//         cache: false,
+//         timeout: 600000,
+//         success: function (response) {
+//             $("#modal_holder").html(response);
+//             $("#modal-create-new-group").modal("show");
+//         },
+//         error: function (e) {
+//             console.log('ERROR', e);
+//         }
+//     });
+// }
 //
 //
 // function submitQuestionGroup(event) {

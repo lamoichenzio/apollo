@@ -4,6 +4,7 @@ import java.util.List;
 
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 
 
@@ -22,4 +23,5 @@ public interface QuestionGroupService {
 	void deleteQuestionGroup(QuestionGroup questionGroup) throws BusinessException;
 	
 	void deleteQuestionGroupById(String id) throws BusinessException;
+	
 }

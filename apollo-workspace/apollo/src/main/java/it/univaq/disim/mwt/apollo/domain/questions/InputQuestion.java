@@ -17,12 +17,6 @@ import lombok.Getter;
 public class InputQuestion extends Question {
 	
 	@NotNull
-	@Getter(AccessLevel.NONE)
-	private InputType inputType;
-
-	@Override
-	public String getType() {
-		return inputType.toString();
-	}
+	private InputType type;
 
 }

@@ -43,13 +43,13 @@ public class QuestionGroupController {
 	public String create(@Valid @ModelAttribute("group") QuestionGroup group, @ModelAttribute("survey_id") String id,
 			Errors errors) throws BusinessException {	
 		if (errors.hasErrors()) {	
-			log.info("QUI");
 			return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 		}
-		service.createQuestionGroup(group);
 		Survey survey = surveyService.findSurveyById(id);
+		service.createQuestionGroup(group);
 		survey.addQuestionGroup(group);
 		surveyService.updateSurvey(survey);
+		service.updateQuestionGroup(group);
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}
 	

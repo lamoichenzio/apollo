@@ -28,12 +28,6 @@ public class MatrixQuestion extends Question {
 	private List<String> questionValues;
 
 	@NotNull
-	@Getter(AccessLevel.NONE)
 	private ChoiceType type;
 	
-	@Override
-	public String getType() {
-		return type.toString();
-	}
-
 }

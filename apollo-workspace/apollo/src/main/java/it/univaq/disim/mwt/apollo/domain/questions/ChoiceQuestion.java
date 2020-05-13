@@ -20,7 +20,6 @@ import lombok.Getter;
 public class ChoiceQuestion extends Question {
 	
 	@NotNull
-	@Getter(AccessLevel.NONE)
 	private ChoiceType type;
 	
 	@NotNull
@@ -28,10 +27,5 @@ public class ChoiceQuestion extends Question {
 	private List<String> options;
 	
 	private boolean otherChoice;
-	
-	@Override
-	public String getType() {
-		return type.toString();
-	}
-	
+		
 }

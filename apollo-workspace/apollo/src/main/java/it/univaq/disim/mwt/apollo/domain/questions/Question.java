@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Document(collection = "Questions")
@@ -29,9 +30,6 @@ public abstract class Question {
 	
 	private File file;
 	
-	@NotNull
 	@DBRef
-	private QuestionGroup questionGroup;
-	
-	public abstract String getType();
+	private QuestionGroup questionGroup;	
 }

@@ -67,7 +67,8 @@
 
 						<button id="create_group" type="button"
 							class="btn btn-primary btn-icon rounded-pill"
-							th:onclick="javascript:openQuestionGroupModal([[@{/questiongroups/create}]], [[${survey.id}]])">
+							th:onclick="javascript:openQuestionModal([[@{/questiongroups/create}]],'#modal_holder',
+							'#modal-create-new-group', [[${survey.id}]])">
 							<span class="btn-inner--icon">
 								<i class="far fa-plus"></i>
 							</span>

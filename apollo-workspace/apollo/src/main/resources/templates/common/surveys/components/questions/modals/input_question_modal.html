@@ -1,39 +1,61 @@
-<!-- MODAL NEW INPUT QUESTION -->
-<div class="modal fade" id="modal-input-question" tabindex="-1"
-	role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered modal" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="modal-title align-items-center">
-					<div>
+<html xmlns:th="http://www.thymeleaf.org">
 
-						<!-- MODAL TITLE -->
-						<h6 class="mb-0">Question Input</h6>
+<body>
+	<!-- MODAL NEW INPUT QUESTION -->
+	<div class="modal fade" id="modal-input-question" tabindex="-1" role="dialog" aria-hidden="true"
+		th:fragment="modal-input-question">
+		<div class="modal-dialog modal-dialog-centered modal" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="modal-title align-items-center">
+						<div>
 
-					</div>
-				</div>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="form-group">
-
-							<!-- QUESTION TEXT -->
-							<label class="form-control-label">Question:</label>
-							<textarea class="form-control" data-toggle="autosize"
-								placeholder="This textarea will autosize while you type"
-								rows="1"></textarea>
+							<!-- MODAL TITLE -->
+							<h6 class="mb-0">Question Input</h6>
 
 						</div>
 					</div>
 				</div>
+				<form action="#" th:action="@{/questions/inputquestion/create}" th:object="${inputquestion}"
+					method="post">
+					<input type="hidden" name="group_id" th:value="${group_id}" />
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<!-- QUESTION TEXT -->
+									<label for="title" class="form-control-label"
+										th:text="#{apollo.question}">Question:</label>
+									<input type="text" th:field="*{title}" class="form-control" data-toggle="autosize"
+										th:placeholder="#{apollo.titleplaceholder}" rows="1" />
 
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-sm btn-link text-danger">Cancel</button>
-				<button type="button" class="btn btn-sm btn-primary rounded-pill "
-					data-dismiss="modal">Save</button>
+								</div>
+								<div class="form-group">
+									<!-- QUESTION TYPES -->
+									<label for="inputType" class="form-control-label"
+										th:text="#{apollo.questiontype}">Question:</label>
+									<select class="custom-select" th:field="*{type}">
+										<option
+											th:each="type : ${T(it.univaq.disim.mwt.apollo.domain.questions.InputType).values()}"
+											th:value="${type}" th:text="${type.displayValue}">
+										</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+							th:text="#{common.cancel}">Cancel</button>
+						<button type="submit" class="btn btn-sm btn-primary rounded-pill "
+							th:text="#{common.save}">Save</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
-</div>
+
+</body>
+
+</html>

@@ -1,5 +1,7 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 
 @Controller
 @RequestMapping("/surveys")
@@ -82,7 +83,7 @@ public class SurveyController {
 		}
 		User user = Utility.getUser();
 		survey.setUser(user);
-		
+		survey.setCreationDate(new Date());
 		surveyService.createSurvey(survey);
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}

@@ -16,18 +16,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
 @Document(collection = "QuestionGroups")
 @TypeAlias("QuestionGroup")
+@EqualsAndHashCode(exclude = "questions")
+@ToString(exclude = "questions")
 public class QuestionGroup {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@NotBlank
 	@Size(max=100)
 	private String title;
 	
