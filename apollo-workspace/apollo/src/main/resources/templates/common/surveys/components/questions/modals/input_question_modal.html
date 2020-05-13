@@ -25,15 +25,15 @@
 								<div class="form-group">
 									<!-- QUESTION TEXT -->
 									<label for="title" class="form-control-label"
-										th:text="#{apollo.question}">Question:</label>
+										th:text="#{question.title}">Question:</label>
 									<input type="text" th:field="*{title}" class="form-control" data-toggle="autosize"
-										th:placeholder="#{apollo.titleplaceholder}" required size="255" maxlength="255" />
+										th:placeholder="#{question.titleplaceholder}" required size="255" maxlength="255" />
 
 								</div>
 								<div class="form-group">
 									<!-- QUESTION TYPES -->
 									<label for="inputType" class="form-control-label"
-										th:text="#{apollo.questiontype}">Type:</label>
+										th:text="#{question.questiontype}">Type:</label>
 									<select class="custom-select" th:field="*{type}">
 										<option
 											th:each="type : ${T(it.univaq.disim.mwt.apollo.domain.questions.InputType).values()}"
