@@ -3,7 +3,8 @@
  *
  */
 
-function openModalRequest(url, modalHolder, modalId) {
+ // Open modal request
+function openModalRequest(url, modalId) {
     $.ajax({
         type: "GET",
         url: url,
@@ -12,7 +13,7 @@ function openModalRequest(url, modalHolder, modalId) {
         cache: false,
         timeout: 600000,
         success: function (response) {
-            $(modalHolder).html(response);
+            $("#modal_holder").html(response);
             $(modalId).modal("show");
         },
         error: function (e) {
@@ -21,20 +22,20 @@ function openModalRequest(url, modalHolder, modalId) {
     });
 }
 
-function openQuestionModal(url, modal_holder, modal_id, group_id) {
-
+// Open Question Group modal
+function openQuestionGroupModal(url, modal_id, survey_id) {
     $.ajax({
         type: "GET",
         url: url,
         data: {
-            "id": group_id
+            "id": survey_id
         },
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
         timeout: 600000,
         success: function (response) {
-            $(modal_holder).html(response);
+            $("#modal_holder").html(response);
             $(modal_id).modal("show");
         },
         error: function (e) {
@@ -43,28 +44,31 @@ function openQuestionModal(url, modal_holder, modal_id, group_id) {
     });
 }
 
-/* 
-// Choice question
-function openChoicheQuestionModal(group_id, type) {
+// Oper question modal
+function openQuestionModal(url, type, modal_id, group_id) {
 
-    const id = group_id;
+    let request = { "group_id" : group_id };
+
+    type != null ? request.type = type : null;
 
     $.ajax({
         type: "GET",
-        url: "/apollo/questions/choicequestion/create?group_id=" + id + "&type=" + type,
+        url: url,
+        data: request,
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
         timeout: 600000,
         success: function (response) {
-            $("#modal_question_holder").html(response);
-            $("#modal-new-choice-question").modal("show");
+            $("#modal_holder").html(response);
+            $(modal_id).modal("show");
         },
         error: function (e) {
             console.log('ERROR', e);
         }
     });
 }
+
 
 function addOption() {
     let optionItem = $("#choice_option").clone();
@@ -78,7 +82,7 @@ function deleteOption(event) {
     $(optionItem).remove();
 }
 
-*/
+
 
 //
 // function submitChoicheQuestion(event) {

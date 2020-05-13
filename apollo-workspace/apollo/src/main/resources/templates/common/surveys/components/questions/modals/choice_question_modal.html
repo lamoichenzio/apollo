@@ -19,7 +19,7 @@
 				th:action="@{/questions/choicequestion/create}"
 				th:object="${question}" class="form-horizontal" method="post">
 
-				<input type="hidden" name="questionGroup" th:value="${group}" th:field="*{questionGroup}">
+				<input type="hidden" name="group_id" th:value="${group_id}" />
 				
 				<input type="hidden" name="choiceType" th:value="${type}" th:field="*{choiceType}">
 				

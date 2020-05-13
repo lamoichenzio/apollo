@@ -44,13 +44,11 @@ public class QuestionController {
 	@GetMapping("/choicequestion/create")
 	public String createChoiceStart(@RequestParam String group_id, @RequestParam ChoiceType type, Model model) throws BusinessException {
 		ChoiceQuestion question = new ChoiceQuestion();
-		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
 		
-		question.setQuestionGroup(group);
 		question.setChoiceType(type);
 
 		model.addAttribute("question", question);
-		model.addAttribute("group", group);	
+		model.addAttribute("group_id", group_id);	
 		
 		List<String> optionList = new ArrayList<>();
 		optionList.add("");
@@ -62,16 +60,18 @@ public class QuestionController {
 	}
 
 	@PostMapping("/choicequestion/create")
-	public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, @ModelAttribute("group_id") String group_id, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "/choicequestion/form";
 		}
 		
+		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
+
 		// Create question
+		question.setQuestionGroup(group);
 		questionService.createQuestion(question);
 		
 		// Update group
-		QuestionGroup group = question.getQuestionGroup();
 		group.addQuestion(question);
 		questionGroupService.updateQuestionGroup(group);
 		
@@ -81,22 +81,22 @@ public class QuestionController {
 	// INPUT QUESTION
 
 	@GetMapping("/inputquestion/create")
-	public String createInputStart(@RequestParam String id, Model model) throws BusinessException {
+	public String createInputStart(@RequestParam String group_id, Model model) throws BusinessException {
 		InputQuestion question = new InputQuestion();
 		model.addAttribute("inputquestion", question);
-		model.addAttribute("group_id", id);
+		model.addAttribute("group_id", group_id);
 		return "/common/surveys/components/questions/modals/input_question_modal :: modal-input-question";
 	}
 
 	@PostMapping("/inputquestion/create")
 	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question,
-			@ModelAttribute("group_id") String id, Errors errors) throws BusinessException {
+			@ModelAttribute("group_id") String group_id, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
 			//TODO: gestire errori
 			log.info(errors.toString());
 			return "/inputquestion/form";
 		}
-		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
+		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
 		questionService.createQuestion(question);
 		group.addQuestion(question);
 		questionGroupService.updateQuestionGroup(group);
