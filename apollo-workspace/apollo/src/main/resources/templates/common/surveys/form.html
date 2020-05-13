@@ -4,20 +4,7 @@
 
 <body>
 	<div layout:fragment="page-content">
-		<!-- <script th:inline="javascript">
-			$(document).ready(function () {
-				var del = [
-					[${
-						#
-						request.getRequestURI().endsWith('delete') ? true : false
-					}]
-				];
-				if (del) {
-					$(":input[type='text']").attr('disabled', 'disabled');
-				}
-			});
-		</script> -->
-
+	
 		<div class="row">
 
 			<div id="content" class="col-12">
@@ -31,21 +18,21 @@
 					<form th:action="${#request.getRequestURI()}" th:object="${survey}" class="form-horizontal" method="post">
 		  				<div class="card-body">
 							<div class="form-group row">
-								<label for="codice" class="col-sm-2 col-form-label" th:text="#{survey.name}"></label>
+								<label for="name" class="col-sm-2 col-form-label" th:text="#{survey.name}"></label>
 								<div class="col-sm-6">
 									<input type="text" th:field="*{name}" class="form-control"/>
 									<span th:if="${#fields.hasErrors('name')}" th:each="err: ${#fields.errors('name')}" th:utext="${err}"></span>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label for="codice" class="col-sm-2 col-form-label" th:text="#{survey.description}"></label>
+								<label for="description" class="col-sm-2 col-form-label" th:text="#{survey.description}"></label>
 								<div class="col-sm-6">
 									<input type="text" th:field="*{description}" class="form-control"/>
 									<span th:if="${#fields.hasErrors('description')}" th:each="err: ${#fields.errors('description')}" th:utext="${err}"></span>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label for="codice" class="col-sm-2 col-form-label" th:text="#{survey.secret}"></label>
+								<label for="secret" class="col-sm-2 col-form-label" th:text="#{survey.secret}"></label>
 								<div class="col-sm-6">
 									<input type="checkbox" th:field="*{secret}" class="form-control"/>
 									<span th:if="${#fields.hasErrors('secret')}" th:each="err: ${#fields.errors('secret')}" th:utext="${err}"></span>
@@ -69,7 +56,7 @@
 							
 						</div>
 		  				<div class="card-footer">
-							<button type="submit" class="btn btn-info" th:text="#{${#request.getRequestURI().endsWith('delete')? 'common.delete' : 'common.submit'}}"></button>
+							<button type="submit" class="btn btn-info" th:text="#{common.submit}" th:onclick="java"></button>
 							<a href="#" th:href="@{/surveys/dashboard}" class="btn btn-default float-right" th:text="#{common.cancel}"></a>	
 						</div>
 					</form>

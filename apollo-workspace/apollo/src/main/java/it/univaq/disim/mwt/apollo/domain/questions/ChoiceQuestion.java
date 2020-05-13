@@ -25,10 +25,5 @@ public class ChoiceQuestion extends Question {
 	private List<String> options;
 	
 	private boolean otherChoice;
-	
-	@Override
-	public String getType() {
-		return choiceType.toString();
-	}
-	
+		
 }

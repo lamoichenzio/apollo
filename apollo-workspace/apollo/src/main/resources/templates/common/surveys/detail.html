@@ -52,25 +52,23 @@
 					</div>
 				</div>
 			</div>
-			<!-- SUVERY CONTAINER -->
-
-
+			<!-- SURVEY CONTAINER -->
 
 			<div th:each="questiongroup : *{survey.questionGroups}">
 
-				<div th:replace="common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})"></div>
+				<div th:replace="~{common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})}"></div>
 				
 			</div>
 
 			<!-- ADD GROUP BUTTON -->
-
 			<div class="card-body my-4">
 				<div class="row justify-content-center">
 					<div class="col-auto d-flex align-items-center">
 
 						<button id="create_group" type="button"
 							class="btn btn-primary btn-icon rounded-pill"
-							th:onclick="javascript:openQuestionGroupModal([[${survey.id}]])">
+							th:onclick="javascript:openQuestionModal([[@{/questiongroups/create}]],'#modal_holder',
+							'#modal-create-new-group', [[${survey.id}]])">
 							<span class="btn-inner--icon">
 								<i class="far fa-plus"></i>
 							</span>

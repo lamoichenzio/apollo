@@ -17,9 +17,11 @@ import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/questiongroups")
+@Slf4j
 public class QuestionGroupController {
 
 	@Autowired
@@ -32,7 +34,6 @@ public class QuestionGroupController {
 	public String createStart(@RequestParam String id, Model model) {
 		QuestionGroup group = new QuestionGroup();
 		model.addAttribute("group", group);
-		System.out.println("GROUP ID SURVEY: " + id);
 		model.addAttribute("survey_id", id);
 		return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 	}
@@ -40,15 +41,9 @@ public class QuestionGroupController {
 
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("group") QuestionGroup group, @ModelAttribute("survey_id") String id,
-			Errors errors) throws BusinessException {
-	
-		
-		if (errors.hasErrors()) {
-			
-			System.out.println("ERROR group "+ group.getTitle());
-			System.out.println("ERROR survey "+ id);
-			
-			return "group/form";
+			Errors errors) throws BusinessException {	
+		if (errors.hasErrors()) {	
+			return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 		}
 		
 		Survey survey = surveyService.findSurveyById(id);

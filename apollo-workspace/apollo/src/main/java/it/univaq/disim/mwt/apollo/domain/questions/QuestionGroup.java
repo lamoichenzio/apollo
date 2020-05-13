@@ -16,28 +16,29 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
 @Document(collection = "QuestionGroups")
 @TypeAlias("QuestionGroup")
+@EqualsAndHashCode(exclude = "questions")
+@ToString(exclude = "questions")
 public class QuestionGroup {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@NotBlank
 	@Size(max=100)
 	private String title;
 	
-	@Size(max=200)
 	private String description;
 	
 	@DBRef
 	private Survey survey;
 
-    // Genera sub-document embedded (@DBRef per salvataggio via document references)
 	@DBRef
 	@Setter(AccessLevel.NONE)
 	private Set<Question> questions = new HashSet<>();

@@ -1,3 +1,5 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
 <div class="card-body pb-0" th:fragment="group" title="group-container">
 
 		<div class="col-md-12">
@@ -47,9 +49,11 @@
 
 					<div class="col-12 mt-4 mb-0">
 						<div class="row justify-content-md-center align-items-center">
-							
-							<!-- Radio Question -->
-							<a th:onClick="javascript:openChoicheQuestionModal([[${groupInfo.id}]],[[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]])">
+
+							<!-- <a th:onClick="javascript:openChoicheQuestionModal([[${groupInfo.id}]],[[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]])"> -->
+
+							<a th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], '#modal_question_holder',
+							'#modal-new-choice-question', [[${groupInfo.id}]])">
 								<div
 									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
 									<div class="col-12 align-self-center">
@@ -82,7 +86,10 @@
 							</a>
 
 
-							<a href="#modal-input-question" data-toggle="modal">
+							<a href="#"
+							   th:onclick="openQuestionModal([[@{/questions/inputquestion/create}]],
+							   '#modal_question_holder', '#modal-input-question', [[${groupInfo.id}]])"
+							   data-toggle="modal">
 								<div
 									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
 									<div class="col-12 align-self-center">
@@ -140,3 +147,5 @@
 		</div>
 	</div>
 </div>
+</body>
+</html>

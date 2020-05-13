@@ -18,17 +18,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/questions")
+@Slf4j
 public class QuestionController {
-	
+
 	@Autowired
 	private QuestionService questionService;
 
@@ -37,8 +40,7 @@ public class QuestionController {
 	
 	
 	/** CREATE **/
-	
-	
+
 	@GetMapping("/choicequestion/create")
 	public String createChoiceStart(@RequestParam String group_id, @RequestParam ChoiceType type, Model model) throws BusinessException {
 		ChoiceQuestion question = new ChoiceQuestion();
@@ -58,7 +60,6 @@ public class QuestionController {
 
 		return "/common/surveys/components/questions/modals/choice_question_modal :: questionChoiceForm";
 	}
-	
 
 	@PostMapping("/choicequestion/create")
 	public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors) throws BusinessException {
@@ -77,64 +78,30 @@ public class QuestionController {
 		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
 	
+	// INPUT QUESTION
+
 	@GetMapping("/inputquestion/create")
-	public String createInputStart(Model model) {
+	public String createInputStart(@RequestParam String id, Model model) throws BusinessException {
 		InputQuestion question = new InputQuestion();
 		model.addAttribute("inputquestion", question);
-		return "/inputquestion/form";
-	}
-	
-	@GetMapping("/matrixquestion/create")
-	public String createMatrixStart(Model model) {
-		MatrixQuestion question = new MatrixQuestion();
-		model.addAttribute("matrixquestion", question);
-		return "/matrixquestion/form";
-	}
-	
-	@GetMapping("/selectquestion/create")
-	public String createSelectStart(Model model) {
-		SelectQuestion question = new SelectQuestion();
-		model.addAttribute("selectquestion", question);
-		return "/selectquestion/form";
+		model.addAttribute("group_id", id);
+		return "/common/surveys/components/questions/modals/input_question_modal :: modal-input-question";
 	}
 
-	
 	@PostMapping("/inputquestion/create")
-	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question,
+			@ModelAttribute("group_id") String id, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
+			//TODO: gestire errori
+			log.info(errors.toString());
 			return "/inputquestion/form";
 		}
-		
+		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
 		questionService.createQuestion(question);
-		
-		return "redirect:/common/form";
-	}
-	
-	@PostMapping("/matrixquestion/create")
-	public String create(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors) throws BusinessException {
-		if (errors.hasErrors()) {
-			return "/matrixquestion/form";
-		}
-		questionService.createQuestion(question);
-		return "redirect:/common/form";
-	}
-	
-	@PostMapping("/selectquestion/create")
-	public String create(@Valid @ModelAttribute("selectquestion") SelectQuestion question, Errors errors) throws BusinessException {
-		if (errors.hasErrors()) {
-			return "/selectquestion/form";
-		}
-		questionService.createQuestion(question);
-		return "redirect:/common/form";
-	}
-	
-	/** UPDATE **/
-	
-	@GetMapping("/choicequestion/update")
-	public String updateStartChoice(@RequestParam String id, Model model) throws BusinessException {
-		ChoiceQuestion question = questionService.findChoiceQuestionById(id);
-		model.addAttribute("choicequestion", question);
-		return "/common/form";
+		group.addQuestion(question);
+		questionGroupService.updateQuestionGroup(group);
+		questionService.updateQuestion(question);
+		return "redirect:/surveys/detail?id="+group.getSurvey().getId();
 	}
 	
 	@GetMapping("/inputquestion/update")
@@ -144,63 +111,14 @@ public class QuestionController {
 		return "/common/form";
 	}
 	
-	@GetMapping("/matrixquestion/update")
-	public String updateStartMatrix(@RequestParam String id, Model model) throws BusinessException {
-		MatrixQuestion question = questionService.findMatrixQuestionById(id);
-		model.addAttribute("matrixquestion", question);
-		return "/common/form";
-	}
-	
-	@GetMapping("/selectquestion/update")
-	public String updateStartSelect(@RequestParam String id, Model model) throws BusinessException {
-		SelectQuestion question = questionService.findSelectQuestionById(id);
-		model.addAttribute("selectquestion", question);
-		return "/common/form";
-	}
-	
-	@PostMapping("/choicequestion/update")
-	public String update(@Valid @ModelAttribute("choicequestion") ChoiceQuestion question, Errors errors) throws BusinessException {
-		if(errors.hasErrors()) {
-			return "/choicequestion/form";
-		}
-		questionService.updateQuestion(question);
-		return "redirect:/common/form";
-	}
-	
 	@PostMapping("/inputquestion/update")
-	public String update(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors) throws BusinessException {
-		if(errors.hasErrors()) {
+	public String update(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors)
+			throws BusinessException {
+		if (errors.hasErrors()) {
 			return "/inputquestion/form";
 		}
 		questionService.updateQuestion(question);
 		return "redirect:/common/form";
-	}
-	
-	@PostMapping("/matrixquestion/update")
-	public String update(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors) throws BusinessException {
-		if(errors.hasErrors()) {
-			return "/matrixquestion/form";
-		}
-		questionService.updateQuestion(question);
-		return "redirect:/common/form";
-	}
-	
-	@PostMapping("/selectquestion/update")
-	public String update(@Valid @ModelAttribute("selectquestion") SelectQuestion question, Errors errors) throws BusinessException {
-		if(errors.hasErrors()) {
-			return "/selectquestion/form";
-		}
-		questionService.updateQuestion(question);
-		return "redirect:/common/form";
-	}
-
-	/** DELETE **/
-	
-	@GetMapping("/choicequestion/delete")
-	public String deleteChoiceStart(@RequestParam String id, Model model) throws BusinessException {
-		ChoiceQuestion question = questionService.findChoiceQuestionById(id);
-		model.addAttribute("choicequestion", question);
-		return "/common/form";
 	}
 	
 	@GetMapping("/inputquestion/delete")
@@ -210,42 +128,140 @@ public class QuestionController {
 		return "/common/form";
 	}
 	
+	@PostMapping("/inputquestion/delete")
+	public String delete(@ModelAttribute("inputquestion") InputQuestion question) throws BusinessException {
+		questionService.deleteQuestion(question);
+		return "redirect:/common/form";
+	}
+
+	@GetMapping("/matrixquestion/create")
+	public String createMatrixStart(Model model) {
+		MatrixQuestion question = new MatrixQuestion();
+		model.addAttribute("matrixquestion", question);
+		return "/matrixquestion/form";
+	}
+
+	@GetMapping("/selectquestion/create")
+	public String createSelectStart(Model model) {
+		SelectQuestion question = new SelectQuestion();
+		model.addAttribute("selectquestion", question);
+		return "/selectquestion/form";
+	}
+
+	@PostMapping("/matrixquestion/create")
+	public String create(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors)
+			throws BusinessException {
+		if (errors.hasErrors()) {
+			return "/matrixquestion/form";
+		}
+		questionService.createQuestion(question);
+		return "redirect:/common/form";
+	}
+
+	@PostMapping("/selectquestion/create")
+	public String create(@Valid @ModelAttribute("selectquestion") SelectQuestion question, Errors errors)
+			throws BusinessException {
+		if (errors.hasErrors()) {
+			return "/selectquestion/form";
+		}
+		questionService.createQuestion(question);
+		return "redirect:/common/form";
+	}
+
+	/** UPDATE **/
+
+	@GetMapping("/choicequestion/update")
+	public String updateStartChoice(@RequestParam String id, Model model) throws BusinessException {
+		ChoiceQuestion question = questionService.findChoiceQuestionById(id);
+		model.addAttribute("choicequestion", question);
+		return "/common/form";
+	}
+
+	@GetMapping("/matrixquestion/update")
+	public String updateStartMatrix(@RequestParam String id, Model model) throws BusinessException {
+		MatrixQuestion question = questionService.findMatrixQuestionById(id);
+		model.addAttribute("matrixquestion", question);
+		return "/common/form";
+	}
+
+	@GetMapping("/selectquestion/update")
+	public String updateStartSelect(@RequestParam String id, Model model) throws BusinessException {
+		SelectQuestion question = questionService.findSelectQuestionById(id);
+		model.addAttribute("selectquestion", question);
+		return "/common/form";
+	}
+
+	@PostMapping("/choicequestion/update")
+	public String update(@Valid @ModelAttribute("choicequestion") ChoiceQuestion question, Errors errors)
+			throws BusinessException {
+		if (errors.hasErrors()) {
+			return "/choicequestion/form";
+		}
+		questionService.updateQuestion(question);
+		return "redirect:/common/form";
+	}
+
+	@PostMapping("/matrixquestion/update")
+	public String update(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors)
+			throws BusinessException {
+		if (errors.hasErrors()) {
+			return "/matrixquestion/form";
+		}
+		questionService.updateQuestion(question);
+		return "redirect:/common/form";
+	}
+
+	@PostMapping("/selectquestion/update")
+	public String update(@Valid @ModelAttribute("selectquestion") SelectQuestion question, Errors errors)
+			throws BusinessException {
+		if (errors.hasErrors()) {
+			return "/selectquestion/form";
+		}
+		questionService.updateQuestion(question);
+		return "redirect:/common/form";
+	}
+
+	/** DELETE **/
+
+	@GetMapping("/choicequestion/delete")
+	public String deleteChoiceStart(@RequestParam String id, Model model) throws BusinessException {
+		ChoiceQuestion question = questionService.findChoiceQuestionById(id);
+		model.addAttribute("choicequestion", question);
+		return "/common/form";
+	}
+
+
 	@GetMapping("/matrixquestion/delete")
 	public String deleteMatrixStart(@RequestParam String id, Model model) throws BusinessException {
 		MatrixQuestion question = questionService.findMatrixQuestionById(id);
 		model.addAttribute("matrixquestion", question);
 		return "/common/form";
 	}
-	
+
 	@GetMapping("/selectquestion/delete")
 	public String deleteSelectStart(@RequestParam String id, Model model) throws BusinessException {
 		SelectQuestion question = questionService.findSelectQuestionById(id);
 		model.addAttribute("selectquestion", question);
 		return "/common/form";
 	}
-	
+
 	@PostMapping("/choicequestion/delete")
 	public String delete(@ModelAttribute("choicequestion") ChoiceQuestion question) throws BusinessException {
 		questionService.deleteQuestion(question);
 		return "redirect:/common/form";
 	}
-	
-	@PostMapping("/inputquestion/delete")
-	public String delete(@ModelAttribute("inputquestion") InputQuestion question) throws BusinessException {
-		questionService.deleteQuestion(question);
-		return "redirect:/common/form";
-	}
-	
+
+
 	@PostMapping("/matrixquestion/delete")
 	public String delete(@ModelAttribute("matrixquestion") MatrixQuestion question) throws BusinessException {
 		questionService.deleteQuestion(question);
 		return "redirect:/common/form";
 	}
-	
+
 	@PostMapping("/selectquestion/delete")
 	public String delete(@ModelAttribute("selectquestion") SelectQuestion question) throws BusinessException {
 		questionService.deleteQuestion(question);
 		return "redirect:/common/form";
 	}
-	
+
 }

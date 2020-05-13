@@ -1,5 +1,7 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,12 +72,11 @@ public class SurveyController {
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
-			System.out.println(errors.toString());
-			return "/surveys/dashboard";
+			return "/common/surveys/modals/new_survey_modal :: surveyForm";
 		}
 		User user = Utility.getUser();
 		survey.setUser(user);
-		
+		survey.setCreationDate(new Date());
 		surveyService.createSurvey(survey);
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}
