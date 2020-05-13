@@ -52,10 +52,13 @@
 					</div>
 				</div>
 			</div>
+			<div th:if="${param.error != null}" class="row justify-content-between align-items-center">
+				<div class="col m-4" th:text="#{apollo.questionerror}">Error</div>
+			</div>
 			<!-- SURVEY CONTAINER -->
-
+			
 			<div th:each="questiongroup : *{survey.questionGroups}">
-
+				
 				<div th:replace="~{common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})}"></div>
 				
 			</div>

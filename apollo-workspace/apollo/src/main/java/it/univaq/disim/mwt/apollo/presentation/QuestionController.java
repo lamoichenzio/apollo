@@ -77,7 +77,7 @@ public class QuestionController {
 		
 		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
-	
+
 	// INPUT QUESTION
 
 	@GetMapping("/inputquestion/create")
@@ -89,28 +89,26 @@ public class QuestionController {
 	}
 
 	@PostMapping("/inputquestion/create")
-	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question,
-			@ModelAttribute("group_id") String group_id, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors,
+			@ModelAttribute("group_id") String id) throws BusinessException {
+		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
 		if (errors.hasErrors()) {
-			//TODO: gestire errori
-			log.info(errors.toString());
-			return "/inputquestion/form";
+			return "redirect:/surveys/detail?id=" + group.getSurvey().getId()+"&error=true";
 		}
-		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
 		questionService.createQuestion(question);
 		group.addQuestion(question);
 		questionGroupService.updateQuestionGroup(group);
 		questionService.updateQuestion(question);
-		return "redirect:/surveys/detail?id="+group.getSurvey().getId();
+		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
-	
+
 	@GetMapping("/inputquestion/update")
 	public String updateStartInput(@RequestParam String id, Model model) throws BusinessException {
 		InputQuestion question = questionService.findInputQuestionById(id);
 		model.addAttribute("inputquestion", question);
 		return "/common/form";
 	}
-	
+
 	@PostMapping("/inputquestion/update")
 	public String update(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors)
 			throws BusinessException {
@@ -120,14 +118,14 @@ public class QuestionController {
 		questionService.updateQuestion(question);
 		return "redirect:/common/form";
 	}
-	
+
 	@GetMapping("/inputquestion/delete")
 	public String deleteInputStart(@RequestParam String id, Model model) throws BusinessException {
 		InputQuestion question = questionService.findInputQuestionById(id);
 		model.addAttribute("inputquestion", question);
 		return "/common/form";
 	}
-	
+
 	@PostMapping("/inputquestion/delete")
 	public String delete(@ModelAttribute("inputquestion") InputQuestion question) throws BusinessException {
 		questionService.deleteQuestion(question);
@@ -230,7 +228,6 @@ public class QuestionController {
 		return "/common/form";
 	}
 
-
 	@GetMapping("/matrixquestion/delete")
 	public String deleteMatrixStart(@RequestParam String id, Model model) throws BusinessException {
 		MatrixQuestion question = questionService.findMatrixQuestionById(id);
@@ -250,7 +247,6 @@ public class QuestionController {
 		questionService.deleteQuestion(question);
 		return "redirect:/common/form";
 	}
-
 
 	@PostMapping("/matrixquestion/delete")
 	public String delete(@ModelAttribute("matrixquestion") MatrixQuestion question) throws BusinessException {

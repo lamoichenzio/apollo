@@ -11,12 +11,12 @@
 						<div>
 
 							<!-- MODAL TITLE -->
-							<h6 class="mb-0">Question Input</h6>
+							<h6 class="mb-0" th:text="#{question.inputquestion}">Question Input</h6>
 
 						</div>
 					</div>
 				</div>
-				<form action="#" th:action="@{/questions/inputquestion/create}" th:object="${inputquestion}"
+				<form id="inputQuestionForm" action="#" th:action="@{/questions/inputquestion/create}" th:object="${inputquestion}"
 					method="post">
 					<input type="hidden" name="group_id" th:value="${group_id}" />
 					<div class="modal-body">
@@ -27,13 +27,13 @@
 									<label for="title" class="form-control-label"
 										th:text="#{apollo.question}">Question:</label>
 									<input type="text" th:field="*{title}" class="form-control" data-toggle="autosize"
-										th:placeholder="#{apollo.titleplaceholder}" rows="1" />
+										th:placeholder="#{apollo.titleplaceholder}" required size="255" maxlength="255" />
 
 								</div>
 								<div class="form-group">
 									<!-- QUESTION TYPES -->
 									<label for="inputType" class="form-control-label"
-										th:text="#{apollo.questiontype}">Question:</label>
+										th:text="#{apollo.questiontype}">Type:</label>
 									<select class="custom-select" th:field="*{type}">
 										<option
 											th:each="type : ${T(it.univaq.disim.mwt.apollo.domain.questions.InputType).values()}"
@@ -49,7 +49,7 @@
 						<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
 							th:text="#{common.cancel}">Cancel</button>
 						<button type="submit" class="btn btn-sm btn-primary rounded-pill "
-							th:text="#{common.save}">Save</button>
+							th:text="#{common.submit}">Save</button>
 					</div>
 				</form>
 			</div>

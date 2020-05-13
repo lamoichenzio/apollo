@@ -5,7 +5,7 @@ import java.io.File;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Document(collection = "Questions")
@@ -23,7 +22,7 @@ public abstract class Question {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@NotNull
+	@NotBlank
 	@Indexed(unique=false)
 	@Size(max=255)
 	private String title;
