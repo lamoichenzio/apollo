@@ -8,13 +8,14 @@ $(function() {
 
 });
 
-function openChoicheQuestionModal(group_id) {
-		
+// Choice question
+function openChoicheQuestionModal(group_id, type) {
+
 	const id = group_id;
-    
+
 	$.ajax({
         type: "GET",
-        url: "/apollo/questions/choicequestion/create?id=" + id,
+        url: "/apollo/questions/choicequestion/create?group_id=" + id +"&type="+type,
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
@@ -29,14 +30,27 @@ function openChoicheQuestionModal(group_id) {
     });
 }
 
-function submitChoicheQuestion(event) {
+function addOption() {
+	let optionItem = $("#choice_option").clone();
+	optionItem.removeAttr("id");
+	$("#options_container").append(optionItem);
+}
+
+function deleteOption(event) {
+	event.preventDefault();
+	let optionItem = $(event.target).parent().parent().parent();
+	$(optionItem).remove();
+}
+
+function submitChoiceQuestion(event) {
     
-    $("#modal-new-choice-question").submit(function(event) {
+    $("#question_choice_form").submit(function(event) {
         event.preventDefault();
 
         let request = $("#question_choice_form").serialize();
         let postUrl = "/apollo/questions/choicequestion/create";
-        
+        console.log(request);
+        return false;
         $.post(
             postUrl,
             request,

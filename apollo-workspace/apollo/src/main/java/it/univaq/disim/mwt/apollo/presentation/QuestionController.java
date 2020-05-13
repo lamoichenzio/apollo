@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
-import it.univaq.disim.mwt.apollo.business.impl.QuestionGroupServiceImpl;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.QuestionGroupRepository;
-import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
@@ -34,45 +31,50 @@ public class QuestionController {
 	
 	@Autowired
 	private QuestionService questionService;
-	
 
 	@Autowired
 	private QuestionGroupService questionGroupService;
+	
 	
 	/** CREATE **/
 	
 	
 	@GetMapping("/choicequestion/create")
-	public String createChoiceStart(@RequestParam String id, Model model) {
+	public String createChoiceStart(@RequestParam String group_id, @RequestParam ChoiceType type, Model model) throws BusinessException {
 		ChoiceQuestion question = new ChoiceQuestion();
+		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
+		
+		question.setQuestionGroup(group);
+		question.setChoiceType(type);
+
 		model.addAttribute("question", question);
-		model.addAttribute("group_id", id);		
+		model.addAttribute("group", group);	
+		
+		List<String> optionList = new ArrayList<>();
+		optionList.add("");
+
+		model.addAttribute("optionList", optionList);
+		model.addAttribute("type", type);
+
 		return "/common/surveys/components/questions/modals/choice_question_modal :: questionChoiceForm";
 	}
 	
 
 	@PostMapping("/choicequestion/create")
-	public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, @ModelAttribute("group_id") String id, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
-			System.out.println("ERROR: " + errors.toString());
 			return "/choicequestion/form";
 		}
 		
-		// TEMPORANEI
-		
-		List<String> options = new ArrayList<>();
-		options.add("Option 1");
-		options.add("Option 2");
-		options.add("Option 3");
-		question.setOptions(options);
-		question.setType(ChoiceType.RADIO);
-
-		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
-		question.setQuestionGroup(group);
-		System.out.println("I'M HERE");
-	
+		// Create question
 		questionService.createQuestion(question);
-		return "redirect:/surveys/detail?id="+ question.getQuestionGroup().getSurvey().getId();
+		
+		// Update group
+		QuestionGroup group = question.getQuestionGroup();
+		group.addQuestion(question);
+		questionGroupService.updateQuestionGroup(group);
+		
+		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
 	
 	@GetMapping("/inputquestion/create")

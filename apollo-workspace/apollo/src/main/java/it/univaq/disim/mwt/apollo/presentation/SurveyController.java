@@ -20,7 +20,6 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 
 @Controller
 @RequestMapping("/surveys")
@@ -49,13 +48,6 @@ public class SurveyController {
 		return "/common/surveys/detail";
 	}
 	
-//	@GetMapping("/create")
-//	public String createStart(Model model) {
-//		Survey survey = new Survey();
-//		model.addAttribute("survey", survey);
-//		return "/common/surveys/form";
-//	}
-	
 	@GetMapping("/create")
 	public String createStart(Model model) {
 		Survey survey = new Survey();
@@ -78,7 +70,8 @@ public class SurveyController {
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
-			return "survey/dashboard";
+			System.out.println(errors.toString());
+			return "/surveys/dashboard";
 		}
 		User user = Utility.getUser();
 		survey.setUser(user);

@@ -1,6 +1,7 @@
 <!-- MODAL NEW CHOICE QUESTION -->
 <div class="modal fade" id="modal-new-choice-question" tabindex="-1"
 	role="dialog" aria-hidden="true" th:fragment="questionChoiceForm">
+
 	<div class="modal-dialog modal-dialog-centered modal" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -17,8 +18,11 @@
 			<form id="question_choice_form"
 				th:action="@{/questions/choicequestion/create}"
 				th:object="${question}" class="form-horizontal" method="post">
-				<input type="hidden" name="group_id" th:value="${group_id}">
 
+				<input type="hidden" name="questionGroup" th:value="${group}" th:field="*{questionGroup}">
+				
+				<input type="hidden" name="choiceType" th:value="${type}" th:field="*{choiceType}">
+				
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12">
@@ -40,32 +44,49 @@
 
 					<div class="row">
 						<div class="col-md-12">
-
+	
 							<!-- OPTIONS TEXT -->
-							<label class="form-control-label">Options:</label>
+							<label class="form-control-label" th:text="#{question.options}"></label>
 
 							<!-- Option have to be placed here -->
-
+							
 							<!-- OPTIONS BLOCK -->
-							<div class="row form-group">
-								<div class="col-11">
-									<input class="form-control" type="text"
-										placeholder="Write an option">
-								</div>
-								<!-- DELETE BUTTON -->
-								<div class="col-1 align-self-center">
-									<i class="far fa-trash text-danger"></i>
-								</div>
+							<div id="options_container">
+								
+								<!-- update choice question -->
+								<th:block th:if="${question.options != null}">
+									<!--  option  -->
+									<th:block th:each="option : ${question.options}">
+										<div id="choice_option" th:replace="common/surveys/components/questions/modals/dynamics_options/choice_option.html :: option"></div>
+									</th:block>
+									
+								</th:block>
+								
+								<!-- new choice question -->
+								<th:block th:unless="${question.options != null}">
+								
+									<th:block th:each="option : ${optionList}">
+										<div id="choice_option" th:replace="common/surveys/components/questions/modals/dynamics_options/choice_option.html :: option"></div>
+									</th:block>	
+									
+									<input type="hidden" name="options" th:value="${optionList}" th:field="*{options}">
+									
+									bbb						
+								</th:block>
+
 							</div>
 
 
 							<!-- ADD BUTTON BLOCK -->
 							<div class="row justify-content-center align-items-center">
-								<button type="button"
-									class="btn btn-sm btn-soft-primary btn-icon rounded-pill">
+								<button 
+									type="button"
+									class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
+									th:onclick="javascript:addOption()">
 									<span class="btn-inner--icon">
 										<i class="far fa-plus"></i>
 									</span>
+									
 									<!-- ADD OPTION BUTTON -->
 									<span class="btn-inner--text">Add Option</span>
 								</button>
@@ -77,6 +98,8 @@
 				<div class="modal-footer">
 					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger">Cancel</button>
 					<button type="submit" class="btn btn-sm btn-primary rounded-pill">Save</button>
+					<!--  <button type="submit" class="btn btn-sm btn-primary rounded-pill" th:onClick="javascript:submitChoiceQuestion(event)">Save</button>-->
+					
 				</div>
 
 			</form>

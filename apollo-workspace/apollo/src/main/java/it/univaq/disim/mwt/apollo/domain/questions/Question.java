@@ -30,7 +30,7 @@ public abstract class Question {
 	private File file;
 	
 	@NotNull
-	@DBRef
+	@DBRef(lazy = true)
 	private QuestionGroup questionGroup;
 	
 	public abstract String getType();

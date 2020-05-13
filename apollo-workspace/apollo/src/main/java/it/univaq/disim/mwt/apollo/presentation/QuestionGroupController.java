@@ -50,10 +50,17 @@ public class QuestionGroupController {
 			
 			return "group/form";
 		}
-		service.createQuestionGroup(group);
+		
 		Survey survey = surveyService.findSurveyById(id);
+		
+		// Create group
+		group.setSurvey(survey);
+		service.createQuestionGroup(group);
+		
+		// Update survey
 		survey.addQuestionGroup(group);
 		surveyService.updateSurvey(survey);
+		
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}
 	

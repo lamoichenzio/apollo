@@ -1,0 +1,12 @@
+<!-- OPTIONS BLOCK -->
+<div id="choice_option" class="row form-group" th:fragment="option">
+	<div class="col-11">
+		<input class="form-control" type="text" th:value="${option}" placeholder="Write an option">
+	</div>
+	<!-- DELETE BUTTON -->
+	<div class="col-1 align-self-center">
+		<a href="#" th:onclick="javascript:deleteOption(event)">
+			<i class="far fa-trash text-danger"></i>
+		</a>
+	</div>
+</div>

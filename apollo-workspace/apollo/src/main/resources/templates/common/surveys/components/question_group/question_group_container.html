@@ -47,8 +47,9 @@
 
 					<div class="col-12 mt-4 mb-0">
 						<div class="row justify-content-md-center align-items-center">
-
-							<a th:onClick="javascript:openChoicheQuestionModal([[${groupInfo.id}]])">
+							
+							<!-- Radio Question -->
+							<a th:onClick="javascript:openChoicheQuestionModal([[${groupInfo.id}]],[[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]])">
 								<div
 									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
 									<div class="col-12 align-self-center">
@@ -63,10 +64,10 @@
 									</div>
 								</div>
 							</a>
-
-							<a href="#modal-choice-question" data-toggle="modal">
-								<div
-									class="row question-selector justify-content-md-center hover-scale-110 mx-2">
+							
+							<!-- Check Question -->
+							<a href="#" th:onClick="javascript:openChoicheQuestionModal([[${groupInfo.id}]],[[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}]])">
+								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2">
 									<div class="col-12 align-self-center">
 										<div class="col-12">
 											<img alt="Radio Question"

@@ -16,6 +16,8 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import lombok.AccessLevel;
@@ -43,7 +45,9 @@ public class Survey {
 	@CreatedDate
 	private Date creationDate;
 	
+	@DateTimeFormat(iso=ISO.DATE)
 	private Date startDate;
+	@DateTimeFormat(iso=ISO.DATE)
 	private Date endDate;
 	
 	//@Indexed(unique=true)

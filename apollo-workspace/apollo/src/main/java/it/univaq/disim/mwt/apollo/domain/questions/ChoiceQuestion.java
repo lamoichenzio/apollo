@@ -8,10 +8,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,8 +18,7 @@ import lombok.Getter;
 public class ChoiceQuestion extends Question {
 	
 	@NotNull
-	@Getter(AccessLevel.NONE)
-	private ChoiceType type;
+	private ChoiceType choiceType;
 	
 	@NotNull
 	@ElementCollection
@@ -31,7 +28,7 @@ public class ChoiceQuestion extends Question {
 	
 	@Override
 	public String getType() {
-		return type.toString();
+		return choiceType.toString();
 	}
 	
 }

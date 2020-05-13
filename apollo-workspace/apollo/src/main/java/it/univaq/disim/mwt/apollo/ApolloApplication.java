@@ -94,13 +94,13 @@ public class ApolloApplication {
             surveyRepository.save(survey);
             
             // CHOICE QUESTION
-            ChoiceQuestion question = new ChoiceQuestion();
-            question.setTitle("Test question");
-            question.setType(ChoiceType.RADIO);
-            question.setOtherChoice(false);
-			List<String> options = Arrays.asList("Option 1", "Option 2"); 
-            question.setOptions(options);
-            choiceQuestionRepository.save(question);
+//            ChoiceQuestion question = new ChoiceQuestion();
+//            question.setTitle("Test question");
+//            question.setType(ChoiceType.RADIO);
+//            question.setOtherChoice(false);
+//			List<String> options = Arrays.asList("Option 1", "Option 2"); 
+//            question.setOptions(options);
+//            choiceQuestionRepository.save(question);
         };
     }
     
