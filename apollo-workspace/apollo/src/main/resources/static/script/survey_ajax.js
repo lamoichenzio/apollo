@@ -3,6 +3,11 @@
  *
  */
 
+const CHECK = 'CHECK';
+const RADIO = 'RADIO';
+
+var optionList = [];
+
  // Open modal request
 function openModalRequest(url, modalId) {
     $.ajax({
@@ -62,6 +67,10 @@ function openQuestionModal(url, type, modal_id, group_id) {
         success: function (response) {
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
+
+            if (type && (type == CHECK || type == RADIO)) {
+                setChoiceOptions();
+            }
         },
         error: function (e) {
             console.log('ERROR', e);
@@ -69,17 +78,50 @@ function openQuestionModal(url, type, modal_id, group_id) {
     });
 }
 
-
-function addOption() {
-    let optionItem = $("#choice_option").clone();
-    optionItem.removeAttr("id");
-    $("#options_container").append(optionItem);
+function setChoiceOptions() {
+    $('#options_container').children().each(function() {
+        optionList.push($(this));
+    });
 }
 
-function deleteOption(event) {
+function adjustChoiceOptions() {
+    let i = 0;
+    for (let item of optionList) {
+
+        item.attr("id", "choice_option_" + i);
+
+        let input_container = item.find('div[name ="input_container"]');
+        input_container.attr("id", "option-" + i);
+        input_container.find('input').attr("name", "options[" + i + "]");
+        input_container.find('input').attr("id", "options" + i);
+
+        item.find('div[name ="delete_container"]').find('a').attr("id", "delete_choice_" + i);
+        item.find('div[name ="delete_container"]').find('a').attr('onclick','deleteOption(event, ' + i + ')');
+    
+        i += 1;
+    }
+}
+
+function addOption() {
+    let item = optionList[0].clone();
+    item.find('div[name ="input_container"]').find('input').val("");
+
+    optionList.push(item);
+    adjustChoiceOptions();
+    $("#options_container").append(optionList);
+}
+
+function deleteOption(event, index) {
     event.preventDefault();
-    let optionItem = $(event.target).parent().parent().parent();
-    $(optionItem).remove();
+
+    if (optionList.length == 1) {
+        alert("You cannot delete the first element");
+    } else {
+        optionList[index].remove();
+        optionList.splice(index, 1);
+        adjustChoiceOptions();
+    }
+
 }
 
 

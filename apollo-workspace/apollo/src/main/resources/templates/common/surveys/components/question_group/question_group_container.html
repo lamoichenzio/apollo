@@ -14,7 +14,19 @@
 			<div th:each="question : *{groupInfo.questions}">
 			
 			<!-- DA SISTEMARE -->
-			
+
+			<!-- Choice Question-->
+			<!-- <th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
+				<div 
+					th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
+					th:replace="common/surveys/components/questions/single_choice.html :: question(question=${question})">
+				</div>
+				<div 
+					th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
+					th:replace="common/surveys/components/questions/multi_choice.html :: question(question=${question})">
+				</div>
+			</th:block> -->
+
 			<!-- <div th:replace="common/surveys/components/questions/single_choice.html :: question(question=${question})"></div> -->				
 			
 				<span>[[${question.title}]]</p>>

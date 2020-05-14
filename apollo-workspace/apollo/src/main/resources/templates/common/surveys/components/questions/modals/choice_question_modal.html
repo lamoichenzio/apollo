@@ -24,6 +24,7 @@
 				<input type="hidden" name="choiceType" th:value="${type}" th:field="*{choiceType}">
 				
 				<div class="modal-body">
+
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
@@ -41,37 +42,34 @@
 						</div>
 					</div>
 
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="otherChoice" class="form-control-label"
+									th:text="#{question.otherChoice}"></label>
+								<input type="checkbox" th:field="*{otherChoice}" class="form-control"/>
+								<span th:if="${#fields.hasErrors('otherChoice')}"
+									th:each="err: ${#fields.errors('otherChoice')}" th:utext="${err}"></span>
+							</div>
+						</div>
+					</div>
+
 
 					<div class="row">
 						<div class="col-md-12">
 	
 							<!-- OPTIONS TEXT -->
 							<label class="form-control-label" th:text="#{question.options}"></label>
-
-							<!-- Option have to be placed here -->
 							
 							<!-- OPTIONS BLOCK -->
 							<div id="options_container">
 								
-								<!-- update choice question -->
-								<th:block th:if="${question.options != null}">
+								<th:block th:if="${question.options != null && question.options.size() > 0}">
 									<!--  option  -->
-									<th:block th:each="option : ${question.options}">
+									<th:block th:each="option, stat : ${question.options}">
 										<div id="choice_option" th:replace="common/surveys/components/questions/modals/dynamics_options/choice_option.html :: option"></div>
 									</th:block>
-									
-								</th:block>
-								
-								<!-- new choice question -->
-								<th:block th:unless="${question.options != null}">
-								
-									<th:block th:each="option : ${optionList}">
-										<div id="choice_option" th:replace="common/surveys/components/questions/modals/dynamics_options/choice_option.html :: option"></div>
-									</th:block>	
-									
-									<input type="hidden" name="options" th:value="${optionList}" th:field="*{options}">
-									
-									bbb						
+
 								</th:block>
 
 							</div>
@@ -94,11 +92,12 @@
 
 						</div>
 					</div>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger">Cancel</button>
 					<button type="submit" class="btn btn-sm btn-primary rounded-pill">Save</button>
-					<!--  <button type="submit" class="btn btn-sm btn-primary rounded-pill" th:onClick="javascript:submitChoiceQuestion(event)">Save</button>-->
+					<!--  <button type="submit" class="btn btn-sm btn-primary rounded-pill" th:onClick="submitChoiceQuestion(event)">Save</button>-->
 					
 				</div>
 

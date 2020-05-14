@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
-import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
@@ -46,12 +45,15 @@ public class QuestionController {
 		ChoiceQuestion question = new ChoiceQuestion();
 		
 		question.setChoiceType(type);
+		List<String> optionList = new ArrayList<>();
+		optionList.add("");
+
+		question.setOptions(optionList);
 
 		model.addAttribute("question", question);
 		model.addAttribute("group_id", group_id);	
 		
-		List<String> optionList = new ArrayList<>();
-		optionList.add("");
+
 
 		model.addAttribute("optionList", optionList);
 		model.addAttribute("type", type);
