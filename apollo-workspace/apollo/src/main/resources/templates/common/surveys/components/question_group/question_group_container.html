@@ -25,10 +25,10 @@
 				<!-- If Input Question -->
 				<th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}">
 					<th:block th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}">
-						<div th:replace="common/surveys/components/questions/text_input.html :: question(question=${question}, stat=${stat})"></div>
+						<div th:replace="common/surveys/components/questions/text_input.html :: inputQuestion(question=${question}, stat=${stat})"></div>
 					</th:block>
 					<th:block th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}">
-						<div th:replace="common/surveys/components/questions/text_area_input.html :: question(question=${question}, stat=${stat})"></div>
+						<div th:replace="common/surveys/components/questions/text_area_input.html :: areaQuestion(question=${question}, stat=${stat})"></div>
 					</th:block>
 				</th:block>
 			
@@ -57,6 +57,7 @@
 					<div class="col-12 mt-4 mb-0">
 						<div class="row justify-content-md-center align-items-center">
 
+							<!-- Single choice question -->
 							<a th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]],
 							'#modal-new-choice-question', [[${groupInfo.id}]])">
 								<div
@@ -74,7 +75,7 @@
 								</div>
 							</a>
 							
-							<!-- Check Question -->
+							<!-- Multi choice question -->
 							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}]],
 							'#modal-new-choice-question', [[${groupInfo.id}]])">
 								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2">

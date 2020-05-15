@@ -50,9 +50,9 @@ function openQuestionGroupModal(url, modal_id, survey_id) {
 }
 
 // Oper question modal
-function openQuestionModal(url, type, modal_id, group_id) {
+function openQuestionModal(url, type, modal_id, request_param) {
 
-    let request = { "group_id" : group_id };
+    let request = getRequestByUrl(url, request_param);
 
     type != null ? request.type = type : null;
 
@@ -68,15 +68,26 @@ function openQuestionModal(url, type, modal_id, group_id) {
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
 
+            // Choice question
             if (type && (type == CHECK || type == RADIO)) {
-                optionList = optionList.length > 0 ? [] : optionList;
-                setChoiceOptions();
+                setChoiceQuestionAttr(url);
             }
         },
         error: function (e) {
             console.log('ERROR', e);
         }
     });
+}
+
+function setChoiceQuestionAttr(url) {
+    let splitted_url = url.split('/');
+
+    if (splitted_url[splitted_url.length - 1] == 'update') {
+        splitted_url[splitted_url.length - 1] = 'update';
+        $('#question_choice_form').attr("action", splitted_url.join('/'));
+    }
+    optionList = optionList.length > 0 ? [] : optionList;
+    setChoiceOptions();
 }
 
 function setChoiceOptions() {
@@ -122,7 +133,22 @@ function deleteOption(event, index) {
         optionList.splice(index, 1);
         adjustChoiceOptions();
     }
+}
 
+function getRequestByUrl(url, request_param) {
+    let url_splitted = url.split('/');
+
+    switch (url_splitted[url_splitted.length - 1]) {
+        case 'create':
+            return { group_id: request_param };
+        case 'update':
+            return { id: request_param };
+        case 'delete':
+            return { id: request_param };
+        default:
+            break;
+    }
+    return null;
 }
 
 
