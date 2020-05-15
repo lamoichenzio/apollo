@@ -69,6 +69,7 @@ function openQuestionModal(url, type, modal_id, group_id) {
             $(modal_id).modal("show");
 
             if (type && (type == CHECK || type == RADIO)) {
+                optionList = optionList.length > 0 ? [] : optionList;
                 setChoiceOptions();
             }
         },

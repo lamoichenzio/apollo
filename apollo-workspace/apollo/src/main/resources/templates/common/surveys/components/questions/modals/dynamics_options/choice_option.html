@@ -1,7 +1,7 @@
 <!-- OPTIONS BLOCK -->
 <div th:id="'choice_option_' + ${stat.index}" class="row form-group" th:fragment="option">
 	<div th:id="'option-' + ${stat.index}" name="input_container" class="col-11">
-		<input class="form-control" type="text" th:value="${option}" th:field="*{options[__${stat.index}__]}" th:placeholder="#{question.optionplaceholder}">
+		<input class="form-control" type="text" th:value="${option}" th:field="*{options[__${stat.index}__]}" th:placeholder="#{question.optionplaceholder}" required>
 	</div>
 	<!-- DELETE BUTTON -->
 	<div name="delete_container" class="col-1 align-self-center">

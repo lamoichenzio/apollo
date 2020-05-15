@@ -1,26 +1,31 @@
 <!-- SINGLE CHOICE QUESTION -->
-<div class="col-12">
+<div class="col-12" th:fragment="singleChoice">
+
 	<div class="row align-items-center mx-0 justify-content-center">
-		<div class="col-1"></div>
-		<div class="col-8 card border shadow-none p-3">
-			<form>
-				<div>
-					<label class="form-control-label">Input text Question</label>
-					<div class="custom-control custom-radio">
-						<input type="radio" id="customRadio1" name="customRadio"
-							class="custom-control-input"> <label
-							class="custom-control-label" for="customRadio1">Toggle
-							this custom radio</label>
-					</div>
-					<div class="custom-control custom-radio">
-						<input type="radio" id="customRadio2" name="customRadio"
-							class="custom-control-input"> <label
-							class="custom-control-label" for="customRadio2">Or toggle
-							this other custom radio</label>
-					</div>
-				</div>
-			</form>
+		
+		<!-- TITLE -->
+		<div class="col-10 card border shadow-none p-3">
+			<h6 class="mb-0" th:text="${stat.index +1} + '. ' + ${question.title}"></h6>
 		</div>
+
+		<div class="col-1 card border-0 shadow-none"></div>
+
+		<!-- OPTIONS -->
+		<div class="col-10 card border shadow-none p-3">					
+
+			<div th:each="option, stat : ${question.options}" class="custom-control custom-radio">
+				<input type="radio" th:id="'customRadio' + ${stat.index}" name="customRadio" class="custom-control-input">
+				<label class="custom-control-label" th:for="'customRadio'+${stat.index}" th:text="${option}"></label>
+			</div>
+
+			<!-- Other -->
+			<div th:if="${question.otherChoice}" class="custom-control custom-checkbox">
+				<input type="text" class="custom-control-input" id="other_choice" th:placeholder="#{question.otherchoiceplaceholder}"> 
+				<label class="custom-control-label" for="other_choice" th:text="#{question.otherChoice}"></label>
+			</div>
+
+		</div>
+		
 		<div class="col-1 card border-0 shadow-none bg-gray-100">
 			<div class="dropdown" data-toggle="dropdown">
 				<a href="#" class="action-item" role="button" data-toggle="dropdown"

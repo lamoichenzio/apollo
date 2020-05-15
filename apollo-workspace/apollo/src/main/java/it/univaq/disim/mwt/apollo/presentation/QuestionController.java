@@ -1,6 +1,7 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -43,19 +44,13 @@ public class QuestionController {
 	@GetMapping("/choicequestion/create")
 	public String createChoiceStart(@RequestParam String group_id, @RequestParam ChoiceType type, Model model) throws BusinessException {
 		ChoiceQuestion question = new ChoiceQuestion();
-		
-		question.setChoiceType(type);
-		List<String> optionList = new ArrayList<>();
-		optionList.add("");
+		List<String> optionList = Arrays.asList("");
 
 		question.setOptions(optionList);
+		question.setChoiceType(type);
 
 		model.addAttribute("question", question);
 		model.addAttribute("group_id", group_id);	
-		
-
-
-		model.addAttribute("optionList", optionList);
 		model.addAttribute("type", type);
 
 		return "/common/surveys/components/questions/modals/choice_question_modal :: questionChoiceForm";
@@ -64,7 +59,8 @@ public class QuestionController {
 	@PostMapping("/choicequestion/create")
 	public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, @ModelAttribute("group_id") String group_id, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
-			return "/choicequestion/form";
+			return "/common/surveys/components/questions/modals/choice_question_modal :: questionChoiceForm";
+//			return "redirect:/surveys/detail?id=" + group.getSurvey().getId()+"&error=true";
 		}
 		
 		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);

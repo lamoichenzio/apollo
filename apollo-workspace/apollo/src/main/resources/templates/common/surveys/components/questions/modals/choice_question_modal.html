@@ -29,10 +29,10 @@
 							<div class="form-group">
 
 								<!-- QUESTION TEXT -->
-								<label class="form-control-label" th:text="#{question.title}">Question:</label>
+								<label class="form-control-label" th:text="#{question.title}"></label>
 								<textarea class="form-control" data-toggle="autosize"
 									th:placeholder="#{question.titleplaceholder}"
-									rows="1" th:field="*{title}"></textarea>
+									rows="1" th:field="*{title}" required></textarea>
 								<span th:if="${#fields.hasErrors('title')}"
 									th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
 
