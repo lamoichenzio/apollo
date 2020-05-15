@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
@@ -92,12 +93,13 @@ public class QuestionController {
 
 	@PostMapping("/inputquestion/create")
 	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors,
-			@ModelAttribute("group_id") String id) throws BusinessException {
+			@ModelAttribute("group_id") String id, @RequestParam("questionfile")MultipartFile file) throws BusinessException {
 		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
 		if (errors.hasErrors()) {
+			log.error(errors.toString());
 			return "redirect:/surveys/detail?id=" + group.getSurvey().getId()+"&error=true";
 		}
-		questionService.createQuestion(question);
+		questionService.createQuestion(question, file);
 		group.addQuestion(question);
 		questionGroupService.updateQuestionGroup(group);
 		questionService.updateQuestion(question);

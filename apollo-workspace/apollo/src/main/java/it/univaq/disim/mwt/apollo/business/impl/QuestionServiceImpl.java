@@ -1,11 +1,17 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
@@ -101,22 +107,30 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public void createQuestion(ChoiceQuestion question) throws BusinessException {
+	public void createQuestion(ChoiceQuestion question, MultipartFile file) throws BusinessException {
 		choiceQuestionRepository.save(question);
 	}
 
 	@Override
-	public void createQuestion(InputQuestion question) throws BusinessException {
-		inputQuestionRepository.save(question);
+	public void createQuestion(InputQuestion question, MultipartFile file) throws BusinessException {
+		try {
+			question.setCreationDate(new Date());
+			question.setFile(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+			inputQuestionRepository.save(question);
+		} catch (IOException e) {
+			throw new BusinessException(e);
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
-	public void createQuestion(MatrixQuestion question) throws BusinessException {
+	public void createQuestion(MatrixQuestion question, MultipartFile file) throws BusinessException {
 		matrixQuestionRepository.save(question);
 	}
 
 	@Override
-	public void createQuestion(SelectQuestion question) throws BusinessException {
+	public void createQuestion(SelectQuestion question, MultipartFile file) throws BusinessException {
 		selectQuestionRepository.save(question);
 	}
 

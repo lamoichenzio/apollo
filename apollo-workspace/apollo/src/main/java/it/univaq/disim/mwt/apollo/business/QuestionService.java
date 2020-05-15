@@ -2,6 +2,8 @@ package it.univaq.disim.mwt.apollo.business;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
@@ -27,10 +29,10 @@ public interface QuestionService {
 	MatrixQuestion findMatrixQuestionById(String id) throws BusinessException;
 	SelectQuestion findSelectQuestionById(String id) throws BusinessException;
 	
-	void createQuestion(ChoiceQuestion question) throws BusinessException;
-	void createQuestion(InputQuestion question) throws BusinessException;
-	void createQuestion(MatrixQuestion question) throws BusinessException;
-	void createQuestion(SelectQuestion question) throws BusinessException;
+	void createQuestion(ChoiceQuestion question, MultipartFile file) throws BusinessException;
+	void createQuestion(InputQuestion question, MultipartFile file) throws BusinessException;
+	void createQuestion(MatrixQuestion question, MultipartFile file) throws BusinessException;
+	void createQuestion(SelectQuestion question, MultipartFile file) throws BusinessException;
 	
 	void updateQuestion(ChoiceQuestion question) throws BusinessException;
 	void updateQuestion(InputQuestion question) throws BusinessException;
