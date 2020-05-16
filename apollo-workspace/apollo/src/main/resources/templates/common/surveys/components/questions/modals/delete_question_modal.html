@@ -1,0 +1,42 @@
+<!-- MODAL NEW CHOICE QUESTION -->
+<div class="modal fade" id="modal-delete-question" tabindex="-1" role="dialog" aria-hidden="true"
+    th:fragment="questionDelete">
+
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="modal-title align-items-center">
+                    <div>
+                        <!-- MODAL TITLE -->
+                        <h6 class="mb-0" th:text="#{question.delete}"></h6>
+                    </div>
+                </div>
+            </div>
+
+            <form id="question_choice_form" th:action="@{/questions/choicequestion/delete}" th:object="${question}"
+                class="form-horizontal" method="post">
+
+                <!-- update case -->
+                <input type="hidden" name="id" th:value="${question.id}" th:fields="*{id}" />
+
+                <input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}" />
+
+                <div class="modal-body">
+
+					<div class="row">
+						<div class="col-md-12">
+							<span class="form-control-label" th:text="#{question.deletemessage}"></span>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
+					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.confirm}"></button>					
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>
