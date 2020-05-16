@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.business;
+package it.univaq.disim.mwt.apollo.business.exceptions;
 
 @SuppressWarnings("serial")
 public class BusinessException extends Exception{

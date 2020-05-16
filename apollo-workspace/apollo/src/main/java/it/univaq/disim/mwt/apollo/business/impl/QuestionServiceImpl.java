@@ -13,10 +13,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.exceptions.QuestionFileException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InputQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MatrixQuestionRepository;
@@ -24,6 +25,7 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SelectQuestio
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
 
 @Service
@@ -106,72 +108,148 @@ public class QuestionServiceImpl implements QuestionService{
 		return selectQuestionRepository.findById(id).get();
 	}
 
-	@Override
-	public void createQuestion(ChoiceQuestion question, MultipartFile file) throws BusinessException {
-		choiceQuestionRepository.save(question);
-	}
+//	@Override
+//	public void createQuestion(ChoiceQuestion question, MultipartFile file) throws BusinessException {
+//		try {
+//			setQuestionFields(question, file);
+//			choiceQuestionRepository.save(question);
+//		}catch(DataAccessException e) {
+//			throw new BusinessException(e);
+//		} catch (IOException e) {
+//			throw new QuestionFileException(e);
+//		}
+//	}
+//
+//	@Override
+//	public void createQuestion(InputQuestion question, MultipartFile file) throws BusinessException {
+//		try {
+//			setQuestionFields(question, file);
+//			inputQuestionRepository.save(question);
+//		} catch (IOException e) {
+//			throw new QuestionFileException(e);
+//		} catch (DataAccessException e) {
+//			throw new BusinessException(e);
+//		}
+//	}
+//
+//	@Override
+//	public void createQuestion(MatrixQuestion question, MultipartFile file) throws BusinessException {
+//		matrixQuestionRepository.save(question);
+//	}
+//
+//	@Override
+//	public void createQuestion(SelectQuestion question, MultipartFile file) throws BusinessException {
+//		try {
+//			
+//			selectQuestionRepository.save(question);
+//		}
+//	}
+//
+//	@Override
+//	public void updateQuestion(ChoiceQuestion question) throws BusinessException {
+//		choiceQuestionRepository.save(question);
+//	}
+//
+//	@Override
+//	public void updateQuestion(InputQuestion question) throws BusinessException {
+//		inputQuestionRepository.save(question);
+//	}
+//
+//	@Override
+//	public void updateQuestion(MatrixQuestion question) throws BusinessException {
+//		matrixQuestionRepository.save(question);
+//	}
+//
+//	@Override
+//	public void updateQuestion(SelectQuestion question) throws BusinessException {
+//		selectQuestionRepository.save(question);
+//	}
+//
+//	@Override
+//	public void deleteQuestion(ChoiceQuestion question) throws BusinessException {
+//		choiceQuestionRepository.delete(question);
+//	}
+//
+//	@Override
+//	public void deleteQuestion(InputQuestion question) throws BusinessException {
+//		inputQuestionRepository.delete(question);
+//	}
+//
+//	@Override
+//	public void deleteQuestion(MatrixQuestion question) throws BusinessException {
+//		matrixQuestionRepository.delete(question);
+//	}
+//
+//	@Override
+//	public void deleteQuestion(SelectQuestion question) throws BusinessException {
+//			selectQuestionRepository.delete(question);
+//	}
 
 	@Override
-	public void createQuestion(InputQuestion question, MultipartFile file) throws BusinessException {
+	public void createQuestion(Question question, MultipartFile file) throws BusinessException {
 		try {
 			question.setCreationDate(new Date());
 			question.setFile(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-			inputQuestionRepository.save(question);
-		} catch (IOException e) {
-			throw new BusinessException(e);
-		} catch (DataAccessException e) {
+			if(question instanceof InputQuestion) {
+				inputQuestionRepository.save((InputQuestion)question);
+			}
+			if(question instanceof ChoiceQuestion) {
+				choiceQuestionRepository.save((ChoiceQuestion)question);
+			}
+			if(question instanceof SelectQuestion) {
+				selectQuestionRepository.save((SelectQuestion)question);
+			}
+			if(question instanceof MatrixQuestion) {
+				matrixQuestionRepository.save((MatrixQuestion)question);
+			}
+		}catch(IOException e) {
+			throw new QuestionFileException(e);
+		}catch(DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}
 
 	@Override
-	public void createQuestion(MatrixQuestion question, MultipartFile file) throws BusinessException {
-		matrixQuestionRepository.save(question);
+	public void updateQuestion(Question question) throws BusinessException {
+		try {
+			question.setCreationDate(new Date());
+			if(question instanceof InputQuestion) {
+				inputQuestionRepository.save((InputQuestion)question);
+			}
+			if(question instanceof ChoiceQuestion) {
+				choiceQuestionRepository.save((ChoiceQuestion)question);
+			}
+			if(question instanceof SelectQuestion) {
+				selectQuestionRepository.save((SelectQuestion)question);
+			}
+			if(question instanceof MatrixQuestion) {
+				matrixQuestionRepository.save((MatrixQuestion)question);
+			}
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
-	public void createQuestion(SelectQuestion question, MultipartFile file) throws BusinessException {
-		selectQuestionRepository.save(question);
+	public void deleteQuestion(Question question) throws BusinessException {
+		try {
+			if(question instanceof InputQuestion) {
+				inputQuestionRepository.delete((InputQuestion)question);
+			}
+			if(question instanceof ChoiceQuestion) {
+				choiceQuestionRepository.delete((ChoiceQuestion)question);
+			}
+			if(question instanceof SelectQuestion) {
+				selectQuestionRepository.delete((SelectQuestion)question);
+			}
+			if(question instanceof MatrixQuestion) {
+				matrixQuestionRepository.delete((MatrixQuestion)question);
+			}
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
-	@Override
-	public void updateQuestion(ChoiceQuestion question) throws BusinessException {
-		choiceQuestionRepository.save(question);
-	}
-
-	@Override
-	public void updateQuestion(InputQuestion question) throws BusinessException {
-		inputQuestionRepository.save(question);
-	}
-
-	@Override
-	public void updateQuestion(MatrixQuestion question) throws BusinessException {
-		matrixQuestionRepository.save(question);
-	}
-
-	@Override
-	public void updateQuestion(SelectQuestion question) throws BusinessException {
-		selectQuestionRepository.save(question);
-	}
-
-	@Override
-	public void deleteQuestion(ChoiceQuestion question) throws BusinessException {
-		choiceQuestionRepository.delete(question);
-	}
-
-	@Override
-	public void deleteQuestion(InputQuestion question) throws BusinessException {
-		inputQuestionRepository.delete(question);
-	}
-
-	@Override
-	public void deleteQuestion(MatrixQuestion question) throws BusinessException {
-		matrixQuestionRepository.delete(question);
-	}
-
-	@Override
-	public void deleteQuestion(SelectQuestion question) throws BusinessException {
-			selectQuestionRepository.delete(question);
-	}
+	
 
 }
