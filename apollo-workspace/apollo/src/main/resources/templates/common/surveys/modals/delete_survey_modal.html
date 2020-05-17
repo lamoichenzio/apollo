@@ -1,43 +1,47 @@
 <!-- MODAL NEW CHOICE QUESTION -->
-<div class="modal fade" id="modal-delete-survey" tabindex="-1" role="dialog" aria-hidden="true"
-    th:fragment="surveyDelete">
+<html xmlns:th="http://www.thymeleaf.org">
 
-    <div class="modal-dialog modal-dialog-centered modal" role="document">
-        <div class="modal-content">
+<body>
+    <div class="modal fade" id="modal-delete-survey" tabindex="-1" role="dialog" aria-hidden="true"
+        th:fragment="surveyDelete">
 
-            <div class="modal-header">
-                <div class="modal-title align-items-center">
-                    <div>
-                        <!-- MODAL TITLE -->
-                        <h6 class="mb-0" th:text="#{survey.delete}"></h6>
-                    </div>
-                </div>
-            </div>
+        <div class="modal-dialog modal-dialog-centered modal" role="document">
+            <div class="modal-content">
 
-            <form id="question_choice_form" th:action="@{/surveys/delete}" th:object="${survey}"
-                class="form-horizontal" method="post">
-
-                <input type="hidden" name="id" th:value="${survey.id}" th:fields="*{id}" />
-
-                <input type="hidden" name="groups" th:value="${survey.questionGroups}" th:field="*{questionGroups}" />
-
-                <div class="modal-body">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="form-control-label" th:text="#{survey.deletemessage}"></span>
+                <div class="modal-header">
+                    <div class="modal-title align-items-center">
+                        <div>
+                            <!-- MODAL TITLE -->
+                            <h6 class="mb-0" th:text="#{survey.delete}"></h6>
                         </div>
                     </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
-                        th:text="#{common.cancel}"></button>
-                    <button type="submit" class="btn btn-sm btn-primary rounded-pill"
-                        th:text="#{common.confirm}"></button>
                 </div>
 
-            </form>
+                <form id="question_choice_form" th:action="@{/surveys/delete}"
+                    class="form-horizontal" method="post">
+
+                    <input type="hidden" name="survey_id" th:value="${survey_id}" />
+
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="form-control-label" th:text="#{survey.deletemessage}"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+                            th:text="#{common.cancel}"></button>
+                        <button type="submit" class="btn btn-sm btn-primary rounded-pill"
+                            th:text="#{common.confirm}"></button>
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</body>
+
+</html>
