@@ -75,10 +75,9 @@
 									"sortable": false,
 									"defaultContent": "",
 									"render": function (data, type, row, meta) {
-									return "<a href='[(@{/surveys/detail})]?id=" + row.id +
-									"'><i class='fas fa-edit'></i></a>" + " | " +
-									"<a href='[(@{/surveys/delete})]?id=" + row.id +
-									"'><i class='fas fa-trash'></a>";
+									return '<a href="[(@{/surveys/detail})]?id=' + row.id + '" data-toggle="tooltip" title="Update"><i class="fas fa-edit"></i></a>'
+									 + ' | ' +
+									'<a href="#" data-toggle="tooltip" title="Delete" onclick="getSurveyRequest(\'\/apollo\/surveys\/delete\', \'#modal-delete-survey\', \'' + row.id + '\')"><i class="fas fa-trash"></a>';
 									}
 								}	
 								],

@@ -39,7 +39,7 @@
 					<div class="col text-right">
 						<div class="actions">
 							<a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip" title="Update"
-								data-target="#actions-update" th:onclick="getSurveyRequest([[@{/surveys/update}]], null)">
+								data-target="#actions-update" th:onclick="getSurveyRequest([[@{/surveys/update}]], null, null)">
 								<i class="far fa-save"></i>
 							</a>
 							<a href="#" class="action-item mr-3" data-action="search-open"
@@ -47,7 +47,7 @@
 								<i class="far fa-cog"></i>
 							</a>
 							<a href="#" class="action-item mr-3" data-action="delete-open" data-toggle="tooltip" title="Delete"
-								data-target="#actions-deletem" th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey')">
+								data-target="#actions-delete" th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">
 								<i class="far fa-trash text-danger"></i>
 							</a>
 						</div>
