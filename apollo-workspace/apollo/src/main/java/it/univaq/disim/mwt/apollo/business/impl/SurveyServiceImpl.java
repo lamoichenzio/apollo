@@ -1,7 +1,5 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
