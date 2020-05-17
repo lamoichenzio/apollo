@@ -81,17 +81,17 @@ public class ApolloApplication {
             utenteRepository.save(standardUser);
             
             // SURVEY
-            Survey survey = new Survey();
-            survey.setName("Test");
-            survey.setDescription("Test");
-            survey.setUser(standardUser);
-            Date now = new Date();
-            survey.setStartDate(now);
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(now);
-            cal.add(Calendar.DATE, 7);
-            survey.setEndDate(cal.getTime());
-            surveyRepository.save(survey);
+//            Survey survey = new Survey();
+//            survey.setName("Test");
+//            survey.setDescription("Test");
+//            survey.setUser(standardUser);
+//            Date now = new Date();
+//            survey.setStartDate(now);
+//            Calendar cal = Calendar.getInstance();
+//            cal.setTime(now);
+//            cal.add(Calendar.DATE, 7);
+//            survey.setEndDate(cal.getTime());
+//            surveyRepository.save(survey);
             
             // CHOICE QUESTION
 //            ChoiceQuestion question = new ChoiceQuestion();

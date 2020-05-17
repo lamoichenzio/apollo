@@ -1,5 +1,7 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -13,12 +15,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import it.univaq.disim.mwt.apollo.business.BusinessException;
+import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -28,6 +32,9 @@ public class SurveyServiceImpl implements SurveyService {
 
 	@Autowired
 	SurveyRepository surveyRepository;
+	
+	@Autowired
+	QuestionGroupService questionGroupService;
 
 	@Override
 	public List<Survey> findAllSurveys() throws BusinessException {
@@ -96,6 +103,11 @@ public class SurveyServiceImpl implements SurveyService {
 
 	@Override
 	public void deleteSurvey(Survey survey) throws BusinessException {
+		
+		Iterable<QuestionGroup> groups = (Iterable<QuestionGroup>)survey.getQuestionGroups();
+		System.out.println(survey.getQuestionGroups().toString());
+
+		questionGroupService.deleteQuestionGroupList(groups);
 		surveyRepository.delete(survey);
 	}
 

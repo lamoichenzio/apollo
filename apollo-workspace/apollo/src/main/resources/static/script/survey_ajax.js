@@ -8,6 +8,52 @@ const RADIO = 'RADIO';
 
 var optionList = [];
 
+function getSurveyRequest(url, modal_id) {
+    event.preventDefault();
+    let survey_id = getUrlParameter('id');
+    let request = { id: survey_id };
+
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: request,
+        dataType: 'html',
+        contentType: 'text/html; charset=UTF-8',
+        cache: false,
+        timeout: 10000,
+        success: function (response) {
+            $("#modal_holder").html(response);
+            $(modal_id).modal("show");
+        },
+        error: function (e) {
+            console.log('ERROR', e);
+        }
+    });
+}
+
+// Open question modal
+function submitSurveyRequest(url) {
+    event.preventDefault();
+    let survey_id = getUrlParameter('id');
+
+    let request = {
+        id: survey_id,
+        name: $("#survey_name").val(),
+        description: $("#survey_desc").val()
+    };
+
+    $.post(
+        url,
+        request,
+        function (response) {
+            location.reload(true);            
+        }
+    ).fail(function (response) {
+        alert('Error: ' + response.responseText);
+    });
+
+}
+
  // Open modal request
 function openModalRequest(url, modalId) {
     $.ajax({
@@ -49,7 +95,7 @@ function openQuestionGroupModal(url, modal_id, survey_id) {
     });
 }
 
-// Oper question modal
+// Open question modal
 function openQuestionModal(url, type, modal_id, request_param) {
 
     let request = getRequestByUrl(url, request_param);
@@ -127,7 +173,10 @@ function deleteOption(event, index) {
     event.preventDefault();
 
     if (optionList.length == 1) {
-        alert("You cannot delete the first element");
+        $('#option_error').find('span').show();
+        setTimeout(function() {
+            $('#option_error').find('span').hide();
+        }, 2000);
     } else {
         optionList[index].remove();
         optionList.splice(index, 1);
@@ -154,45 +203,6 @@ function getRequestByUrl(url, request_param) {
 
 
 //
-// function submitChoicheQuestion(event) {
-//
-//     $("#modal-new-choice-question").submit(function (event) {
-//         event.preventDefault();
-//
-//         let request = $("#question_choice_form").serialize();
-//         let postUrl = $("#question_choice_form").attr("action");
-//
-//         $.post(
-//             postUrl,
-//             request,
-//             function (response) {
-//                 $("#modal_question_holder").html(response);
-//                 $("#modal-new-choice-question").modal("show");
-//             }
-//         );
-//         return false;
-//     });
-// }
-//
-//
-// function openSurveyModal() {
-//     $.ajax({
-//         type: "GET",
-//         url: "/apollo/surveys/create",
-//         dataType: 'html',
-//         contentType: 'text/html; charset=UTF-8',
-//         cache: false,
-//         timeout: 600000,
-//         success: function (response) {
-//             $("#modal_holder").html(response);
-//             $("#modal-create-new-survey").modal("show");
-//         },
-//         error: function (e) {
-//             console.log('ERROR', e);
-//         }
-//     });
-// }
-//
 // function submitSurvey(event) {
 //     $("#modal-create-new-survey").submit(function (event) {
 //         event.preventDefault();
@@ -214,27 +224,6 @@ function getRequestByUrl(url, request_param) {
 // }
 //
 //
-// function openQuestionGroupModal(url, survey_id) {
-//     console.log(url);
-//     $.ajax({
-//         type: "GET",
-//         url: url,
-//         data: {
-//           'id': survey_id
-//         },
-//         dataType: 'html',
-//         contentType: 'text/html; charset=UTF-8',
-//         cache: false,
-//         timeout: 600000,
-//         success: function (response) {
-//             $("#modal_holder").html(response);
-//             $("#modal-create-new-group").modal("show");
-//         },
-//         error: function (e) {
-//             console.log('ERROR', e);
-//         }
-//     });
-// }
 //
 //
 // function submitQuestionGroup(event) {
@@ -258,17 +247,17 @@ function getRequestByUrl(url, request_param) {
 // }
 //
 //
-// var getUrlParameter = function getUrlParameter(sParam) {
-//     let sPageURL = window.location.search.substring(1),
-//         sURLVariables = sPageURL.split('&'),
-//         sParameterName,
-//         i;
-//
-//     for (i = 0; i < sURLVariables.length; i++) {
-//         sParameterName = sURLVariables[i].split('=');
-//
-//         if (sParameterName[0] === sParam) {
-//             return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-//         }
-//     }
-// };
+var getUrlParameter = function getUrlParameter(sParam) {
+    let sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};

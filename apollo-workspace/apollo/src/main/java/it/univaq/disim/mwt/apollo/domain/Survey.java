@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -37,11 +38,14 @@ public class Survey {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
+	@NotNull
 	@Indexed
 	@Size(max = 50)
 	private String name;
 	
+	@NotNull
 	private String description;
+	
 	private File icon;
 	private boolean secret;
 	private boolean active;

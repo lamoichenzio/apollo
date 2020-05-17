@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.disim.mwt.apollo.business.BusinessException;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
+import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.QuestionGroupRepository;
-import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 
 @Service
@@ -21,6 +22,9 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 	
 	@Autowired
 	QuestionGroupRepository questionGroupRepository;
+	
+	@Autowired
+	QuestionService questionService;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -80,6 +84,20 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 		try {			
 			questionGroupRepository.deleteById(id);
 		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
+	}
+	
+	@Override
+	public void deleteQuestionGroupList(Iterable<? extends QuestionGroup> entities) throws BusinessException {
+		try {
+			Iterator<QuestionGroup> iter = (Iterator<QuestionGroup>)entities.iterator();
+			
+			while(iter.hasNext()) {
+				// TODO: Delete all questions of a group
+			}
+			questionGroupRepository.deleteAll(entities);
+		} catch(DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}
