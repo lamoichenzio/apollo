@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.TypeAlias;
@@ -31,6 +31,7 @@ public class QuestionGroup {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
+	@NotNull
 	@Size(max=100)
 	private String title;
 	

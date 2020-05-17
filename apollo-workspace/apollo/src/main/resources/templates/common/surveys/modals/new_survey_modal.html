@@ -3,7 +3,6 @@
 <!-- MODAL NEW SURVEY -->
 <div class="modal fade" id="modal-create-new-survey" tabindex="-1" role="dialog" aria-hidden="true"
      th:fragment="surveyForm">
-    <script th:src="@{/script/survey_ajax.js}"></script>
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 
@@ -38,37 +37,28 @@
                     <div class="form-group">
                         <label for="secret" class="form-control-label"
                                th:text="#{survey.secret}"></label>
-                        <input type="checkbox" th:field="*{secret}" class="form-control"/>
+                        <input type="checkbox" name="secret" th:field="*{secret}" class="form-control"/>
                         <span th:if="${#fields.hasErrors('secret')}"
                               th:each="err: ${#fields.errors('secret')}" th:utext="${err}"></span>
                     </div>
                     
                     <!--  DATE -->
-                  	<div class="form-group row">
-						<label for="codice" class="col-sm-2 col-form-label" th:text="#{survey.startDate}"></label>
-						<div class="col-sm-6">
-							<input type="date" th:field="*{startDate}" class="form-control"/>
-							<span th:if="${#fields.hasErrors('startDate')}" th:each="err: ${#fields.errors('startDate')}" th:utext="${err}"></span>
-						</div>
+                  	<div class="form-group">
+						<label for="startDate" class="form-control-label" th:text="#{survey.startDate}"></label>
+                        <input type="date" name="startDate" th:field="*{startDate}" class="form-control col-sm-6"/>
+                        <span th:if="${#fields.hasErrors('startDate')}" th:each="err: ${#fields.errors('startDate')}" th:utext="${err}"></span>
 					</div>
-					<div class="form-group row">
-						<label for="codice" class="col-sm-2 col-form-label" th:text="#{survey.endDate}"></label>
-						<div class="col-sm-6">
-							<input type="date" th:field="*{endDate}" class="form-control"/>
-							<span th:if="${#fields.hasErrors('endDate')}" th:each="err: ${#fields.errors('endDate')}" th:utext="${err}"></span>
-						</div>
+					<div class="form-group">
+						<label for="endDate" class="form-control-label" th:text="#{survey.endDate}"></label>
+                        <input type="date" name="endDate" th:field="*{endDate}" class="form-control col-sm-6"/>
+                        <span th:if="${#fields.hasErrors('endDate')}" th:each="err: ${#fields.errors('endDate')}" th:utext="${err}"></span>
 					</div>	   	 
                 </div>
 
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-link text-danger"
-                            data-dismiss="modal">Cancel
-                    </button>
-
-                    <button id="survey_submit" type="submit"
-                            class="btn btn-sm btn-primary rounded-pill"
-                            th:text="#{common.submit}"></button>
+                    <button type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">[[#{common.cancel}]]</button>
+                    <button id="survey_submit" type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
                 </div>
 
             </form>

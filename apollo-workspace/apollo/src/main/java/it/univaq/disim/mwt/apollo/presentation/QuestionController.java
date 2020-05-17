@@ -173,7 +173,6 @@ public class QuestionController {
 	@GetMapping("/choicequestion/update")
 	public String updateStartChoice(@RequestParam String id, Model model) throws BusinessException {
 		ChoiceQuestion question = questionService.findChoiceQuestionById(id);
-		System.out.println(question.toString());
 		model.addAttribute("question", question);
 		return "/common/surveys/components/questions/modals/choice_question_modal :: questionChoiceForm";
 	}
