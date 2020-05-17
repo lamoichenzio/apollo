@@ -16,15 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/surveys")
@@ -105,10 +102,12 @@ public class SurveyController {
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@RequestParam("survey_id") String id) throws BusinessException {
-		log.info(id);
-		Survey survey = surveyService.findSurveyById(id);
-		surveyService.deleteSurvey(survey);
+	public String delete(@ModelAttribute("survey") Survey survey) throws BusinessException {
+		System.out.println(survey.getQuestionGroups().toString());
+		Survey s = surveyService.findSurveyById(survey.getId());
+		System.out.println(s.getQuestionGroups().toString());
+
+//		surveyService.deleteSurvey(survey);
 		return "redirect:/surveys/dashboard";
 	}
 

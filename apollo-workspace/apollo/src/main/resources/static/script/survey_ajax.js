@@ -8,10 +8,10 @@ const RADIO = 'RADIO';
 
 var optionList = [];
 
-function getSurveyRequest(url, modal_id) {
+function getSurveyRequest(url, modal_id, param) {
     event.preventDefault();
-    let survey_id = getUrlParameter('id');
-    let request = { id: survey_id };
+
+    let request = { id: param };
 
     $.ajax({
         type: "GET",
