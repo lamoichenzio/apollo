@@ -60,18 +60,18 @@ public class SurveyServiceImpl implements SurveyService {
 	public ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid requestGrid, User user)
 			throws BusinessException {
 		Survey survey = new Survey();
-
 		survey.setName(requestGrid.getSearch().getValue());
 		survey.setUser(user);
 
 		ExampleMatcher matcher = ExampleMatcher.matchingAll()
-				.withMatcher("name", GenericPropertyMatchers.ignoreCase());
-//				.withMatcher("user", GenericPropertyMatchers.exact());
+				.withMatcher("name", GenericPropertyMatchers.ignoreCase())
+				.withIgnoreNullValues();
 		Example<Survey> example = Example.of(survey, matcher);
 
 		Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
 		Page<Survey> page = surveyRepository.findAll(example, pageable);
 		page.getContent().forEach(item -> {
+			log.info("qui");
 			log.info(item.toString());
 		});
 		
@@ -103,7 +103,6 @@ public class SurveyServiceImpl implements SurveyService {
 	public void deleteSurvey(Survey survey) throws BusinessException {
 		
 		Iterable<QuestionGroup> groups = (Iterable<QuestionGroup>)survey.getQuestionGroups();
-		System.out.println(survey.getQuestionGroups().toString());
 
 		questionGroupService.deleteQuestionGroupList(groups);
 		surveyRepository.delete(survey);

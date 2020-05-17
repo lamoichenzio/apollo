@@ -25,6 +25,7 @@ import it.univaq.disim.mwt.apollo.domain.User;
 
 @Controller
 @RequestMapping("/surveys")
+@Slf4j
 public class SurveyController {
 	
 	@Autowired
@@ -94,9 +95,8 @@ public class SurveyController {
 	
 	@GetMapping("/delete")
 	public String delete(@RequestParam String id, Model model) throws BusinessException {
-		Survey survey = surveyService.findSurveyById(id);
-
-		model.addAttribute("survey", survey);
+		//Survey survey = surveyService.findSurveyById(id);
+		model.addAttribute("survey_id", id);
 		return "/common/surveys/modals/delete_survey_modal :: surveyDelete";
 
 	}
