@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import it.univaq.disim.mwt.apollo.business.AnswerService;
-import it.univaq.disim.mwt.apollo.business.BusinessException;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;

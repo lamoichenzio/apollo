@@ -16,9 +16,11 @@
 						</div>
 					</div>
 				</div>
-				<form id="inputQuestionForm" action="#" th:action="@{/questions/inputquestion/create}" th:object="${inputquestion}"
-					method="post">
-					<input type="hidden" name="group_id" th:value="${group_id}" />
+				<form id="inputQuestionForm" action="#" th:action="@{/questions/inputquestion/create}"
+					th:object="${inputquestion}" method="post" enctype="multipart/form-data">
+					<input type="hidden" th:field="*{questionGroup}" />
+					<!-- update case -->
+					<input th:if="${inputquestion.id != null}" type="hidden" th:fields="*{id}" />
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-md-12">
@@ -27,8 +29,16 @@
 									<label for="title" class="form-control-label"
 										th:text="#{question.title}">Question:</label>
 									<input type="text" th:field="*{title}" class="form-control" data-toggle="autosize"
-										th:placeholder="#{question.titleplaceholder}" required size="255" maxlength="255" />
+										th:placeholder="#{question.titleplaceholder}" required size="255"
+										maxlength="255" />
 
+								</div>
+								<div>
+									<input type="file" name="questionfile" id="file-1" class="custom-input-file" />
+									<label for="questionfile">
+										<i class="fa fa-upload"></i>
+										<span>Choose a file…</span>
+									</label>
 								</div>
 								<div class="form-group">
 									<!-- QUESTION TYPES -->
