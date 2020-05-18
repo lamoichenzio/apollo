@@ -14,11 +14,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.univaq.disim.mwt.apollo.business.QuestionFileService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.exceptions.QuestionFileException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InputQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MatrixQuestionRepository;
@@ -27,7 +27,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionFile;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
 
 @Service
@@ -35,16 +35,19 @@ import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
 public class QuestionServiceImpl implements QuestionService{
 
 	@Autowired
-	ChoiceQuestionRepository choiceQuestionRepository;
+	private ChoiceQuestionRepository choiceQuestionRepository;
 	
 	@Autowired
-	InputQuestionRepository inputQuestionRepository;
+	private InputQuestionRepository inputQuestionRepository;
 	
 	@Autowired
-	MatrixQuestionRepository matrixQuestionRepository;
+	private MatrixQuestionRepository matrixQuestionRepository;
 	
 	@Autowired
-	SelectQuestionRepository selectQuestionRepository;
+	private SelectQuestionRepository selectQuestionRepository;
+	
+	@Autowired
+	private QuestionFileService questionFileService;
 	
 	@Override
 	public List<ChoiceQuestion> findAllChoiceQuestions() throws BusinessException {
@@ -114,7 +117,13 @@ public class QuestionServiceImpl implements QuestionService{
 	public void createQuestion(Question question, MultipartFile file) throws BusinessException {
 		try {
 			question.setCreationDate(new Date());
-			question.setFile(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+			if(file != null) {
+				QuestionFile questionFile = new QuestionFile();
+				questionFile.setName(file.getOriginalFilename());
+				questionFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				questionFileService.create(questionFile);
+				question.setFile(questionFile);
+			}
 			if(question instanceof InputQuestion) {
 				inputQuestionRepository.save((InputQuestion)question);
 			}
@@ -128,7 +137,7 @@ public class QuestionServiceImpl implements QuestionService{
 				matrixQuestionRepository.save((MatrixQuestion)question);
 			}
 		}catch(IOException e) {
-			throw new QuestionFileException(e);
+			throw new BusinessException(e);
 		}catch(DataAccessException e) {
 			throw new BusinessException(e);
 		}
@@ -158,6 +167,9 @@ public class QuestionServiceImpl implements QuestionService{
 	@Override
 	public void deleteQuestion(Question question) throws BusinessException {
 		try {
+			if(question.getFile()!=null) {
+				questionFileService.delete(question.getFile());
+			}
 			if(question instanceof InputQuestion) {
 				inputQuestionRepository.delete((InputQuestion)question);
 			}

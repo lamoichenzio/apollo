@@ -87,8 +87,8 @@ public class QuestionController {
 	}
 
 	@PostMapping("/choicequestion/update")
-	public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors,
-			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
+	public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors)
+			throws BusinessException {
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
 		}

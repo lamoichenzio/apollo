@@ -31,21 +31,6 @@ public interface QuestionService {
 	MatrixQuestion findMatrixQuestionById(String id) throws BusinessException;
 	SelectQuestion findSelectQuestionById(String id) throws BusinessException;
 	
-//	void createQuestion(ChoiceQuestion question, MultipartFile file) throws BusinessException;
-//	void createQuestion(InputQuestion question, MultipartFile file) throws BusinessException;
-//	void createQuestion(MatrixQuestion question, MultipartFile file) throws BusinessException;
-//	void createQuestion(SelectQuestion question, MultipartFile file) throws BusinessException;
-//	
-//	void updateQuestion(ChoiceQuestion question) throws BusinessException;
-//	void updateQuestion(InputQuestion question) throws BusinessException;
-//	void updateQuestion(MatrixQuestion question) throws BusinessException;
-//	void updateQuestion(SelectQuestion question) throws BusinessException;
-//	
-//	void deleteQuestion(ChoiceQuestion question) throws BusinessException;
-//	void deleteQuestion(InputQuestion question) throws BusinessException;
-//	void deleteQuestion(MatrixQuestion question) throws BusinessException;
-//	void deleteQuestion(SelectQuestion question) throws BusinessException;
-
 	void createQuestion(Question question, MultipartFile file) throws BusinessException;
 	void updateQuestion(Question question) throws BusinessException;
 	void deleteQuestion(Question question) throws BusinessException;

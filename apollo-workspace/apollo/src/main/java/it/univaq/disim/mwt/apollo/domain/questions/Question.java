@@ -13,7 +13,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -30,11 +29,12 @@ public abstract class Question {
 	@Size(max=255)
 	private String title;
 	
-	private Binary file;
-	
 	@CreatedDate
 	private Date creationDate;
 	
+	@DBRef(lazy = true)
+	private QuestionFile file;
+
 	@DBRef(lazy = true)
 	private QuestionGroup questionGroup;
 	
