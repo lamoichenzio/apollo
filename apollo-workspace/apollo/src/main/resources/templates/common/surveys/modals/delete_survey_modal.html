@@ -1,41 +1,37 @@
-<!-- MODAL NEW CHOICE QUESTION -->
-<html xmlns:th="http://www.thymeleaf.org">
+<div class="modal fade" id="modal-delete-survey" tabindex="-1" role="dialog" aria-hidden="true"
+    th:fragment="surveyDelete">
 
-<body>
-    <div class="modal fade" id="modal-delete-survey" tabindex="-1" role="dialog" aria-hidden="true"
-        th:fragment="surveyDelete">
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
 
             <div class="modal-header">
                 <div class="modal-title align-items-center">
                     <!-- MODAL TITLE -->
                     <h6 class="mb-0" th:text="#{survey.delete}"></h6>
                 </div>
-
-                <form id="question_choice_form" th:action="@{/surveys/delete}"
-                    class="form-horizontal" method="post">
-
-                    <input type="hidden" name="survey_id" th:value="${survey_id}" />
-
-                <input type="hidden" name="questionGroups" th:value="${survey.questionGroups}" th:field="*{questionGroups}" />
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <span class="form-control-label" th:text="#{survey.deletemessage}"></span>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
-                            th:text="#{common.cancel}"></button>
-                        <button type="submit" class="btn btn-sm btn-primary rounded-pill"
-                            th:text="#{common.confirm}"></button>
-                    </div>
-
-                </form>
             </div>
+
+            <form id="question_choice_form" th:action="@{/surveys/delete}"
+                class="form-horizontal" th:object="${survey_id}" method="post">
+
+                <input type="hidden" name="survey_id" th:value="${survey_id}" />
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="form-control-label" th:text="#{survey.deletemessage}"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+                        th:text="#{common.cancel}"></button>
+                    <button type="submit" class="btn btn-sm btn-primary rounded-pill"
+                        th:text="#{common.confirm}"></button>
+                </div>
+
+            </form>
         </div>
     </div>
-</body>
-
-</html>
+</div>

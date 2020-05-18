@@ -2,6 +2,7 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -26,6 +27,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
 
 @Service
@@ -246,6 +248,20 @@ public class QuestionServiceImpl implements QuestionService{
 				matrixQuestionRepository.delete((MatrixQuestion)question);
 			}
 		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
+	}
+	
+	@Override
+	public void deleteQuestionList(Iterable<? extends Question> entities) throws BusinessException {
+		try {
+			Iterator<Question> iter = (Iterator<Question>)entities.iterator();
+			
+			while(iter.hasNext()) {
+				deleteQuestion(iter.next());
+			}
+
+		} catch(DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}

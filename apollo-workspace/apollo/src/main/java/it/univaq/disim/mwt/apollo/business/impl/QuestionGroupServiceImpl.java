@@ -14,6 +14,7 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.QuestionGroupRepository;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 
 @Service
@@ -94,7 +95,13 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 			Iterator<QuestionGroup> iter = (Iterator<QuestionGroup>)entities.iterator();
 			
 			while(iter.hasNext()) {
-				// TODO: Delete all questions of a group
+				QuestionGroup group = iter.next();
+				
+				if (group.getQuestions() != null && group.getQuestions().size() > 0) {
+					Iterable<Question> questions = (Iterable<Question>)group.getQuestions();
+					questionService.deleteQuestionList(questions);
+				}
+
 			}
 			questionGroupRepository.deleteAll(entities);
 		} catch(DataAccessException e) {

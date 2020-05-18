@@ -22,6 +22,7 @@ import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/surveys")
@@ -95,19 +96,16 @@ public class SurveyController {
 	
 	@GetMapping("/delete")
 	public String delete(@RequestParam String id, Model model) throws BusinessException {
-		//Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey_id", id);
 		return "/common/surveys/modals/delete_survey_modal :: surveyDelete";
 
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@ModelAttribute("survey") Survey survey) throws BusinessException {
-		System.out.println(survey.getQuestionGroups().toString());
-		Survey s = surveyService.findSurveyById(survey.getId());
-		System.out.println(s.getQuestionGroups().toString());
-
-//		surveyService.deleteSurvey(survey);
+	public String delete(@ModelAttribute("survey_id") String id) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		surveyService.deleteSurvey(survey);
+		
 		return "redirect:/surveys/dashboard";
 	}
 

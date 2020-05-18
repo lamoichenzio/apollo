@@ -50,4 +50,6 @@ public interface QuestionService {
 	void updateQuestion(Question question) throws BusinessException;
 	void deleteQuestion(Question question) throws BusinessException;
 	
+	void deleteQuestionList(Iterable<? extends Question> entities) throws BusinessException;
+	
 }
