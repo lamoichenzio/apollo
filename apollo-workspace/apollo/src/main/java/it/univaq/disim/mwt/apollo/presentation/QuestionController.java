@@ -68,41 +68,41 @@ public class QuestionController {
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
 		}
-		
+
 		// Create question
 		questionService.createQuestion(question, file);
-		
+
 		// Update group
 		group.addQuestion(question);
 		questionGroupService.updateQuestionGroup(group);
 
 		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
-	
+
 	@GetMapping("/choicequestion/update")
 	public String updateStartChoice(@RequestParam String id, Model model) throws BusinessException {
 		ChoiceQuestion question = questionService.findChoiceQuestionById(id);
 		model.addAttribute("question", question);
 		return "/common/surveys/components/questions/modals/choice_question_modal :: questionChoiceForm";
 	}
-	
+
 	@PostMapping("/choicequestion/update")
-	public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors)
-			throws BusinessException {
+	public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors,
+			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
 		}
 		questionService.updateQuestion(question);
 		return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
 	}
-	
+
 	@GetMapping("/choicequestion/delete")
 	public String deleteChoiceStart(@RequestParam String id, Model model) throws BusinessException {
 		ChoiceQuestion question = questionService.findChoiceQuestionById(id);
 		model.addAttribute("question", question);
 		return "/common/surveys/components/questions/modals/delete_question_modal :: questionDelete";
 	}
-	
+
 	@PostMapping("/choicequestion/delete")
 	public String delete(@ModelAttribute("choicequestion") ChoiceQuestion question) throws BusinessException {
 		QuestionGroup group = question.getQuestionGroup();
@@ -128,12 +128,12 @@ public class QuestionController {
 		InputQuestion question = new InputQuestion();
 		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
 		question.setQuestionGroup(group);
-		model.addAttribute("inputquestion", question);
+		model.addAttribute("question", question);
 		return "/common/surveys/components/questions/modals/input_question_modal :: modal-input-question";
 	}
 
 	@PostMapping("/inputquestion/create")
-	public String create(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors,
+	public String create(@Valid @ModelAttribute("question") InputQuestion question, Errors errors,
 			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
 		QuestionGroup group = question.getQuestionGroup();
 		if (errors.hasErrors()) {
@@ -176,7 +176,7 @@ public class QuestionController {
 		questionService.deleteQuestion(question);
 		return "redirect:/common/form";
 	}
-	
+
 	/** MATRIX QUESTION **/
 
 	@GetMapping("/matrixquestion/create")
@@ -185,25 +185,24 @@ public class QuestionController {
 		model.addAttribute("matrixquestion", question);
 		return "/matrixquestion/form";
 	}
-	
+
 	@PostMapping("/matrixquestion/create")
 	public String create(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors,
-			@RequestParam("questionfile") MultipartFile file)
-			throws BusinessException {
+			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "/matrixquestion/form";
 		}
 		questionService.createQuestion(question, file);
 		return "redirect:/common/form";
 	}
-	
+
 	@GetMapping("/matrixquestion/update")
 	public String updateStartMatrix(@RequestParam String id, Model model) throws BusinessException {
 		MatrixQuestion question = questionService.findMatrixQuestionById(id);
 		model.addAttribute("matrixquestion", question);
 		return "/common/form";
 	}
-	
+
 	@PostMapping("/matrixquestion/update")
 	public String update(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors)
 			throws BusinessException {
@@ -213,14 +212,14 @@ public class QuestionController {
 		questionService.updateQuestion(question);
 		return "redirect:/common/form";
 	}
-	
+
 	@GetMapping("/matrixquestion/delete")
 	public String deleteMatrixStart(@RequestParam String id, Model model) throws BusinessException {
 		MatrixQuestion question = questionService.findMatrixQuestionById(id);
 		model.addAttribute("matrixquestion", question);
 		return "/common/form";
 	}
-	
+
 	@PostMapping("/matrixquestion/delete")
 	public String delete(@ModelAttribute("matrixquestion") MatrixQuestion question) throws BusinessException {
 		questionService.deleteQuestion(question);
@@ -228,7 +227,7 @@ public class QuestionController {
 	}
 
 	/** SELECT QUESTION **/
-	
+
 	@GetMapping("/selectquestion/create")
 	public String createSelectStart(Model model) {
 		SelectQuestion question = new SelectQuestion();
@@ -238,8 +237,7 @@ public class QuestionController {
 
 	@PostMapping("/selectquestion/create")
 	public String create(@Valid @ModelAttribute("selectquestion") SelectQuestion question, Errors errors,
-			@RequestParam("questionfile") MultipartFile file)
-			throws BusinessException {
+			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "/selectquestion/form";
 		}

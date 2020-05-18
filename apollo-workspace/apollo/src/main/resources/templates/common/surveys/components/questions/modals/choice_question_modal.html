@@ -1,6 +1,7 @@
+<html xmlns:th="http://www.thymeleaf.org">
 <!-- MODAL NEW CHOICE QUESTION -->
-<div class="modal fade" id="modal-new-choice-question" tabindex="-1"
-	role="dialog" aria-hidden="true" th:fragment="questionChoiceForm">
+<div class="modal fade" id="modal-new-choice-question" tabindex="-1" role="dialog" aria-hidden="true"
+	th:fragment="questionChoiceForm">
 
 	<div class="modal-dialog modal-dialog-centered modal" role="document">
 		<div class="modal-content">
@@ -14,17 +15,17 @@
 				</div>
 			</div>
 
-			<form id="question_choice_form"
-				th:action="@{/questions/choicequestion/create}"
-				th:object="${question}" class="form-horizontal" method="post">
+			<form id="question_choice_form" th:action="@{/questions/choicequestion/create}" th:object="${question}"
+				class="form-horizontal" method="post" enctype="multipart/form-data">
 
 				<!-- update case -->
-				<input th:if="${question.id != null}" type="hidden" name="id" th:value="${question.id}" th:fields="*{id}"/>
-				
-				<input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}"/>
+				<input th:if="${question.id != null}" type="hidden" name="id" th:value="${question.id}"
+					th:fields="*{id}" />
+
+				<input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}" />
 
 				<input type="hidden" name="choiceType" th:value="${question.choiceType}" th:field="*{choiceType}">
-				
+
 				<div class="modal-body">
 
 					<div class="row">
@@ -34,8 +35,8 @@
 								<!-- QUESTION TEXT -->
 								<label class="form-control-label" th:text="#{question.title}"></label>
 								<textarea class="form-control" data-toggle="autosize"
-									th:placeholder="#{question.titleplaceholder}"
-									rows="1" th:field="*{title}" required></textarea>
+									th:placeholder="#{question.titleplaceholder}" rows="1" th:field="*{title}"
+									required></textarea>
 								<span th:if="${#fields.hasErrors('title')}"
 									th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
 
@@ -43,7 +44,7 @@
 
 						</div>
 					</div>
-
+					
 					<div class="row">
 						<div class="col-md-12">
 							<div class="form-group">
@@ -55,8 +56,7 @@
 							</div>
 						</div>
 					</div>
-
-
+					<div th:replace="~{common/surveys/components/questions/input_file.html :: inputfile}"></div> 
 					<div class="row">
 						<div class="col-md-12">
 	
@@ -107,3 +107,4 @@
 		</div>
 	</div>
 </div>
+</html>

@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div th:fragment="inputfile">
+		<!-- <div th:if="${question.file == null}">
+			<input type="file" name="questionfile" th:value="${questionfile}"/>
+		</div>
+		<div th:if="${question.file != null}">
+			<input type="file" th:field="*{file}"  />
+			<label for="file">
+				<i class="fa fa-upload"></i>
+			</label>
+		</div> -->
+		<input type="file" name="questionfile" th:value="${questionfile}"/>
+	</div>
+</body>
+
+</html>
