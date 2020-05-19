@@ -5,6 +5,7 @@
 
 const CHECK = 'CHECK';
 const RADIO = 'RADIO';
+const SELECT = 'SELECT';
 
 var optionList = [];
 
@@ -100,7 +101,7 @@ function openQuestionModal(url, type, modal_id, request_param) {
 
     let request = getRequestByUrl(url, request_param);
 
-    type != null ? request.type = type : null;
+    type != null && type != SELECT ? request.type = type : null;
 
     $.ajax({
         type: "GET",
@@ -115,7 +116,10 @@ function openQuestionModal(url, type, modal_id, request_param) {
             $(modal_id).modal("show");
 
             // Choice question
-            if (type && (type == CHECK || type == RADIO)) {
+            if (type && (type == CHECK || type == RADIO || type == SELECT)) {
+                console.log(request);
+                console.log(type);
+                console.log(url);
                 setChoiceQuestionAttr(url);
             }
         },
