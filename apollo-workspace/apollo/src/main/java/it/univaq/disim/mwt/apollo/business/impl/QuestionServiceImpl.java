@@ -29,9 +29,11 @@ import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionFile;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class QuestionServiceImpl implements QuestionService{
 
 	@Autowired
@@ -117,7 +119,7 @@ public class QuestionServiceImpl implements QuestionService{
 	public void createQuestion(Question question, MultipartFile file) throws BusinessException {
 		try {
 			question.setCreationDate(new Date());
-			if(file != null) {
+			if(!file.isEmpty()) {
 				QuestionFile questionFile = new QuestionFile();
 				questionFile.setName(file.getOriginalFilename());
 				questionFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
