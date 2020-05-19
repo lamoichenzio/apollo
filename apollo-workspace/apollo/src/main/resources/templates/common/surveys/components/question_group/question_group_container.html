@@ -31,7 +31,7 @@
 						<div th:replace="common/surveys/components/questions/text_area_input.html :: areaQuestion(question=${question}, stat=${stat})"></div>
 					</th:block>
 				</th:block>
-			
+
 			</div>
 
 			<!-- ADD QUESTION BUTTON -->
@@ -74,7 +74,7 @@
 									</div>
 								</div>
 							</a>
-							
+
 							<!-- Multi choice question -->
 							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}]],
 							'#modal-new-choice-question', [[${groupInfo.id}]])">
