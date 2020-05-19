@@ -26,7 +26,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -40,7 +40,11 @@ public class QuestionController {
 	@Autowired
 	private QuestionGroupService questionGroupService;
 
-	/** CHOICE QUESTION **/
+	/** 
+	 * 
+	 * Choice Question 
+	 * 
+	 **/
 
 	@GetMapping("/choicequestion/create")
 	public String createChoiceStart(@RequestParam String group_id, @RequestParam ChoiceType type, Model model)
@@ -177,7 +181,11 @@ public class QuestionController {
 		return "redirect:/common/form";
 	}
 
-	/** MATRIX QUESTION **/
+	/** 
+	 * 
+	 * Matrix Question. 
+	 * 
+	 **/
 
 	@GetMapping("/matrixquestion/create")
 	public String createMatrixStart(Model model) {
@@ -226,53 +234,86 @@ public class QuestionController {
 		return "redirect:/common/form";
 	}
 
-	/** SELECT QUESTION **/
+	/** 
+	 * 
+	 * Selection Question. 
+	 * 
+	 **/
 
-	@GetMapping("/selectquestion/create")
-	public String createSelectStart(Model model) {
-		SelectQuestion question = new SelectQuestion();
-		model.addAttribute("selectquestion", question);
-		return "/selectquestion/form";
+	@GetMapping("/selectionquestion/create")
+	public String createSelectStart(@RequestParam String group_id, Model model) throws BusinessException {
+		SelectionQuestion question = new SelectionQuestion();
+		List<String> optionList = Arrays.asList("");
+
+		// Get question group
+		QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
+		
+		question.setQuestionGroup(group);
+		question.setOptions(optionList);
+
+		model.addAttribute("question", question);
+
+		return "/common/surveys/components/questions/modals/selection_question_modal :: questionSelectionForm";
 	}
 
-	@PostMapping("/selectquestion/create")
-	public String create(@Valid @ModelAttribute("selectquestion") SelectQuestion question, Errors errors,
+	@PostMapping("/selectionquestion/create")
+	public String create(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors,
 			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
+		QuestionGroup group = question.getQuestionGroup();
+
 		if (errors.hasErrors()) {
-			return "/selectquestion/form";
+			return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
 		}
+
+		// Create question
 		questionService.createQuestion(question, file);
-		return "redirect:/common/form";
+
+		// Update group
+		group.addQuestion(question);
+		questionGroupService.updateQuestionGroup(group);
+
+		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
 
-	@GetMapping("/selectquestion/update")
+	@GetMapping("/selectionquestion/update")
 	public String updateStartSelect(@RequestParam String id, Model model) throws BusinessException {
-		SelectQuestion question = questionService.findSelectQuestionById(id);
-		model.addAttribute("selectquestion", question);
-		return "/common/form";
+		SelectionQuestion question = questionService.findSelectionQuestionById(id);
+		model.addAttribute("question", question);
+		return "/common/surveys/components/questions/modals/selection_question_modal :: questionSelectionForm";
 	}
 
-	@PostMapping("/selectquestion/update")
-	public String update(@Valid @ModelAttribute("selectquestion") SelectQuestion question, Errors errors)
-			throws BusinessException {
+	@PostMapping("/selectionquestion/update")
+	public String update(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
-			return "/selectquestion/form";
+			return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
 		}
 		questionService.updateQuestion(question);
-		return "redirect:/common/form";
+		return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
 	}
 
-	@GetMapping("/selectquestion/delete")
+	@GetMapping("/selectionquestion/delete")
 	public String deleteSelectStart(@RequestParam String id, Model model) throws BusinessException {
-		SelectQuestion question = questionService.findSelectQuestionById(id);
-		model.addAttribute("selectquestion", question);
-		return "/common/form";
+		SelectionQuestion question = questionService.findSelectionQuestionById(id);
+		model.addAttribute("question", question);
+		return "/common/surveys/components/questions/modals/delete_question_modal :: questionDelete";
 	}
 
-	@PostMapping("/selectquestion/delete")
-	public String delete(@ModelAttribute("selectquestion") SelectQuestion question) throws BusinessException {
+	@PostMapping("/selectionquestion/delete")
+	public String delete(@ModelAttribute("question") SelectionQuestion question) throws BusinessException {
+		QuestionGroup group = question.getQuestionGroup();
+		Iterator<Question> iterator = group.getQuestions().iterator();
+
+		// Find and delete question from group question list
+		while (iterator.hasNext()) {
+			Question q = iterator.next();
+			if (q.getId().equals(question.getId())) {
+				group.getQuestions().remove(q);
+			}
+		}
 		questionService.deleteQuestion(question);
-		return "redirect:/common/form";
+		questionGroupService.updateQuestionGroup(group);
+
+		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
 
 }

@@ -1,0 +1,103 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- MODAL NEW SELECTION QUESTION -->
+<div class="modal fade" id="modal-new-selection-question" tabindex="-1" role="dialog" aria-hidden="true"
+    th:fragment="questionSelectionForm">
+
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="modal-title align-items-center">
+                    <div>
+                        <!-- MODAL TITLE -->
+                        <h6 class="mb-0" th:text="#{question.selectionquestion}"></h6>
+                    </div>
+                </div>
+            </div>
+
+            <form id="question_choice_form" th:action="@{/questions/selectionquestion/create}" th:object="${question}"
+                class="form-horizontal" method="post" enctype="multipart/form-data">
+
+                <!-- update case -->
+                <input th:if="${question.id != null}" type="hidden" name="id" th:value="${question.id}"
+                    th:fields="*{id}" />
+
+                <input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}" />
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                <!-- QUESTION TEXT -->
+                                <label class="form-control-label" th:text="#{question.title}"></label>
+                                <textarea class="form-control" data-toggle="autosize"
+                                    th:placeholder="#{question.titleplaceholder}" rows="1" th:field="*{title}"
+                                    required></textarea>
+                                <span th:if="${#fields.hasErrors('title')}"
+									th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
+
+							</div>
+
+						</div>
+					</div>
+					
+					
+					<div class="row">
+						<!-- Input file -->
+						<div class="col-8">
+							<div th:replace="~{common/surveys/components/questions/input_file.html :: inputfile}"></div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-12">
+							<!-- OPTIONS TEXT -->
+							<label class="form-control-label" th:text="#{question.options}"></label>
+							
+							<!-- OPTIONS BLOCK -->
+							<div id="options_container">
+								
+								<th:block th:if="${question.options != null && question.options.size() > 0}">
+									<!--  option  -->
+									<th:block th:each="option, stat : ${question.options}">
+										<div id="choice_option" th:replace="common/surveys/components/questions/modals/dynamics_options/choice_option.html :: option"></div>
+									</th:block>
+
+								</th:block>
+
+							</div>
+
+
+							<!-- ADD BUTTON BLOCK -->
+							<div class="row justify-content-center align-items-center">
+								<button 
+									type="button"
+									class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
+									th:onclick="addOption()">
+									<span class="btn-inner--icon">
+										<i class="far fa-plus"></i>
+									</span>
+									
+									<!-- ADD OPTION BUTTON -->
+									<span class="btn-inner--text">[[#{common.addoption}]]</span>
+								</button>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"th:text="#{common.cancel}"></button>	
+					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>	
+					<!--  <button type="submit" class="btn btn-sm btn-primary rounded-pill" th:onClick="submitChoiceQuestion(event)">Save</button>-->
+					
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+</html>

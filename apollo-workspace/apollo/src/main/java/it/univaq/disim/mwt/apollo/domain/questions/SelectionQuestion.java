@@ -14,8 +14,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection="Questions")
-@TypeAlias("SelectQuestion")
-public class SelectQuestion extends Question {
+@TypeAlias("SelectionQuestion")
+public class SelectionQuestion extends Question {
 	
 	@NotNull
 	@ElementCollection

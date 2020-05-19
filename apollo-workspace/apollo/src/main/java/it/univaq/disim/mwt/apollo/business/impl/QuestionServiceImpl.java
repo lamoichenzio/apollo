@@ -28,7 +28,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionFile;
-import it.univaq.disim.mwt.apollo.domain.questions.SelectQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 
 @Service
 @Transactional
@@ -65,7 +65,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public List<SelectQuestion> findAllSelectQuestions() throws BusinessException {
+	public List<SelectionQuestion> findAllSelectionQuestions() throws BusinessException {
 		return selectQuestionRepository.findAll();
 	}
 
@@ -88,7 +88,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public ResponseGrid<SelectQuestion> findAllSelectQuestionsPaginated(RequestGrid request) throws BusinessException {
+	public ResponseGrid<SelectionQuestion> findAllSelectionQuestionsPaginated(RequestGrid request) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -109,7 +109,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public SelectQuestion findSelectQuestionById(String id) throws BusinessException {
+	public SelectionQuestion findSelectionQuestionById(String id) throws BusinessException {
 		return selectQuestionRepository.findById(id).get();
 	}
 
@@ -130,8 +130,8 @@ public class QuestionServiceImpl implements QuestionService{
 			if(question instanceof ChoiceQuestion) {
 				choiceQuestionRepository.save((ChoiceQuestion)question);
 			}
-			if(question instanceof SelectQuestion) {
-				selectQuestionRepository.save((SelectQuestion)question);
+			if(question instanceof SelectionQuestion) {
+				selectQuestionRepository.save((SelectionQuestion)question);
 			}
 			if(question instanceof MatrixQuestion) {
 				matrixQuestionRepository.save((MatrixQuestion)question);
@@ -153,8 +153,8 @@ public class QuestionServiceImpl implements QuestionService{
 			if(question instanceof ChoiceQuestion) {
 				choiceQuestionRepository.save((ChoiceQuestion)question);
 			}
-			if(question instanceof SelectQuestion) {
-				selectQuestionRepository.save((SelectQuestion)question);
+			if(question instanceof SelectionQuestion) {
+				selectQuestionRepository.save((SelectionQuestion)question);
 			}
 			if(question instanceof MatrixQuestion) {
 				matrixQuestionRepository.save((MatrixQuestion)question);
@@ -176,8 +176,8 @@ public class QuestionServiceImpl implements QuestionService{
 			if(question instanceof ChoiceQuestion) {
 				choiceQuestionRepository.delete((ChoiceQuestion)question);
 			}
-			if(question instanceof SelectQuestion) {
-				selectQuestionRepository.delete((SelectQuestion)question);
+			if(question instanceof SelectionQuestion) {
+				selectQuestionRepository.delete((SelectionQuestion)question);
 			}
 			if(question instanceof MatrixQuestion) {
 				matrixQuestionRepository.delete((MatrixQuestion)question);
