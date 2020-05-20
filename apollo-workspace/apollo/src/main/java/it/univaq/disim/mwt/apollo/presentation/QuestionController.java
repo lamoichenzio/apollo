@@ -260,7 +260,6 @@ public class QuestionController {
 	public String create(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors,
 			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
 		QuestionGroup group = question.getQuestionGroup();
-
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
 		}
