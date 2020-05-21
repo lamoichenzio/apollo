@@ -30,7 +30,7 @@
 				</div>
 
 				<div class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-end">
-                	<a id="create_survey" href="#" th:onclick="openSurveyModalRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)"
+                	<a id="create_survey" href="#" th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)"
                    class="btn btn-sm btn-white btn-icon-only rounded-circle ml-4">
 						<span class="btn-inner--icon">
 							<i class="far fa-plus"></i>
@@ -79,7 +79,7 @@
 									"sortable": false,
 									"defaultContent": "",
 									"render": function (data, type, row, meta) {
-									return '<a href="#" data-toggle="tooltip" title="Edit" onclick="openSurveyModalRequest(\'\/apollo\/surveys\/update\', \'#modal-create-new-survey\',\'' + row.id + '\')"><i class="far fa-edit"></i></a>'
+									return '<a href="#" data-toggle="tooltip" title="Edit" onclick="getSurveyRequest(\'\/apollo\/surveys\/update\', \'#modal-create-new-survey\',\'' + row.id + '\')"><i class="far fa-edit"></i></a>'
 									 + ' | ' +
 									'<a href="#" data-toggle="tooltip" title="Delete" onclick="getSurveyRequest(\'\/apollo\/surveys\/delete\', \'#modal-delete-survey\', \'' + row.id + '\')"><i class="fas fa-trash"></a>';
 									}

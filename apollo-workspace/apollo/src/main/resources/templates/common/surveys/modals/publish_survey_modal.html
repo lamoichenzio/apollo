@@ -1,0 +1,50 @@
+<div class="modal fade" id="modal-publish-survey" tabindex="-1" role="dialog" aria-hidden="true"
+    th:fragment="surveyPublish">
+
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="modal-title align-items-center">
+                    <!-- MODAL TITLE -->
+                    <h6 class="mb-0">[[#{survey.publishtitle}]]</h6>
+                </div>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-11">
+                        <span class="form-control-label">[[#{common.publiclink}]]</span>
+                        <input id="urlId" type="text" class="form-control" th:value="${survey.urlId != null ? survey.urlId : ''}" th:placeholder="#{survey.publishplaceholder}" disabled="disabled"/>
+                    </div>
+                    <div class="col-1 mt-4 p-2">
+                        <a href="#" th:onclick="copyToClipboard('urlId')" title="Copy to clipboard"><i class="far fa-copy fa-2x"></i></a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-8 my-1">
+                        <div id="result_container">
+                            <div id="result_message" class="text-left justify-content-between text-xs text-muted mt-2">
+                                <span id="success_message" class="font-weight-bold text-success hidden">[[#{common.surveypublished}]]</span>
+                                <span id="error_message" class="font-weight-bold text-danger hidden">[[#{common.surveyalreadypublished}]]</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+                    th:text="#{common.cancel}"></button>
+                <button type="submit" class="btn btn-sm btn-primary rounded-pill"
+                    th:text="#{common.publish}" th:onclick="postSurveyRequest([[@{/surveys/publish}]], [[${survey}]])"></button>
+            </div>
+
+        </div>
+    </div>
+</div>

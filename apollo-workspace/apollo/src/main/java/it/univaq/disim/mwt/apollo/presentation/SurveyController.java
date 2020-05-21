@@ -1,10 +1,12 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,6 +23,7 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.SurveyResponseBody;
 import it.univaq.disim.mwt.apollo.domain.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,6 +53,43 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
 		return "/common/surveys/detail";
+	}
+	
+	@GetMapping("/publish")
+	public String publishStart(@RequestParam String id, Model model) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		model.addAttribute("survey", survey);
+		return "/common/surveys/modals/publish_survey_modal :: surveyPublish";
+	}
+	
+	@PostMapping("/publish")
+	public ResponseEntity<?> publish(@Valid @RequestBody Survey survey, Errors errors) throws BusinessException {
+
+		SurveyResponseBody result = new SurveyResponseBody();
+		
+        //If error, just return a 400 bad request, along with the error message
+        if (errors.hasErrors()) {
+
+            result.setMsg(errors.getAllErrors()
+                        .stream().map(x -> x.getDefaultMessage())
+                        .collect(Collectors.joining(",")));
+
+            return ResponseEntity.badRequest().body(result);
+
+        }
+        
+        if (survey.getUrlId() != null) {
+        	result.setMsg("Survey already published!");
+        } else {
+            String urlId = "/apollo/surveys/" + survey.getId();
+            survey.setUrlId(urlId);
+            survey.setActive(true);
+            surveyService.updateSurvey(survey);
+        }
+        
+        result.setResult(survey);
+
+        return ResponseEntity.ok(result);
 	}
 	
 	@GetMapping("/create")
@@ -85,10 +125,10 @@ public class SurveyController {
 	
 	@PostMapping("/update")
 	public String update(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
-		System.out.println(survey.toString());
 		if(errors.hasErrors()) {
 			return "redirect:/surveys/detail?id="+survey.getId() + "&erro=true";
 		}
+		
 		surveyService.updateSurvey(survey);
 
 		return "redirect:/surveys/detail?id="+survey.getId();

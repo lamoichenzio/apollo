@@ -11,7 +11,7 @@
                 </div>
             </div>
 
-            <form id="question_choice_form" th:action="@{/surveys/delete}"
+            <form id="survey_delete_form" th:action="@{/surveys/delete}"
                 class="form-horizontal" th:object="${survey_id}" method="post">
 
                 <input type="hidden" name="survey_id" th:value="${survey_id}" />
