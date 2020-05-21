@@ -34,17 +34,19 @@
 
 						<input id="survey_desc" type="text"
 							class="form-control form-control-flush form-control-xl p-0 text-primary"
-							placeholder="Enter a name for the survey" th:value="${survey.description}">
+							placeholder="Enter a description for the survey" th:value="${survey.description}" disabled="disabled">
 					</div>
+
+					<!-- Settings -->
 					<div class="col text-right">
 						<div class="actions">
 							<a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip" title="Update"
-								data-target="#actions-update" th:onclick="getSurveyRequest([[@{/surveys/update}]], null, null)">
-								<i class="far fa-save"></i>
+								data-target="#actions-update" th:onclick="openSurveyModalRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">
+								<i class="far fa-edit"></i>
 							</a>
 							<a href="#" class="action-item mr-3" data-action="search-open"
 								data-target="#actions-search">
-								<i class="far fa-cog"></i>
+								<i class="fas fa-share-square"></i>
 							</a>
 							<a href="#" class="action-item mr-3" data-action="delete-open" data-toggle="tooltip" title="Delete"
 								data-target="#actions-deletem" th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">

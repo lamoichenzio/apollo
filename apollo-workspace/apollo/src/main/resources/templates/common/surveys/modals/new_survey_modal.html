@@ -8,13 +8,17 @@
             <div class="modal-header">
                 <div class="modal-title align-items-center">
                     <!-- MODAL TITLE -->
-                    <h6 class="mb-0" th:text="#{survey.create}"></h6>
+                    <h6 th:if="${#request.getRequestURI().endsWith('create')}" class="mb-0" th:text="#{survey.create}"></h6>
+                    <h6 th:if="${#request.getRequestURI().endsWith('update')}" class="mb-0" th:text="#{survey.edit}"></h6>
                 </div>
             </div>
 
             <form id="survey_form" th:action="${#request.getRequestURI()}"
                   th:object="${survey}" class="form-horizontal" method="post">
 
+                <!-- update case -->
+                <input th:if="${survey.id != null}" type="hidden" name="id" th:value="${survey.id}" th:fields="*{id}" />
+                
                 <div class="modal-body">
 
                     <!-- TITLE -->
