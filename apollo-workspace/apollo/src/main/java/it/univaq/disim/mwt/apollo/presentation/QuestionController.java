@@ -110,22 +110,18 @@ public class QuestionController {
 	@PostMapping("/choicequestion/delete")
 	public String delete(@ModelAttribute("choicequestion") ChoiceQuestion question) throws BusinessException {
 		QuestionGroup group = question.getQuestionGroup();
-		Iterator<Question> iterator = group.getQuestions().iterator();
-
-		// Find and delete question from group question list
-		while (iterator.hasNext()) {
-			Question q = iterator.next();
-			if (q.getId().equals(question.getId())) {
-				group.getQuestions().remove(q);
-			}
-		}
 		questionService.deleteQuestion(question);
+		group.removeQuestion(question);
 		questionGroupService.updateQuestionGroup(group);
 
 		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
 
-	/** INPUT QUESTION **/
+	/** 
+	 * 
+	 * Input Question
+	 * 
+	 **/
 
 	@GetMapping("/inputquestion/create")
 	public String createInputStart(@RequestParam String group_id, Model model) throws BusinessException {
@@ -155,30 +151,34 @@ public class QuestionController {
 	public String updateStartInput(@RequestParam String id, Model model) throws BusinessException {
 		InputQuestion question = questionService.findInputQuestionById(id);
 		model.addAttribute("inputquestion", question);
-		return "/common/form";
+		return "/common/surveys/components/questions/modals/input_question_modal :: modal-input-question";
 	}
 
 	@PostMapping("/inputquestion/update")
 	public String update(@Valid @ModelAttribute("inputquestion") InputQuestion question, Errors errors)
 			throws BusinessException {
+		QuestionGroup group = question.getQuestionGroup();
 		if (errors.hasErrors()) {
-			return "/inputquestion/form";
+			return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
 		}
 		questionService.updateQuestion(question);
-		return "redirect:/common/form";
+		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
 
 	@GetMapping("/inputquestion/delete")
 	public String deleteInputStart(@RequestParam String id, Model model) throws BusinessException {
 		InputQuestion question = questionService.findInputQuestionById(id);
 		model.addAttribute("inputquestion", question);
-		return "/common/form";
+		return "/common/surveys/components/questions/modals/delete_question_modal :: questionDelete";
 	}
 
 	@PostMapping("/inputquestion/delete")
 	public String delete(@ModelAttribute("inputquestion") InputQuestion question) throws BusinessException {
+		QuestionGroup group = question.getQuestionGroup();
 		questionService.deleteQuestion(question);
-		return "redirect:/common/form";
+		group.removeQuestion(question);
+		questionGroupService.updateQuestionGroup(group);
+		return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
 	}
 
 	/** 
@@ -260,7 +260,6 @@ public class QuestionController {
 	public String create(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors,
 			@RequestParam("questionfile") MultipartFile file) throws BusinessException {
 		QuestionGroup group = question.getQuestionGroup();
-
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
 		}

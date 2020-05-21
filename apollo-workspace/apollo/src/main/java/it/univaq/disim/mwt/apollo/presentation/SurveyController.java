@@ -80,7 +80,7 @@ public class SurveyController {
 	public String updateStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
-		return "/common/form";
+		return "/common/surveys/modals/new_survey_modal :: surveyForm";
 	}
 	
 	@PostMapping("/update")

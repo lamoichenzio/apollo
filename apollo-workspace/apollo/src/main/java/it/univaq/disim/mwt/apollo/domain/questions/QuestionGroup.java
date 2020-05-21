@@ -48,5 +48,9 @@ public class QuestionGroup {
 		question.setQuestionGroup(this);
 		questions.add(question);
 	}
+	
+	public void removeQuestion(Question question) {
+		questions.remove(question);
+	}
 
 }

@@ -56,10 +56,13 @@ function submitSurveyRequest(url) {
 }
 
  // Open modal request
-function openModalRequest(url, modalId) {
+function openSurveyModalRequest(url, modalId, request_param) {
+    let request = getRequestByUrl(url, request_param, 'Survey');
+
     $.ajax({
         type: "GET",
         url: url,
+        data: request,
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
@@ -99,7 +102,7 @@ function openQuestionGroupModal(url, modal_id, survey_id) {
 // Open question modal
 function openQuestionModal(url, type, modal_id, request_param) {
 
-    let request = getRequestByUrl(url, request_param);
+    let request = getRequestByUrl(url, request_param, 'Question');
 
     type != null && type != SELECT ? request.type = type : null;
 
@@ -117,9 +120,6 @@ function openQuestionModal(url, type, modal_id, request_param) {
 
             // Choice question
             if (type && (type == CHECK || type == RADIO || type == SELECT)) {
-                console.log(request);
-                console.log(type);
-                console.log(url);
                 setChoiceQuestionAttr(url);
             }
         },
@@ -188,12 +188,14 @@ function deleteOption(event, index) {
     }
 }
 
-function getRequestByUrl(url, request_param) {
+function getRequestByUrl(url, request_param, model) {
     let url_splitted = url.split('/');
 
     switch (url_splitted[url_splitted.length - 1]) {
         case 'create':
-            return { group_id: request_param };
+            if (model == 'Survey') return {};
+            if (model == 'QuestionGroup') return { survey_id : request_param };
+            if (model == 'Question') return { group_id: request_param };
         case 'update':
             return { id: request_param };
         case 'delete':

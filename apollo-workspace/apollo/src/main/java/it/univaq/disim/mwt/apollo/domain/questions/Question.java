@@ -32,7 +32,6 @@ public abstract class Question {
 	@CreatedDate
 	private Date creationDate;
 	
-	@DBRef(lazy = true)
 	private QuestionFile file;
 
 	@DBRef(lazy = true)

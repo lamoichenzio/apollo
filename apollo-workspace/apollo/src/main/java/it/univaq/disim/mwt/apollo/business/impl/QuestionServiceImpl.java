@@ -1,6 +1,8 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -29,9 +31,11 @@ import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionFile;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
+@Slf4j
 public class QuestionServiceImpl implements QuestionService{
 
 	@Autowired
@@ -117,7 +121,10 @@ public class QuestionServiceImpl implements QuestionService{
 	public void createQuestion(Question question, MultipartFile file) throws BusinessException {
 		try {
 			question.setCreationDate(new Date());
-			if(file != null) {
+			if(file != null && !file.isEmpty()) {
+				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
+					throw new BusinessException("File format not valid: "+ file.getContentType());
+				}
 				QuestionFile questionFile = new QuestionFile();
 				questionFile.setName(file.getOriginalFilename());
 				questionFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));

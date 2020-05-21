@@ -18,9 +18,9 @@
                 class="form-horizontal" method="post">
 
                 <!-- update case -->
-                <input type="hidden" name="id" th:value="${question.id}" th:fields="*{id}" />
-
-                <input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}" />
+                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="*{file}" />
+                <input type="hidden" th:field="*{questionGroup}" />
 
                 <div class="modal-body">
 
