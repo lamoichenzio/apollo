@@ -13,30 +13,25 @@
 			<div class="col-12" th:each="question, stat : *{groupInfo.questions}">
 
 				<!-- If Choice Question -->
-				<th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
-					<th:block th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
+					<div th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
 						<div th:replace="/common/surveys/components/questions/single_choice.html :: singleChoice(question=${question}, stat=${stat})"></div>
-					</th:block>
-					<th:block th:unless="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+					</div>
+					<div th:unless="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
 						<div th:replace="/common/surveys/components/questions/multi_choice.html :: multiChoice(question=${question}, stat=${stat})"></div>
-					</th:block>
-				</th:block>
+					</div>
+				</div>
 
 				<!-- If Input Question -->
-				<th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}">
-					<th:block th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}">
-						<div th:replace="common/surveys/components/questions/text_input.html :: inputQuestion(question=${question}, stat=${stat})"></div>
-					</th:block>
-					<th:block th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}">
-						<div th:replace="common/surveys/components/questions/text_area_input.html :: areaQuestion(question=${question}, stat=${stat})"></div>
-					</th:block>
-				</th:block>
+				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}">
+					<div th:replace="common/surveys/components/questions/text_input.html :: inputQuestion(question=${question}, stat=${stat})"></div>
+				</div>
 
 				<!-- If Selection Question -->
-				<th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}">
+				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}">
 					<div th:replace="common/surveys/components/questions/select_choice.html :: selectionQuestion(question=${question}, stat=${stat})"></div>
-				</th:block>
-			
+				</div>
+
 			</div>
 
 			<!-- ADD QUESTION BUTTON -->

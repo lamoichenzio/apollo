@@ -134,7 +134,7 @@ function openQuestionModal(url, type, modal_id, request_param) {
 
     let request = getRequestByUrl(url, request_param, 'Question', 'get');
 
-    type != null && type != SELECT ? request.type = type : null;
+    type != null && type !== SELECT ? request.type = type : null;
 
     $.ajax({
         type: "GET",
@@ -149,7 +149,7 @@ function openQuestionModal(url, type, modal_id, request_param) {
             $(modal_id).modal("show");
 
             // Choice question
-            if (type && (type == CHECK || type == RADIO || type == SELECT)) {
+            if (type && (type === CHECK || type === RADIO || type === SELECT)) {
                 setChoiceQuestionAttr(url);
             }
         },
@@ -162,7 +162,7 @@ function openQuestionModal(url, type, modal_id, request_param) {
 function setChoiceQuestionAttr(url) {
     let splitted_url = url.split('/');
 
-    if (splitted_url[splitted_url.length - 1] == 'update') {
+    if (splitted_url[splitted_url.length - 1] === 'update') {
         splitted_url[splitted_url.length - 1] = 'update';
         $('#question_choice_form').attr("action", splitted_url.join('/'));
     }
