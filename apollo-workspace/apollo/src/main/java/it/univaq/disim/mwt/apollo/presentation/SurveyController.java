@@ -55,6 +55,13 @@ public class SurveyController {
 		return "/common/surveys/detail";
 	}
 	
+	@GetMapping("/overview")
+	public String overviewStart(@RequestParam String id, Model model) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		model.addAttribute("survey", survey);
+		return "/common/surveys/overview";
+	}
+	
 	@GetMapping("/publish")
 	public String publishStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);

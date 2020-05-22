@@ -17,7 +17,7 @@
 					class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
 					<!-- Page title + Go Back button -->
 					<div class="d-inline-block">
-						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">Projects</h5>
+						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[#{common.surveys}]]</h5>
 					</div>
 					<!-- Additional info -->
 					<div class="align-items-center ml-4 d-inline-flex">
@@ -69,18 +69,27 @@
 					"columns": [{ "data": "icon" },
 								{ "data": "name",
 									"render": function (data, type, row, meta) {
-										return '<a href="[(@{/surveys/detail})]?id=' + row.id + '">'+row.name+'</a>';
+										return '<a href="[(@{/surveys/overview})]?id=' + row.id + '" class="name mb-0 h6 text-md">'+row.name+'</a>';
 									}
 								},
-								{ "data": "active" },
-								{ "data": "creationDate" },
+								{ "data": "active",
+									"render": function (data, type, row, meta) {
+										return '<span class="badge badge-dot mr-4"><i class="' + (row.active ? 'bg-success' : 'bg-danger') + '"></i><span class="status">'+ (row.active ? '[[#{common.active}]]' : '[[#{common.inactive}]]') +'</span></span>';
+									}
+								},
+								{ "data": "creationDate",
+									"render": function (data, type, row, meta) {
+										let creationDate = new Date(row.creationDate);
+										return '<span>'+ creationDate.getDate() +'/' + (creationDate.getMonth()+1) + '/' + creationDate.getFullYear() +'</span>';
+									}
+								},
 								{ "data": "action",
 									"searchable": false,
 									"sortable": false,
 									"defaultContent": "",
 									"render": function (data, type, row, meta) {
-									return '<a href="#" data-toggle="tooltip" title="Edit" onclick="getSurveyRequest(\'\/apollo\/surveys\/update\', \'#modal-create-new-survey\',\'' + row.id + '\')"><i class="far fa-edit"></i></a>'
-									 + ' | ' +
+									return '<a href="[(@{/surveys/detail})]?id=' + row.id + '" data-toggle="tooltip" title="Detail"><i class="far fa-clipboard"></i></a>'
+									 + '  |  ' +
 									'<a href="#" data-toggle="tooltip" title="Delete" onclick="getSurveyRequest(\'\/apollo\/surveys\/delete\', \'#modal-delete-survey\', \'' + row.id + '\')"><i class="fas fa-trash"></a>';
 									}
 								}	
