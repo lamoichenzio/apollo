@@ -99,22 +99,38 @@ public class QuestionServiceImpl implements QuestionService{
 
 	@Override
 	public ChoiceQuestion findChoiceQuestionById(String id) throws BusinessException {
-		return choiceQuestionRepository.findById(id).get();
+		try{
+			return choiceQuestionRepository.findById(id).get();
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public InputQuestion findInputQuestionById(String id) throws BusinessException {
-		return inputQuestionRepository.findById(id).get();
+		try {
+			return inputQuestionRepository.findById(id).get();
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public MatrixQuestion findMatrixQuestionById(String id) throws BusinessException {
-		return matrixQuestionRepository.findById(id).get();
+		try{
+			return matrixQuestionRepository.findById(id).get();
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public SelectionQuestion findSelectionQuestionById(String id) throws BusinessException {
-		return selectQuestionRepository.findById(id).get();
+		try{
+			return selectQuestionRepository.findById(id).get();
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
@@ -122,9 +138,6 @@ public class QuestionServiceImpl implements QuestionService{
 		try {
 			question.setCreationDate(new Date());
 			if(file != null && !file.isEmpty()) {
-				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
-					throw new BusinessException("File format not valid: "+ file.getContentType());
-				}
 				QuestionFile questionFile = new QuestionFile();
 				questionFile.setName(file.getOriginalFilename());
 				questionFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
@@ -143,9 +156,7 @@ public class QuestionServiceImpl implements QuestionService{
 			if(question instanceof MatrixQuestion) {
 				matrixQuestionRepository.save((MatrixQuestion)question);
 			}
-		}catch(IOException e) {
-			throw new BusinessException(e);
-		}catch(DataAccessException e) {
+		}catch(IOException | DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}
