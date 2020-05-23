@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -170,51 +171,79 @@ public class QuestionController {
      **/
 
     @GetMapping("/matrixquestion/create")
-    public String createMatrixStart(Model model) {
+    public String createMatrixStart(@RequestParam String group_id, @RequestParam ChoiceType type, Model model) throws BusinessException {
         MatrixQuestion question = new MatrixQuestion();
-        model.addAttribute("matrixquestion", question);
-        return "/matrixquestion/form";
+        List<String> themeList = new ArrayList<>();
+        themeList.add("prova");
+        List<String> rangeList = new ArrayList<>();
+        rangeList.add("option");
+
+        question.setQuestions(themeList);
+        question.setQuestionValues(rangeList);
+        question.setType(type);
+
+        QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
+        question.setQuestionGroup(group);
+        model.addAttribute("question", question);
+        return "/common/surveys/components/questions/modals/matrix_question_modal :: modal-matrix-question";
     }
 
     @PostMapping("/matrixquestion/create")
-    public String create(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors,
-                         @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+    public String create(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+
+        QuestionGroup group = question.getQuestionGroup();
+
+        System.out.println(group.toString());
+        System.out.println(question.toString());
+
         if (errors.hasErrors()) {
-            return "/matrixquestion/form";
+            System.out.println(errors);
+            return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
         questionService.createQuestion(question, file);
-        return "redirect:/common/form";
+
+        // Update group
+        group.addQuestion(question);
+        questionGroupService.updateQuestionGroup(group);
+
+        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
     }
 
     @GetMapping("/matrixquestion/update")
     public String updateStartMatrix(@RequestParam String id, Model model) throws BusinessException {
         MatrixQuestion question = questionService.findMatrixQuestionById(id);
-        model.addAttribute("matrixquestion", question);
-        return "/common/form";
+        model.addAttribute("question", question);
+        return "/common/surveys/components/questions/modals/matrix_question_modal :: modal-matrix-question";
     }
 
     @PostMapping("/matrixquestion/update")
-    public String update(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors)
+    public String update(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors)
             throws BusinessException {
         if (errors.hasErrors()) {
-            return "/matrixquestion/form";
+            return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
         questionService.updateQuestion(question);
-        return "redirect:/common/form";
+        return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
+
 
     @GetMapping("/matrixquestion/delete")
     public String deleteMatrixStart(@RequestParam String id, Model model) throws BusinessException {
         MatrixQuestion question = questionService.findMatrixQuestionById(id);
-        model.addAttribute("matrixquestion", question);
-        return "/common/form";
+        model.addAttribute("question", question);
+        return "/common/surveys/components/questions/modals/delete_question_modal :: questionDelete";
     }
 
     @PostMapping("/matrixquestion/delete")
-    public String delete(@ModelAttribute("matrixquestion") MatrixQuestion question) throws BusinessException {
+    public String delete(@ModelAttribute("question") MatrixQuestion question) throws BusinessException {
+        QuestionGroup group = question.getQuestionGroup();
         questionService.deleteQuestion(question);
-        return "redirect:/common/form";
+        group.removeQuestion(question);
+        questionGroupService.updateQuestionGroup(group);
+
+        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
     }
+
 
     /**
      * Selection Question.
