@@ -47,15 +47,15 @@
 					
 					<div class="row">
 						<!-- Other choice -->
-						<div class="col-4">
-							<div class="form-group custom-control custom-checkbox" style="margin-top:7px;">
-								<input type="checkbox" class="custom-control-input" name="otherChoice" th:field="*{otherChoice}" />
-								<label class="form-control-label custom-control-label" for="otherChoice" th:text="#{question.otherChoice}"></label>
+						<div class="col-4 my-1">
+							<div class="form-group custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" th:field="*{otherChoice}" />
+								<label class="custom-control-label form-control-label" for="otherchoice" th:text="#{question.otherChoice}"></label>
 								<span th:if="${#fields.hasErrors('otherChoice')}" th:each="err: ${#fields.errors('otherChoice')}" th:utext="${err}"></span>
 							</div>
 						</div>
 						<!-- Input file -->
-						<div class="col-8">
+						<div class="col-8 my-1">
 							<div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
 						</div>
 					</div>
@@ -100,9 +100,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"th:text="#{common.cancel}"></button>	
-					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>	
-					<!--  <button type="submit" class="btn btn-sm btn-primary rounded-pill" th:onClick="submitChoiceQuestion(event)">Save</button>-->
-					
+					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>						
 				</div>
 
 			</form>

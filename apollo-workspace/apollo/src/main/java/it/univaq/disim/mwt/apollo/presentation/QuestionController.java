@@ -179,19 +179,20 @@ public class QuestionController {
     @GetMapping("/matrixquestion/create")
     public String createMatrixStart(@RequestParam String group_id, @RequestParam ChoiceType type, Model model) throws BusinessException {
         MatrixQuestion question = new MatrixQuestion();
-        List<String> themeList = new ArrayList<>();
-        themeList.add("prova");
-        List<String> rangeList = new ArrayList<>();
-        rangeList.add("option");
+        List<String> optionList = Arrays.asList("");
 
-        question.setQuestions(themeList);
-        question.setQuestionValues(rangeList);
+        question.setOptions(optionList);
+        question.setOptionValues(optionList);
         question.setType(type);
 
+        // Set Group
         QuestionGroup group = questionGroupService.findQuestionGroupById(group_id);
         question.setQuestionGroup(group);
+        
         model.addAttribute("question", question);
-        return "/common/surveys/components/questions/modals/matrix_question_modal :: modal-matrix-question";
+        model.addAttribute("instance", "MATRIX");
+        
+        return "/common/surveys/components/questions/modals/matrix_question_modal :: modal_matrix_question(question=${question},instance=${instance})";
     }
 
     @PostMapping("/matrixquestion/create")
