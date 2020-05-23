@@ -13,12 +13,13 @@
 		<!-- Page title -->
 		<div class="page-title">
 			<div class="row justify-content-between align-items-center">
-				<div
-					class="col-md-6 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
+				<div class="col-md-8 d-flex align-items-center justify-content-between justify-content-md-start mb-3">
 					<!-- Page title + Go Back button -->
-					<div class="d-inline-block">
+					<div class="d-inline-block p-1 mr-2">
+						<a href="#" th:href="@{/surveys/dashboard}" class="link d-inline-block font-weight-400 mb-0 text-white"><i class="fas fa-arrow-left"></i></a>
+					</div>
+					<div class="d-inline-block p-1">
 						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[${survey.name}]]</h5>
-						<a href="#" th:href="@{/surveys/dashboard}" class="link d-inline-block font-weight-400 mb-0 text-white">Home</a>
 					</div>
 				</div>
 			</div>
@@ -28,32 +29,67 @@
 		<div class="card">
 			<!-- Card header -->
 			<div class="card-header actions-toolbar">
-				<div class="row justify-content-between align-items-center">
-					<div class="col">
-						<input id="survey_name" type="hidden" name="surveyName" th:value="${survey.name}" />
+				<div class="row justify-content-between">
+					
+					<!-- Info -->
+					<div class="col-6 text-left">
+						<div class="row align-items-center my-2">
+							<div class="col-4">
+								<span class="text-left form-control-label">[[#{survey.secret}]]:</span>
+								<span id="survey_secret" th:if="${survey.secret}" class="text-right badge badge-success badge-pill mx-2">Yes</span>
+								<span id="survey_secret" th:if="${!survey.secret}" class="text-right badge badge-danger badge-pill mx-2">No</span>
+							</div>
+							<div class="col-4">
+								<small>[[#{survey.startDate}]]</small>
+								<div class="h6 mb-0" th:text="${survey.startDate != null ? #dates.format(survey.startDate, 'dd-MM-yyyy') : 'Not provided'}"></div>
+							</div>
+						</div>
 
-						<input id="survey_desc" type="text"
-							class="form-control form-control-flush form-control-xl p-0 text-primary"
-							placeholder="Enter a description for the survey" th:value="${survey.description}" disabled="disabled">
+						<div class="row align-items-center my-2">
+							<div class="col-4">
+								<span class="text-left form-control-label">[[#{common.published}]]:</span>
+								<span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">Yes</span>
+								<span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
+							</div>
+							<div class="col-4">
+								<small>[[#{survey.endDate}]]</small>
+								<div class="h6 mb-0" th:text="${survey.endDate != null ? #dates.format(survey.endDate, 'dd-MM-yyyy') : 'Not provided'}"></div>
+							</div>
+						</div>
+
 					</div>
 
 					<!-- Settings -->
-					<div class="col text-right">
+					<div class="col-4 text-right">
 						<div class="actions">
 							<a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip" title="Update"
-								data-target="#actions-update" th:onclick="openSurveyModalRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">
+								data-target="#actions-update"
+								th:onclick="getSurveyRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">
 								<i class="far fa-edit"></i>
 							</a>
-							<a href="#" class="action-item mr-3" data-action="search-open"
-								data-target="#actions-search">
+							<a href="#" class="action-item mr-3" data-action="publish-open" data-target="#actions-publish"
+								th:onclick="getSurveyRequest([[@{/surveys/publish}]], '#modal-publish-survey', [[${survey.id}]])">
 								<i class="fas fa-share-square"></i>
 							</a>
 							<a href="#" class="action-item mr-3" data-action="delete-open" data-toggle="tooltip" title="Delete"
-								data-target="#actions-deletem" th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">
+								data-target="#actions-deletem"
+								th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">
 								<i class="far fa-trash text-danger"></i>
 							</a>
 						</div>
 					</div>
+
+					<!-- Description-->
+					<div class="col-12">
+						<div class="row align-items-center my-2 px-1">
+
+							<input id="survey_name" type="hidden" name="surveyName" th:value="${survey.name}" />
+							
+							<input id="survey_desc" type="text" class="form-control form-control-flush form-control-xl p-0 text-primary"
+								placeholder="Enter a description for the survey" th:value="${survey.description}" disabled="disabled">
+						</div>
+					</div>
+
 				</div>
 			</div>
 

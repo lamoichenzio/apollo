@@ -1,3 +1,5 @@
+<html  xmlns:th="http://www.thymeleaf.org">
+<body>
 <!-- SINGLE CHOICE QUESTION -->
 <div class="col-12" th:fragment="singleChoice">
 
@@ -9,6 +11,9 @@
 			<!-- TITLE -->
 			<div class="m-1">
 				<h6 class="mb-0" th:text="${stat.index +1} + '. ' + ${question.title}"></h6>
+			</div>
+			<div class="m-1" th:if="${question.file != null}">
+				File: [[${question.file.name}]]
 			</div>
 
 			<div class="row">
@@ -22,28 +27,31 @@
 					<!-- Other -->
 					<div th:if="${question.otherChoice}" class="custom-control">
 						<label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label>
-						<input type="text" class="form-control" id="other_choice" name="other_choice" th:placeholder="#{question.otherchoiceplaceholder}"> 
+						<input type="text" class="form-control" id="other_choice" name="other_choice" th:placeholder="#{question.otherchoiceplaceholder}">
 					</div>
 				</div>
 			</div>
 
 		</div>
-		
+
 		<div class="col-1 card border-0 shadow-none bg-gray-100">
 			<div class="dropdown" data-toggle="dropdown">
 				<a href="#" class="action-item" role="button" data-toggle="dropdown"
-					aria-haspopup="true" aria-expanded="false"> <i
-					class="far fa-cog"></i>
+				   aria-haspopup="true" aria-expanded="false"> <i
+						class="far fa-cog"></i>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right">
 					<a href="#"
-						th:onClick="openQuestionModal([[@{/questions/choicequestion/update}]], [[${question.choiceType}]], '#modal-new-choice-question', [[${question.id}]] )"
-						class="dropdown-item">Edit</a>
+					   th:onClick="openQuestionModal([[@{/questions/choicequestion/update}]], [[${question.choiceType}]], '#modal-new-choice-question', [[${question.id}]] )"
+					   class="dropdown-item">Edit</a>
 					<a href="#"
-						th:onClick="openQuestionModal([[@{/questions/choicequestion/delete}]], null, '#modal-delete-question', [[${question.id}]])"
-						class="dropdown-item text-danger">Delete</a>
+					   th:onClick="openQuestionModal([[@{/questions/choicequestion/delete}]], null, '#modal-delete-question', [[${question.id}]])"
+					   class="dropdown-item text-danger">Delete</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+</body>
+</html>
+

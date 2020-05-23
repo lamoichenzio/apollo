@@ -16,7 +16,7 @@
 						</div>
 					</div>
 				</div>
-				<form id="inputQuestionForm" action="#" th:action="@{/questions/inputquestion/create}"
+				<form id="inputQuestionForm" action="#" th:action="${#request.getRequestURI()}"
 					th:object="${question}" method="post" enctype="multipart/form-data">
 					<input type="hidden" th:field="*{questionGroup}" />
 					<!-- update case -->
@@ -34,7 +34,7 @@
 
 								</div>
 								<div class="form-group">
-									<div th:replace="~{common/surveys/components/questions/input_file.html :: inputfile}"></div> 
+									<div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
 								</div>
 								<div class="form-group">
 									<!-- QUESTION TYPES -->

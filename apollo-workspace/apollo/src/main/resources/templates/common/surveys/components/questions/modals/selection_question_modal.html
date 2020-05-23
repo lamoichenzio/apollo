@@ -15,7 +15,7 @@
                 </div>
             </div>
 
-            <form id="question_choice_form" th:action="@{/questions/selectionquestion/create}" th:object="${question}"
+            <form id="question_choice_form" th:action="${#request.getRequestURI()}" th:object="${question}"
                 class="form-horizontal" method="post" enctype="multipart/form-data">
 
                 <!-- update case -->
@@ -46,7 +46,7 @@
 					<div class="row">
 						<!-- Input file -->
 						<div class="col-8">
-							<div th:replace="~{common/surveys/components/questions/input_file.html :: inputfile}"></div>
+							<div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
 						</div>
 					</div>
 

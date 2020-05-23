@@ -102,10 +102,13 @@ public class SurveyServiceImpl implements SurveyService {
 	@Override
 	public void deleteSurvey(Survey survey) throws BusinessException {
 		
-		Iterable<QuestionGroup> groups = (Iterable<QuestionGroup>)survey.getQuestionGroups();
-
-		questionGroupService.deleteQuestionGroupList(groups);
+		if (survey.getQuestionGroups() != null && survey.getQuestionGroups().size() > 0) {
+			Iterable<QuestionGroup> groups = (Iterable<QuestionGroup>)survey.getQuestionGroups();
+			questionGroupService.deleteQuestionGroupList(groups);
+		} 
+		
 		surveyRepository.delete(survey);
+
 	}
 
 }
