@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -39,15 +39,14 @@ public class Survey {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@NotNull
+	@NotBlank
 	@Indexed
 	@Size(max = 50)
 	private String name;
 	
-	@NotNull
 	private String description;
 	
-	private SurveyFile icon;
+	private DocumentFile icon;
 	
 	private boolean secret;
 	private boolean active;
@@ -68,7 +67,6 @@ public class Survey {
 	private User user;
 	
 	@DBRef
-	//@Setter(AccessLevel.NONE)
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Set<QuestionGroup> questionGroups;

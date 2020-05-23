@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Document(collection = "SurveyFiles")
 @TypeAlias("SurveyFile")
-public class SurveyFile {
+public class DocumentFile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

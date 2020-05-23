@@ -16,8 +16,14 @@ public class FileValidator implements Validator {
     public void validate(Object target, Errors errors) {
         MultipartFile file = (MultipartFile) target;
         if(!file.isEmpty()){
+            // Check file type
             if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
                 errors.rejectValue("file", "wrongFileType");
+            }
+            // Check file size
+            long fileSizeInMB = file.getSize()/(1024*1024);
+            if(fileSizeInMB > 5){
+                errors.rejectValue("file", "fileSizeExceed");
             }
         }
     }

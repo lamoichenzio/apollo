@@ -31,7 +31,6 @@ public class QuestionGroup {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@NotNull
 	@Size(max=100)
 	private String title;
 	

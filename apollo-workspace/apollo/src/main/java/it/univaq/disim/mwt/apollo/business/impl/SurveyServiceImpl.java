@@ -1,10 +1,17 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
+import it.univaq.disim.mwt.apollo.business.DocumentFileService;
+import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
+import it.univaq.disim.mwt.apollo.business.SurveyService;
+import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
+import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
+import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +24,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
-import it.univaq.disim.mwt.apollo.business.SurveyFileService;
-import it.univaq.disim.mwt.apollo.business.SurveyService;
-import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
-import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
-import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.SurveyFile;
-import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import lombok.extern.slf4j.Slf4j;
+import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.List;
 
 @Service
 @Transactional
@@ -42,7 +40,7 @@ public class SurveyServiceImpl implements SurveyService {
 	QuestionGroupService questionGroupService;
 
 	@Autowired
-	SurveyFileService surveyFileService;
+	DocumentFileService documentFileService;
 	
 	@Override
 	public List<Survey> findAllSurveys() throws BusinessException {
@@ -106,17 +104,15 @@ public class SurveyServiceImpl implements SurveyService {
 				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
 					throw new BusinessException("File format not valid: "+ file.getContentType());
 				}
-				SurveyFile icon = new SurveyFile();
+				DocumentFile icon = new DocumentFile();
 				icon.setName(file.getOriginalFilename());
 				icon.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-				surveyFileService.create(icon);
+				documentFileService.create(icon);
 				survey.setIcon(icon);
 			}
 			
 			surveyRepository.save(survey);
-		}catch(IOException e) {
-			throw new BusinessException(e);
-		}catch(DataAccessException e) {
+		}catch(IOException | DataAccessException e) {
 			throw new BusinessException(e);
 		}
 
@@ -129,22 +125,20 @@ public class SurveyServiceImpl implements SurveyService {
 				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
 					throw new BusinessException("File format not valid: "+ file.getContentType());
 				}
-				SurveyFile icon = new SurveyFile();
+				DocumentFile icon = new DocumentFile();
 				icon.setName(file.getOriginalFilename());
 				icon.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-				
-				// Delete old icon
-				surveyFileService.delete(survey.getIcon());
-				
+				if(survey.getIcon() != null){
+					// Delete old icon
+					documentFileService.delete(survey.getIcon());
+				}
 				// Set new icon
-				surveyFileService.create(icon);
+				documentFileService.create(icon);
 				survey.setIcon(icon);
 			}
 			
 			surveyRepository.save(survey);
-		}catch(IOException e) {
-			throw new BusinessException(e);
-		}catch(DataAccessException e) {
+		}catch(IOException | DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}

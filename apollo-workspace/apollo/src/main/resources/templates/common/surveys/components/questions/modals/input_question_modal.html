@@ -20,7 +20,7 @@
 					th:object="${question}" method="post" enctype="multipart/form-data">
 					<input type="hidden" th:field="*{questionGroup}" />
 					<!-- update case -->
-					<input th:if="${question.id != null}" type="hidden" th:fields="*{id}" />
+					<input th:if="${question.id != null}" type="hidden" th:field="*{id}" />
 					<div class="modal-body">
 						<div class="row">
 							<div class="col-md-12">

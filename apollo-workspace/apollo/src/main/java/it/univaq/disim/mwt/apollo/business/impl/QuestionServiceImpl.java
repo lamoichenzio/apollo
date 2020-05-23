@@ -1,22 +1,6 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.URLConnection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import it.univaq.disim.mwt.apollo.business.QuestionFileService;
+import it.univaq.disim.mwt.apollo.business.DocumentFileService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
@@ -25,13 +9,21 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestio
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InputQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MatrixQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SelectQuestionRepository;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionFile;
-import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.questions.*;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 @Transactional
@@ -51,7 +43,7 @@ public class QuestionServiceImpl implements QuestionService{
 	private SelectQuestionRepository selectQuestionRepository;
 	
 	@Autowired
-	private QuestionFileService questionFileService;
+	private DocumentFileService documentFileService;
 	
 	@Override
 	public List<ChoiceQuestion> findAllChoiceQuestions() throws BusinessException {
@@ -138,11 +130,11 @@ public class QuestionServiceImpl implements QuestionService{
 		try {
 			question.setCreationDate(new Date());
 			if(file != null && !file.isEmpty()) {
-				QuestionFile questionFile = new QuestionFile();
-				questionFile.setName(file.getOriginalFilename());
-				questionFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
-				questionFileService.create(questionFile);
-				question.setFile(questionFile);
+				DocumentFile documentFile = new DocumentFile();
+				documentFile.setName(file.getOriginalFilename());
+				documentFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				documentFileService.create(documentFile);
+				question.setFile(documentFile);
 			}
 			if(question instanceof InputQuestion) {
 				inputQuestionRepository.save((InputQuestion)question);
@@ -162,9 +154,19 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
-	public void updateQuestion(Question question) throws BusinessException {
+	public void updateQuestion(Question question, MultipartFile file) throws BusinessException {
 		try {
 			question.setCreationDate(new Date());
+			if(file != null && !file.isEmpty()) {
+				DocumentFile documentFile = new DocumentFile();
+				documentFile.setName(file.getOriginalFilename());
+				documentFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				documentFileService.create(documentFile);
+				if(question.getFile() != null){
+					documentFileService.delete(question.getFile());
+				}
+				question.setFile(documentFile);
+			}
 			if(question instanceof InputQuestion) {
 				inputQuestionRepository.save((InputQuestion)question);
 			}
@@ -177,7 +179,7 @@ public class QuestionServiceImpl implements QuestionService{
 			if(question instanceof MatrixQuestion) {
 				matrixQuestionRepository.save((MatrixQuestion)question);
 			}
-		}catch(DataAccessException e) {
+		}catch(DataAccessException | IOException e) {
 			throw new BusinessException(e);
 		}
 	}
@@ -186,7 +188,7 @@ public class QuestionServiceImpl implements QuestionService{
 	public void deleteQuestion(Question question) throws BusinessException {
 		try {
 			if(question.getFile()!=null) {
-				questionFileService.delete(question.getFile());
+				documentFileService.delete(question.getFile());
 			}
 			if(question instanceof InputQuestion) {
 				inputQuestionRepository.delete((InputQuestion)question);

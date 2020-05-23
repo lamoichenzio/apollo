@@ -45,9 +45,8 @@ function getSurveyRequest(url, modal_id, param) {
 
 /**
  * Do a POST request for the survey model.
- * @param {String} url 
- * @param {String} modal_id 
- * @param {String} params 
+ * @param {String} url
+ * @param {String} param
  */
 function postSurveyRequest(url, param) {
     event.preventDefault();
@@ -69,7 +68,7 @@ function postSurveyRequest(url, param) {
             $("#spinner").remove();
 
             if (response.msg == null) {
-                if (url_splitted[url_splitted.length - 1] == 'publish') {
+                if (url_splitted[url_splitted.length - 1] === 'publish') {
                     surveyPublished(response);
                 }
             } else {
@@ -159,6 +158,11 @@ function openQuestionModal(url, type, modal_id, request_param) {
     });
 }
 
+// TODO: creare post request per domanda
+function postQuestion(){
+
+}
+
 function setChoiceQuestionAttr(url) {
     // let splitted_url = url.split('/');
 
@@ -217,7 +221,7 @@ function addOption() {
 function deleteOption(event, index) {
     event.preventDefault();
 
-    if (optionList.length == 1) {
+    if (optionList.length === 1) {
         $('#option_error').find('span').show();
         setTimeout(function() {
             $('#option_error').find('span').hide();
@@ -240,16 +244,16 @@ function getRequestByUrl(url, request_param, model, method) {
 
     switch (url_splitted[url_splitted.length - 1]) {
         case 'create':
-            if (model == 'Survey') return {};
-            if (model == 'QuestionGroup') return { survey_id : request_param };
-            if (model == 'Question') return { group_id: request_param };
+            if (model === 'Survey') return {};
+            if (model === 'QuestionGroup') return { survey_id : request_param };
+            if (model === 'Question') return { group_id: request_param };
         case 'update':
             return { id: request_param };
         case 'delete':
             return { id: request_param };
         case 'publish':
-            if (method == 'post') return request_param;
-            if (method == 'get') return { id : request_param };
+            if (method === 'post') return request_param;
+            if (method === 'get') return { id : request_param };
         default:
             break;
     }

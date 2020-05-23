@@ -14,7 +14,7 @@
 				<div id="collapse-1-1" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion-1">
 					<div class="card-body p-2">
 						<!--Creation fase-->
-						<div class="form-control-label" th:if="${question.id == null}">
+						<div class="form-control-label">
 							<label for="questionfile" th:text="#{file.label}"></label>
 							<input type="file" id="questionfile" name="questionfile" th:value="${questionfile}" accept="image/*"/>
 						</div>
@@ -25,9 +25,6 @@
 								<small>
 									File: [[*{file.name}]]
 								</small>
-							</div>
-							<div th:if="${question.file == null}">
-								<small th:text="#{file.nofile}"></small>
 							</div>
 						</div>
 					</div>

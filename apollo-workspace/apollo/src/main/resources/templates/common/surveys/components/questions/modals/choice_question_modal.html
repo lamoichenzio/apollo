@@ -19,8 +19,7 @@
 				class="form-horizontal" method="post" enctype="multipart/form-data">
 
 				<!-- update case -->
-				<input th:if="${question.id != null}" type="hidden" name="id" th:value="${question.id}"
-					th:fields="*{id}" />
+				<input th:if="${question.id != null}" type="hidden" th:field="*{id}" />
 
 				<input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}" />
 

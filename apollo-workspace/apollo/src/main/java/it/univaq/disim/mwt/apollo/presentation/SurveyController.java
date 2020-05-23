@@ -63,7 +63,7 @@ public class SurveyController {
 	}
 	
 	@PostMapping("/publish")
-	public ResponseEntity<?> publish(@Valid @RequestBody Survey survey, Errors errors) throws BusinessException {
+	public ResponseEntity<SurveyResponseBody> publish(@Valid @RequestBody Survey survey, Errors errors) throws BusinessException {
 
 		SurveyResponseBody result = new SurveyResponseBody();
 		

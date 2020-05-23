@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -82,12 +81,13 @@ public class QuestionController {
     }
 
     @PostMapping("/choicequestion/update")
-    public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors)
+    public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file)
             throws BusinessException {
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question);
+        questionService.updateQuestion(question, file);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
 
@@ -125,6 +125,7 @@ public class QuestionController {
     public String create(@Valid @ModelAttribute("question") InputQuestion question, Errors errors,
                          @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
@@ -132,7 +133,6 @@ public class QuestionController {
         questionService.createQuestion(question, file);
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);
-        questionService.updateQuestion(question);
         return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
     }
 
@@ -144,13 +144,15 @@ public class QuestionController {
     }
 
     @PostMapping("/inputquestion/update")
-    public String update(@Valid @ModelAttribute("question") InputQuestion question, Errors errors)
+    public String update(@Valid @ModelAttribute("question") InputQuestion question, Errors errors,
+                         @RequestParam("questionfile") MultipartFile file)
             throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question);
+        questionService.updateQuestion(question, file);
         return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
     }
 
@@ -222,12 +224,13 @@ public class QuestionController {
     }
 
     @PostMapping("/matrixquestion/update")
-    public String update(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors)
+    public String update(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file)
             throws BusinessException {
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question);
+        questionService.updateQuestion(question, file);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
 
@@ -295,11 +298,12 @@ public class QuestionController {
     }
 
     @PostMapping("/selectionquestion/update")
-    public String update(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors) throws BusinessException {
+    public String update(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question);
+        questionService.updateQuestion(question, file);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
 

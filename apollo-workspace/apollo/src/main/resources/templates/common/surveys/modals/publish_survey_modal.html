@@ -1,5 +1,7 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
 <div class="modal fade" id="modal-publish-survey" tabindex="-1" role="dialog" aria-hidden="true"
-    th:fragment="surveyPublish">
+     th:fragment="surveyPublish">
 
     <div class="modal-dialog modal-dialog-centered modal" role="document">
         <div class="modal-content">
@@ -40,11 +42,13 @@
             <!-- Footer -->
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
-                    th:text="#{common.cancel}"></button>
+                        th:text="#{common.cancel}"></button>
                 <button type="submit" class="btn btn-sm btn-primary rounded-pill"
-                    th:text="#{common.publish}" th:onclick="postSurveyRequest([[@{/surveys/publish}]], [[${survey}]])"></button>
+                        th:text="#{common.publish}" th:onclick="postSurveyRequest([[@{/surveys/publish}]], [[${survey}]])"></button>
             </div>
 
         </div>
     </div>
 </div>
+</body>
+</html>
