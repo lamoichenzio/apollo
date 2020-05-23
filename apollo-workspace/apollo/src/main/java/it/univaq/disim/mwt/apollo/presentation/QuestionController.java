@@ -3,6 +3,7 @@ package it.univaq.disim.mwt.apollo.presentation;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
 import it.univaq.disim.mwt.apollo.domain.questions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionGroupService questionGroupService;
+
+    @Autowired
+    private FileValidator validator;
 
     /**
      * Choice Question
@@ -54,7 +58,7 @@ public class QuestionController {
     public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors,
                          @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
-
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
@@ -119,6 +123,7 @@ public class QuestionController {
     @PostMapping("/inputquestion/create")
     public String create(@Valid @ModelAttribute("question") InputQuestion question, Errors errors,
                          @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+        validator.validate(file, errors);
         QuestionGroup group = question.getQuestionGroup();
         if (errors.hasErrors()) {
             log.error(errors.toString());
@@ -179,6 +184,7 @@ public class QuestionController {
     @PostMapping("/matrixquestion/create")
     public String create(@Valid @ModelAttribute("matrixquestion") MatrixQuestion question, Errors errors,
                          @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "/matrixquestion/form";
         }
@@ -240,6 +246,7 @@ public class QuestionController {
     public String create(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors,
                          @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
+        validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
