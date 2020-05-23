@@ -13,14 +13,14 @@
 			<div class="col-12" th:each="question, stat : *{groupInfo.questions}">
 
 				<!-- If Choice Question -->
-				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
-					<div th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+				<th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
+					<th:block th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
 						<div th:replace="/common/surveys/components/questions/single_choice.html :: singleChoice(question=${question}, stat=${stat})"></div>
-					</div>
-					<div th:unless="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+					</th:block>
+					<th:block th:unless="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
 						<div th:replace="/common/surveys/components/questions/multi_choice.html :: multiChoice(question=${question}, stat=${stat})"></div>
-					</div>
-				</div>
+					</th:block>
+				</th:block>
 
 				<!-- If Input Question -->
 				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}">
@@ -30,6 +30,11 @@
 				<!-- If Selection Question -->
 				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}">
 					<div th:replace="common/surveys/components/questions/select_choice.html :: selectionQuestion(question=${question}, stat=${stat})"></div>
+				</div>
+
+				<!-- If Matrix Question -->
+				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion)}">
+					<div th:replace="common/surveys/components/questions/matrix_choice.html :: matrixQuestion(question=${question}, stat=${stat})"></div>
 				</div>
 
 			</div>
@@ -58,8 +63,7 @@
 						<div class="row justify-content-md-center align-items-center">
 
 							<!-- Single-Choice Question -->
-							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]],
-							'#modal-new-choice-question', [[${groupInfo.id}]])">
+							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]], '#modal-new-choice-question', [[${groupInfo.id}]])" data-toggle="modal">
 								<div
 									class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
 									<div class="col-12 align-self-center">
@@ -74,10 +78,9 @@
 									</div>
 								</div>
 							</a>
-							
+
 							<!-- Multi-Choice Question -->
-							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}]],
-							'#modal-new-choice-question', [[${groupInfo.id}]])">
+							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}]], '#modal-new-choice-question', [[${groupInfo.id}]])" data-toggle="modal">
 								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
 									<div class="col-12 align-self-center">
 										<div class="col-12">
@@ -93,8 +96,7 @@
 							</a>
 
 							<!-- Selection Question -->
-							<a href="#" th:onClick="openQuestionModal([[@{/questions/selectionquestion/create}]], 'SELECT',
-														'#modal-new-selection-question', [[${groupInfo.id}]])">
+							<a href="#" th:onClick="openQuestionModal([[@{/questions/selectionquestion/create}]], 'SELECT', '#modal-new-selection-question', [[${groupInfo.id}]])" data-toggle="modal">
 								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
 									<div class="col-12 align-self-center">
 										<div class="col-12">
@@ -104,7 +106,7 @@
 										<div class="col-12">
 											<span th:text="#{question.selectionquestion}"></span>
 										</div>
-							
+
 									</div>
 								</div>
 							</a>
@@ -130,6 +132,7 @@
 							</a>
 
 
+							<a href="#" th:onclick="openQuestionModal([[@{/questions/matrixquestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]], '#modal-matrix-question', [[${groupInfo.id}]])" data-toggle="modal">
 							<div
 								class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
 								<div class="col-12 align-self-center">
@@ -143,6 +146,7 @@
 
 								</div>
 							</div>
+							</a>
 
 
 							<div

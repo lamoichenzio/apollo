@@ -1,0 +1,145 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- MODAL MATRIX QUESTION -->
+<div class="modal fade" id="modal-matrix-question" tabindex="-1" role="dialog" aria-hidden="true"
+     th:fragment="modal-matrix-question">
+
+    <div class="modal-dialog modal-dialog-centered modal" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="modal-title align-items-center">
+                    <div>
+                        <!-- MODAL TITLE -->
+                        <h6 class="mb-0" th:text="#{question.matrixquestion}"></h6>
+                        <p>[[${question}]]</p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="matrixQuestionForm" th:action="${#request.getRequestURI()}" th:object="${question}"
+                  class="form-horizontal" method="post" enctype="multipart/form-data">
+
+                <!-- update case -->
+                <input th:if="${question.id != null}" type="hidden" name="id" th:value="${question.id}" th:fields="*{id}"/>
+
+                <input type="hidden" name="group" th:field="*{questionGroup}"/>
+
+                <input type="hidden" name="type" th:value="${question.type}" th:field="*{type}"/>
+                <input type="hidden" name="questions" th:value="${question.questions}" th:field="*{questions}"/>
+                <input type="hidden" name="values" th:value="${question.questionValues}" th:field="*{questionValues}"/>
+
+
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+
+                                <!-- QUESTION TEXT -->
+                                <label class="form-control-label" th:text="#{question.title}"></label>
+                                <textarea class="form-control" data-toggle="autosize"
+                                          th:placeholder="#{question.titleplaceholder}" rows="1" th:field="*{title}"
+                                          required></textarea>
+                                <span th:if="${#fields.hasErrors('title')}"
+                                      th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <!-- Input file -->
+                        <div class="col-12">
+                            <div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
+                        </div>
+                    </div>
+
+                    <div id="accordion" class="accordion accordion-stacked">
+
+                        <!-- Accordion card 1 -->
+                        <div class="card">
+                            <div class="card-header py-4" id="heading-1-1" data-toggle="collapse" role="button" data-target="#collapse-theme" aria-expanded="false" aria-controls="collapse-1-1">
+                                <h6 class="mb-0"><i class="far fa-file-pdf mr-3"></i>Question List</h6>
+                            </div>
+                            <div id="collapse-theme" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion">
+                                <div class="card-body">
+
+                                    <div class="row">
+                                        <div class="col-12">
+
+
+                                            <!-- ADD BUTTON BLOCK -->
+                                            <div class="row justify-content-center align-items-center">
+                                                <button type="button" class="btn btn-sm btn-soft-primary btn-icon rounded-pill" th:onclick="addOption()">
+                                                    <span class="btn-inner--icon"><i class="far fa-plus"></i></span>
+
+                                                    <!-- ADD OPTION BUTTON -->
+                                                    <span class="btn-inner--text">[[#{common.addoption}]]</span>
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accordion card 2 -->
+                        <div class="card">
+                            <div class="card-header py-4" id="heading-1-2" data-toggle="collapse" role="button" data-target="#collapse-range" aria-expanded="false" aria-controls="collapse-1-2">
+                                <h6 class="mb-0"><i class="far fa-lock mr-3"></i>Range Value</h6>
+                            </div>
+                            <div id="collapse-range" class="collapse" aria-labelledby="heading-1-2" data-parent="#accordion">
+                                <div class="card-body">
+
+                                    <!-- OPTIONS BLOCK -->
+                                    <div id="options_container">
+
+                                        <th:block th:if="${question.questionValues != null && question.questionValues.size() > 0}">
+                                            <!--  option  -->
+                                            <th:block th:each="values, stat : ${question.questionValues}">
+                                                <div id="question_value" th:replace="common/surveys/components/questions/modals/dynamics_options/matrix_question_values.html :: value"></div>
+                                            </th:block>
+
+                                        </th:block>
+
+                                    </div>
+
+
+                                    <!-- ADD BUTTON BLOCK -->
+                                    <div class="row justify-content-center align-items-center">
+                                        <button
+                                                type="button"
+                                                class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
+                                                th:onclick="addOption()">
+									<span class="btn-inner--icon">
+										<i class="far fa-plus"></i>
+									</span>
+
+                                            <!-- ADD OPTION BUTTON -->
+                                            <span class="btn-inner--text">[[#{common.addoption}]]</span>
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
+                    <button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+</html>
