@@ -1,16 +1,15 @@
 package it.univaq.disim.mwt.apollo;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.univaq.disim.mwt.apollo.business.QuestionService;
@@ -21,13 +20,11 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestio
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.Gender;
 import it.univaq.disim.mwt.apollo.domain.Role;
-import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 
 
 @SpringBootApplication
+@EnableMongoAuditing
 public class ApolloApplication {
 	
 	@Autowired

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -83,7 +84,7 @@ public class SurveyController {
             String urlId = "/apollo/surveys/" + survey.getId();
             survey.setUrlId(urlId);
             survey.setActive(true);
-            surveyService.updateSurvey(survey);
+            surveyService.updateSurvey(survey, null);
         }
         
         result.setResult(survey);
@@ -100,7 +101,7 @@ public class SurveyController {
 	
 	
 	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("survey") Survey survey, @RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "/common/surveys/modals/new_survey_modal :: surveyForm";
 		}
@@ -109,8 +110,7 @@ public class SurveyController {
 		User user = Utility.getUser();
 		
 		survey.setUser(user);
-		survey.setCreationDate(new Date());
-		surveyService.createSurvey(survey);
+		surveyService.createSurvey(survey, iconfile);
 		
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}
@@ -123,13 +123,17 @@ public class SurveyController {
 	}
 	
 	@PostMapping("/update")
-	public String update(@Valid @ModelAttribute("survey") Survey survey, Errors errors) throws BusinessException {
+	public String update(@Valid @ModelAttribute("survey") Survey survey, @RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
 		if(errors.hasErrors()) {
 			return "redirect:/surveys/detail?id="+survey.getId() + "&erro=true";
 		}
-		
-		surveyService.updateSurvey(survey);
 
+		if (iconfile == null) {
+			surveyService.updateSurvey(survey, null);
+		}else {
+			surveyService.updateSurvey(survey, iconfile);
+		}
+		
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}
 	

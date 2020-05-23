@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.domain.questions;
+package it.univaq.disim.mwt.apollo.domain;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import lombok.Data;
 
 @Data
-@Document(collection = "QuestionFiles")
-@TypeAlias("QuestionFile")
-public class QuestionFile {
+@Document(collection = "SurveyFiles")
+@TypeAlias("SurveyFile")
+public class SurveyFile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

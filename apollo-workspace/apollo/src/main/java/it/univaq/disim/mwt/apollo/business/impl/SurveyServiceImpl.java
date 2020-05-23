@@ -1,24 +1,31 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
+import it.univaq.disim.mwt.apollo.business.SurveyFileService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.SurveyFile;
 import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +41,9 @@ public class SurveyServiceImpl implements SurveyService {
 	@Autowired
 	QuestionGroupService questionGroupService;
 
+	@Autowired
+	SurveyFileService surveyFileService;
+	
 	@Override
 	public List<Survey> findAllSurveys() throws BusinessException {
 		return surveyRepository.findAll();
@@ -90,13 +100,53 @@ public class SurveyServiceImpl implements SurveyService {
 	}
 
 	@Override
-	public void createSurvey(Survey survey) throws BusinessException {
-		surveyRepository.save(survey);
+	public void createSurvey(Survey survey, MultipartFile file) throws BusinessException {
+		try {
+			if(file != null && !file.isEmpty()) {
+				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
+					throw new BusinessException("File format not valid: "+ file.getContentType());
+				}
+				SurveyFile icon = new SurveyFile();
+				icon.setName(file.getOriginalFilename());
+				icon.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				surveyFileService.create(icon);
+				survey.setIcon(icon);
+			}
+			
+			surveyRepository.save(survey);
+		}catch(IOException e) {
+			throw new BusinessException(e);
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
+
 	}
 
 	@Override
-	public void updateSurvey(Survey survey) throws BusinessException {
-		surveyRepository.save(survey);
+	public void updateSurvey(Survey survey, MultipartFile file) throws BusinessException {
+		try {
+			if(file != null && !file.isEmpty()) {
+				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
+					throw new BusinessException("File format not valid: "+ file.getContentType());
+				}
+				SurveyFile icon = new SurveyFile();
+				icon.setName(file.getOriginalFilename());
+				icon.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				
+				// Delete old icon
+				surveyFileService.delete(survey.getIcon());
+				
+				// Set new icon
+				surveyFileService.create(icon);
+				survey.setIcon(icon);
+			}
+			
+			surveyRepository.save(survey);
+		}catch(IOException e) {
+			throw new BusinessException(e);
+		}catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override

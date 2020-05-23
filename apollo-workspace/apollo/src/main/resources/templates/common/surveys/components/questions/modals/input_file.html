@@ -22,11 +22,12 @@
 						<div class="form-control-label" th:if="${question.id != null}">
 							<div th:if="${question.file != null}">
 								<input type="hidden" th:field="*{file.id}" />
-								<div>
+								<small>
 									File: [[*{file.name}]]
-								</div>
+								</small>
 							</div>
-							<div th:if="${question.file == null}" th:text="#{file.nofile}">
+							<div th:if="${question.file == null}">
+								<small th:text="#{file.nofile}"></small>
 							</div>
 						</div>
 					</div>

@@ -1,6 +1,5 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,10 +24,8 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
 import lombok.ToString;
 
 @Data
@@ -50,7 +47,8 @@ public class Survey {
 	@NotNull
 	private String description;
 	
-	private File icon;
+	private SurveyFile icon;
+	
 	private boolean secret;
 	private boolean active;
 	

@@ -52,8 +52,8 @@
 							<th th:text="#{survey.icon}">Icon</th>
 							<th th:text="#{survey.name}">Name</th>
 							<th th:text="#{survey.status}">Status</th>
+							<th th:text="#{survey.secret}">Private</th>
 							<th th:text="#{survey.creationDate}">Creation Date</th>
-							<!-- 							<th th:text="#{survey.completions}">Completions</th> -->
 							<th th:text="#{common.action}">Actions</th>
 						</tr>
 					</thead>
@@ -66,7 +66,14 @@
 		<script th:inline="javascript">
 			$(document).ready(function () {
 				$('#survey_table').DataTable({
-					"columns": [{ "data": "icon" },
+					"columns": [{ "data": "icon",
+									"render": function (data, type, row, meta) {
+										if (row.icon) {
+											return '<img class="avatar  rounded-circle" src="data:image/;base64,' +row.icon.data.data +'"/>';
+										}
+										return '<img class="avatar  rounded-circle" src="/apollo/dist/img/theme/light/brand-avatar-3.png"/>';
+									}
+								},
 								{ "data": "name",
 									"render": function (data, type, row, meta) {
 										return '<a href="[(@{/surveys/overview})]?id=' + row.id + '" class="name mb-0 h6 text-md">'+row.name+'</a>';
@@ -75,6 +82,11 @@
 								{ "data": "active",
 									"render": function (data, type, row, meta) {
 										return '<span class="badge badge-dot mr-4"><i class="' + (row.active ? 'bg-success' : 'bg-danger') + '"></i><span class="status">'+ (row.active ? '[[#{common.active}]]' : '[[#{common.inactive}]]') +'</span></span>';
+									}
+								},
+								{ "data": "secret",
+									"render": function (data, type, row, meta) {
+										return '<span class="badge badge-dot mr-4"><i class="' + (row.secret ? 'bg-success' : 'bg-danger') + '"></i><span class="status">'+ (row.secret ? 'Yes' : 'No') +'</span></span>';
 									}
 								},
 								{ "data": "creationDate",

@@ -54,7 +54,7 @@ public class QuestionGroupController {
 		
 		// Update survey
 		survey.addQuestionGroup(group);
-		surveyService.updateSurvey(survey);
+		surveyService.updateSurvey(survey, null);
 		
 		return "redirect:/surveys/detail?id="+survey.getId();
 	}

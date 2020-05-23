@@ -160,12 +160,12 @@ function openQuestionModal(url, type, modal_id, request_param) {
 }
 
 function setChoiceQuestionAttr(url) {
-    let splitted_url = url.split('/');
+    // let splitted_url = url.split('/');
 
-    if (splitted_url[splitted_url.length - 1] === 'update') {
-        splitted_url[splitted_url.length - 1] = 'update';
-        $('#question_choice_form').attr("action", splitted_url.join('/'));
-    }
+    // if (splitted_url[splitted_url.length - 1] === 'update') {
+    //     splitted_url[splitted_url.length - 1] = 'update';
+    //     $('#question_choice_form').attr("action", splitted_url.join('/'));
+    // }
     optionList = optionList.length > 0 ? [] : optionList;
     setChoiceOptions();
 }

@@ -1,23 +1,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
+
 <body>
-<!-- MODAL NEW SURVEY -->
-<div class="modal fade" id="modal-create-new-survey" tabindex="-1" role="dialog" aria-hidden="true"
-     th:fragment="surveyForm">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title align-items-center">
-                    <!-- MODAL TITLE -->
-                    <h6 th:if="${#request.getRequestURI().endsWith('create')}" class="mb-0" th:text="#{survey.create}"></h6>
+    <!-- MODAL NEW SURVEY -->
+    <div class="modal fade" id="modal-create-new-survey" tabindex="-1" role="dialog" aria-hidden="true"
+        th:fragment="surveyForm">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title align-items-center">
+                        <!-- MODAL TITLE -->
+                        <h6 th:if="${#request.getRequestURI().endsWith('create')}" class="mb-0" th:text="#{survey.create}"></h6>
                     <h6 th:if="${#request.getRequestURI().endsWith('update')}" class="mb-0" th:text="#{survey.edit}"></h6>
                 </div>
             </div>
 
-            <form id="survey_form" th:action="${#request.getRequestURI()}"
+            <form id="survey_form" th:action="${#request.getRequestURI()}" enctype="multipart/form-data"
                   th:object="${survey}" class="form-horizontal" method="post">
 
                 <!-- update case -->
-                <input th:if="${survey.id != null}" type="hidden" name="id" th:value="${survey.id}" th:fields="*{id}" />
+                <input th:if="${survey.id != null}" type="hidden" name="id" th:value="${survey.id}" th:field="*{id}" />
+                <input th:if="${survey.user != null}" type="hidden" name="user" th:value="${survey.user}" th:field="*{user}" />
                 
                 <div class="modal-body">
 
@@ -42,6 +45,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- SECRET -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" name="secret" id="secret" th:field="*{secret}">
+                                <label class="custom-control-label form-control-label" for="secret" th:text="#{survey.secret}"></label>
+                                <span th:if="${#fields.hasErrors('secret')}" th:each="err: ${#fields.errors('secret')}" th:utext="${err}"></span>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!--  DATES -->
                     <div class="row">
@@ -61,13 +75,28 @@
                         </div>
                     </div>
 
-                    
-                    <!-- SECRET -->
-                    <div class="form-group custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" name="secret" th:field="*{secret}"/>
-                        <label class="form-control-label custom-control-label" for="secret" th:text="#{survey.secret}"></label>
-                        <span th:if="${#fields.hasErrors('secret')}" th:each="err: ${#fields.errors('secret')}" th:utext="${err}"></span>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label class="form-control-label mb-0">
+                                    Icon
+                                </label>
+
+                                <div class="custom-file" th:if="${survey.id == null}">
+                                    <input type="file" class="custom-file-input" id="iconfile" name="iconfile" th:value="${iconfile}" accept="image/*" />
+                                    <label id="survey_icon" class="custom-file-label text-truncate" for="customIcon">Choose file...</label>
+                                </div>
+                                <!--Update case -->
+                                <div class="custom-file" th:if="${survey.id != null}">
+                                    <input type="file" class="custom-file-input" id="iconfile" name="iconfile" th:value="${iconfile}"
+                                        accept="image/*" />
+                                    <input type="text" class="hidden" id="icon" name="icon" th:field="*{icon}"/>
+                                    <label id="survey_icon" class="custom-file-label text-truncate" for="customIcon" th:text="${survey.icon != null ? survey.icon.name : 'Choose file...'}"></label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
 
                 <div class="modal-footer">
@@ -80,6 +109,15 @@
         </div>
 
     </div>
+    <script>
+        $("#iconfile").change(function () {
+            $("#survey_icon").text(this.files[0].name);
+        });
+        $("#iconfile").hover(function () {
+            $(this).css("cursor", "pointer");
+        });
+    </script>
 </div>
+
 </body>
 </html>

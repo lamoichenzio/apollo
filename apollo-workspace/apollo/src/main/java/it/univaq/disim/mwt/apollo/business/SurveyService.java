@@ -2,6 +2,8 @@ package it.univaq.disim.mwt.apollo.business;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
@@ -20,9 +22,9 @@ public interface SurveyService {
 	
 	Survey findSurveyById(String id) throws BusinessException;
 	
-	void createSurvey(Survey survey) throws BusinessException;
+	void createSurvey(Survey survey, MultipartFile file) throws BusinessException;
 	
-	void updateSurvey(Survey survey) throws BusinessException;
+	void updateSurvey(Survey survey, MultipartFile file) throws BusinessException;
 	
 	void deleteSurvey(Survey survey) throws BusinessException;
 }
