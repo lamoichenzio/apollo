@@ -101,18 +101,24 @@ function surveyPublished(response) {
 
 /** QUESTION GROUP FUNCTIONS **/
 
-// Open Question Group modal
-function openQuestionGroupModal(url, modal_id, survey_id) {
+
+/**
+ * Do a GET request for the Question Group model.
+ * @param {String} url 
+ * @param {String} modal_id 
+ * @param {String} survey_id 
+ */
+function getQuestionGroupRequest(url, modal_id, survey_id) {
+    let request = getRequestByUrl(url, survey_id, 'QuestionGroup', 'get');
+
     $.ajax({
         type: "GET",
         url: url,
-        data: {
-            "id": survey_id
-        },
+        data: request,
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
-        timeout: 600000,
+        timeout: 10000,
         success: function (response) {
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
