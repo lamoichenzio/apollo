@@ -79,4 +79,7 @@ public class Survey {
 		questionGroups.add(questionGroup);
 	}
 
+	public void removeQuestionGroup(QuestionGroup group) {
+		questionGroups.removeIf((QuestionGroup g) -> g.getId().equals(group.getId()));
+	}
 }

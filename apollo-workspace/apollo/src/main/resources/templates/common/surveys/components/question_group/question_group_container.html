@@ -3,8 +3,33 @@
 <div class="card-body pb-0" th:fragment="group" title="group-container">
 
 	<!-- GROUP CONTAINER -->
-	<h5 class="mb-1">[[${groupInfo.title}]]</h5>
-	<h6 class="mb-3">[[${groupInfo.description}]]</h6>
+	<div class="row">
+		<div class="col-10">
+			<h5 class="mb-1 p-1">[[${groupInfo.title}]]</h5>
+			<h6 class="text-muted mb-3 p-1">[[${groupInfo.description}]]</h6>
+		</div>
+
+		<div class="col-2">
+			<div class="text-right px-1">
+				<div class="dropdown" data-toggle="dropdown">
+					<a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						<i class="far fa-cog"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a href="#"
+							th:onClick="getQuestionGroupRequest([[@{/questiongroups/update}]],'#modal-create-new-group', [[${groupInfo.id}]])"
+							class="dropdown-item">[[#{common.edit}]]</a>
+						<a href="#"
+							th:onClick="getQuestionGroupRequest([[@{/questiongroups/delete}]], '#modal-delete-group', [[${groupInfo.id}]])"
+							class="dropdown-item text-danger">[[#{common.delete}]]</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
 
 	<div class="card border mb-0 shadow-none bg-gray-100">
 		<div class="card-body row align-items-center mx-2 justify-content-center">

@@ -82,11 +82,7 @@
 					<!-- Description-->
 					<div class="col-12">
 						<div class="row align-items-center my-2 px-1">
-
-							<input id="survey_name" type="hidden" name="surveyName" th:value="${survey.name}" />
-							
-							<input id="survey_desc" type="text" class="form-control form-control-flush form-control-xl p-0 text-primary"
-								placeholder="Enter a description for the survey" th:value="${survey.description}" disabled="disabled">
+							<p id="survey_desc" type="text" class="text-lg my2-1 p-1" th:text="${survey.description}"></p>
 						</div>
 					</div>
 
@@ -108,7 +104,7 @@
 					<div class="col-auto d-flex align-items-center">
 
 						<button id="create_group" type="button" class="btn btn-primary btn-icon rounded-pill"
-							th:onclick="openQuestionGroupModal([[@{/questiongroups/create}]],
+							th:onclick="getQuestionGroupRequest([[@{/questiongroups/create}]],
 							'#modal-create-new-group', [[${survey.id}]])">
 							<span class="btn-inner--icon">
 								<i class="far fa-plus"></i>

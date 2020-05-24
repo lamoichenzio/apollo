@@ -1,5 +1,8 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,25 +34,25 @@ public class QuestionGroupController {
 	private SurveyService surveyService;
 
 	@GetMapping("/create")
-	public String createStart(@RequestParam String id, Model model) {
+	public String createStart(@RequestParam String survey_id, Model model) throws BusinessException {
 		QuestionGroup group = new QuestionGroup();
+		group.setSurvey(surveyService.findSurveyById(survey_id));
+		
 		model.addAttribute("group", group);
-		model.addAttribute("survey_id", id);
+
 		return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 	}
 	
 
 	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("group") QuestionGroup group, @ModelAttribute("survey_id") String id,
-			Errors errors) throws BusinessException {	
+	public String create(@Valid @ModelAttribute("group") QuestionGroup group, Errors errors) throws BusinessException {	
 		if (errors.hasErrors()) {	
 			return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 		}
 		
-		Survey survey = surveyService.findSurveyById(id);
+		Survey survey = group.getSurvey();
 		
 		// Create group
-		group.setSurvey(survey);
 		service.createQuestionGroup(group);
 		
 		// Update survey
@@ -64,7 +67,7 @@ public class QuestionGroupController {
 	public String updateStart(@RequestParam String id, Model model) throws BusinessException {
 		QuestionGroup group = service.findQuestionGroupById(id);
 		model.addAttribute("group", group);
-		return "group/form";
+		return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 	}
 
 	@PostMapping("/update")
@@ -73,12 +76,27 @@ public class QuestionGroupController {
 			return "group/form";
 		}
 		service.updateQuestionGroup(group);
-		return "redirect:/common/form";
+		return "redirect:/surveys/detail?id="+group.getSurvey().getId();
 	}
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam String id) throws BusinessException {
-		service.deleteQuestionGroupById(id);
-		return "redirect:/common/form";
+	public String deleteStart(@RequestParam String id, Model model) throws BusinessException {
+		model.addAttribute("group_id", id);
+		return "/common/surveys/components/question_group/modals/delete_group_modal :: questionGroupDelete";
+	}
+	
+	@PostMapping("/delete")
+	public String delete(@ModelAttribute("group_id") String id, Errors errors) throws BusinessException {
+		QuestionGroup group = service.findQuestionGroupById(id);
+		Survey survey = group.getSurvey();
+
+		// Update survey
+		survey.removeQuestionGroup(group);
+		surveyService.updateSurvey(survey, null);
+
+		// Delete group
+		service.deleteQuestionGroup(group);
+		
+		return "redirect:/surveys/detail?id="+survey.getId();
 	}
 }
