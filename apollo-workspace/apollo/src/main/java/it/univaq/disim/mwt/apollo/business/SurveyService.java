@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo.business;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,8 @@ public interface SurveyService {
 	ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid request, User user) throws BusinessException;
 	
 	List<Survey> findSurveysByName(String name) throws BusinessException;
+
+	List<Survey> findSurveysByStartDateOrEndDate(Date startDate, Date endDate) throws BusinessException;
 	
 	Survey findSurveyById(String id) throws BusinessException;
 	

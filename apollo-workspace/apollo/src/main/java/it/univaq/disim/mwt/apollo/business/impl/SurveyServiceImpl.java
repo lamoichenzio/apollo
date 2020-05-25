@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,14 +35,14 @@ import java.util.List;
 public class SurveyServiceImpl implements SurveyService {
 
 	@Autowired
-	SurveyRepository surveyRepository;
+	private SurveyRepository surveyRepository;
 	
 	@Autowired
-	QuestionGroupService questionGroupService;
+	private QuestionGroupService questionGroupService;
 
 	@Autowired
-	DocumentFileService documentFileService;
-	
+	private DocumentFileService documentFileService;
+
 	@Override
 	public List<Survey> findAllSurveys() throws BusinessException {
 		return surveyRepository.findAll();
@@ -67,34 +68,55 @@ public class SurveyServiceImpl implements SurveyService {
 	@Override
 	public ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid requestGrid, User user)
 			throws BusinessException {
-		Survey survey = new Survey();
-		survey.setName(requestGrid.getSearch().getValue());
-		survey.setUser(user);
+		try{
+			Survey survey = new Survey();
+			survey.setName(requestGrid.getSearch().getValue());
+			survey.setUser(user);
 
-		ExampleMatcher matcher = ExampleMatcher.matchingAll()
-				.withMatcher("name", GenericPropertyMatchers.ignoreCase())
-				.withIgnoreNullValues();
-		Example<Survey> example = Example.of(survey, matcher);
+			ExampleMatcher matcher = ExampleMatcher.matchingAll()
+					.withMatcher("name", GenericPropertyMatchers.ignoreCase())
+					.withIgnoreNullValues();
+			Example<Survey> example = Example.of(survey, matcher);
 
-		Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
-		Page<Survey> page = surveyRepository.findAll(example, pageable);
-		page.getContent().forEach(item -> {
-			log.info("qui");
-			log.info(item.toString());
-		});
-		
-		return new ResponseGrid<Survey>(requestGrid.getDraw(), page.getTotalElements(), page.getTotalElements(),
-				page.getContent());
+			Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
+			Page<Survey> page = surveyRepository.findAll(example, pageable);
+			page.getContent().forEach(item -> {
+				log.info("qui");
+				log.info(item.toString());
+			});
+
+			return new ResponseGrid<Survey>(requestGrid.getDraw(), page.getTotalElements(), page.getTotalElements(),
+					page.getContent());
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public List<Survey> findSurveysByName(String name) throws BusinessException {
-		return surveyRepository.findSurveysByName(name);
+		try{
+			return surveyRepository.findSurveysByName(name);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
+	}
+
+	@Override
+	public List<Survey> findSurveysByStartDateOrEndDate(Date startDate, Date endDate) throws BusinessException {
+		try{
+			return surveyRepository.findSurveyByStartDateOrEndDate(startDate, endDate);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public Survey findSurveyById(String id) throws BusinessException {
-		return surveyRepository.findFirstById(id);
+		try{
+			return surveyRepository.findById(id).get();
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override

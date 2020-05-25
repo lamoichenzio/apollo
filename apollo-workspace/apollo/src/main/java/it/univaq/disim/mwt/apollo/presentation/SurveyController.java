@@ -81,8 +81,7 @@ public class SurveyController {
         if (survey.getUrlId() != null) {
         	result.setMsg("Survey already published!");
         } else {
-            String urlId = "/apollo/surveys/" + survey.getId();
-            survey.setUrlId(urlId);
+            survey.createSurveyUrl(survey.getId());
             survey.setActive(true);
             surveyService.updateSurvey(survey, null);
         }
