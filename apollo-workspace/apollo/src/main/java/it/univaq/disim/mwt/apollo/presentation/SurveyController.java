@@ -78,7 +78,7 @@ public class SurveyController {
 
         }
         
-        if (survey.getUrlId() != null) {
+        if (survey.isActive()) {
         	result.setMsg("Survey already published!");
         } else {
             survey.createSurveyUrl(survey.getId());
