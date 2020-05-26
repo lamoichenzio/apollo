@@ -7,9 +7,13 @@ const CHECK = 'CHECK';
 const RADIO = 'RADIO';
 const SELECT = 'SELECT';
 
+const MATRIX = 'MATRIX';
+const STANDARD = 'STANDARD';
+
 const SPINNER = '<div id="spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div >';
 
 var optionList = [];
+var optionValues = [];
 
 
 /** SURVEY FUNCTIONS **/
@@ -97,18 +101,24 @@ function surveyPublished(response) {
 
 /** QUESTION GROUP FUNCTIONS **/
 
-// Open Question Group modal
-function openQuestionGroupModal(url, modal_id, survey_id) {
+
+/**
+ * Do a GET request for the Question Group model.
+ * @param {String} url 
+ * @param {String} modal_id 
+ * @param {String} survey_id 
+ */
+function getQuestionGroupRequest(url, modal_id, survey_id) {
+    let request = getRequestByUrl(url, survey_id, 'QuestionGroup', 'get');
+
     $.ajax({
         type: "GET",
         url: url,
-        data: {
-            "id": survey_id
-        },
+        data: request,
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
-        timeout: 600000,
+        timeout: 10000,
         success: function (response) {
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
@@ -147,9 +157,10 @@ function openQuestionModal(url, type, modal_id, request_param) {
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
 
-            // Choice question
+            // Check Choice Question type
             if (type && (type === CHECK || type === RADIO || type === SELECT)) {
-                setChoiceQuestionAttr(url);
+                let instance = $("#instance").val();
+                setChoiceQuestionAttr(instance);
             }
         },
         error: function (e) {
@@ -163,20 +174,26 @@ function postQuestion(){
 
 }
 
-function setChoiceQuestionAttr(url) {
-    // let splitted_url = url.split('/');
-
-    // if (splitted_url[splitted_url.length - 1] === 'update') {
-    //     splitted_url[splitted_url.length - 1] = 'update';
-    //     $('#question_choice_form').attr("action", splitted_url.join('/'));
-    // }
+function setChoiceQuestionAttr(instance) {
     optionList = optionList.length > 0 ? [] : optionList;
     setChoiceOptions();
+    
+    if (instance && instance === MATRIX) {
+        optionValues = optionValues.length > 0 ? [] : optionValues;
+        setOptionValues();
+    }
+
 }
 
 function setChoiceOptions() {
     $('#options_container').children().each(function() {
         optionList.push($(this));
+    });
+}
+
+function setOptionValues() {
+    $("#option_values_container").children().each( function() {
+        optionValues.push($(this));
     });
 }
 
@@ -194,6 +211,24 @@ function adjustChoiceOptions() {
         item.find('div[name ="delete_container"]').find('a').attr("id", "delete_choice_" + i);
         item.find('div[name ="delete_container"]').find('a').attr('onclick','deleteOption(event, ' + i + ')');
     
+        i += 1;
+    }
+}
+
+function adjustOptionValues() {
+    let i = 0;
+    for (let item of optionValues) {
+
+        item.attr("id", "option_value_" + i);
+
+        let input_value_container = item.find('div[name ="input_value_container"]');
+        input_value_container.attr("id", "value-" + i);
+        input_value_container.find('input').attr("name", "optionValues[" + i + "]");
+        input_value_container.find('input').attr("id", "optionValues" + i);
+
+        item.find('div[name ="delete_value_container"]').find('a').attr("id", "delete_value_" + i);
+        item.find('div[name ="delete_value_container"]').find('a').attr('onclick', 'deleteOptionValue(event, ' + i + ')');
+
         i += 1;
     }
 }
@@ -230,6 +265,38 @@ function deleteOption(event, index) {
         optionList[index].remove();
         optionList.splice(index, 1);
         adjustChoiceOptions();
+    }
+}
+
+/**
+ * Add option value.
+ */
+function addOptionValue() {
+    let item = optionValues[0].clone();
+    item.find('div[name ="input_value_container"]').find('input').val("");
+
+    optionValues.push(item);
+    adjustOptionValues();
+    $("#option_values_container").append(optionValues);
+}
+
+/**
+ * Delete Option value.
+ * @param {Event} event 
+ * @param {Number} index 
+ */
+function deleteOptionValue(event, index) {
+    event.preventDefault();
+
+    if (optionValues.length === 1) {
+        $('#option_value_error').find('span').show();
+        setTimeout(function () {
+            $('#option_value_error').find('span').hide();
+        }, 2000);
+    } else {
+        optionValues[index].remove();
+        optionValues.splice(index, 1);
+        adjustOptionValues();
     }
 }
 

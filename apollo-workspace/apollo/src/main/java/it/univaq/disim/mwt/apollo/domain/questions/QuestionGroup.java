@@ -31,11 +31,13 @@ public class QuestionGroup {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@Size(max=100)
+	@NotNull
+	@Size(max=60)
 	private String title;
 	
 	private String description;
 	
+	@NotNull
 	@DBRef
 	private Survey survey;
 

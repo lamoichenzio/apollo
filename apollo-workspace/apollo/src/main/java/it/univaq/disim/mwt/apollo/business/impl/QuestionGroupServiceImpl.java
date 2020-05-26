@@ -73,7 +73,13 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 
 	@Override
 	public void deleteQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
-		try {			
+		try {	
+			// Delete related questions, if exists
+			if (questionGroup.getQuestions() != null && questionGroup.getQuestions().size() > 0) {
+				Iterable<Question> questions = (Iterable<Question>)questionGroup.getQuestions();
+				questionService.deleteQuestionList(questions);
+			}
+			// Delete group
 			questionGroupRepository.delete(questionGroup);
 		}catch(DataAccessException e) {
 			throw new BusinessException(e);

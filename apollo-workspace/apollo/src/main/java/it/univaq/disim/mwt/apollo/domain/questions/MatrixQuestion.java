@@ -21,11 +21,11 @@ public class MatrixQuestion extends Question {
 	
 	@NotNull
 	@ElementCollection
-	private List<String> questions;
+	private List<String> options;
 	
 	@NotNull
 	@ElementCollection
-	private List<String> questionValues;
+	private List<String> optionValues;
 
 	@NotNull
 	private ChoiceType type;
