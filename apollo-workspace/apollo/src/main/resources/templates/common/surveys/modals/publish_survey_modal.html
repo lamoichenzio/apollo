@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-11">
                         <span class="form-control-label">[[#{common.publiclink}]]</span>
-                        <input id="urlId" type="text" class="form-control" th:value="${survey.urlId != null ? survey.urlId : ''}" th:placeholder="#{survey.publishplaceholder}" disabled="disabled"/>
+                        <input id="urlId" type="text" class="form-control" th:value="${survey.urlId != '/apollo/survey' ? survey.urlId : ''}" th:placeholder="#{survey.publishplaceholder}" disabled="disabled"/>
                     </div>
                     <div class="col-1 mt-4 p-2">
                         <a href="#" th:onclick="copyToClipboard('urlId')" title="Copy to clipboard"><i class="far fa-copy fa-2x"></i></a>

@@ -116,7 +116,7 @@
             </div>
 
         </div>
-        <script>
+        <script th:inline="javascript">
             $("#iconfile").change(function () {
                 $("#survey_icon").text(this.files[0].name);
             });
@@ -129,14 +129,17 @@
                 let startDate = data.find((elem) => elem.name == 'startDate');
                 let endDate = data.find((elem) => elem.name == 'endDate');
                 let today = new Date().setHours(0, 0, 0, 0);
-
                 // Dates validation
-                if (startDate && (new Date(startDate.value) < today)) {
-                    $("#errors").text("*Start Date less than today");
+                if (startDate.value !== "" && (new Date(startDate.value) < today)) {
+                    $("#errors").text([[#{startdate.lower}]]);
                     err = true;
                 }
-                if (startDate && endDate && (startDate.value > endDate.value)) {
-                    $("#errors").text("*Start Date grather than End Date");
+                if (endDate.value !== "" && (new Date(endDate.value) < today)) {
+                    $("#errors").text([[#{enddate.lower}]]);
+                    err = true;
+                }
+                if (startDate.value !== "" && endDate.value !== "" && (startDate.value > endDate.value)) {
+                    $("#errors").text([[#{startdate.greater}]]);
                     err = true;
                 }
                 if (err) {

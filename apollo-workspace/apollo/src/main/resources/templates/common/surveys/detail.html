@@ -45,8 +45,9 @@
 							</div>
 							<div class="col-4">
 								<small>[[#{survey.startDate}]]</small>
-								<div class="h6 mb-0"
-									th:text="${survey.startDate != null ? #temporals.format(survey.startDate) : 'Not provided'}">
+								<div class="h6 mb-0">
+									<span th:text="${#temporals.format(survey.startDate)}" th:if="${survey.startDate != null}"></span>
+									<span th:text="#{not.provided}" th:if="${survey.startDate == null}"></span>
 								</div>
 							</div>
 
@@ -62,8 +63,9 @@
 							</div>
 							<div class="col-4">
 								<small>[[#{survey.endDate}]]</small>
-								<div class="h6 mb-0"
-									th:text="${survey.endDate != null ? #temporals.format(survey.endDate) : 'Not provided'}">
+								<div class="h6 mb-0">
+									<span th:text="${#temporals.format(survey.endDate)}" th:if="${survey.endDate != null}"></span>
+									<span th:text="#{not.provided}" th:if="${survey.endDate == null}"></span>
 								</div>
 							</div>
 						</div>
