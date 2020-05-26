@@ -21,7 +21,7 @@
 
 	<dependencies>
 
-		<!--DATA-->
+		<!--DATA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -33,19 +33,19 @@
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-		<!--RETRY-->
+		<!--RETRY -->
 		<dependency>
 			<groupId>org.springframework.retry</groupId>
 			<artifactId>spring-retry</artifactId>
 		</dependency>
 
-		<!--SECURITY-->
+		<!--SECURITY -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
-		<!--THYMELEAF-->
+		<!--THYMELEAF -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -58,14 +58,14 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
-
+	
 		<!-- WEB -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
-		<!--DEVTOOLS-->
+		<!--DEVTOOLS -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -73,14 +73,14 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!--CONFIGURATION-->
+		<!--CONFIGURATION -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
 
-		<!--LOMBOK-->
+		<!--LOMBOK -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

@@ -100,7 +100,8 @@ public class SurveyController {
 	
 	
 	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("survey") Survey survey, @RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("survey") Survey survey, 
+			@RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "/common/surveys/modals/new_survey_modal :: surveyForm";
 		}

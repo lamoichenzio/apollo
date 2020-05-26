@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -20,6 +21,7 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestio
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.Gender;
 import it.univaq.disim.mwt.apollo.domain.Role;
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 
@@ -70,7 +72,7 @@ public class ApolloApplication {
             standardUser.setPassword(encoder.encode("pippo"));
             standardUser.setFirstname("Pippo");
             standardUser.setLastname("Franco");
-            standardUser.setEmail("prova@example.it");
+            standardUser.setEmail("giordano.daloisio@gmail.com");
             Date birthdate = new GregorianCalendar(1994, Calendar.NOVEMBER, 13).getTime();
             standardUser.setBirthdate(birthdate);
             standardUser.setGender(Gender.MALE);
@@ -78,17 +80,14 @@ public class ApolloApplication {
             utenteRepository.save(standardUser);
             
             // SURVEY
-//            Survey survey = new Survey();
-//            survey.setName("Test");
-//            survey.setDescription("Test");
-//            survey.setUser(standardUser);
-//            Date now = new Date();
-//            survey.setStartDate(now);
-//            Calendar cal = Calendar.getInstance();
-//            cal.setTime(now);
-//            cal.add(Calendar.DATE, 7);
-//            survey.setEndDate(cal.getTime());
-//            surveyRepository.save(survey);
+            Survey survey = new Survey();
+            survey.setName("Test");
+            survey.setDescription("Test");
+            survey.setUser(standardUser);
+            LocalDate now = LocalDate.now();
+            survey.setStartDate(now);
+            survey.setEndDate(now.plusDays(7));
+            surveyRepository.save(survey);
             
             // CHOICE QUESTION
 //            ChoiceQuestion question = new ChoiceQuestion();

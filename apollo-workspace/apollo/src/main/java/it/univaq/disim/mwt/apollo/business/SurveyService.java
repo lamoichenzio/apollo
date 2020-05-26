@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo.business;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public interface SurveyService {
 	
 	List<Survey> findSurveysByName(String name) throws BusinessException;
 
-	List<Survey> findSurveysByStartDateOrEndDate(Date startDate, Date endDate) throws BusinessException;
+	List<Survey> findSurveysByStartDateOrEndDate(LocalDate startDate, LocalDate endDate) throws BusinessException;
 	
 	Survey findSurveyById(String id) throws BusinessException;
 	
@@ -30,4 +31,5 @@ public interface SurveyService {
 	void updateSurvey(Survey survey, MultipartFile file) throws BusinessException;
 	
 	void deleteSurvey(Survey survey) throws BusinessException;
+
 }

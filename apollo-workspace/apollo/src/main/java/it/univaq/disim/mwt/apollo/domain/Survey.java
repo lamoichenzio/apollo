@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo.domain;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,10 +54,11 @@ public class Survey {
 	@DateTimeFormat(iso=ISO.DATE)
 	private Date creationDate;
 	
-	@DateTimeFormat(iso=ISO.DATE)
-	private Date startDate;
-	@DateTimeFormat(iso=ISO.DATE)
-	private Date endDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate startDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate endDate;
 	
 	//@Indexed(unique=true)
 	@Setter(AccessLevel.NONE)

@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class SurveyServiceImpl implements SurveyService {
 	}
 
 	@Override
-	public List<Survey> findSurveysByStartDateOrEndDate(Date startDate, Date endDate) throws BusinessException {
+	public List<Survey> findSurveysByStartDateOrEndDate(LocalDate startDate, LocalDate endDate) throws BusinessException {
 		try{
 			return surveyRepository.findSurveyByStartDateOrEndDate(startDate, endDate);
 		}catch (DataAccessException e){
