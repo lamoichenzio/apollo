@@ -71,17 +71,18 @@ function postSurveyRequest(url, param) {
         success: function (response) {
             $("#spinner").remove();
 
-            if (response.msg == "active") {
+            // 1 for success and 0 for failure
+            if (response.status) {
                 if (url_splitted[url_splitted.length - 1] === 'publish') {
-                    surveyPublished(response);
+                    if (response.msg == "active") {
+                        surveyPublished(response);   
+                    } else if (response.msg == "inactive") {
+                        surveyUnpublished(response);
+                    }                  
                 }
-            } 
-
-            if (response.msg == "disabled") {
-                if (url_splitted[url_splitted.length - 1] === 'publish') {
-                    surveyDisabled(response);
-                }
-            } 
+            } else {
+                $("#modal_holder").empty();
+            }
             
         },
         error: function (e) {
@@ -97,19 +98,37 @@ function postSurveyRequest(url, param) {
 function surveyPublished(response) {
     $("#urlId").val(response.result.urlId);
     $("#success_message").show();
+    $("#disabled_message").hide();
     $("#survey_active").removeClass("badge-danger").addClass("badge-success");
-    $("#survey_active").text("Yes");
+    $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
+
+    if (translations) {  
+        $("#survey_active").text(translations.yes);
+        $('#publish_submit').text(translations.deactivate);
+    } else {
+        $('#survey_active').text("Yes");
+        $('#publish_submit').text('Disable');
+    }
+
 }
 
 /**
  * Do somethings when a survey is published.
  * @param {Object} response 
  */
-function surveyDisabled(response) {
+function surveyUnpublished(response) {
     $("#urlId").val(response.result.urlId);
     $("#disabled_message").show();
+    $("#success_message").hide();
     $("#survey_active").removeClass("badge-success").addClass("badge-danger");
     $("#survey_active").text("No");
+    $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
+
+    if (translations) {
+        $('#publish_submit').text(translations.publish);
+    } else {
+        $('#publish_submit').text('Publish');
+    }
 }
 
 

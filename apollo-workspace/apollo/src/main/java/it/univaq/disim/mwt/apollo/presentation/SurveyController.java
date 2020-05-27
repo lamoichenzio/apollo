@@ -66,33 +66,35 @@ public class SurveyController {
 	}
 
 	@PostMapping("/publish")
-	public ResponseEntity<SurveyResponseBody> publish(@Valid @RequestBody Survey survey, Errors errors)
+	public ResponseEntity<SurveyResponseBody> publish(@Valid @RequestBody Survey request, Errors errors)
 			throws BusinessException {
 
 		SurveyResponseBody result = new SurveyResponseBody();
 
 		// If error, just return a 400 bad request, along with the error message
 		if (errors.hasErrors()) {
-
+			result.setStatus(0);
 			result.setMsg(
 					errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
 
 			return ResponseEntity.badRequest().body(result);
-
 		}
 
+		Survey survey = surveyService.findSurveyById(request.getId());
+		
 		if (survey.isActive()) {
 			survey.setActive(false);
 			survey.removeSurveyUrl();
 			surveyService.updateSurvey(survey, null);
-			result.setMsg("disabled");
+			result.setMsg("inactive");
 		} else {
 			survey.createSurveyUrl(survey.getId());
 			survey.setActive(true);
 			surveyService.updateSurvey(survey, null);
 			result.setMsg("active");
 		}
-
+		
+		result.setStatus(1);
 		result.setResult(survey);
 
 		return ResponseEntity.ok(result);

@@ -3,7 +3,14 @@
 <body>
     <div class="modal fade" id="modal-publish-survey" tabindex="-1" role="dialog" aria-hidden="true"
         th:fragment="surveyPublish">
-
+        <!-- script for dynamic translations -->
+        <script th:inline="javascript">
+            var translations = {
+                publish: [[#{common.publish}]],
+                deactivate: [[#{common.disable}]],
+                yes: [[#{common.yes}]]
+            };
+        </script>
         <div class="modal-dialog modal-dialog-centered modal" role="document">
             <div class="modal-content">
 
@@ -22,7 +29,7 @@
                         <div class="col-11">
                             <span class="form-control-label">[[#{common.publiclink}]]</span>
                             <input id="urlId" type="text" class="form-control"
-                                th:value="${survey.urlId != '' ? #request.getContextPath() + survey.urlId : ''}"
+                                th:value="${survey.urlId != null ? #request.getContextPath() + survey.urlId : ''}"
                                 th:placeholder="#{survey.publishplaceholder}" disabled="disabled" />
                         </div>
                         <div class="col-1 mt-4 p-2">
@@ -53,9 +60,10 @@
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
                         th:text="#{common.cancel}"></button>
-                    <button type="submit" class="btn btn-sm btn-primary rounded-pill"
+                    <button id="publish_submit" type="submit" name="#{common.disable}" translate="yes" class="btn btn-sm btn-primary rounded-pill"
                         th:text="#{${survey.active ? 'common.disable' : 'common.publish'}}"
                         th:onclick="postSurveyRequest([[@{/surveys/publish}]], [[${survey}]])"></button>
+
                 </div>
 
             </div>
