@@ -17,11 +17,10 @@ public class Role {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Setter(AccessLevel.NONE)
 	private Long id;
 	
-	private String nome;
-	private String descrizione;
+	private String name;
+	private String description;
 
 	
 }

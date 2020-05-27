@@ -23,8 +23,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
@@ -32,7 +32,6 @@ import java.util.List;
 
 @Service
 @Transactional
-@Slf4j
 public class SurveyServiceImpl implements SurveyService {
 
 	@Autowired
@@ -46,27 +45,15 @@ public class SurveyServiceImpl implements SurveyService {
 
 	@Override
 	public List<Survey> findAllSurveys() throws BusinessException {
-		return surveyRepository.findAll();
+		try {
+			return surveyRepository.findAll();
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
-	public ResponseGrid<Survey> findAllSurveysPaginated(RequestGrid requestGrid) throws BusinessException {
-		Survey survey = new Survey();
-
-		survey.setName(requestGrid.getSearch().getValue());
-
-		ExampleMatcher matcher = ExampleMatcher.matchingAny()
-				.withMatcher("name", GenericPropertyMatchers.ignoreCase());
-		Example<Survey> example = Example.of(survey, matcher);
-
-		Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
-		Page<Survey> page = surveyRepository.findAll(example, pageable);
-
-		return new ResponseGrid<Survey>(requestGrid.getDraw(), page.getTotalElements(), page.getTotalElements(),
-				page.getContent());
-	}
-
-	@Override
+	@Transactional(readOnly = true)
 	public ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid requestGrid, User user)
 			throws BusinessException {
 		try{

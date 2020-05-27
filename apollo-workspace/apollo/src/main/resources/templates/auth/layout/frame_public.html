@@ -15,6 +15,23 @@
     <link rel="stylesheet" href="./dist/libs/%40fortawesome/fontawesome-pro/css/all.min.css" th:href="@{/dist/libs/fontawesome-pro/css/all.min.css}">
     <!-- Purpose CSS -->
     <link rel="stylesheet" href="./dist/css/purpose.css" id="stylesheet" th:href="@{/dist/css/purpose.css}">
+    
+    <!-- Scripts -->
+    <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+    <script src="./dist/js/purpose.core.js" th:src="@{/dist/js/purpose.core.js}"></script>
+    <!-- Purpose JS -->
+    <script src="./dist/js/purpose.js" th:src="@{/dist/js/purpose.js}"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-104437451-1');
+    </script>
 </head>
 
 <body class="application application-offset">
@@ -31,24 +48,6 @@
             <!-- Footer -->
         </div>
     </div>
-    <!-- Scripts -->
-    <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
-    <script src="./dist/js/purpose.core.js" th:href="@{/js/purpose.core.js}"></script>
-    <!-- Purpose JS -->
-    <script src="./dist/js/purpose.js" th:href="@{/dist/js/purpose.js}"></script>
-    <!-- Demo JS - remove it when starting your project -->
-    <script src="./dist/js/demo.js" th:href="@{/dist/js/demo.js}"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'UA-104437451-1');
-    </script>
 </body>
 
 </html>

@@ -19,7 +19,6 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.Gender;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
@@ -50,17 +49,19 @@ public class ApolloApplication {
         return (args) -> {
         	// ROLES
             Role adminRole = new Role();
-            adminRole.setNome("ADMIN");
-            adminRole.setDescrizione("amministratore");
+            adminRole.setName("ADMIN");
+            adminRole.setDescription("amministratore");
             roleRepository.save(adminRole);
             Role standardRole = new Role();
-            standardRole.setNome("STANDARD");
-            standardRole.setDescrizione("standard user");
+            standardRole.setName("STANDARD");
+            standardRole.setDescription("standard user");
             roleRepository.save(standardRole);
             
             // USER
             User admin = new User();
             admin.setUsername("admin");
+            admin.setFirstname("Admin");
+            admin.setLastname("Admin");
             String password = encoder.encode("admin");
             admin.setPassword(password);
             admin.setRole(adminRole);
@@ -88,6 +89,14 @@ public class ApolloApplication {
             survey.setStartDate(now);
             survey.setEndDate(now.plusDays(7));
             surveyRepository.save(survey);
+            
+            Survey survey2 = new Survey();
+            survey2.setName("Test");
+            survey2.setDescription("Test");
+            survey2.setUser(standardUser);
+            survey2.setStartDate(now);            
+            survey2.setEndDate(cal.getTime());
+            surveyRepository.save(survey2);
             
             // CHOICE QUESTION
 //            ChoiceQuestion question = new ChoiceQuestion();

@@ -1,6 +1,7 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
 import it.univaq.disim.mwt.apollo.business.DocumentFileService;
+import org.springframework.transaction.annotation.Transactional;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
@@ -19,7 +20,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
