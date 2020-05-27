@@ -129,6 +129,7 @@
                 let startDate = data.find((elem) => elem.name == 'startDate');
                 let endDate = data.find((elem) => elem.name == 'endDate');
                 let today = new Date().setHours(0, 0, 0, 0);
+                let ext = $('#iconfile').val().split('.').pop().toLowerCase();
                 // Dates validation
                 if (startDate.value !== "" && (new Date(startDate.value) < today)) {
                     $("#errors").text([[#{startdate.lower}]]);
@@ -141,6 +142,11 @@
                 if (startDate.value !== "" && endDate.value !== "" && (startDate.value > endDate.value)) {
                     $("#errors").text([[#{startdate.greater}]]);
                     err = true;
+                }
+                // File validation
+                if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+                    err = true;
+                    $("#errors").text([[#{file.invalid}]]);
                 }
                 if (err) {
                     e.preventDefault();

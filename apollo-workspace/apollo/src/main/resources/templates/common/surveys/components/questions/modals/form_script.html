@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <div th:fragment="script">
+        <script th:inline="javascript">
+            $('#form').submit(function (e) {
+                let err = false;
+                let ext = $('#questionfile').val().split('.').pop().toLowerCase();
+                if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+                    err = true;
+                    $("#file_error").text([[#{file.invalid}]]);
+                }
+                if (err) {
+                    e.preventDefault();
+                    $("#file_error").show();
+                }
+            });
+        </script>
+    </div>
+</body>
+
+</html>

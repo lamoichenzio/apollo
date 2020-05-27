@@ -15,7 +15,7 @@
 				</div>
 			</div>
 
-			<form id="question_choice_form" th:action="${#request.getRequestURI()}" th:object="${question}"
+			<form id="form" th:action="${#request.getRequestURI()}" th:object="${question}"
 				class="form-horizontal" method="post" enctype="multipart/form-data">
 
 				<!-- update case -->
@@ -102,7 +102,9 @@
 					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"th:text="#{common.cancel}"></button>	
 					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>						
 				</div>
-
+				
+				<!--File validation script-->
+				<div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
 			</form>
 		</div>
 	</div>
