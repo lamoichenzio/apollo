@@ -90,6 +90,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public ChoiceQuestion findChoiceQuestionById(String id) throws BusinessException {
 		try{
 			return choiceQuestionRepository.findById(id).get();
@@ -99,6 +100,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public InputQuestion findInputQuestionById(String id) throws BusinessException {
 		try {
 			return inputQuestionRepository.findById(id).get();
@@ -108,6 +110,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public MatrixQuestion findMatrixQuestionById(String id) throws BusinessException {
 		try{
 			return matrixQuestionRepository.findById(id).get();
@@ -117,6 +120,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public SelectionQuestion findSelectionQuestionById(String id) throws BusinessException {
 		try{
 			return selectQuestionRepository.findById(id).get();

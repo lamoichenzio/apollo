@@ -74,9 +74,6 @@ public class ApolloApplication {
             standardUser.setFirstname("Pippo");
             standardUser.setLastname("Franco");
             standardUser.setEmail("giordano.daloisio@gmail.com");
-            Date birthdate = new GregorianCalendar(1994, Calendar.NOVEMBER, 13).getTime();
-            standardUser.setBirthdate(birthdate);
-            standardUser.setGender(Gender.MALE);
             standardUser.setRole(standardRole);
             utenteRepository.save(standardUser);
             
@@ -89,14 +86,7 @@ public class ApolloApplication {
             survey.setStartDate(now);
             survey.setEndDate(now.plusDays(7));
             surveyRepository.save(survey);
-            
-            Survey survey2 = new Survey();
-            survey2.setName("Test");
-            survey2.setDescription("Test");
-            survey2.setUser(standardUser);
-            survey2.setStartDate(now);            
-            survey2.setEndDate(cal.getTime());
-            surveyRepository.save(survey2);
+
             
             // CHOICE QUESTION
 //            ChoiceQuestion question = new ChoiceQuestion();

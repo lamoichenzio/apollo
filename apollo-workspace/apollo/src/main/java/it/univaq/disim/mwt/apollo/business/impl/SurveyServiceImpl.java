@@ -1,5 +1,23 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import it.univaq.disim.mwt.apollo.business.DocumentFileService;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
@@ -12,26 +30,10 @@ import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class SurveyServiceImpl implements SurveyService {
 
 	@Autowired
@@ -81,6 +83,7 @@ public class SurveyServiceImpl implements SurveyService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Survey> findSurveysByName(String name) throws BusinessException {
 		try{
 			return surveyRepository.findSurveysByName(name);
@@ -90,6 +93,7 @@ public class SurveyServiceImpl implements SurveyService {
 	}
 
 	@Override
+	@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 	public List<Survey> findSurveysByStartDateOrEndDate(LocalDate startDate, LocalDate endDate) throws BusinessException {
 		try{
 			return surveyRepository.findSurveyByStartDateOrEndDate(startDate, endDate);
@@ -99,6 +103,7 @@ public class SurveyServiceImpl implements SurveyService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Survey findSurveyById(String id) throws BusinessException {
 		try{
 			return surveyRepository.findById(id).get();

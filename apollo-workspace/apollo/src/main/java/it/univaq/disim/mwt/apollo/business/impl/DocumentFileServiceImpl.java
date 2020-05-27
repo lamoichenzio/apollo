@@ -13,13 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
-@Slf4j
 public class DocumentFileServiceImpl implements DocumentFileService {
 
 	@Autowired
 	DocumentFileRepository documentFileRepository;
 	
 	@Override
+	@Transactional(readOnly = true)
 	public DocumentFile findById(String id) throws BusinessException {
 		try {
 			return documentFileRepository.findById(id).get();
