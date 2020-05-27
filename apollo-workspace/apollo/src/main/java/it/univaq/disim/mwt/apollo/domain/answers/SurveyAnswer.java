@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.AccessLevel;
@@ -17,8 +20,8 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-@Document(collection="UserAnswers")
-public class UserAnswer {
+@Document(collection="SurveyAnswers")
+public class SurveyAnswer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,10 +30,11 @@ public class UserAnswer {
 	@DBRef
 	private Survey survey;
 	
+	@CreatedDate
+	@DateTimeFormat(iso=ISO.DATE)
 	private Date date;
 	
 	@DBRef
-	@Setter(AccessLevel.NONE)
 	private Set<Answer> answers = new HashSet<>();
 	
 	public void addAnswer(Answer answer) {

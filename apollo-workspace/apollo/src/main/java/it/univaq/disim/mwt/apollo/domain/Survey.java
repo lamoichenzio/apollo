@@ -62,7 +62,7 @@ public class Survey {
 	
 	//@Indexed(unique=true)
 	@Setter(AccessLevel.NONE)
-	private String urlId="/apollo/survey";
+	private String urlId;
 	
 	@OneToMany
 	private User user;
@@ -80,10 +80,18 @@ public class Survey {
 		questionGroups.add(questionGroup);
 	}
 
+	/**
+	 * Append the id to the static url part to create the survey public url.
+	 * @param id The id of the survey
+	 *	
+	 */
 	public void createSurveyUrl(String id){
-		this.urlId += "/"+id;
+		this.urlId = "/answers/"+id;
 	}
 
+	/**
+	 * Deletes the survey public url
+	 */
 	public void removeSurveyUrl(){
 		this.urlId = "";
 	}

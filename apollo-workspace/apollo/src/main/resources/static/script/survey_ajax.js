@@ -71,15 +71,18 @@ function postSurveyRequest(url, param) {
         success: function (response) {
             $("#spinner").remove();
 
-            if (response.msg == null) {
+            if (response.msg == "active") {
                 if (url_splitted[url_splitted.length - 1] === 'publish') {
                     surveyPublished(response);
                 }
-            } else {
-                // $("#error_message").text(response.msg);
-                $("#error_message").show();
-            }
+            } 
 
+            if (response.msg == "disabled") {
+                if (url_splitted[url_splitted.length - 1] === 'publish') {
+                    surveyDisabled(response);
+                }
+            } 
+            
         },
         error: function (e) {
             console.log('ERROR', e);
@@ -96,6 +99,17 @@ function surveyPublished(response) {
     $("#success_message").show();
     $("#survey_active").removeClass("badge-danger").addClass("badge-success");
     $("#survey_active").text("Yes");
+}
+
+/**
+ * Do somethings when a survey is published.
+ * @param {Object} response 
+ */
+function surveyDisabled(response) {
+    $("#urlId").val(response.result.urlId);
+    $("#disabled_message").show();
+    $("#survey_active").removeClass("badge-success").addClass("badge-danger");
+    $("#survey_active").text("No");
 }
 
 

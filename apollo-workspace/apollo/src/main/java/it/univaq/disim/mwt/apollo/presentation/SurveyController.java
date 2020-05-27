@@ -82,11 +82,15 @@ public class SurveyController {
 		}
 
 		if (survey.isActive()) {
-			result.setMsg("Survey already published!");
+			survey.setActive(false);
+			survey.removeSurveyUrl();
+			surveyService.updateSurvey(survey, null);
+			result.setMsg("disabled");
 		} else {
 			survey.createSurveyUrl(survey.getId());
 			survey.setActive(true);
 			surveyService.updateSurvey(survey, null);
+			result.setMsg("active");
 		}
 
 		result.setResult(survey);

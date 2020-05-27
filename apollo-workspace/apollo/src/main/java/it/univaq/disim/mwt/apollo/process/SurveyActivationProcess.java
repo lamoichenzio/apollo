@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-@Slf4j
 public class SurveyActivationProcess {
 
 	@Autowired
@@ -50,7 +49,6 @@ public class SurveyActivationProcess {
 				}
 			}
 		}
-		log.info("done");
 	}
 
 }
