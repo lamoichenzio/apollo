@@ -76,17 +76,17 @@
 					<div class="col-4 text-right">
 						<div class="actions">
 							<a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip"
-								title="Update" data-target="#actions-update"
+								th:title="#{common.edit}" data-target="#actions-update"
 								th:onclick="getSurveyRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">
 								<i class="far fa-edit"></i>
 							</a>
-							<a href="#" class="action-item mr-3" data-action="publish-open"
-								data-target="#actions-publish"
+							<a href="#" class="action-item mr-3" data-action="publish-open" data-toggle="tooltip"
+								th:title="#{common.publish}" data-target="#actions-publish"
 								th:onclick="getSurveyRequest([[@{/surveys/publish}]], '#modal-publish-survey', [[${survey.id}]])">
 								<i class="fas fa-share-square"></i>
 							</a>
 							<a href="#" class="action-item mr-3" data-action="delete-open" data-toggle="tooltip"
-								title="Delete" data-target="#actions-deletem"
+								th:title="#{common.delete}" data-target="#actions-deletem"
 								th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">
 								<i class="far fa-trash text-danger"></i>
 							</a>

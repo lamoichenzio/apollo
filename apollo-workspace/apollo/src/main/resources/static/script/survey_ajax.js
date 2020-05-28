@@ -15,6 +15,11 @@ const SPINNER = '<div id="spinner" class="spinner-border text-success" role="sta
 var optionList = [];
 var optionValues = [];
 
+$(function () {
+    // Tooltip inizialize
+    $('[data-toggle="tooltip"]').tooltip();
+
+});
 
 /** SURVEY FUNCTIONS **/
 
