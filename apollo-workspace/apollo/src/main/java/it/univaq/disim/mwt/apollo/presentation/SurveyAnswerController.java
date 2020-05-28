@@ -45,7 +45,7 @@ public class SurveyAnswerController {
 		}
 		SurveyAnswer surveyAnswer = surveyAnswerService.mapSurveyToSurveyAnswer(survey);
 		model.addAttribute("surveyanswer", surveyAnswer);
-		log.info(surveyAnswer.toString());
+		//log.info(surveyAnswer.toString());
 		return "common/surveys/user_view/survey";
 	}
 
