@@ -5,21 +5,24 @@ import java.util.List;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
 
 public interface SurveyAnswerService {
 	
-	List<SurveyAnswer> findAllUserAnswers() throws BusinessException;
+	List<SurveyAnswer> findAllSurveyAnswers() throws BusinessException;
 	
-	ResponseGrid<SurveyAnswer> findAllUserAnswersPaginated(RequestGrid request) throws BusinessException;
+	ResponseGrid<SurveyAnswer> findAllSurveyAnswersPaginated(RequestGrid request) throws BusinessException;
 	
-	SurveyAnswer findUserAnswerById(String id) throws BusinessException;
+	SurveyAnswer findSurveyAnswerById(String id) throws BusinessException;
 	
-	void createUserAnswer(SurveyAnswer userAnswer) throws BusinessException;
+	SurveyAnswer mapSurveyToSurveyAnswer(Survey survey) throws BusinessException;
 	
-	void updateUserAnswer(SurveyAnswer userAnswer) throws BusinessException;
+	void createSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
 	
-	void deleteUserAnswer(SurveyAnswer userAnswer) throws BusinessException;
+	void updateSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
 	
-	void deleteUserAnswerById(String id) throws BusinessException;
+	void deleteSurveyAnswer(SurveyAnswer SurveyAnswer) throws BusinessException;
+	
+	void deleteSurveyAnswerById(String id) throws BusinessException;
 }

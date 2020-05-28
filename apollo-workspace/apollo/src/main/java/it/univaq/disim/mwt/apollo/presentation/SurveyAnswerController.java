@@ -11,10 +11,20 @@ import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
+import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/answers")
+@Slf4j
 public class SurveyAnswerController {
 
 	@Autowired
@@ -33,9 +43,9 @@ public class SurveyAnswerController {
 			//TODO gestire logica sondaggio privato
 			return "common/common_pages/survey_private";
 		}
-		SurveyAnswer surveyAnswer = new SurveyAnswer();
-		surveyAnswer.setSurvey(survey);
+		SurveyAnswer surveyAnswer = surveyAnswerService.mapSurveyToSurveyAnswer(survey);
 		model.addAttribute("surveyanswer", surveyAnswer);
+		log.info(surveyAnswer.toString());
 		return "common/surveys/user_view/survey";
 	}
 

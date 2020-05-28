@@ -70,13 +70,10 @@ public class Survey {
 	@DBRef
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Set<QuestionGroup> questionGroups;
+	private Set<QuestionGroup> questionGroups = new HashSet<>();
 	
 	public void addQuestionGroup(QuestionGroup questionGroup) {
 		questionGroup.setSurvey(this);
-		if(questionGroups == null) {
-			questionGroups = new HashSet<>();
-		}
 		questionGroups.add(questionGroup);
 	}
 
@@ -97,6 +94,6 @@ public class Survey {
 	}
 
 	public void removeQuestionGroup(QuestionGroup group) {
-		questionGroups.removeIf((QuestionGroup g) -> g.getId().equals(group.getId()));
+		questionGroups.remove(group);
 	}
 }

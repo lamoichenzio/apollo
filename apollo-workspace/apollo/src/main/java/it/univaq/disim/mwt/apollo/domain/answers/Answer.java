@@ -29,5 +29,5 @@ public abstract class Answer {
 	private Question question;
 	
 	@DBRef
-	private SurveyAnswer userAnswer; 
+	private GroupAnswer groupAnswer; 
 }
