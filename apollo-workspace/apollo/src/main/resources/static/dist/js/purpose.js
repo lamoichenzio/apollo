@@ -71,6 +71,7 @@ var Layout = function() {
         })
     }(),
     PurposeStyle = function() {
+        if (!document.body) return;
         var e = getComputedStyle(document.body);
         return {
             colors: {

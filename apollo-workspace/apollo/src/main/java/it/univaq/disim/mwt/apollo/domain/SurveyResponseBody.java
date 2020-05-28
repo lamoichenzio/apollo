@@ -6,6 +6,7 @@ import lombok.Data;
 public class SurveyResponseBody {
 
     private String msg;
+    private int status;
     private Survey result;
 
 }

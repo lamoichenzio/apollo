@@ -17,9 +17,9 @@
 					</div>
 
 					<!-- Other -->
-					<div th:if="${question.otherChoice}" class="custom-control">
-						<input type="text" class="custom-control-input" id="other_choice" th:placeholder="#{question.otherChoice}">
-						<label class="custom-control-label" for="other_choice" th:text="#{question.otherChoice}"></label>
+					<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
+						<input type="text" class="form-control" id="other_choice" name="other_choice" size="45" th:placeholder="#{question.otherchoiceplaceholder}">
+						<!-- <label class="custom-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
 					</div>
 				</div>
 			</div>

@@ -1,22 +1,32 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
-import it.univaq.disim.mwt.apollo.business.QuestionService;
-import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
-import it.univaq.disim.mwt.apollo.domain.questions.*;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
+import it.univaq.disim.mwt.apollo.business.QuestionService;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
+import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/questions")
@@ -55,11 +65,12 @@ public class QuestionController {
     }
 
     @PostMapping("/choicequestion/create")
-    public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors,
-                         @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+    public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
         validator.validate(file, errors);
+        
         if (errors.hasErrors()) {
+            log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
 
@@ -84,7 +95,9 @@ public class QuestionController {
     public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file)
             throws BusinessException {
         validator.validate(file, errors);
+        
         if (errors.hasErrors()) {
+        	log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
         questionService.updateQuestion(question, file);
@@ -273,11 +286,12 @@ public class QuestionController {
     }
 
     @PostMapping("/selectionquestion/create")
-    public String create(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors,
-                         @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+    public String create(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
         validator.validate(file, errors);
+        
         if (errors.hasErrors()) {
+        	log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
 
@@ -301,7 +315,9 @@ public class QuestionController {
     @PostMapping("/selectionquestion/update")
     public String update(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         validator.validate(file, errors);
+        
         if (errors.hasErrors()) {
+        	log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
         questionService.updateQuestion(question, file);

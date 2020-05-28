@@ -90,7 +90,7 @@ public class Survey {
 	 * Deletes the survey public url
 	 */
 	public void removeSurveyUrl(){
-		this.urlId = "";
+		this.urlId = null;
 	}
 
 	public void removeQuestionGroup(QuestionGroup group) {
