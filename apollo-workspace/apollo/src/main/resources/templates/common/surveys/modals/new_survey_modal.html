@@ -22,6 +22,8 @@
                     <!-- update case -->
                     <input th:if="${survey.id != null}" type="hidden" name="id" th:value="${survey.id}" th:field="*{id}" />
                     <input th:if="${survey.user != null}" type="hidden" name="user" th:value="${survey.user}" th:field="*{user}" />
+                    <input th:if="${survey.questionGroups != null}" type="hidden" name="questionGroups" th:field="*{questionGroups}" />
+                    <input th:if="${survey.active != null}" type="hidden" name="active" th:field="*{active}" />
                     
                     <div class="modal-body">
 
