@@ -65,13 +65,14 @@ public class SurveyServiceImpl implements SurveyService {
 
 			ExampleMatcher matcher = ExampleMatcher.matchingAll()
 					.withMatcher("name", GenericPropertyMatchers.ignoreCase())
+					.withIgnorePaths("secret")
+					.withIgnorePaths("active")
 					.withIgnoreNullValues();
 			Example<Survey> example = Example.of(survey, matcher);
 
 			Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
 			Page<Survey> page = surveyRepository.findAll(example, pageable);
 			page.getContent().forEach(item -> {
-				log.info("qui");
 				log.info(item.toString());
 			});
 
