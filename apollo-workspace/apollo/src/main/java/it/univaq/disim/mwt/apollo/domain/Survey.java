@@ -61,7 +61,6 @@ public class Survey {
 	private LocalDate endDate;
 	
 	//@Indexed(unique=true)
-	@Setter(AccessLevel.NONE)
 	private String urlId;
 	
 	@OneToMany
