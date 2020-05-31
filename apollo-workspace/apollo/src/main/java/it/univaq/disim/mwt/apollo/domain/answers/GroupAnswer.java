@@ -17,11 +17,13 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
 @Document(collection = "GroupAnswers")
 @TypeAlias("GroupAnswers")
 @EqualsAndHashCode(exclude = "answers")
+@ToString(exclude = "group")
 public class GroupAnswer {
 	
 	@Id

@@ -29,6 +29,7 @@ public class SurveyAnswer {
 	private String id;
 	
 	@DBRef
+	@NotNull
 	private Survey survey;
 	
 	@CreatedDate

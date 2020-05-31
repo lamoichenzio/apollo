@@ -1,25 +1,22 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
-import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
-import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -49,14 +46,16 @@ public class SurveyAnswerController {
 		return "common/surveys/user_view/survey";
 	}
 
-//	@PostMapping("/create")
-//	public String create(@Valid @ModelAttribute("useranswer") SurveyAnswer userAnswer, Errors errors) throws BusinessException {
-//		if(errors.hasErrors()) {
+	@PostMapping("/create")
+	public String create(@Valid @ModelAttribute("surveyanswer") SurveyAnswer surveyAnswer, Errors errors) throws BusinessException {
+		if(errors.hasErrors()) {
+			log.info("error");
 //			return "useranswer/form";
-//		}
-//		surveyAnswerService.createUserAnswer(userAnswer);
-//		return "redirect:/common/form";
-//	}
+		}
+		//surveyAnswerService.createUserAnswer(userAnswer);
+		log.info(surveyAnswer.toString());
+		return "common/common_pages/survey_submitted";
+	}
 //	
 //	@GetMapping("/update")
 //	public String updateStart(@RequestParam String id, Model model) throws BusinessException {

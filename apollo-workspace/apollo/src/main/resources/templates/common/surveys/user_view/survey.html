@@ -1,16 +1,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<form action="${#request.getRequestURI()}" method="POST" th:object="${surveyanswer}">
-			<input type="hidden" th:field="*{survey}"/>
-			<div th:each="groupAnswer, groupStat : ${surveyanswer.groupAnswers}">
-				<div th:text="${groupAnswer.group.title}"></div>
-				<div th:each="answer, answerStat : ${groupAnswer.answers}">
-					<label th:text="${answer.question.title}"></label>
-					<input type="text" 
-						th:field="*{groupAnswers[__${groupStat.index}__].answers[__${answerStat.index}__].answer}"/>
-				</div>
-			</div>
-		</form>
-	</body>
+<form th:action="@{/answers/create}" method="POST" th:object="${surveyanswer}">
+    <input type="hidden" th:field="*{survey}"/>
+    <div th:each="groupAnswer, groupStat : ${surveyanswer.groupAnswers}">
+        <input type="hidden" th:field="*{groupAnswers[__${groupStat.index}__]}">
+        <div th:text="${groupAnswer.group.title}"></div>
+        <div th:each="answer, answerStat : ${groupAnswer.answers}">
+            <label th:for="${#ids.next('groupAnswers[__${groupStat.index}__].answers[__${answerStat.index}__]')}"
+                   th:text="${answer.question.title}"></label>
+            <input type="text"
+                   th:field="*{groupAnswers[__${groupStat.index}__].answers[__${answerStat.index}__].answer}"/>
+        </div>
+    </div>
+	<button type="submit" th:text="#{common.submit}"></button>
+</form>
+</body>
 </html>

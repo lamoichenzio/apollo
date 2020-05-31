@@ -11,9 +11,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Document(collection = "Answers")
+@EqualsAndHashCode(exclude = "groupAnswer")
+@ToString(exclude="groupAnswer")
 public abstract class Answer {
 	
 	@Id

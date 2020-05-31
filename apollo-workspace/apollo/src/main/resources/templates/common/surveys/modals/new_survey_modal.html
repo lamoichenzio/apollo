@@ -21,12 +21,12 @@
 
                     <!-- Input for update case -->
                     <div class="hidden">
-                        <input th:if="${survey.id != null}" type="hidden" name="id" th:value="${survey.id}" th:field="*{id}" />
-                        <input th:if="${survey.user != null}" type="hidden" name="user" th:value="${survey.user}" th:field="*{user}" />
-                        <input th:if="${survey.questionGroups != null}" type="hidden" name="questionGroups" th:field="*{questionGroups}" />
-                        <input th:if="${survey.active != null}" type="hidden" name="active" th:field="*{active}" />
-                        <input th:if="${survey.urlId != null}" type="hidden" name="urlId" th:field="*{urlId}" />
-                        <input th:if="${survey.creationDate != null}" type="hidden" name="creationDate" th:field="*{creationDate}" />
+                        <input th:if="${survey.id != null}" type="hidden" th:field="*{id}" />
+                        <input th:if="${survey.user != null}" type="hidden" th:field="*{user}" />
+                        <input th:if="${survey.questionGroups != null}" type="hidden" th:field="*{questionGroups}" />
+                        <input th:if="${survey.active != null}" type="hidden" th:field="*{active}" />
+                        <input th:if="${survey.urlId != null}" type="hidden" th:field="*{urlId}" />
+                        <input th:if="${survey.creationDate != null}" type="hidden" th:field="*{creationDate}" />
                     </div>
 
                     <div class="modal-body">
