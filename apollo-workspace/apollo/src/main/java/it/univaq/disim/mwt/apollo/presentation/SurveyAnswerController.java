@@ -5,10 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
+import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
+import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
@@ -85,4 +91,12 @@ public class SurveyAnswerController {
 //		surveyAnswerService.deleteUserAnswer(userAnswer);
 //		return "redirect:/common/form";
 //	}
+	
+	
+	@PostMapping("/findbysurveypaginated")
+	@ResponseBody
+	public ResponseGrid<SurveyAnswer> findAllPaginated(@RequestBody RequestGrid requestGrid, @RequestParam String id) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		return surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
+	}
 }
