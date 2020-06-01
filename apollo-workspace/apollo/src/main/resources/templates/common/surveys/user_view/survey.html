@@ -1,9 +1,51 @@
-<html xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{common/layout/frame_public}">
 <body>
-<form th:action="@{/answers/create}" method="POST" th:object="${surveyanswer}">
-    <input type="hidden" th:field="*{survey}"/>
-    <div th:each="groupAnswer, groupStat : ${surveyanswer.groupAnswers}">
+	<div layout:fragment="page-content">
+		<script th:src="@{/script/survey_ajax.js}"></script>
+	
+		<div class="col-md-12">
+			<div id="modal_holder"></div>
+		</div>
+	
+		<!-- Page title -->
+		<div class="page-title">
+			<div class="row justify-content-between align-items-center">
+				<div class="col-md-8 d-flex align-items-center justify-content-between justify-content-md-start mb-3">
+					<!-- Page title + Go Back button -->
+					<div class="d-inline-block p-1 mr-2">
+						<a href="#" th:href="@{/surveys/dashboard}"
+							class="link d-inline-block font-weight-400 mb-0 text-white"><i
+								class="fas fa-arrow-left"></i></a>
+					</div>
+					<div class="d-inline-block p-1">
+						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[${surveyanswer.survey.name}]]</h5>
+					</div>
+				</div>
+			</div>
+	
+		</div>
+		<!-- Listing -->
+		<div class="card">
+			<!-- Card header -->
+			<div class="card-header actions-toolbar">
+				<div class="row justify-content-between">
+					<!-- Description-->
+					<div class="col-12">
+						<div class="row align-items-center my-2 px-1">
+							<p id="survey_desc" type="text" class="text-lg my2-1 p-1" th:text="${surveyanswer.survey.description}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<div class="card-body pb-0" th:fragment="group" title="group-container">
+
+
+				<form action="${#request.getRequestURI()}" method="POST" th:object="${surveyanswer}">
+					<input type="hidden" th:field="*{survey}"/>
+					<div th:each="groupAnswer, groupStat : ${surveyanswer.groupAnswers}">
         <input type="hidden" th:field="*{groupAnswers[__${groupStat.index}__]}">
         <div th:text="${groupAnswer.group.title}"></div>
         <div th:each="answer, answerStat : ${groupAnswer.answers}">
@@ -13,7 +55,17 @@
                    th:field="*{groupAnswers[__${groupStat.index}__].answers[__${answerStat.index}__].answer}"/>
         </div>
     </div>
-	<button type="submit" th:text="#{common.submit}"></button>
-</form>
+					<div class="text-right">
+						<button id="survey_submit" type="submit" class="btn btn-sm btn-primary rounded-pill"
+							th:text="#{common.submit}"></button>
+					</div>
+				</form>
+
+			</div>
+	
+	
+		</div>
+	</div>
+	<!-- ./page-content -->
 </body>
 </html>

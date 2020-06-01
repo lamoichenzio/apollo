@@ -50,8 +50,8 @@ public class SurveyController {
 		return "/common/surveys/detail";
 	}
 
-	@GetMapping("/overview")
-	public String overviewStart(@RequestParam String id, Model model) throws BusinessException {
+	@GetMapping("/overview/{id}")
+	public String overviewStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
 		return "/common/surveys/overview";
