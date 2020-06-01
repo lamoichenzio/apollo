@@ -81,30 +81,30 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 				if(question instanceof InputQuestion || question instanceof SelectionQuestion) {
 					SingleAnswer answer = new SingleAnswer();
 					answer.setQuestion(question);
-					groupAnswer.addAnswer(answer);
+					groupAnswer.addSingleAnswer(answer);
 				}
 				if(question instanceof ChoiceQuestion) {
 					if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
 						SingleAnswer answer = new SingleAnswer();
 						answer.setQuestion(question);
-						groupAnswer.addAnswer(answer);
+						groupAnswer.addSingleAnswer(answer);
 					}
 					if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
 						MultiAnswer answer = new MultiAnswer();
 						answer.setQuestion(question);
-						groupAnswer.addAnswer(answer);
+						groupAnswer.addMultiAnswer(answer);
 					}
 				}
 				if(question instanceof MatrixQuestion) {
 					if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
 						SingleChoiceMatrixAnswer answer = new SingleChoiceMatrixAnswer();
 						answer.setQuestion(question);
-						groupAnswer.addAnswer(answer);
+						groupAnswer.addSingleMatrixAnswer(answer);
 					}
 					if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
 						MultiChoiceMatrixAnswer answer = new MultiChoiceMatrixAnswer();
 						answer.setQuestion(question);
-						groupAnswer.addAnswer(answer);
+						groupAnswer.addMultiMatrixAnswer(answer);
 					}
 					
 				}

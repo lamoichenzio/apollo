@@ -42,14 +42,14 @@ public class SurveyAnswerController {
 		}
 		SurveyAnswer surveyAnswer = surveyAnswerService.mapSurveyToSurveyAnswer(survey);
 		model.addAttribute("surveyanswer", surveyAnswer);
-		//log.info(surveyAnswer.toString());
-		return "common/surveys/user_view/survey";
+		model.addAttribute("survey", survey);
+		return "common/user_view/survey";
 	}
 
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("surveyanswer") SurveyAnswer surveyAnswer, Errors errors) throws BusinessException {
 		if(errors.hasErrors()) {
-			log.info("error");
+			log.info(errors.toString());
 //			return "useranswer/form";
 		}
 		//surveyAnswerService.createUserAnswer(userAnswer);

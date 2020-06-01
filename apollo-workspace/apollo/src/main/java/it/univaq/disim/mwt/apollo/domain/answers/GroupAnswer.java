@@ -22,8 +22,7 @@ import lombok.ToString;
 @Data
 @Document(collection = "GroupAnswers")
 @TypeAlias("GroupAnswers")
-@EqualsAndHashCode(exclude = "answers")
-@ToString(exclude = "group")
+@ToString(exclude = {"group", "surveyAnswer"})
 public class GroupAnswer {
 	
 	@Id
@@ -41,14 +40,41 @@ public class GroupAnswer {
 	@NotNull
 	@DBRef
 	@Setter(AccessLevel.NONE)
-	private Set<Answer> answers = new HashSet<>();
+	private Set<SingleAnswer> singleAnswers = new HashSet<>();
 	
-	public void addAnswer(Answer answer) {
-		answers.add(answer);
+	@NotNull
+	@DBRef
+	@Setter(AccessLevel.NONE)
+	private Set<MultiAnswer> multiAnswers = new HashSet<>();
+	
+	@NotNull
+	@DBRef
+	@Setter(AccessLevel.NONE)
+	private Set<SingleChoiceMatrixAnswer> matrixSingleAnswers = new HashSet<>();
+	
+	@NotNull
+	@DBRef
+	@Setter(AccessLevel.NONE)
+	private Set<MultiChoiceMatrixAnswer> matrixMultiAnswers = new HashSet<>();
+	
+	public void addSingleAnswer(SingleAnswer answer) {
+		singleAnswers.add(answer);
 		answer.setGroupAnswer(this);
 	}
 	
+	public void addMultiAnswer(MultiAnswer answer) {
+		multiAnswers.add(answer);
+		answer.setGroupAnswer(this);
+	}
 	
+	public void addSingleMatrixAnswer(SingleChoiceMatrixAnswer answer) {
+		matrixSingleAnswers.add(answer);
+		answer.setGroupAnswer(this);
+	}
 	
+	public void addMultiMatrixAnswer(MultiChoiceMatrixAnswer answer) {
+		matrixMultiAnswers.add(answer);
+		answer.setGroupAnswer(this);
+	}
 	
 }

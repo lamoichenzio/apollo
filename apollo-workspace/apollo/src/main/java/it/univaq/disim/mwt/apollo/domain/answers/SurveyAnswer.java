@@ -1,8 +1,8 @@
 package it.univaq.disim.mwt.apollo.domain.answers;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,7 +39,7 @@ public class SurveyAnswer {
 	@DBRef
 	@NotNull
 	@Setter(AccessLevel.NONE)
-	private Set<GroupAnswer> groupAnswers = new HashSet<>();
+	private List<GroupAnswer> groupAnswers = new ArrayList<>();
 	
 	public void addGroupAnswer(GroupAnswer group) {
 		groupAnswers.add(group);
