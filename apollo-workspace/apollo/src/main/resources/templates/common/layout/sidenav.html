@@ -4,7 +4,7 @@
 <body>
 
 	<!-- Sidenav -->
-	<div class="sidenav" id="sidenav-main" th:fragment="sidenav">
+	<div class="sidenav" id="sidenav-main" th:fragment="sidenav" sec:authorize="isAuthenticated()">
 
 		<!-- Sidenav header -->
 		<div class="sidenav-header d-flex align-items-center">
