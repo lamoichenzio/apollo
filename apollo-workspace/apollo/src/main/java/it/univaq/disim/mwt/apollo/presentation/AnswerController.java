@@ -1,14 +1,20 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,14 +24,64 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
+import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import it.univaq.disim.mwt.apollo.presentation.model.AnswerResponseBody;
 
-//@Controller
-//@RequestMapping("/answers")
+@Controller
+@RequestMapping("/answers")
 public class AnswerController {
 
 	@Autowired
 	private AnswerService answerService;
 
+	@GetMapping("/findanswers")
+	public ResponseEntity<AnswerResponseBody> getAnswerData(@Valid @RequestBody Question question, Errors errors) throws BusinessException {
+		
+		AnswerResponseBody result = new AnswerResponseBody();
+		System.out.println(question);
+		// If error, just return a 400 bad request, along with the error message
+		if (errors.hasErrors()) {
+			result.setStatus(0);
+			result.setMsg(
+					errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+
+			return ResponseEntity.badRequest().body(result);
+		}
+		
+		if(question instanceof InputQuestion || question instanceof SelectionQuestion) {
+			List<SingleAnswer> answers = answerService.findSingleAnswersByQuestion(question);
+			result.setSingleAnswers(answers);
+		}
+		if(question instanceof ChoiceQuestion) {
+			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
+				List<SingleAnswer> answers = answerService.findSingleAnswersByQuestion(question);
+				result.setSingleAnswers(answers);
+			}
+			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
+				List<MultiAnswer> answers = answerService.findMultiAnswersByQuestion(question);
+				result.setMultiAnswers(answers);
+			}
+		}
+		if(question instanceof MatrixQuestion) {
+			if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
+				List<SingleChoiceMatrixAnswer> answers = answerService.findSingleChoiceMatrixAnswersByQuestion(question);
+				result.setSingleChoiceMatrixAnswers(answers);
+			}
+			if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
+				List<MultiChoiceMatrixAnswer> answers = answerService.findMultiChoiceMatrixAnswersByQuestion(question);
+				result.setMultiChoiceMatrixAnswers(answers);
+			}
+		}
+		
+		result.setStatus(1);
+		
+		return ResponseEntity.ok(result);
+	}
 	
 	/** CREATE **/
 	

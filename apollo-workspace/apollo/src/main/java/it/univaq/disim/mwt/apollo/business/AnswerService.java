@@ -9,6 +9,7 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
 
 public interface AnswerService {
 	
@@ -17,6 +18,11 @@ public interface AnswerService {
 	List<SingleAnswer> findAllSingleAnswers() throws BusinessException;
 	List<SingleChoiceMatrixAnswer> findAllSingleChoiceMatrixAnswers() throws BusinessException;
 	
+	List<MultiAnswer> findMultiAnswersByQuestion(Question question) throws BusinessException;
+	List<MultiChoiceMatrixAnswer> findMultiChoiceMatrixAnswersByQuestion(Question question) throws BusinessException;
+	List<SingleAnswer> findSingleAnswersByQuestion(Question question) throws BusinessException;
+	List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(Question question) throws BusinessException;
+
 	ResponseGrid<MultiAnswer> findAllMultiAnswersPaginated(RequestGrid request) throws BusinessException;
 	ResponseGrid<MultiChoiceMatrixAnswer> findAllMultiChoiceMatrixAnswersPaginated(RequestGrid request) throws BusinessException;
 	ResponseGrid<SingleAnswer> findAlSingleAnswersPaginated(RequestGrid request) throws BusinessException;

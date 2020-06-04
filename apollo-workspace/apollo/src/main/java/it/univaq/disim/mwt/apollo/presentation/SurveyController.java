@@ -25,8 +25,8 @@ import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
 import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.SurveyResponseBody;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -63,6 +63,7 @@ public class SurveyController {
 	public String overviewStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
+		model.addAttribute("groups", survey.getQuestionGroups());
 		return "/common/surveys/overview";
 	}
 
@@ -74,6 +75,7 @@ public class SurveyController {
 	}
 
 	@PostMapping("/publish")
+	@ResponseBody
 	public ResponseEntity<SurveyResponseBody> publish(@Valid @RequestBody Survey request, Errors errors)
 			throws BusinessException {
 

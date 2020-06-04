@@ -1,8 +1,14 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +32,11 @@ import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/answers")
+@RequestMapping("/answers/survey")
 @Slf4j
 public class SurveyAnswerController {
 
@@ -99,4 +106,5 @@ public class SurveyAnswerController {
 		Survey survey = surveyService.findSurveyById(id);
 		return surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
 	}
+	
 }

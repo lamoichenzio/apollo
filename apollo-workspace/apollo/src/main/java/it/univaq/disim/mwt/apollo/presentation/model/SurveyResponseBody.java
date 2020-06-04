@@ -1,5 +1,6 @@
-package it.univaq.disim.mwt.apollo.domain;
+package it.univaq.disim.mwt.apollo.presentation.model;
 
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.Data;
 
 @Data

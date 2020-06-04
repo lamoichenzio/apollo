@@ -18,6 +18,7 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
 
 @Service
 @Transactional
@@ -55,6 +56,28 @@ public class AnswerServiceImpl implements AnswerService {
 		return singleChoiceMatrixAnswerRepository.findAll();
 	}
 
+	@Override
+	public List<MultiAnswer> findMultiAnswersByQuestion(Question question) throws BusinessException {
+		return multiAnswerRepository.findByQuestion(question);
+	}
+
+	@Override
+	public List<MultiChoiceMatrixAnswer> findMultiChoiceMatrixAnswersByQuestion(Question question)
+			throws BusinessException {
+		return multiChoiceMatrixAnswerRepository.findByQuestion(question);
+	}
+
+	@Override
+	public List<SingleAnswer> findSingleAnswersByQuestion(Question question) throws BusinessException {
+		return singleAnswerRepository.findByQuestion(question);
+	}
+
+	@Override
+	public List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(Question question)
+			throws BusinessException {
+		return singleChoiceMatrixAnswerRepository.findByQuestion(question);
+	}
+	
 	@Override
 	public ResponseGrid<MultiAnswer> findAllMultiAnswersPaginated(RequestGrid request) throws BusinessException {
 		// TODO Auto-generated method stub

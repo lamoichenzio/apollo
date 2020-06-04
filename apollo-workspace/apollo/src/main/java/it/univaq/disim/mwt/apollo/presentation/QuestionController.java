@@ -2,18 +2,23 @@ package it.univaq.disim.mwt.apollo.presentation;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
@@ -24,8 +29,11 @@ import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import it.univaq.disim.mwt.apollo.presentation.model.QuestionBody;
+import it.univaq.disim.mwt.apollo.presentation.model.QuestionResponseBody;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -42,6 +50,23 @@ public class QuestionController {
     @Autowired
     private FileValidator validator;
 
+	@GetMapping("/list")
+	@ResponseBody
+	public ResponseEntity<QuestionResponseBody> findGroup(@RequestParam String id) throws BusinessException {
+		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
+		Set<Question> questions = group.getQuestions();
+		QuestionResponseBody response = new QuestionResponseBody();
+		
+		for (Question q : questions) {
+			QuestionBody body = QuestionBody.builder().title(q.getTitle()).id(q.getId()).build();
+			response.addQuestionBody(body);
+		}
+		
+		response.setStatus(1);
+		
+		return ResponseEntity.ok(response);
+	}
+	
     /**
      * Choice Question
      **/
