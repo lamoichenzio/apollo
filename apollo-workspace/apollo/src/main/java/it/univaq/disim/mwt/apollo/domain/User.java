@@ -7,13 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @Entity
@@ -33,16 +33,20 @@ public class User {
 	@Size(min = 5)
 	private String password;
 	
+	@NotBlank
+	@Size(min = 5)
+	@Transient
+	private String passwordConfirm;
+	
 	@Email
 	private String email;
-		
-	@NotBlank
+	
 	private String firstname;
 	
-	@NotBlank
 	private String lastname;
 	
 	@OneToOne
+	@NotNull
 	private Role role;
 	
 }

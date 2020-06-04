@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import it.univaq.disim.mwt.apollo.business.RoleService;
 import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
+import it.univaq.disim.mwt.apollo.business.validators.UserValidator;
+import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 @Controller
@@ -22,10 +25,17 @@ public class UserController {
 
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private UserValidator validator;
+	
+	@Autowired RoleService roleService;
 
 	@GetMapping("/create")
-	public String create(Model model) {
+	public String create(Model model) throws BusinessException {
 		User user = new User();
+		Role standard = roleService.getStandardRole();
+		user.setRole(standard);
 		model.addAttribute(user);
 		return "auth/register";
 	}
@@ -33,6 +43,7 @@ public class UserController {
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("user") User user, Errors errors, Model model)
 			throws BusinessException {
+		validator.validate(user, errors);
 		if (errors.hasErrors()) {
 			return "auth/register";
 		}
