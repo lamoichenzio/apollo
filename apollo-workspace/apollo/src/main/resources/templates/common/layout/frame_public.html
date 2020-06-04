@@ -46,6 +46,10 @@
 	th:href="@{/dist/libs/datatables/dataTables.bootstrap4.css}"
 	rel="stylesheet">
 
+
+<!-- Custom css -->
+<link rel="stylesheet" href="./dist/css/custom.css"
+	th:href="@{/dist/css/custom.css}">
 <!-- Scripts -->
 
 <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
@@ -101,6 +105,8 @@
 
 <!-- Purpose JS -->
 <script src="./dist/js/purpose.js" th:src="@{/dist/js/purpose.js}"></script>
+
+<script src="./dist/js/jquery.validate.min.js" th:src="@{/dist/js/jquery.validate.min.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
 	$.extend( true, $.fn.dataTable.defaults, {

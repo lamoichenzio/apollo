@@ -19,8 +19,8 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 
-@Controller
-@RequestMapping("/answers")
+//@Controller
+//@RequestMapping("/answers")
 public class AnswerController {
 
 	@Autowired

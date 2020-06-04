@@ -1,50 +1,64 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import java.io.File;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
 
 @Data
 @Document(collection = "Surveys")
 @TypeAlias("Survey")
+@EqualsAndHashCode(exclude="questionGroups")
+@ToString(exclude="questionGroups")
 public class Survey {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
+	@NotBlank
 	@Indexed
-	@Column(nullable = false)
+	@Size(max = 50)
 	private String name;
 	
 	private String description;
-	private File icon;
+	
+	private DocumentFile icon;
+	
 	private boolean secret;
 	private boolean active;
 	
 	@CreatedDate
+	@DateTimeFormat(iso=ISO.DATE)
 	private Date creationDate;
 	
-	private Date startDate;
-	private Date endDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate startDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate endDate;
 	
 	//@Indexed(unique=true)
 	private String urlId;
@@ -53,7 +67,8 @@ public class Survey {
 	private User user;
 	
 	@DBRef
-	@Setter(AccessLevel.NONE)
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Set<QuestionGroup> questionGroups = new HashSet<>();
 	
 	public void addQuestionGroup(QuestionGroup questionGroup) {
@@ -61,4 +76,23 @@ public class Survey {
 		questionGroups.add(questionGroup);
 	}
 
+	/**
+	 * Append the id to the static url part to create the survey public url.
+	 * @param id The id of the survey
+	 *	
+	 */
+	public void createSurveyUrl(String id){
+		this.urlId = "/answers/"+id;
+	}
+
+	/**
+	 * Deletes the survey public url
+	 */
+	public void removeSurveyUrl(){
+		this.urlId = null;
+	}
+
+	public void removeQuestionGroup(QuestionGroup group) {
+		questionGroups.remove(group);
+	}
 }

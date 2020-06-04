@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- MODAL NEW QUESTION GROUP-->
+	<div class="modal fade" id="modal-create-new-group" tabindex="-1" role="dialog" aria-hidden="true" th:fragment="questionGroupForm">
+	
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<div class="modal-title align-items-center">
+						<!-- MODAL TITLE -->
+						<h6 th:if="${#request.getRequestURI().endsWith('create')}" class="mb-0" th:text="#{group.create}"></h6>
+			            <h6 th:if="${#request.getRequestURI().endsWith('update')}" class="mb-0" th:text="#{group.edit}"></h6>
+			        </div>
+			    </div>
+
+				<form id="question_group_form" th:action="${#request.getRequestURI()}" th:object="${group}" class="form-horizontal" method="post">
+					<input type="hidden" name="survey" th:field="*{survey}">					
+					
+					<input th:if="${group.id != null}" type="hidden" name="id" th:value="${group.id}" th:field="*{id}" />
+
+					<div class="modal-body">
+
+						<!-- TITLE -->
+						<div class="form-group">
+							<label for="codice" class="form-control-label"
+								th:text="#{group.title}"></label>
+							<input type="text" th:field="*{title}" class="form-control" maxlength="60" required/>
+							<span th:if="${#fields.hasErrors('title')}"
+								th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
+						</div>
+
+						<!-- DESCRIPTION -->
+						<div class="form-group">
+							<label for="codice" class="form-control-label"
+								th:text="#{group.description}"></label>
+							<input type="text" th:field="*{description}" class="form-control" />
+							<span th:if="${#fields.hasErrors('description')}"
+								th:each="err: ${#fields.errors('description')}" th:utext="${err}"></span>
+						</div>
+
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-sm btn-link text-danger"
+							data-dismiss="modal" th:text="#{common.cancel}"></button>
+						<button id="question_group_submit" type="submit"
+							class="btn btn-sm btn-primary rounded-pill"
+							th:text="#{common.submit}"></button>
+					</div>
+
+				</form>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>

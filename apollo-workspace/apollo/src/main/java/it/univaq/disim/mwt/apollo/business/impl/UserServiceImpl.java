@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.disim.mwt.apollo.business.RoleService;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
 	private PasswordEncoder encoder;
 	
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 	public User findByUsername(String username) throws BusinessException{
 		try {			
 			return userRepository.findByUsername(username);

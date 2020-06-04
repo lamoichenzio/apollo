@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<div class="input-file-container" th:fragment="inputfile">
+		<div id="accordion-1" class="accordion accordion-stacked">
+			<div class="card">
+				<div class="card-header p-2" id="heading-1-1" data-toggle="collapse" role="button"
+					data-target="#collapse-1-1" aria-expanded="false" aria-controls="collapse-1-1">
+					<div class="mb-0 form-control-label">
+						<i class="far fa-cog mr-3"></i>
+						[[#{question.advanced}]]
+					</div>
+				</div>
+				<div id="collapse-1-1" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion-1">
+					<div class="card-body p-2">
+						<!--Creation fase-->
+						<div class="form-control-label">
+							<label for="questionfile" th:text="#{file.label}"></label>
+							<input type="file" id="questionfile" name="questionfile" th:value="${questionfile}" accept="image/*"/>
+							 <span id="file_error" class="text-danger text-sm hidden"></span>
+						</div>
+						<!--Update fase-->
+						<div class="form-control-label" th:if="${question.id != null}">
+							<div th:if="${question.file != null}">
+								<input type="hidden" th:field="*{file.id}" />
+								<small>
+									File: [[*{file.name}]]
+								</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

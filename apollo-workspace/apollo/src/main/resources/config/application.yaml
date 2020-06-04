@@ -22,6 +22,10 @@ spring:
        #current_session_context_class: thread
        hbm2ddl.auto: create-drop
        #format_sql: false
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 
 ###############################################
 ############# APOLLO PROPERTIES #############
@@ -29,3 +33,9 @@ spring:
 
 apollo:
   dateformat: dd/MM/yyyy
+cron:
+  expression: 0 0 12 * * ?
+  
+  
+  
+  

@@ -1,18 +1,18 @@
 package it.univaq.disim.mwt.apollo.domain.questions;
 
-import java.io.File;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
+import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Data;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Data
 @Document(collection = "Questions")
@@ -22,16 +22,17 @@ public abstract class Question {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
-	@NotNull
+	@NotBlank
 	@Indexed(unique=false)
 	@Size(max=255)
 	private String title;
 	
-	private File file;
+	@CreatedDate
+	private Date creationDate;
 	
-	@NotNull
-	@DBRef
+	private DocumentFile file;
+
+	@DBRef(lazy = true)
 	private QuestionGroup questionGroup;
 	
-	public abstract String getType();
 }

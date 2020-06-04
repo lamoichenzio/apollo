@@ -14,18 +14,11 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection="Questions")
-@TypeAlias("SelectQuestion")
-public class SelectQuestion extends Question {
+@TypeAlias("SelectionQuestion")
+public class SelectionQuestion extends Question {
 	
-	private static final String type = "SELECT";
-
 	@NotNull
 	@ElementCollection
 	private List<String> options;
-	
-	@Override
-	public String getType() {
-		return type.toString();
-	}
-	
+
 }

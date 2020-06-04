@@ -1,0 +1,204 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="card-body pb-0" th:fragment="group" title="group-container">
+
+	<!-- GROUP CONTAINER -->
+	<div class="row">
+		<div class="col-10">
+			<h5 class="mb-1 p-1">[[${groupInfo.title}]]</h5>
+			<h6 class="text-muted mb-3 p-1">[[${groupInfo.description}]]</h6>
+		</div>
+
+		<div class="col-2">
+			<div class="text-right px-1">
+				<div class="dropdown" data-toggle="dropdown">
+					<a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						<i class="far fa-cog"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a href="#"
+							th:onClick="getQuestionGroupRequest([[@{/questiongroups/update}]],'#modal-create-new-group', [[${groupInfo.id}]])"
+							class="dropdown-item">[[#{common.edit}]]</a>
+						<a href="#"
+							th:onClick="getQuestionGroupRequest([[@{/questiongroups/delete}]], '#modal-delete-group', [[${groupInfo.id}]])"
+							class="dropdown-item text-danger">[[#{common.delete}]]</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<div class="card border mb-0 shadow-none bg-gray-100">
+		<div class="card-body row align-items-center mx-2 justify-content-center">
+
+			<!-- GROUP CONTENTS -->
+			<div class="col-12" th:each="question, stat : *{groupInfo.questions}">
+
+				<!-- If Choice Question -->
+				<th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
+					<th:block th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+						<div th:replace="/common/surveys/components/questions/single_choice.html :: singleChoice(question=${question}, stat=${stat})"></div>
+					</th:block>
+					<th:block th:unless="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+						<div th:replace="/common/surveys/components/questions/multi_choice.html :: multiChoice(question=${question}, stat=${stat})"></div>
+					</th:block>
+				</th:block>
+
+				<!-- If Input Question -->
+				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}">
+					<div th:replace="common/surveys/components/questions/text_input.html :: inputQuestion(question=${question}, stat=${stat})"></div>
+				</div>
+
+				<!-- If Selection Question -->
+				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}">
+					<div th:replace="common/surveys/components/questions/select_choice.html :: selectionQuestion(question=${question}, stat=${stat})"></div>
+				</div>
+
+				<!-- If Matrix Question -->
+				<div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion)}">
+					<div th:replace="common/surveys/components/questions/matrix_choice.html :: matrixQuestion(question=${question}, stat=${stat})"></div>
+				</div>
+
+			</div>
+
+			<!-- ADD QUESTION BUTTON -->
+			<div class="container">
+
+				<div class="row justify-content-md-center">
+
+					<div class="col-auto">
+						<a data-toggle="collapse" th:href="@{#collapseExample} + ${groupInfo.id}">
+							<div class="col-auto">
+								<div class="icon icon-primary btn-sm rounded-circle icon-shape">
+									<i class="far fa-plus"></i>
+								</div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+
+
+				<div class="row collapse" th:id="@{collapseExample} + ${groupInfo.id}">
+
+					<div class="col-12 mt-4 mb-0">
+						<div class="row justify-content-md-center align-items-center">
+
+							<!-- Single-Choice Question -->
+							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]], '#modal-new-choice-question', [[${groupInfo.id}]])" data-toggle="modal">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/radio_single.svg}">
+										</div>
+										<div class="col-12">
+											<span th:text="#{question.radioquestion}"></span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+							<!-- Multi-Choice Question -->
+							<a href="#" th:onClick="openQuestionModal([[@{/questions/choicequestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}]], '#modal-new-choice-question', [[${groupInfo.id}]])" data-toggle="modal">
+								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/check_single.svg}">
+										</div>
+										<div class="col-12">
+											<span th:text="#{question.checkquestion}"></span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+							<!-- Selection Question -->
+							<a href="#" th:onClick="openQuestionModal([[@{/questions/selectionquestion/create}]], 'SELECT', '#modal-new-selection-question', [[${groupInfo.id}]])" data-toggle="modal">
+								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											Img not found
+											<!-- <img alt="Selection Question" th:src="@{/dist/img/icons/custom/check_single.svg}"> -->
+										</div>
+										<div class="col-12">
+											<span th:text="#{question.selectionquestion}"></span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+							<!-- Input question -->
+							<a href="#"
+							   th:onclick="openQuestionModal([[@{/questions/inputquestion/create}]],
+							   null, '#modal-input-question', [[${groupInfo.id}]])"
+							   data-toggle="modal">
+								<div
+									class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/input_text.svg}">
+										</div>
+										<div class="col-12">
+											<span th:text="#{question.inputquestion}"></span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+							<!-- Matrix Radio Question -->
+							<a href="#" th:onclick="openQuestionModal([[@{/questions/matrixquestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]], '#modal-matrix-question', [[${groupInfo.id}]])" data-toggle="modal">
+								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/radio_multi.svg}">
+										</div>
+										<div class="col-12">
+											<span>Matrix Radio Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+							
+							<!-- Matrix Check Question -->
+							<a href="#" th:onclick="openQuestionModal([[@{/questions/matrixquestion/create}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}]], '#modal-matrix-question', [[${groupInfo.id}]])" data-toggle="modal">
+								<div class="row question-selector justify-content-md-center hover-scale-110 mx-2 m-2">
+									<div class="col-12 align-self-center">
+										<div class="col-12">
+											<img alt="Radio Question"
+												th:src="@{/dist/img/icons/custom/check_multi.svg}">
+										</div>
+										<div class="col-12">
+											<span>Matrix Check Question</span>
+										</div>
+
+									</div>
+								</div>
+							</a>
+
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+</body>
+</html>

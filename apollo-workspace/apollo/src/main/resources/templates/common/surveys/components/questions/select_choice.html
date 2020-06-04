@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- SELECTION CHOICE QUESTION -->
+<div class="col-12" th:fragment="selectionQuestion">
+    <div class="row align-items-center mx-0 justify-content-center">
+
+        <div class="col-10 card border shadow-none p-3">
+            <!-- TITLE -->
+            <div class="m-1">
+                <h6 class="mb-0" th:text="${stat.index +1} + '. ' + ${question.title}"></h6>
+            </div>
+            <div class="m-1" th:if="${question.file != null}">
+                File: [[${question.file.name}]]
+            </div>
+            <!-- OPTIONS -->
+            <div class="row">
+                <div class="col-6 px-3 py-3">
+                    <label class="form-control-label">[[#{question.options}]]</label>
+                    <select class="custom-select">
+                        <option th:each="option, stat : ${question.options}" th:value="${option}" th:text="${option}"
+                                th:selected="${stat.index == 0} ? 'selected' : null"></option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Settings -->
+        <div class="col-1 card border-0 shadow-none bg-gray-100">
+            <div class="dropdown" data-toggle="dropdown">
+                <a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true"
+                   aria-expanded="false">
+                    <i class="far fa-cog"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="#"
+                       th:onclick="openQuestionModal([[@{/questions/selectionquestion/update}]], 'SELECT', '#modal-new-selection-question', [[${question.id}]] )"
+                       class="dropdown-item">Edit</a>
+                    <a href="#"
+                       th:onclick="openQuestionModal([[@{/questions/selectionquestion/delete}]], null, '#modal-delete-question', [[${question.id}]])"
+                       class="dropdown-item text-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

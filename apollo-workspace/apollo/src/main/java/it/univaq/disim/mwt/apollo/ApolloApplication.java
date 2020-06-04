@@ -1,15 +1,16 @@
 package it.univaq.disim.mwt.apollo;
 
-import java.util.Arrays;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.GregorianCalendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import it.univaq.disim.mwt.apollo.business.QuestionService;
@@ -21,11 +22,10 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyReposit
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 
 
 @SpringBootApplication
+@EnableMongoAuditing
 public class ApolloApplication {
 	
 	@Autowired
@@ -75,7 +75,7 @@ public class ApolloApplication {
             standardUser.setPasswordConfirm(encoder.encode("pippo"));
             standardUser.setFirstname("Pippo");
             standardUser.setLastname("Franco");
-            standardUser.setEmail("prova@example.it");
+            standardUser.setEmail("giordano.daloisio@gmail.com");
             standardUser.setRole(standardRole);
             utenteRepository.save(standardUser);
             
@@ -84,30 +84,20 @@ public class ApolloApplication {
             survey.setName("Test");
             survey.setDescription("Test");
             survey.setUser(standardUser);
-            Date now = new Date();
+            LocalDate now = LocalDate.now();
             survey.setStartDate(now);
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(now);
-            cal.add(Calendar.DATE, 7);
-            survey.setEndDate(cal.getTime());
+            survey.setEndDate(now.plusDays(7));
             surveyRepository.save(survey);
-            
-            Survey survey2 = new Survey();
-            survey2.setName("Test");
-            survey2.setDescription("Test");
-            survey2.setUser(standardUser);
-            survey2.setStartDate(now);            
-            survey2.setEndDate(cal.getTime());
-            surveyRepository.save(survey2);
+
             
             // CHOICE QUESTION
-            ChoiceQuestion question = new ChoiceQuestion();
-            question.setTitle("Test question");
-            question.setType(ChoiceType.RADIO);
-            question.setOtherChoice(false);
-			List<String> options = Arrays.asList("Option 1", "Option 2"); 
-            question.setOptions(options);
-            choiceQuestionRepository.save(question);
+//            ChoiceQuestion question = new ChoiceQuestion();
+//            question.setTitle("Test question");
+//            question.setType(ChoiceType.RADIO);
+//            question.setOtherChoice(false);
+//			List<String> options = Arrays.asList("Option 1", "Option 2"); 
+//            question.setOptions(options);
+//            choiceQuestionRepository.save(question);
         };
     }
     

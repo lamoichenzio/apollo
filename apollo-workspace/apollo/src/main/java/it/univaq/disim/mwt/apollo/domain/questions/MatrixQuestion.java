@@ -21,19 +21,13 @@ public class MatrixQuestion extends Question {
 	
 	@NotNull
 	@ElementCollection
-	private List<String> questions;
+	private List<String> options;
 	
 	@NotNull
 	@ElementCollection
-	private List<String> questionValues;
+	private List<String> optionValues;
 
 	@NotNull
-	@Getter(AccessLevel.NONE)
 	private ChoiceType type;
 	
-	@Override
-	public String getType() {
-		return type.toString();
-	}
-
 }
