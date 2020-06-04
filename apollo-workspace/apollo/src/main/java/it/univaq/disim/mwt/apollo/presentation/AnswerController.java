@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.univaq.disim.mwt.apollo.business.AnswerService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
-import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 
 //@Controller
@@ -31,7 +31,7 @@ public class AnswerController {
 	
 	@GetMapping("/multianswer/create")
 	public String createMultiAnswerStart(Model model) {
-		MultiAnswer answer = new MultiAnswer();
+		ChoiceQuestionMultiAnswer answer = new ChoiceQuestionMultiAnswer();
 		model.addAttribute("multianswer", answer);
 		return "/multianswer/form";
 	}
@@ -45,7 +45,7 @@ public class AnswerController {
 	
 	@GetMapping("/singleanswer/create")
 	public String createSingleAnswerStart(Model model) {
-		SingleAnswer answer = new SingleAnswer();
+		InputQuestionAnswer answer = new InputQuestionAnswer();
 		model.addAttribute("singleanswer", answer);
 		return "/singleanswer/form";
 	}
@@ -58,7 +58,7 @@ public class AnswerController {
 	}
 	
 	@PostMapping("/multianswer/create")
-	public String create(@Valid @ModelAttribute("multianswer") MultiAnswer answer, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("multianswer") ChoiceQuestionMultiAnswer answer, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "/multianswer/form";
 		}
@@ -76,7 +76,7 @@ public class AnswerController {
 	}
 	
 	@PostMapping("/singleanswer/create")
-	public String create(@Valid @ModelAttribute("singleanswer") SingleAnswer answer, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("singleanswer") InputQuestionAnswer answer, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
 			return "/singleanswer/form";
 		}
@@ -98,7 +98,7 @@ public class AnswerController {
 	
 	@GetMapping("/multianswer/update")
 	public String updateMultiAnswerStart(@RequestParam String id, Model model) throws BusinessException {
-		MultiAnswer answer = answerService.findMultiAnswerById(id);
+		ChoiceQuestionMultiAnswer answer = answerService.findMultiAnswerById(id);
 		model.addAttribute("multianswer", answer);
 		return "/common/form";
 	}
@@ -112,7 +112,7 @@ public class AnswerController {
 	
 	@GetMapping("/singleanswer/update")
 	public String updateSingleAnswerStart(@RequestParam String id, Model model) throws BusinessException {
-		SingleAnswer answer = answerService.findSingleAnswerById(id);
+		InputQuestionAnswer answer = answerService.findSingleAnswerById(id);
 		model.addAttribute("singleanswer", answer);
 		return "/common/form";
 	}
@@ -125,7 +125,7 @@ public class AnswerController {
 	}
 	
 	@PostMapping("/multianswer/update")
-	public String update(@Valid @ModelAttribute("multianswer") MultiAnswer answer, Errors errors) throws BusinessException {
+	public String update(@Valid @ModelAttribute("multianswer") ChoiceQuestionMultiAnswer answer, Errors errors) throws BusinessException {
 		if(errors.hasErrors()) {
 			return "/multianswer/form";
 		}
@@ -143,7 +143,7 @@ public class AnswerController {
 	}
 	
 	@PostMapping("/singleanswer/update")
-	public String update(@Valid @ModelAttribute("singleanswer") SingleAnswer answer, Errors errors) throws BusinessException {
+	public String update(@Valid @ModelAttribute("singleanswer") InputQuestionAnswer answer, Errors errors) throws BusinessException {
 		if(errors.hasErrors()) {
 			return "/singleanswer/form";
 		}
@@ -164,7 +164,7 @@ public class AnswerController {
 	
 	@GetMapping("/multianswer/delete")
 	public String deleteMultiAnswerStart(@RequestParam String id, Model model) throws BusinessException {
-		MultiAnswer answer = answerService.findMultiAnswerById(id);
+		ChoiceQuestionMultiAnswer answer = answerService.findMultiAnswerById(id);
 		model.addAttribute("multianswer", answer);
 		return "/common/form";
 	}
@@ -178,7 +178,7 @@ public class AnswerController {
 	
 	@GetMapping("/singleanswer/delete")
 	public String deleteSingleAnswerStart(@RequestParam String id, Model model) throws BusinessException {
-		SingleAnswer answer = answerService.findSingleAnswerById(id);
+		InputQuestionAnswer answer = answerService.findSingleAnswerById(id);
 		model.addAttribute("singleanswer", answer);
 		return "/common/form";
 	}
@@ -191,7 +191,7 @@ public class AnswerController {
 	}
 	
 	@PostMapping("/multianswer/delete")
-	public String delete(@ModelAttribute("multianswer") MultiAnswer answer) throws BusinessException {
+	public String delete(@ModelAttribute("multianswer") ChoiceQuestionMultiAnswer answer) throws BusinessException {
 		answerService.deleteAnswer(answer);
 		return "redirect:/common/form";
 	}
@@ -203,7 +203,7 @@ public class AnswerController {
 	}
 	
 	@PostMapping("/singleanswer/delete")
-	public String delete(@ModelAttribute("singleanswer") SingleAnswer answer) throws BusinessException {
+	public String delete(@ModelAttribute("singleanswer") InputQuestionAnswer answer) throws BusinessException {
 		answerService.deleteAnswer(answer);
 		return "redirect:/common/form";
 	}

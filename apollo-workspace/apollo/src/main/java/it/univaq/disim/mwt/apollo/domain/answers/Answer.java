@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Document(collection = "Answers")
-@EqualsAndHashCode(exclude = "groupAnswer")
+@EqualsAndHashCode(exclude = "surveyAnswer")
 //@ToString(exclude="groupAnswer")
 public abstract class Answer {
 	
@@ -31,12 +31,8 @@ public abstract class Answer {
 	
 	@LastModifiedDate
 	private Date lastModifiedDate;
-
-	@NotNull
-	@DBRef
-	private Question question;
 	
 	@NotNull
 	@DBRef
-	private GroupAnswer groupAnswer; 
+	private SurveyAnswer surveyAnswer; 
 }

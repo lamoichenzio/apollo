@@ -39,11 +39,63 @@ public class SurveyAnswer {
 	@DBRef
 	@NotNull
 	@Setter(AccessLevel.NONE)
-	private List<GroupAnswer> groupAnswers = new ArrayList<>();
+	private List<InputQuestionAnswer> inputQuestionAnswers = new ArrayList<>();
 	
-	public void addGroupAnswer(GroupAnswer group) {
-		groupAnswers.add(group);
-		group.setSurveyAnswer(this);
+	@DBRef
+	@NotNull
+	@Setter(AccessLevel.NONE)
+	private List<ChoiceQuestionSingleAnswer> choiceQuestionSingleAnswers = new ArrayList<>();
+	
+	@DBRef
+	@NotNull
+	@Setter(AccessLevel.NONE)
+	private List<SelectionQuestionAnswer> selectionQuestionAnswers = new ArrayList<>();
+	
+	@DBRef
+	@NotNull
+	@Setter(AccessLevel.NONE)
+	private List<ChoiceQuestionMultiAnswer> choiceQuestionMultiAnswers = new ArrayList<>();
+	
+	@DBRef
+	@NotNull
+	@Setter(AccessLevel.NONE)
+	private List<SingleChoiceMatrixAnswer> singleChoiceMatrixAnswers = new ArrayList<>();
+	
+	@DBRef
+	@NotNull
+	@Setter(AccessLevel.NONE)
+	private List<MultiChoiceMatrixAnswer> multiChoiceMatrixAnswers = new ArrayList<>();
+	
+	
+	public void addInputQuestionAnswer(InputQuestionAnswer answer) {
+		answer.setSurveyAnswer(this);
+		inputQuestionAnswers.add(answer);
 	}
+	
+	public void addChoiceQuestionSingleAnswer(ChoiceQuestionSingleAnswer answer) {
+		answer.setSurveyAnswer(this);
+		choiceQuestionSingleAnswers.add(answer);
+	}
+	
+	public void addSelectionQuestionAnswer(SelectionQuestionAnswer answer) {
+		answer.setSurveyAnswer(this);
+		selectionQuestionAnswers.add(answer);
+	}
+	
+	public void addChoiceQuestionMultiAnswer(ChoiceQuestionMultiAnswer answer) {
+		answer.setSurveyAnswer(this);
+		choiceQuestionMultiAnswers.add(answer);
+	}
+	
+	public void addSingleChoiceMatrixAnswer(SingleChoiceMatrixAnswer answer) {
+		answer.setSurveyAnswer(this);
+		singleChoiceMatrixAnswers.add(answer);
+	}
+	
+	public void addMultiChoiceMatrixAnswer(MultiChoiceMatrixAnswer answer) {
+		answer.setSurveyAnswer(this);
+		multiChoiceMatrixAnswers.add(answer);
+	}
+	
 	
 }

@@ -10,13 +10,13 @@ import it.univaq.disim.mwt.apollo.business.AnswerService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MultiAnswerRepository;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionMultiAnswerRepository;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InputQuestionAnswerRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MultiChoiceMatrixAnswerRepository;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SingleAnswerRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SingleChoiceMatrixAnswerRepository;
-import it.univaq.disim.mwt.apollo.domain.answers.MultiAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
-import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 
 @Service
@@ -24,19 +24,19 @@ import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 public class AnswerServiceImpl implements AnswerService {
 
 	@Autowired
-	MultiAnswerRepository multiAnswerRepository;
+	ChoiceQuestionMultiAnswerRepository multiAnswerRepository;
 	
 	@Autowired
 	MultiChoiceMatrixAnswerRepository multiChoiceMatrixAnswerRepository;
 	
 	@Autowired
-	SingleAnswerRepository singleAnswerRepository;
+	InputQuestionAnswerRepository singleAnswerRepository;
 	
 	@Autowired
 	SingleChoiceMatrixAnswerRepository singleChoiceMatrixAnswerRepository;
 	
 	@Override
-	public List<MultiAnswer> findAllMultiAnswers() throws BusinessException {
+	public List<ChoiceQuestionMultiAnswer> findAllMultiAnswers() throws BusinessException {
 		return multiAnswerRepository.findAll();
 	}
 
@@ -46,7 +46,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public List<SingleAnswer> findAllSingleAnswers() throws BusinessException {
+	public List<InputQuestionAnswer> findAllSingleAnswers() throws BusinessException {
 		return singleAnswerRepository.findAll();
 	}
 
@@ -56,7 +56,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public ResponseGrid<MultiAnswer> findAllMultiAnswersPaginated(RequestGrid request) throws BusinessException {
+	public ResponseGrid<ChoiceQuestionMultiAnswer> findAllMultiAnswersPaginated(RequestGrid request) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -69,7 +69,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public ResponseGrid<SingleAnswer> findAlSingleAnswersPaginated(RequestGrid request) throws BusinessException {
+	public ResponseGrid<InputQuestionAnswer> findAlSingleAnswersPaginated(RequestGrid request) throws BusinessException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -82,7 +82,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public MultiAnswer findMultiAnswerById(String id) throws BusinessException {
+	public ChoiceQuestionMultiAnswer findMultiAnswerById(String id) throws BusinessException {
 		return multiAnswerRepository.findById(id).get();
 	}
 
@@ -92,7 +92,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public SingleAnswer findSingleAnswerById(String id) throws BusinessException {
+	public InputQuestionAnswer findSingleAnswerById(String id) throws BusinessException {
 		return singleAnswerRepository.findById(id).get();
 	}
 
@@ -102,7 +102,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void createAnswer(MultiAnswer answer) throws BusinessException {
+	public void createAnswer(ChoiceQuestionMultiAnswer answer) throws BusinessException {
 		multiAnswerRepository.save(answer);
 	}
 
@@ -112,7 +112,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void createAnswer(SingleAnswer answer) throws BusinessException {
+	public void createAnswer(InputQuestionAnswer answer) throws BusinessException {
 		singleAnswerRepository.save(answer);
 	}
 
@@ -122,7 +122,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void updateAnswer(MultiAnswer answer) throws BusinessException {
+	public void updateAnswer(ChoiceQuestionMultiAnswer answer) throws BusinessException {
 		multiAnswerRepository.save(answer);
 	}
 
@@ -132,7 +132,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void updateAnswer(SingleAnswer answer) throws BusinessException {
+	public void updateAnswer(InputQuestionAnswer answer) throws BusinessException {
 		singleAnswerRepository.save(answer);
 	}
 
@@ -142,7 +142,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void deleteAnswer(MultiAnswer answer) throws BusinessException {
+	public void deleteAnswer(ChoiceQuestionMultiAnswer answer) throws BusinessException {
 		multiAnswerRepository.delete(answer);
 	}
 
@@ -152,7 +152,7 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public void deleteAnswer(SingleAnswer answer) throws BusinessException {
+	public void deleteAnswer(InputQuestionAnswer answer) throws BusinessException {
 		singleAnswerRepository.delete(answer);
 	}
 
