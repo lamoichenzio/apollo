@@ -3,58 +3,65 @@
 	<div th:fragment="form" title="group-container">
 		<form th:action="@{/answers/create}" method="post"
 			th:object="${surveyanswer}">
-			<input type="hidden" th:field="*{survey}" >
+			<input type="hidden" th:field="*{survey}">
+			<!-- Iterate Question Groups -->
 			<div th:each="group, groupStat : ${survey.questionGroups}">
-
-				<!-- Group Answer Fields -->
-				<input type="hidden"
-					th:field="*{groupAnswers[__${groupStat.index}__].group}"/> 
-				<input
-					type="hidden"
-					th:field="*{groupAnswers[__${groupStat.index}__].surveyAnswer}"/>
-				<input type="hidden"
-					th:field="*{groupAnswers[__${groupStat.index}__].singleAnswers}"/>
-				<input type="hidden"
-					th:field="*{groupAnswers[__${groupStat.index}__].multiAnswers}"/>
-				<input type="hidden"
-					th:field="*{groupAnswers[__${groupStat.index}__].matrixSingleAnswers}"/>
-				<input type="hidden"
-					th:field="*{groupAnswers[__${groupStat.index}__].matrixMultiAnswers}"/>
-
-				<h4 th:text="${group.title}"></h4>
-				<div th:text="${group.description}"></div>
-
-				<div
-					th:each="question, questionStat : ${survey.questionGroups[__${groupStat.index}__].questions}">
-
-					<!-- If Choice Question -->
-					<!-- <th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
-					<th:block th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
-						<div th:replace="/common/surveys/components/questions/single_choice.html :: singleChoice(question=${question}, stat=${stat})"></div>
-					</th:block>
-					<th:block th:unless="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
-						<div th:replace="/common/surveys/components/questions/multi_choice.html :: multiChoice(question=${question}, stat=${stat})"></div>
-					</th:block>
-				</th:block> -->
-
-					<!-- If Input Question -->
-					<div
-						th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}">
-						<div 
-							th:replace="common/user_view/components/single_answer :: singleAnswer(question=${question}, groupAnswer=*{groupAnswers[__${groupStat.index}__]})">
-						</div>		
+				<div class="row">
+					<div class="col-10">
+						<h5 class="mb-1 p-1">[[${groupStat.index+1}+'. '+${group.title}]]</h5>
+						<h6 class="text-muted mb-3 p-1">[[${group.description}]]</h6>
 					</div>
+				</div>
 
-					<!-- If Selection Question -->
-					<!-- <div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}">
-					<div th:replace="/common/surveys/components/questions/select_choice.html :: selectionQuestion(question=${question}, stat=${stat})"></div>
-				</div> -->
+				<div class="card border mb-0 shadow-none bg-gray-100">
+					<div
+						class="card-body row align-items-center mx-2 justify-content-center">
+						<!-- Iterate questions of the group -->
+						<div class="col-12"
+							th:each="question, questionStat : ${survey.questionGroups[__${groupStat.index}__].questions}">
 
-					<!-- If Matrix Question -->
-					<!-- <div th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion)}">
-					<div th:replace="/common/surveys/components/questions/matrix_choice.html :: matrixQuestion(question=${question}, stat=${stat})"></div>
-				</div> -->
+							<div class="row align-items-center mx-0 justify-content-center">
+								<div class="col-10 card border shadow-none p-3">
+									<!-- TITLE -->
+									<div class="m-1">
+										<h6 class="mb-0"
+											th:text="${questionStat.index+1}+'. '+${question.title}"></h6>
+									</div>
+									<div class="m-5" th:if="${question.file != null}">
+										<img th:src="${'data:image/png;base64,'+question.file.data}">
+									</div>
+									<div class="row">
+										<div class="col-10 mx-1 px-2 py-3">
 
+											<!-- If Input Question -->
+											<div
+												th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}">
+												<div
+													th:replace="~{common/user_view/components/text_question :: question(question=${question}, stat=${questionStat})}">
+												</div>
+											</div>
+
+											<!-- If Choice Question -->
+											<div
+												th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
+												<div
+													th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+													<div
+														th:replace="~{common/user_view/components/radio_question.html :: question(question=${question}, stat=${questionStat})}">
+													</div>
+												</div>
+												<div
+													th:unless="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
+													<div
+														th:replace="/common/surveys/components/questions/multi_choice.html :: multiChoice(question=${question}, stat=${stat})"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<button type="submit" th:text="#{common.submit}"></button>
