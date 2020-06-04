@@ -1,6 +1,8 @@
 package it.univaq.disim.mwt.apollo.domain.answers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.GeneratedValue;
@@ -15,7 +17,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -40,22 +41,22 @@ public class GroupAnswer {
 	@NotNull
 	@DBRef
 	@Setter(AccessLevel.NONE)
-	private Set<SingleAnswer> singleAnswers = new HashSet<>();
+	private List<SingleAnswer> singleAnswers = new ArrayList<>();
 	
 	@NotNull
 	@DBRef
 	@Setter(AccessLevel.NONE)
-	private Set<MultiAnswer> multiAnswers = new HashSet<>();
+	private List<MultiAnswer> multiAnswers = new ArrayList<>();
 	
 	@NotNull
 	@DBRef
 	@Setter(AccessLevel.NONE)
-	private Set<SingleChoiceMatrixAnswer> matrixSingleAnswers = new HashSet<>();
+	private List<SingleChoiceMatrixAnswer> matrixSingleAnswers = new ArrayList<>();
 	
 	@NotNull
 	@DBRef
 	@Setter(AccessLevel.NONE)
-	private Set<MultiChoiceMatrixAnswer> matrixMultiAnswers = new HashSet<>();
+	private List<MultiChoiceMatrixAnswer> matrixMultiAnswers = new ArrayList<>();
 	
 	public void addSingleAnswer(SingleAnswer answer) {
 		singleAnswers.add(answer);

@@ -67,6 +67,7 @@ public class SurveyServiceImpl implements SurveyService {
 					.withMatcher("name", GenericPropertyMatchers.ignoreCase())
 					.withIgnorePaths("secret")
 					.withIgnorePaths("active")
+					.withIgnorePaths("questionGroups")
 					.withIgnoreNullValues();
 			Example<Survey> example = Example.of(survey, matcher);
 
