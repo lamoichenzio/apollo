@@ -37,18 +37,21 @@ $(function () {
  */
 function getAnswersData(question) {
 
+    let request = {id: question.id, type: question.type };
+
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: '/apollo/answers/findanswers',
-        data: JSON.stringify({ id: question.id, type: question.type }),
+        data: JSON.stringify(request),
         dataType: 'json',
         contentType: 'application/json',
         cache: false,
         timeout: 10000,
         success: function (response) {
 
-            // 1 for success
+            // OK for success
             if (response.status === 'OK') {
+                // TO DO: Aggregate results
             } else {
             }
 
