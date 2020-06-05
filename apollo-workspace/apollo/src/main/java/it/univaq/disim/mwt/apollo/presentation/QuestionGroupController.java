@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +36,7 @@ public class QuestionGroupController {
 	@Autowired
 	private SurveyService surveyService;
 
+	
 	@GetMapping("/create")
 	public String createStart(@RequestParam String survey_id, Model model) throws BusinessException {
 		QuestionGroup group = new QuestionGroup();

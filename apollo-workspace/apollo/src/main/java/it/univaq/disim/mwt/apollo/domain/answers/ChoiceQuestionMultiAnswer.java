@@ -12,8 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
+@ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "Answers")
 @TypeAlias("MultiAnswer")

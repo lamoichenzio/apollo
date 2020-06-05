@@ -1,19 +1,21 @@
 package it.univaq.disim.mwt.apollo.domain.answers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.AccessLevel;
@@ -28,13 +30,23 @@ public class SurveyAnswer {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
 	
+	@Size(max=50)
+	private String name;
+	
+	@Email(message = "Email should have a valid format")
+	@Size(max=60)
+	private String email;
+	
 	@DBRef
 	@NotNull
 	private Survey survey;
 	
+	@NotNull
+	private int totAnswers;
+	
 	@CreatedDate
-	@DateTimeFormat(iso=ISO.DATE)
-	private Date date;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss")
+	private LocalDateTime date;
 	
 	@DBRef
 	@NotNull

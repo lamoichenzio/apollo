@@ -1,24 +1,34 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
 import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.SurveyResponseBody;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
+import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.Valid;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/surveys")
@@ -27,7 +37,7 @@ public class SurveyController {
 
 	@Autowired
 	private SurveyService surveyService;
-
+	
 	@Autowired
 	private FileValidator validator;
 
@@ -42,7 +52,7 @@ public class SurveyController {
 		User user = Utility.getUser();
 		return surveyService.findAllSurveysByUserPaginated(requestGrid, user);
 	}
-
+	
 	@GetMapping("/detail")
 	public String detailStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
@@ -54,6 +64,7 @@ public class SurveyController {
 	public String overviewStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
+		model.addAttribute("groups", survey.getQuestionGroups());
 		return "/common/surveys/overview";
 	}
 
@@ -65,6 +76,7 @@ public class SurveyController {
 	}
 
 	@PostMapping("/publish")
+	@ResponseBody
 	public ResponseEntity<SurveyResponseBody> publish(@Valid @RequestBody Survey request, Errors errors)
 			throws BusinessException {
 
@@ -72,9 +84,12 @@ public class SurveyController {
 
 		// If error, just return a 400 bad request, along with the error message
 		if (errors.hasErrors()) {
-			result.setStatus(0);
+			result.setStatus(ResponseStatus.ERROR);
 			result.setMsg(
-					errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+				errors.getAllErrors().stream()
+				.map(x -> x.getDefaultMessage())
+				.collect(Collectors.joining(","))
+			);
 
 			return ResponseEntity.badRequest().body(result);
 		}
@@ -93,7 +108,7 @@ public class SurveyController {
 			result.setMsg("active");
 		}
 		
-		result.setStatus(1);
+		result.setStatus(ResponseStatus.OK);
 		result.setResult(survey);
 
 		return ResponseEntity.ok(result);

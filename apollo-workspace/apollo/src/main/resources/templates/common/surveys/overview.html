@@ -4,7 +4,8 @@
 
 <body>
     <div layout:fragment="page-content">
-        <script th:src="@{/script/survey_ajax.js}"></script>
+        <!-- <script th:src="@{/script/survey_ajax.js}"></script> -->
+        <script th:src="@{/script/overview.js}"></script>
 
         <div class="col-md-12">
             <div id="modal_holder"></div>
@@ -29,425 +30,265 @@
         </div>
 
         <div class="row">
-            <div class="col-xl-3 col-sm-6">
-                <!-- Stats card -->
-                <div class="card card-stats border-0">
-                    <!-- Card body -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h6 class="text-muted mb-1">Answers</h6>
-                                <span class="h3 font-weight-bold mb-0 ">31</span>
-                            </div>
-                            <div class="col-auto">
-                                <div class="progress-circle progress-sm" id="progress-circle-1" data-progress="40"
-                                    data-text="40%" data-color="primary" style="position: relative;"><svg viewBox="0 0 100 100"
-                                        style="display: block;">
-                                        <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee"
-                                            stroke-width="2" fill-opacity="0"></path>
-                                        <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93"
-                                            stroke="#6e00ff" stroke-width="7" fill-opacity="0"
-                                            style="stroke-dasharray: 292.273, 292.273; stroke-dashoffset: 175.364;"></path>
-                                    </svg>
-                                    <div class="progressbar-text"
-                                        style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(110, 0, 255);">
-                                        40%</div>
+            <div class="col-xl-6 col-sm-12">
+                <div class="row">
+                    <!-- stats card 1 -->
+                    <div class="col-xl-6 col-sm-6">
+                        <!-- Stats card -->
+                        <div class="card card-stats border-0">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h6 class="text-muted mb-1">[[#{common.answers}]]</h6>
+                                        <span class="h3 font-weight-bold mb-0 ">31</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="progress-circle progress-sm" id="progress-circle-1" data-progress="100" data-text="100%"
+                                            data-color="success" style="position: relative;">
+                                            <svg viewBox="0 0 100 100" style="display: block;">
+                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee"
+                                                    stroke-width="2" fill-opacity="0"></path>
+                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#36b37e"
+                                                    stroke-width="7" fill-opacity="0"
+                                                    style="stroke-dasharray: 292.273, 292.273; stroke-dashoffset: 00.000;"></path>
+                                            </svg>
+                                            <div class="progressbar-text"
+                                                style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(54, 179, 126);">
+                                                100%</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
-
-                <!-- Project performance -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6 class="mb-0">357</h6>
-                                    <span class="text-sm text-muted">Tasks done</span>
+                     <!-- Stats card 2 -->
+                    <div class="col-xl-6 col-sm-6">
+                        <!-- Stats card -->
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h6 class="text-muted mb-1">New tasks</h6>
+                                        <span class="h3 font-weight-bold mb-0 ">34</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="progress-circle progress-sm" id="progress-circle-2" data-progress="60"
+                                            data-text="60%" data-color="primary" style="position: relative;"><svg viewBox="0 0 100 100"
+                                                style="display: block;">
+                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee"
+                                                    stroke-width="2" fill-opacity="0"></path>
+                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93"
+                                                    stroke="#6e00ff" stroke-width="7" fill-opacity="0"
+                                                    style="stroke-dasharray: 292.273, 292.273; stroke-dashoffset: 116.909;"></path>
+                                            </svg>
+                                            <div class="progressbar-text"
+                                                style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(110, 0, 255);">
+                                                60%</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-6 text-right">
-                                    <span class="badge badge-pill badge-success">Good
-                                    </span></div>
                             </div>
                         </div>
-                        <div class="w-100 pt-4 pb-5" style="position: relative;">
-                            <div class="spark-chart" data-toggle="spark-chart" data-color="info"
-                                data-dataset="[47, 94, 24, 18, 26, 65, 31, 47, 10, 44, 45]" style="min-height: 35px;">
-                                <div id="apexcharts5lmqtcsw" class="apexcharts-canvas apexcharts5lmqtcsw light"
-                                    style="width: 254px; height: 35px;"><svg id="SvgjsSvg1006" width="254" height="35"
-                                        xmlns="http://www.w3.org/2000/svg" version="1.1"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"
-                                        class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
-                                        style="background: transparent;">
-                                        <g id="SvgjsG1008" class="apexcharts-inner apexcharts-graphical"
-                                            transform="translate(0, 0)">
-                                            <defs id="SvgjsDefs1007">
-                                                <clipPath id="gridRectMask5lmqtcsw">
-                                                    <rect id="SvgjsRect1012" width="256" height="37" x="-1" y="-1" rx="0" ry="0"
-                                                        fill="#ffffff" opacity="1" stroke-width="0" stroke="none"
-                                                        stroke-dasharray="0"></rect>
-                                                </clipPath>
-                                                <clipPath id="gridRectMarkerMask5lmqtcsw">
-                                                    <rect id="SvgjsRect1013" width="294" height="75" x="-20" y="-20" rx="0"
-                                                        ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none"
-                                                        stroke-dasharray="0"></rect>
-                                                </clipPath>
-                                            </defs>
-                                            <line id="SvgjsLine1011" x1="0" y1="0" x2="0" y2="35" stroke="#b6b6b6"
-                                                stroke-dasharray="3" class="apexcharts-xcrosshairs" x="0" y="0" width="1"
-                                                height="35" fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1">
-                                            </line>
-                                            <g id="SvgjsG1020" class="apexcharts-xaxis" transform="translate(0, 0)">
-                                                <g id="SvgjsG1021" class="apexcharts-xaxis-texts-g"
-                                                    transform="translate(0, -4)"></g>
-                                            </g>
-                                            <g id="SvgjsG1024" class="apexcharts-grid">
-                                                <line id="SvgjsLine1026" x1="0" y1="35" x2="254" y2="35" stroke="transparent"
-                                                    stroke-dasharray="0"></line>
-                                                <line id="SvgjsLine1025" x1="0" y1="1" x2="0" y2="35" stroke="transparent"
-                                                    stroke-dasharray="0"></line>
-                                            </g>
-                                            <g id="SvgjsG1015" class="apexcharts-line-series apexcharts-plot-series">
-                                                <g id="SvgjsG1016" class="apexcharts-series seriesx1" data:longestSeries="true"
-                                                    rel="1" data:realIndex="0">
-                                                    <path id="apexcharts-line-0"
-                                                        d="M0 18.55C8.889999999999999 18.55 16.509999999999998 2.1000000000000014 25.4 2.1000000000000014C34.29 2.1000000000000014 41.91 26.6 50.8 26.6C59.69 26.6 67.31 28.7 76.2 28.7C85.09 28.7 92.71 25.9 101.6 25.9C110.49 25.9 118.11 12.25 127 12.25C135.89 12.25 143.51 24.15 152.4 24.15C161.29000000000002 24.15 168.91000000000003 18.55 177.8 18.55C186.69 18.55 194.31 31.5 203.2 31.5C212.08999999999997 31.5 219.70999999999998 19.6 228.6 19.6C237.49 19.6 245.11 19.25 254 19.25C254 19.25 254 19.25 254 19.25 "
-                                                        fill="none" fill-opacity="1" stroke="rgba(0,184,217,0.85)"
-                                                        stroke-opacity="1" stroke-linecap="butt" stroke-width="2"
-                                                        stroke-dasharray="0" class="apexcharts-line" index="0"
-                                                        clip-path="url(#gridRectMask5lmqtcsw)"
-                                                        pathTo="M 0 18.55C 8.889999999999999 18.55 16.509999999999998 2.1000000000000014 25.4 2.1000000000000014C 34.29 2.1000000000000014 41.91 26.6 50.8 26.6C 59.69 26.6 67.31 28.7 76.2 28.7C 85.09 28.7 92.71 25.9 101.6 25.9C 110.49 25.9 118.11 12.25 127 12.25C 135.89 12.25 143.51 24.15 152.4 24.15C 161.29000000000002 24.15 168.91000000000003 18.55 177.8 18.55C 186.69 18.55 194.31 31.5 203.2 31.5C 212.08999999999997 31.5 219.70999999999998 19.6 228.6 19.6C 237.49 19.6 245.11 19.25 254 19.25"
-                                                        pathFrom="M -1 35L -1 35L 25.4 35L 50.8 35L 76.2 35L 101.6 35L 127 35L 152.4 35L 177.8 35L 203.2 35L 228.6 35L 254 35">
-                                                    </path>
-                                                    <g id="SvgjsG1017" class="apexcharts-series-markers-wrap">
-                                                        <g class="apexcharts-series-markers">
-                                                            <circle id="SvgjsCircle1032" r="0" cx="0" cy="0"
-                                                                class="apexcharts-marker wzf4elv9x no-pointer-events"
-                                                                stroke="#ffffff" fill="#00b8d9" fill-opacity="1"
-                                                                stroke-width="2" stroke-opacity="0.9" default-marker-size="0">
-                                                            </circle>
-                                                        </g>
-                                                    </g>
-                                                    <g id="SvgjsG1018" class="apexcharts-datalabels"></g>
-                                                </g>
-                                            </g>
-                                            <line id="SvgjsLine1027" x1="0" y1="0" x2="254" y2="0" stroke="#b6b6b6"
-                                                stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line>
-                                            <line id="SvgjsLine1028" x1="0" y1="0" x2="254" y2="0" stroke-dasharray="0"
-                                                stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line>
-                                            <g id="SvgjsG1029" class="apexcharts-yaxis-annotations"></g>
-                                            <g id="SvgjsG1030" class="apexcharts-xaxis-annotations"></g>
-                                            <g id="SvgjsG1031" class="apexcharts-point-annotations"></g>
-                                        </g>
-                                        <rect id="SvgjsRect1010" width="0" height="0" x="0" y="0" rx="0" ry="0" fill="#fefefe"
-                                            opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect>
-                                        <g id="SvgjsG1022" class="apexcharts-yaxis" rel="0" transform="translate(-21, 0)">
-                                            <g id="SvgjsG1023" class="apexcharts-yaxis-texts-g"></g>
-                                        </g>
-                                    </svg>
-                                    <div class="apexcharts-legend"></div>
-                                    <div class="apexcharts-tooltip light">
-                                        <div class="apexcharts-tooltip-series-group"><span class="apexcharts-tooltip-marker"
-                                                style="background-color: rgb(0, 184, 217);"></span>
-                                            <div class="apexcharts-tooltip-text"
-                                                style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
-                                                <div class="apexcharts-tooltip-y-group"><span
-                                                        class="apexcharts-tooltip-text-label"></span><span
-                                                        class="apexcharts-tooltip-text-value"></span></div>
-                                                <div class="apexcharts-tooltip-z-group"><span
-                                                        class="apexcharts-tooltip-text-z-label"></span><span
-                                                        class="apexcharts-tooltip-text-z-value"></span></div>
+                    </div>
+
+                    <!-- Question Overview -->
+                    <div class="col-xl-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row justify-content-between">
+                                    <div class="col-4">
+                                        <label class="form-control-label">Question</label>
+                                        <select id="question_select" class="custom-select">
+                                            <option id="default_option" value="" selected="true">-- None --</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-5">
+                                        <label class="form-control-label">Question Group</label>
+                                        <select id="group_select" class="custom-select">
+                                            <option value="" selected="true">-- None --</option>
+                                            <th:block th:if="${groups != null && groups.size() > 0}">
+                                                <option th:each="group, stat : ${groups}" th:value="${group.id}">[[${group.title}]]</option>
+                                            </th:block>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <!-- Question Title -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span id="question_title" class="text-sm text-muted">
+                                            [[#{common.choosequestion}]]
+                                        </span>
+                                    </div>
+                                </div>
+                    
+                                <!-- Answers -->
+                                <div class="my-3">
+
+                                    <div class="row mb-2">
+                                        <div class="col-9">
+                                            <div class="progress-wrapper">
+                                                <span class="progress-label text-muted text-sm">Logo design</span>
+                                                <div class="progress mt-1 mb-2" style="height: 5px;">
+                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="40" aria-valuemin="0"
+                                                        aria-valuemax="100" style="width: 40%;"></div>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="col-3 align-self-end text-right">
+                                            <span class="h6 mb-0">40%</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="resize-triggers">
-                                <div class="expand-trigger">
-                                    <div style="width: 255px; height: 108px;"></div>
-                                </div>
-                                <div class="contract-trigger"></div>
-                            </div>
-                        </div>
-                        <div class="progress-wrapper mb-3">
-                            <small class="progress-label">Concept</small>
-                            <div class="progress mt-0" style="height: 3px;">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                    aria-valuemax="100" style="width: 40%;"></div>
-                            </div>
-                        </div>
-                        <div class="progress-wrapper">
-                            <small class="progress-label">Prototyping</small>
-                            <div class="progress mt-0" style="height: 3px;">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                    aria-valuemax="100" style="width: 40%;"></div>
-                            </div>
-                        </div>
-                        <div class="progress-wrapper">
-                            <small class="progress-label">Testing</small>
-                            <div class="progress mt-0" style="height: 3px;">
-                                <div class="progress-bar bg-info" role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                    aria-valuemax="100" style="width: 40%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-sm-6">
-                <!-- Stats card -->
-                <div class="card card-stats">
-                    <!-- Card body -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <h6 class="text-muted mb-1">New tasks</h6>
-                                <span class="h3 font-weight-bold mb-0 ">34</span>
-                            </div>
-                            <div class="col-auto">
-                                <div class="progress-circle progress-sm" id="progress-circle-2" data-progress="60"
-                                    data-text="60%" data-color="primary" style="position: relative;"><svg viewBox="0 0 100 100"
-                                        style="display: block;">
-                                        <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee"
-                                            stroke-width="2" fill-opacity="0"></path>
-                                        <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93"
-                                            stroke="#6e00ff" stroke-width="7" fill-opacity="0"
-                                            style="stroke-dasharray: 292.273, 292.273; stroke-dashoffset: 116.909;"></path>
-                                    </svg>
-                                    <div class="progressbar-text"
-                                        style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(110, 0, 255);">
-                                        60%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project performance -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="">
-                            <div class="row">
-                                <div class="col-6">
-                                    <h6 class="mb-0">642</h6>
-                                    <span class="text-sm text-muted">Hours spent</span>
-                                </div>
-                                <div class="col-6 text-right">
-                                    <span class="badge badge-pill badge-danger">At risk
-                                    </span></div>
-                            </div>
-                        </div>
-                        <div class="w-100 pt-4 pb-5" style="position: relative;">
-                            <div class="spark-chart" data-toggle="spark-chart" data-color="warning"
-                                data-dataset="[47, 94, 24, 18, 26, 65, 31, 47, 10, 44, 45]" style="min-height: 35px;">
-                                <div id="apexchartssatg8nyl" class="apexcharts-canvas apexchartssatg8nyl light"
-                                    style="width: 254px; height: 35px;"><svg id="SvgjsSvg1033" width="254" height="35"
-                                        xmlns="http://www.w3.org/2000/svg" version="1.1"
-                                        xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs"
-                                        class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)"
-                                        style="background: transparent;">
-                                        <g id="SvgjsG1035" class="apexcharts-inner apexcharts-graphical"
-                                            transform="translate(0, 0)">
-                                            <defs id="SvgjsDefs1034">
-                                                <clipPath id="gridRectMasksatg8nyl">
-                                                    <rect id="SvgjsRect1039" width="256" height="37" x="-1" y="-1" rx="0" ry="0"
-                                                        fill="#ffffff" opacity="1" stroke-width="0" stroke="none"
-                                                        stroke-dasharray="0"></rect>
-                                                </clipPath>
-                                                <clipPath id="gridRectMarkerMasksatg8nyl">
-                                                    <rect id="SvgjsRect1040" width="294" height="75" x="-20" y="-20" rx="0"
-                                                        ry="0" fill="#ffffff" opacity="1" stroke-width="0" stroke="none"
-                                                        stroke-dasharray="0"></rect>
-                                                </clipPath>
-                                            </defs>
-                                            <line id="SvgjsLine1038" x1="177.3" y1="0" x2="177.3" y2="35" stroke="#b6b6b6"
-                                                stroke-dasharray="3" class="apexcharts-xcrosshairs" x="177.3" y="0" width="1"
-                                                height="35" fill="#b1b9c4" filter="none" fill-opacity="0.9" stroke-width="1">
-                                            </line>
-                                            <g id="SvgjsG1047" class="apexcharts-xaxis" transform="translate(0, 0)">
-                                                <g id="SvgjsG1048" class="apexcharts-xaxis-texts-g"
-                                                    transform="translate(0, -4)"></g>
-                                            </g>
-                                            <g id="SvgjsG1051" class="apexcharts-grid">
-                                                <line id="SvgjsLine1053" x1="0" y1="35" x2="254" y2="35" stroke="transparent"
-                                                    stroke-dasharray="0"></line>
-                                                <line id="SvgjsLine1052" x1="0" y1="1" x2="0" y2="35" stroke="transparent"
-                                                    stroke-dasharray="0"></line>
-                                            </g>
-                                            <g id="SvgjsG1042" class="apexcharts-line-series apexcharts-plot-series">
-                                                <g id="SvgjsG1043" class="apexcharts-series seriesx1" data:longestSeries="true"
-                                                    rel="1" data:realIndex="0">
-                                                    <path id="apexcharts-line-0"
-                                                        d="M0 18.55C8.889999999999999 18.55 16.509999999999998 2.1000000000000014 25.4 2.1000000000000014C34.29 2.1000000000000014 41.91 26.6 50.8 26.6C59.69 26.6 67.31 28.7 76.2 28.7C85.09 28.7 92.71 25.9 101.6 25.9C110.49 25.9 118.11 12.25 127 12.25C135.89 12.25 143.51 24.15 152.4 24.15C161.29000000000002 24.15 168.91000000000003 18.55 177.8 18.55C186.69 18.55 194.31 31.5 203.2 31.5C212.08999999999997 31.5 219.70999999999998 19.6 228.6 19.6C237.49 19.6 245.11 19.25 254 19.25C254 19.25 254 19.25 254 19.25 "
-                                                        fill="none" fill-opacity="1" stroke="rgba(255,171,0,0.85)"
-                                                        stroke-opacity="1" stroke-linecap="butt" stroke-width="2"
-                                                        stroke-dasharray="0" class="apexcharts-line" index="0"
-                                                        clip-path="url(#gridRectMasksatg8nyl)"
-                                                        pathTo="M 0 18.55C 8.889999999999999 18.55 16.509999999999998 2.1000000000000014 25.4 2.1000000000000014C 34.29 2.1000000000000014 41.91 26.6 50.8 26.6C 59.69 26.6 67.31 28.7 76.2 28.7C 85.09 28.7 92.71 25.9 101.6 25.9C 110.49 25.9 118.11 12.25 127 12.25C 135.89 12.25 143.51 24.15 152.4 24.15C 161.29000000000002 24.15 168.91000000000003 18.55 177.8 18.55C 186.69 18.55 194.31 31.5 203.2 31.5C 212.08999999999997 31.5 219.70999999999998 19.6 228.6 19.6C 237.49 19.6 245.11 19.25 254 19.25"
-                                                        pathFrom="M -1 35L -1 35L 25.4 35L 50.8 35L 76.2 35L 101.6 35L 127 35L 152.4 35L 177.8 35L 203.2 35L 228.6 35L 254 35">
-                                                    </path>
-                                                    <g id="SvgjsG1044" class="apexcharts-series-markers-wrap">
-                                                        <g class="apexcharts-series-markers">
-                                                            <circle id="SvgjsCircle1059" r="0" cx="177.8" cy="18.55"
-                                                                class="apexcharts-marker wdlv39vum no-pointer-events"
-                                                                stroke="#ffffff" fill="#ffab00" fill-opacity="1"
-                                                                stroke-width="2" stroke-opacity="0.9" default-marker-size="0">
-                                                            </circle>
-                                                        </g>
-                                                    </g>
-                                                    <g id="SvgjsG1045" class="apexcharts-datalabels"></g>
-                                                </g>
-                                            </g>
-                                            <line id="SvgjsLine1054" x1="0" y1="0" x2="254" y2="0" stroke="#b6b6b6"
-                                                stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line>
-                                            <line id="SvgjsLine1055" x1="0" y1="0" x2="254" y2="0" stroke-dasharray="0"
-                                                stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line>
-                                            <g id="SvgjsG1056" class="apexcharts-yaxis-annotations"></g>
-                                            <g id="SvgjsG1057" class="apexcharts-xaxis-annotations"></g>
-                                            <g id="SvgjsG1058" class="apexcharts-point-annotations"></g>
-                                        </g>
-                                        <rect id="SvgjsRect1037" width="0" height="0" x="0" y="0" rx="0" ry="0" fill="#fefefe"
-                                            opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0"></rect>
-                                        <g id="SvgjsG1049" class="apexcharts-yaxis" rel="0" transform="translate(-21, 0)">
-                                            <g id="SvgjsG1050" class="apexcharts-yaxis-texts-g"></g>
-                                        </g>
-                                    </svg>
-                                    <div class="apexcharts-legend"></div>
-                                    <div class="apexcharts-tooltip light" style="left: 126.641px; top: 0px;">
-                                        <div class="apexcharts-tooltip-series-group active" style="display: flex;"><span
-                                                class="apexcharts-tooltip-marker"
-                                                style="background-color: rgb(255, 171, 0); display: none;"></span>
-                                            <div class="apexcharts-tooltip-text"
-                                                style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
-                                                <div class="apexcharts-tooltip-y-group"><span
-                                                        class="apexcharts-tooltip-text-label"></span><span
-                                                        class="apexcharts-tooltip-text-value">47</span></div>
-                                                <div class="apexcharts-tooltip-z-group"><span
-                                                        class="apexcharts-tooltip-text-z-label"></span><span
-                                                        class="apexcharts-tooltip-text-z-value"></span></div>
+                                    <div class="row mb-2">
+                                        <div class="col-9">
+                                            <div class="progress-wrapper">
+                                                <span class="progress-label text-muted text-sm">Website mockup</span>
+                                                <div class="progress mt-1 mb-2" style="height: 5px;">
+                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="67" aria-valuemin="0"
+                                                        aria-valuemax="100" style="width: 67%;"></div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="resize-triggers">
-                                <div class="expand-trigger">
-                                    <div style="width: 255px; height: 108px;"></div>
-                                </div>
-                                <div class="contract-trigger"></div>
-                            </div>
-                        </div>
-                        <div class="progress-wrapper mb-3">
-                            <small class="progress-label">Concept</small>
-                            <div class="progress mt-0" style="height: 3px;">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                    aria-valuemax="100" style="width: 40%;"></div>
-                            </div>
-                        </div>
-                        <div class="progress-wrapper">
-                            <small class="progress-label">Prototyping</small>
-                            <div class="progress mt-0" style="height: 3px;">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                    aria-valuemax="100" style="width: 40%;"></div>
-                            </div>
-                        </div>
-                        <div class="progress-wrapper">
-                            <small class="progress-label">Testing</small>
-                            <div class="progress mt-0" style="height: 3px;">
-                                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                    aria-valuemax="100" style="width: 40%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6">
-                <!-- Project overview -->
-                <div class="card card-fluid">
-                    <div class="card-header">
-                        <h6 class="mb-0">Survey Overview</h6>
-                    </div>
-                    <div class="card-body py-3 flex-grow-1">
-                        <!-- Progress -->
-                        <div class="pb-3 mb-3 border-bottom">
-                            <div class="row align-items-center">
-                                <div class="col-12 text-center">
-                                    <!-- Avatar -->
-
-                                    <img th:if="${survey.icon != null}" class="avatar rounded-circle" src="data:image/;base64,${survey.icon.data.data}" />
-                                    <img th:if="${survey.icon == null}" alt="Image placeholder" src="/apollo/dist/img/theme/light/brand-avatar-3.png" class="avatar rounded-circle">
-                                </div>
-
-                            </div>
-                        </div>
-                        <!-- Description -->
-                        <p class="text-sm mb-0">[[${survey.description}]]</p>
-                    </div>
-
-                    <div class="card-footer py-0">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item px-0">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <span class="form-control-label">[[#{survey.secret}]]:</span>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <span id="survey_secret" th:if="${survey.secret}" class="text-right badge badge-success badge-pill mx-2">Yes</span>
-                                        <span id="survey_secret" th:if="${!survey.secret}" class="text-right badge badge-danger badge-pill mx-2">No</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item px-0">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <span class="form-control-label">[[#{common.published}]]:</span>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">Yes</span>
-                                        <span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item px-0">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <span class="form-control-label">[[#{common.publiclink}]]</span>
-                                    </div>
-                                    <div class="col-6 text-right">
-                                        <span id="urlId" class="text-right" th:text="${survey.urlId != null ? survey.urlId : ''}"></span>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item px-0">
-                                <div class="row align-items-center">
-                                    <div class="col-6">
-                                        <small>[[#{survey.startDate}]]</small>
-                                        <div class="h6 mb-0" th:text="${survey.startDate != null ? #dates.format(survey.startDate, 'dd-MM-yyyy') : 'Not provided'}"></div>
-                                    </div>
-                                    <div class="col-6">
-                                        <small>[[#{survey.endDate}]]</small>
-                                        <div class="h6 mb-0" th:text="${survey.endDate != null ? #dates.format(survey.endDate, 'dd-MM-yyyy') : 'Not provided'}">
+                                        <div class="col-3 align-self-end text-right">
+                                            <span class="h6 mb-0">67%</span>
                                         </div>
                                     </div>
+                                    <div class="row mb-2">
+                                        <div class="col-9">
+                                            <div class="progress-wrapper">
+                                                <span class="progress-label text-muted text-sm">Landing page</span>
+                                                <div class="progress mt-1 mb-2" style="height: 5px;">
+                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="89" aria-valuemin="0"
+                                                        aria-valuemax="100" style="width: 89%;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 align-self-end text-right">
+                                            <span class="h6 mb-0">89%</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-9">
+                                            <div class="progress-wrapper">
+                                                <span class="progress-label text-muted text-sm">Mobile testing</span>
+                                                <div class="progress mt-1 mb-2" style="height: 5px;">
+                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="55" aria-valuemin="0"
+                                                        aria-valuemax="100" style="width: 55%;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3 align-self-end text-right">
+                                            <span class="h6 mb-0">55%</span>
+                                        </div>
+                                    </div>
+
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Survey overview -->
+            <div class="col-xl-6 col-sm-12">
+                <div class="row">
+                    <div class="col-xl-12 col-sm-12">
+                        <div class="card card-fluid">
+                            <div class="card-header">
+                                <h6 class="mb-0">[[#{survey.overview}]]</h6>
+                            </div>
+                            <div class="card-body py-3 flex-grow-1">
+                                <!-- Progress -->
+                                <div class="pb-3 mb-3 border-bottom">
+                                    <div class="row align-items-center">
+                                        <div class="col-12 text-center">
+                                            <!-- Avatar -->
+                                            <div class="avatar rounded-circle avatar-lg">
+                                                <img th:if="${survey.icon != null}" alt="User Icon" src="data:image/;base64,${survey.icon.data.data}"/>
+                                                <img th:if="${survey.icon == null}" alt="Image Default" src="/apollo/dist/img/theme/light/brand-avatar-3.png">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- Description -->
+                                <p class="text-sm mb-0">[[${survey.description}]]</p>
+                            </div>
+
+                            <div class="card-footer py-0">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item px-0">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <span class="form-control-label">[[#{survey.secret}]]:</span>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <span id="survey_secret" th:if="${survey.secret}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
+                                                <span id="survey_secret" th:if="${!survey.secret}" class="text-right badge badge-danger badge-pill mx-2">No</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item px-0">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <span class="form-control-label">[[#{common.published}]]:</span>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
+                                                <span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item px-0">
+                                        <div class="row align-items-center">
+                                            <div class="col-6">
+                                                <span class="form-control-label">[[#{common.publiclink}]]</span>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <span id="urlId" class="text-right" th:text="${survey.urlId != null ? survey.urlId : ''}"></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item px-0">
+                                        <div class="row justify-content-between">
+                                            <div class="col-6">
+                                                <small>[[#{survey.startDate}]]</small>
+                                                <div class="h6 mb-0" th:if="${survey.startDate != null}" th:text="${#temporals.format(survey.startDate)}"></div>
+                                                <div class="h6 mb-0" th:text="#{not.provided}" th:if="${survey.startDate == null}"></div>
+                                            </div>
+                                            <div class="col-3">
+                                                <small>[[#{survey.endDate}]]</small>
+                                                <div class="h6 mb-0" th:if="${survey.endDate != null}" th:text="${#temporals.format(survey.endDate)}"></div>
+                                                <div class="h6 mb-0" th:text="#{not.provided}" th:if="${survey.endDate == null}"></div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            
         </div>
 
         <!-- Answers list -->
         <div class="row">
             <div class="col-xl-12">
+                <!-- Listing -->
                 <div class="card">
                     <div class="card-header border-0">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6 class="mb-0">Answers</h6>
+                                <h6 class="mb-0">[[#{common.answerlist}]]</h6>
                             </div>
                             <div class="col-auto">
                                 <div class="actions">
@@ -463,149 +304,82 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Table -->
                     <div class="table-responsive">
-                        <table class="table align-items-center">
+                        <table class="table" id="survey_table" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="sort" data-sort="name">Name</th>
-                                    <th scope="col" class="sort" data-sort="groups">Groups</th>
-                                    <th scope="col" class="sort" data-sort="tasks">Tasks</th>
-                                    <th scope="col" class="sort" data-sort="billing">Submitted Date</th>
-                                    <th scope="col">Completion</th>
-                                    <th scope="col" class="sort" data-sort="issues">Closed issues</th>
+                                    <th th:text="#{answer.name}">Name</th>
+                                    <th>Email</th>
+                                    <th th:text="#{answer.groups}">Groups</th>
+                                    <th th:text="#{answer.totanswers}">Tot Answers</th>
+                                    <th th:text="#{answer.completion}">Completion</th>
+                                    <th th:text="#{common.submitteddate}">Submitted Date</th>
                                 </tr>
                             </thead>
-                            <tbody class="list">
-                                <tr>
-                                    <th scope="row">
-                                        <div class="media align-items-center">
-                                            <div>
-                                                <img alt="Image placeholder"
-                                                    src="../../assets/img/theme/light/team-1-800x800.jpg"
-                                                    class="avatar  rounded-circle avatar-sm">
-                                            </div>
-                                            <div class="media-body ml-3">
-                                                <a href="#" class="name mb-0 h6 text-sm">User 1</a>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <a href="#" class="badge badge-secondary">Design</a>
-                                        <a href="#" class="badge badge-secondary">Marketing</a>
-                                    </td>
-                                    <td class="budget">
-                                        <span>11</span>
-                                    </td>
-                                    <td>
-                                        01/01/2020
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="completion mr-2">14%</span>
-                                            <div>
-                                                <div class="progress" style="width: 100px;">
-                                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="14"
-                                                        aria-valuemin="0" aria-valuemax="100" style="width: 14%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-secondary mr-2">7</span>
-                                        <a href="#" class="text-muted" data-toggle="tooltip"
-                                            data-original-title="Unclosed issues">8</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="media align-items-center">
-                                            <div>
-                                                <img alt="Image placeholder"
-                                                    src="../../assets/img/theme/light/team-2-800x800.jpg"
-                                                    class="avatar  rounded-circle avatar-sm">
-                                            </div>
-                                            <div class="media-body ml-3">
-                                                <a href="#" class="name mb-0 h6 text-sm">User 2</a>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <a href="#" class="badge badge-secondary">Dev</a>
-                                        <a href="#" class="badge badge-secondary">Testing</a>
-                                    </td>
-                                    <td class="budget">
-                                        <span>22</span>
-                                    </td>
-                                    <td>
-                                        31/12/2019
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="completion mr-2">28%</span>
-                                            <div>
-                                                <div class="progress" style="width: 100px;">
-                                                    <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="28"
-                                                        aria-valuemin="0" aria-valuemax="100" style="width: 28%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-secondary mr-2">14</span>
-                                        <a href="#" class="text-muted" data-toggle="tooltip"
-                                            data-original-title="Unclosed issues">16</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">
-                                        <div class="media align-items-center">
-                                            <div>
-                                                <img alt="Image placeholder"
-                                                    src="../../assets/img/theme/light/team-5-800x800.jpg"
-                                                    class="avatar  rounded-circle avatar-sm">
-                                            </div>
-                                            <div class="media-body ml-3">
-                                                <a href="#" class="name mb-0 h6 text-sm">User n</a>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <a href="#" class="badge badge-secondary">Sales</a>
-                                        <a href="#" class="badge badge-secondary">Marketing</a>
-                                    </td>
-                                    <td class="budget">
-                                        <span>55</span>
-                                    </td>
-                                    <td>
-                                        01/02/2020
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <span class="completion mr-2">70%</span>
-                                            <div>
-                                                <div class="progress" style="width: 100px;">
-                                                    <div class="progress-bar bg-success" role="progressbar" aria-valuenow="70"
-                                                        aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="badge badge-secondary mr-2">35</span>
-                                        <a href="#" class="text-muted" data-toggle="tooltip"
-                                            data-original-title="Unclosed issues">40</a>
-                                    </td>
-                                </tr>
+                            <tbody>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
         </div>
-
-    </div>
-
-
+        <!-- ./Answers list-->
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                $('#survey_table').DataTable({
+                    "columns": [
+                        { 
+                            "data": "name",
+                            "render": function (data, type, row, meta) {
+                                if (row.name) {
+                                    return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.name + '</a></div>';
+                                } else {
+                                    return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.id + '</a></div>';
+                                }      
+                            }
+                        },
+                        {
+                            "data": "email",
+                            "render": function (data, type, row, meta) {
+                                return '<span class="d-block text-sm text-muted mb-3">' + row.email + '</a>';
+                            }
+                        },
+                        { 
+                            "data": "groupAnswers",
+                            "render": function (data, type, row, meta) {
+                                let elem = '';
+                                for (let item of row.groupAnswers) {
+                                    elem += '<a href="#" class="badge badge-secondary">' + item.group.title + '</a>'
+                                }
+                                return elem;
+                            }
+                        },
+                        {
+                            "data": "totAnswers"
+                        },
+                        {
+                            "data": "completion",
+                            "render": function (data, type, row, meta) {
+                                return '<div class="d-flex align-items-center"><span class="completion mr-2">70%</span><div><div class="progress" style="width: 100px;"><div class="progress-bar bg-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div></div></div></div>';
+                            }
+                        },
+                        { 
+                            "data": "date",
+                            "render": function (data, type, row, meta) {
+                                let submittedDate = new Date(row.date);
+                                return '<span>' + submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear() + '</span>';
+                            }
+                        }
+                    ],
+                    "ajax": {
+                        "url": "[(@{/answers/survey/findbysurveypaginated})]" + "?id=[(${survey.id})]"
+                    },
+                });
+            });
+        </script>
     </div>
 
 </body>

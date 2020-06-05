@@ -1,6 +1,7 @@
 package it.univaq.disim.mwt.apollo.domain;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +24,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
@@ -51,8 +53,9 @@ public class Survey {
 	private boolean active;
 	
 	@CreatedDate
-	@DateTimeFormat(iso=ISO.DATE)
-	private Date creationDate;
+//	@DateTimeFormat(iso=ISO.DATE)
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss")
+	private LocalDateTime creationDate;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
@@ -82,7 +85,7 @@ public class Survey {
 	 *	
 	 */
 	public void createSurveyUrl(String id){
-		this.urlId = "/answers/"+id;
+		this.urlId = "/answers/survey/"+id;
 	}
 
 	/**
