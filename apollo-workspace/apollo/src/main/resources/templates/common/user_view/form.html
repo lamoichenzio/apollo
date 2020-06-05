@@ -66,12 +66,12 @@
 												th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion)}">
 												<!-- If Radio -->
 												<div
-													th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
+													th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
 													th:replace="~{common/user_view/components/matrix_radio_question.html :: question(question=${question}, stat=${questionStat})}">
 												</div>
 												<!-- If Check -->
 												<div
-													th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
+													th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
 													th:replace="~{common/user_view/components/matrix_check_question.html :: question(question=${question}, stat=${questionStat})}">
 												</div>
 											</div>
