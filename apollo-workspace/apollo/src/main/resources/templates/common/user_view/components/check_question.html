@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="question">
+		<!-- MULTI CHOICE QUESTION -->
+		<div class="row"
+			th:each="checkAnswer, stat : *{choiceQuestionMultiAnswers}"
+			th:if="${checkAnswer.question == question}">
+
+			<!-- Related Question -->
+			<input type="hidden"
+				th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].question}">
+
+			<div class="col-10 mx-1 px-2 py-3">
+				<!-- OPTIONS -->
+				<div th:each="option, optionStat : ${question.options}">
+					<input type="checkbox"
+						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
+						th:value="${option}"> 
+					<label
+						th:for="choiceQuestionMultiAnswers+${stat.index}+.answers+${optionStat.index+1}"
+						th:text="${option}"></label>
+				</div>
+
+				<!-- Other -->
+				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
+					<input type="text" class="form-control" id="other_choice"
+						name="other_choice" size="45"
+						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
+						th:placeholder="#{question.otherchoiceplaceholder}">
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
