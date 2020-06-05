@@ -31,7 +31,7 @@
 									<!-- Show image if exists -->
 									<div class="m-5" th:if="${question.file != null}">
 										<img th:src="${'data:image/png;base64,'+question.file.data}"
-											width="30%">
+											width="50%">
 									</div>
 									<div class="row">
 										<div class="col-10 mx-1 px-2 py-3">
@@ -61,6 +61,21 @@
 												th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}"
 												th:replace="~{common/user_view/components/select_question.html :: question(question=${question}, stat=${questionStat})}">
 											</div>
+											<!-- If Matrix Question -->
+											<div
+												th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion)}">
+												<!-- If Radio -->
+												<div
+													th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
+													th:replace="~{common/user_view/components/matrix_radio_question.html :: question(question=${question}, stat=${questionStat})}">
+												</div>
+												<!-- If Check -->
+												<!-- <div
+													th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
+													th:replace="~{common/user_view/components/matrix_check_question.html :: question(question=${question}, stat=${questionStat})}">
+												</div> -->
+											</div>
+
 										</div>
 									</div>
 								</div>

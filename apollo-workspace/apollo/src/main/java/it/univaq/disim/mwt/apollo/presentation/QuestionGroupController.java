@@ -1,8 +1,5 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import java.util.List;
-import java.util.Set;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +43,8 @@ public class QuestionGroupController {
 
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("group") QuestionGroup group, Errors errors) throws BusinessException {	
-		if (errors.hasErrors()) {	
+		if (errors.hasErrors()) {
+			log.info(errors.toString());
 			return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 		}
 		
@@ -73,7 +71,8 @@ public class QuestionGroupController {
 	@PostMapping("/update")
 	public String update(@Valid @ModelAttribute("group") QuestionGroup group, Errors errors) throws BusinessException {
 		if (errors.hasErrors()) {
-			return "group/form";
+			log.info(errors.toString());
+			return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 		}
 		service.updateQuestionGroup(group);
 		return "redirect:/surveys/detail?id="+group.getSurvey().getId();
