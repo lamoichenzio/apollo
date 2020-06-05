@@ -2,12 +2,12 @@ package it.univaq.disim.mwt.apollo.presentation.model;
 
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class SurveyResponseBody {
+@EqualsAndHashCode(callSuper = true)
+public class SurveyResponseBody extends ResponseBody {
 
-    private String msg;
-    private int status;
     private Survey result;
 
 }

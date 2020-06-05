@@ -26,6 +26,7 @@ import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,9 +84,12 @@ public class SurveyController {
 
 		// If error, just return a 400 bad request, along with the error message
 		if (errors.hasErrors()) {
-			result.setStatus(0);
+			result.setStatus(ResponseStatus.ERROR);
 			result.setMsg(
-					errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
+				errors.getAllErrors().stream()
+				.map(x -> x.getDefaultMessage())
+				.collect(Collectors.joining(","))
+			);
 
 			return ResponseEntity.badRequest().body(result);
 		}
@@ -104,7 +108,7 @@ public class SurveyController {
 			result.setMsg("active");
 		}
 		
-		result.setStatus(1);
+		result.setStatus(ResponseStatus.OK);
 		result.setResult(survey);
 
 		return ResponseEntity.ok(result);

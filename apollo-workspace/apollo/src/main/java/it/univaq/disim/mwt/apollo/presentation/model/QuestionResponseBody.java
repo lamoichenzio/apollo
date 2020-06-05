@@ -3,20 +3,19 @@ package it.univaq.disim.mwt.apollo.presentation.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Setter;
 
 @Data
-public class QuestionResponseBody {
-    private String msg;
-    private int status;
+@EqualsAndHashCode(callSuper = true)
+public class QuestionResponseBody extends ResponseBody {
     
     @Setter(AccessLevel.NONE)
-    List<QuestionBody> result = new ArrayList<QuestionBody>();
+    List<QuestionBody> questions = new ArrayList<QuestionBody>();
 
 	public void addQuestionBody(QuestionBody questionBody) {
-		result.add(questionBody);
+		questions.add(questionBody);
 	}
 }

@@ -7,11 +7,11 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class AnswerResponseBody {
-    private String msg;
-    private int status;
+@EqualsAndHashCode(callSuper = true)
+public class AnswerResponseBody extends ResponseBody {
     private List<MultiAnswer> multiAnswers;
     private List<SingleAnswer> singleAnswers;
     private List<MultiChoiceMatrixAnswer> multiChoiceMatrixAnswers;

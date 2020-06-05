@@ -2,8 +2,6 @@ package it.univaq.disim.mwt.apollo.presentation;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -15,7 +13,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,6 +31,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionBody;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionResponseBody;
+import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -50,19 +48,23 @@ public class QuestionController {
     @Autowired
     private FileValidator validator;
 
-	@GetMapping("/list")
+    
+	@GetMapping("/questionlist")
 	@ResponseBody
-	public ResponseEntity<QuestionResponseBody> findGroup(@RequestParam String id) throws BusinessException {
+	public ResponseEntity<QuestionResponseBody> findQuestionsByGroup(@RequestParam String id) throws BusinessException {
 		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
-		Set<Question> questions = group.getQuestions();
 		QuestionResponseBody response = new QuestionResponseBody();
 		
-		for (Question q : questions) {
-			QuestionBody body = QuestionBody.builder().title(q.getTitle()).id(q.getId()).build();
+		for (Question question : group.getQuestions()) {
+			QuestionBody body = QuestionBody.builder()
+					.title(question.getTitle())
+					.id(question.getId())
+					.type(Utility.getQuestionType(question))
+					.build();
 			response.addQuestionBody(body);
 		}
 		
-		response.setStatus(1);
+		response.setStatus(ResponseStatus.OK);
 		
 		return ResponseEntity.ok(response);
 	}

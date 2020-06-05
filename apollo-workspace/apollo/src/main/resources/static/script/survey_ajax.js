@@ -76,8 +76,8 @@ function postSurveyRequest(url, param) {
         success: function (response) {
             $("#spinner").remove();
 
-            // 1 for success and 0 for failure
-            if (response.status) {
+            // OK for success
+            if (response.status === 'OK') {
                 if (url_splitted[url_splitted.length - 1] === 'publish') {
                     if (response.msg == "active") {
                         surveyPublished(response);   
