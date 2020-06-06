@@ -2,10 +2,10 @@
 <body>
 	<div th:fragment="form" title="group-container">
 		<form th:action="@{/answers/survey/create}" method="post"
-			th:object="${surveyanswer}">
+			th:object="${surveyanswer}" id="form">
 			<input type="hidden" th:field="*{survey}">
 			<!-- Iterate Question Groups -->
-			<div th:each="group, groupStat : ${survey.questionGroups}">
+			<div th:each="group, groupStat : ${survey.questionGroups}" class="tab">
 				<div class="row">
 					<div class="col-10">
 						<h5 class="mb-1 p-1">[[${groupStat.index+1}+'.
@@ -82,11 +82,68 @@
 							</div>
 						</div>
 					</div>
+					<div class="m-4">
+						<button type="button" id="prevBtn"
+							class="btn btn-sm btn-primary btn-icon rounded-pill"
+							th:text="#{common.previous}"
+							onclick="nextPrev(-1)">Previous</button>
+						<button type="button" id="nextBtn"
+							class="btn btn-sm btn-primary btn-icon rounded-pill"
+							onclick="nextPrev(1)">Next</button>
+						<!-- <button type="submit"
+							class="btn btn-sm btn-primary btn-icon rounded-pill"
+							th:text="#{common.submit}"></button> -->
+					</div>
+					<!-- Circles which indicates the steps of the form: -->
+					<div style="text-align: center; margin-top: 40px;">
+						<span class="step"
+							th:each="questionGroup : ${survey.questionGroups}"></span>
+					</div>
 				</div>
 			</div>
-			<button type="submit" th:text="#{common.submit}"></button>
-		</form>
 
+		</form>
+		<script th:inline="javascript">
+			var currentTab = 0; 
+			showTab(currentTab);
+
+			function showTab(n) {
+				var x = $(".tab");
+				x[n].style.display = "block";
+				if (n == 0) {
+					$("#prevBtn").css("display", "none");
+				} else {
+					$("#prevBtn").css("display", "inline");
+				}
+				if (n == (x.length - 1)) {
+					$("#nextBtn").html([[#{common.next}]]);
+				} else {
+					$("#nextBtn").html([[#{common.next}]]);
+				}
+				fixStepIndicator(n)
+			}
+
+			function nextPrev(n) {
+				var x = $(".tab");
+				x[currentTab].style.display="none";
+				currentTab = currentTab + n;
+				if (currentTab >= x.length) {
+					$("#form").submit();
+					return false;
+				}
+				showTab(currentTab);
+			}
+			
+			function fixStepIndicator(n) {
+			  // This function removes the "active" class of all steps...
+			  var i, x = $(".step");
+			  for (i = 0; i < x.length; i++) {
+			    x[i].className = x[i].className.replace(" active", "");
+			  }
+			  //... and adds the "active" class to the current step:
+			  x[n].className += " active";
+			}
+		</script>
 	</div>
 </body>
 
