@@ -54,11 +54,10 @@ public class SurveyAnswerController {
 
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("surveyanswer") SurveyAnswer surveyAnswer, Errors errors) throws BusinessException {
-		log.info(surveyAnswer.toString());
 		if(errors.hasErrors()) {
 			log.info(errors.toString());
 		}
-		//surveyAnswerService.createUserAnswer(userAnswer);
+		surveyAnswerService.createSurveyAnswer(surveyAnswer);
 		return "common/common_pages/survey_submitted";
 	}
 //	

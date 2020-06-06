@@ -5,6 +5,7 @@ import java.util.List;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.domain.answers.Answer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionSingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
@@ -43,11 +44,8 @@ public interface AnswerService {
 	SelectionQuestionAnswer findSelectionQuestionAnswerById(String id) throws BusinessException;
 	SingleChoiceMatrixAnswer findSingleChoiceMatrixAnswerById(String id) throws BusinessException;
 
-//	void createAnswer(ChoiceQuestionMultiAnswer answer) throws BusinessException;
-//	void createAnswer(MultiChoiceMatrixAnswer answer) throws BusinessException;
-//	void createAnswer(InputQuestionAnswer answer) throws BusinessException;
-//	void createAnswer(SingleChoiceMatrixAnswer answer) throws BusinessException;
-//	
+	void createAnswer(Answer answer) throws BusinessException;
+
 //	void updateAnswer(ChoiceQuestionMultiAnswer answer) throws BusinessException;
 //	void updateAnswer(MultiChoiceMatrixAnswer answer) throws BusinessException;
 //	void updateAnswer(InputQuestionAnswer answer) throws BusinessException;

@@ -10,9 +10,6 @@ import lombok.Data;
 @Data
 public class MultiChoiceMatrixAnswerValue {
 	
-	@Id
-	private String id;
-	
 	@ElementCollection
 	private List<String> matrixAnswerValues;
 }

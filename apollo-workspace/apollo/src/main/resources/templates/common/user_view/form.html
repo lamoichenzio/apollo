@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 	<div th:fragment="form" title="group-container">
-		<form th:action="@{/answers/create}" method="post"
+		<form th:action="@{/answers/survey/create}" method="post"
 			th:object="${surveyanswer}">
 			<input type="hidden" th:field="*{survey}">
 			<!-- Iterate Question Groups -->

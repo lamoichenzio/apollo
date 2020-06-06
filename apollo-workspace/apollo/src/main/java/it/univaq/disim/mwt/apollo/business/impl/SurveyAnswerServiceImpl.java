@@ -12,12 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.univaq.disim.mwt.apollo.business.AnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyAnswerRepository;
 import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.answers.Answer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionSingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
@@ -40,8 +42,11 @@ import lombok.extern.slf4j.Slf4j;
 public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 
 	@Autowired
-	SurveyAnswerRepository surveyAnswerRepository;
-	
+	private SurveyAnswerRepository surveyAnswerRepository;
+
+	@Autowired
+	private AnswerService answerService;
+
 	@Override
 	public List<SurveyAnswer> findAllSurveyAnswers() throws BusinessException {
 		return surveyAnswerRepository.findAll();
@@ -49,14 +54,14 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ResponseGrid<SurveyAnswer> findAllSurveyAnswersPaginated(RequestGrid request, Survey survey) throws BusinessException {
-		try{
+	public ResponseGrid<SurveyAnswer> findAllSurveyAnswersPaginated(RequestGrid request, Survey survey)
+			throws BusinessException {
+		try {
 			SurveyAnswer surveyAnswer = new SurveyAnswer();
 			surveyAnswer.setSurvey(survey);
 
 			ExampleMatcher matcher = ExampleMatcher.matchingAll()
-					.withMatcher("survey", GenericPropertyMatchers.ignoreCase())
-					.withIgnoreNullValues();
+					.withMatcher("survey", GenericPropertyMatchers.ignoreCase()).withIgnoreNullValues();
 			Example<SurveyAnswer> example = Example.of(surveyAnswer, matcher);
 
 			Pageable pageable = ConversionUtility.requestGrid2Pageable(request);
@@ -67,7 +72,7 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 
 			return new ResponseGrid<SurveyAnswer>(request.getDraw(), page.getTotalElements(), page.getTotalElements(),
 					page.getContent());
-		}catch (DataAccessException e){
+		} catch (DataAccessException e) {
 			throw new BusinessException(e);
 		}
 
@@ -79,69 +84,90 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 	}
 
 	@Override
-	public void createSurveyAnswer(SurveyAnswer userAnswer) throws BusinessException {
-		surveyAnswerRepository.save(userAnswer);
-	}
+	public void createSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException {
 
-	@Override
-	public void updateSurveyAnswer(SurveyAnswer userAnswer) throws BusinessException {
-		surveyAnswerRepository.save(userAnswer);
-	}
+		List<InputQuestionAnswer> inputQuestionAnswers = surveyAnswer.getInputQuestionAnswers();
+		List<ChoiceQuestionSingleAnswer> choiceQuestionSingleAnswers = surveyAnswer.getChoiceQuestionSingleAnswers();
+		List<ChoiceQuestionMultiAnswer> choiceQuestionMultiAnswers = surveyAnswer.getChoiceQuestionMultiAnswers();
+		List<SelectionQuestionAnswer> selectionQuestionAnswers = surveyAnswer.getSelectionQuestionAnswers();
+		List<SingleChoiceMatrixAnswer> singleChoiceMatrixAnswers = surveyAnswer.getSingleChoiceMatrixAnswers();
+		List<MultiChoiceMatrixAnswer> multiChoiceMatrixAnswers = surveyAnswer.getMultiChoiceMatrixAnswers();
 
-	@Override
-	public void deleteSurveyAnswer(SurveyAnswer userAnswer) throws BusinessException {
-		surveyAnswerRepository.delete(userAnswer);
-	}
+		int totAnswers = inputQuestionAnswers.size() + choiceQuestionSingleAnswers.size()
+				+ choiceQuestionMultiAnswers.size() + selectionQuestionAnswers.size() + singleChoiceMatrixAnswers.size()
+				+ multiChoiceMatrixAnswers.size();
 
-	@Override
-	public void deleteSurveyAnswerById(String id) throws BusinessException {
-		surveyAnswerRepository.deleteById(id);
+		surveyAnswer.setTotAnswers(totAnswers);
+		try {
+			//surveyAnswerRepository.save(surveyAnswer);
+			for (Answer answer : inputQuestionAnswers) {
+				answerService.createAnswer(answer);
+			}
+			for (Answer answer : choiceQuestionSingleAnswers) {
+				answerService.createAnswer(answer);
+			}
+			for (Answer answer : choiceQuestionMultiAnswers) {
+				answerService.createAnswer(answer);
+			}
+			for (Answer answer : selectionQuestionAnswers) {
+				answerService.createAnswer(answer);
+			}
+			for (Answer answer : singleChoiceMatrixAnswers) {
+				answerService.createAnswer(answer);
+			}
+			for (Answer answer : multiChoiceMatrixAnswers) {
+				answerService.createAnswer(answer);
+			}
+			surveyAnswerRepository.save(surveyAnswer);
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public SurveyAnswer mapSurveyToSurveyAnswer(Survey survey) throws BusinessException {
 		SurveyAnswer surveyAnswer = new SurveyAnswer();
 		surveyAnswer.setSurvey(survey);
-		for(QuestionGroup questionGroup : survey.getQuestionGroups()) {
-			for(Question question : questionGroup.getQuestions()) {
-				if(question instanceof InputQuestion) {
+		for (QuestionGroup questionGroup : survey.getQuestionGroups()) {
+			for (Question question : questionGroup.getQuestions()) {
+				if (question instanceof InputQuestion) {
 					InputQuestionAnswer answer = new InputQuestionAnswer();
-					answer.setQuestion((InputQuestion)question);
+					answer.setQuestion((InputQuestion) question);
 					surveyAnswer.addInputQuestionAnswer(answer);
 				}
-				if(question instanceof ChoiceQuestion) {
-					if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
+				if (question instanceof ChoiceQuestion) {
+					if (((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
 						ChoiceQuestionSingleAnswer answer = new ChoiceQuestionSingleAnswer();
-						answer.setQuestion((ChoiceQuestion)question);
+						answer.setQuestion((ChoiceQuestion) question);
 						surveyAnswer.addChoiceQuestionSingleAnswer(answer);
 					}
-					if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
+					if (((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
 						ChoiceQuestionMultiAnswer answer = new ChoiceQuestionMultiAnswer();
-						answer.setQuestion((ChoiceQuestion)question);
+						answer.setQuestion((ChoiceQuestion) question);
 						surveyAnswer.addChoiceQuestionMultiAnswer(answer);
 					}
 				}
-				if(question instanceof SelectionQuestion) {
+				if (question instanceof SelectionQuestion) {
 					SelectionQuestionAnswer answer = new SelectionQuestionAnswer();
-					answer.setQuestion((SelectionQuestion)question);
+					answer.setQuestion((SelectionQuestion) question);
 					surveyAnswer.addSelectionQuestionAnswer(answer);
 				}
-				if(question instanceof MatrixQuestion) {
-					if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
+				if (question instanceof MatrixQuestion) {
+					if (((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
 						SingleChoiceMatrixAnswer answer = new SingleChoiceMatrixAnswer();
-						answer.setQuestion((MatrixQuestion)question);
+						answer.setQuestion((MatrixQuestion) question);
 						surveyAnswer.addSingleChoiceMatrixAnswer(answer);
 					}
-					if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
+					if (((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
 						MultiChoiceMatrixAnswer answer = new MultiChoiceMatrixAnswer();
-						answer.setQuestion((MatrixQuestion)question);
+						answer.setQuestion((MatrixQuestion) question);
 						surveyAnswer.addMultiChoiceMatrixAnswer(answer);
 					}
-					
+
 				}
 			}
 		}
 		return surveyAnswer;
 	}
-	
+
 }

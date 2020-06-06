@@ -20,9 +20,4 @@ public interface SurveyAnswerService {
 	
 	void createSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
 	
-	void updateSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
-	
-	void deleteSurveyAnswer(SurveyAnswer SurveyAnswer) throws BusinessException;
-	
-	void deleteSurveyAnswerById(String id) throws BusinessException;
 }
