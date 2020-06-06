@@ -39,7 +39,7 @@ const CHOICE_SUMMARY = '<div class="row mb-2">'
     + '</div>'
     + '</div>';
 
-const MATRIX_SUMMARY = '<div class="card mb-3 border shadow-none">
+const MATRIX_SUMMARY = '<div class="card mb-3 border shadow-none">'
     +'<div class="px-3 py-3">'
     +'<div class="row align-items-center">'
     +'<div class="col ml-n2">'
