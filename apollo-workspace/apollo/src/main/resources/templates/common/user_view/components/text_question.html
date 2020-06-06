@@ -17,7 +17,7 @@
 				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}">
 			<textarea class="form-control" rows="3" resize="none"
 				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}"
-				th:field="*{groupAnswers[__${groupStat.index}__].singleAnswers[__${singleAnswerIndex.index}__].answer}"></textarea>
+				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"></textarea>
 		</div>
 	</div>
 </body>

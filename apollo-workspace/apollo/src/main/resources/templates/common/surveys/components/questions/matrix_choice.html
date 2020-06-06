@@ -75,9 +75,9 @@
 								<tr>
 									<th scope="row">[[${option}]]</th>
 									<td th:each="optionValue : ${question.optionValues}">
-										<input type="checkbox"
+										<input type="checkbox" disabled="disabled"
 										 th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}" />
-										<input type="radio"
+										<input type="radio" disabled="disabled"
 										 th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}" />
 									</td>
 								</tr>
