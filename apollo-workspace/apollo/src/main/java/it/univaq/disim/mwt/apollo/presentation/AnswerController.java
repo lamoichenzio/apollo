@@ -46,13 +46,14 @@ public class AnswerController {
 	public ResponseEntity<AnswerResponseBody> getAnswersData(@Valid @RequestBody QuestionRequestBody request) throws BusinessException {
 		
 		AnswerResponseBody result = new AnswerResponseBody();
-		System.out.println(request);
+		System.out.println(request.toString());
 		
 		// Input
 		if(request.getType().equals(QuestionType.INPUT)) {
 			InputQuestion question = questionService.findInputQuestionById(request.getId());
 			List<InputQuestionAnswer> answers = answerService.findInputQuestionAnswersByQuestion(question);
 			result.setInputQuestionAnswers(answers);
+			result.setQuestionType(Utility.getQuestionType(question));
 		}
 		
 		// Choice
@@ -62,10 +63,12 @@ public class AnswerController {
 			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
 				List<ChoiceQuestionSingleAnswer> answers = answerService.findChoiceQuestionSingleAnswersByQuestion(question);
 				result.setChoiceQuestionSingleAnswers(answers);
+				result.setQuestionType(Utility.getQuestionType(question));
 			}
 			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
 				List<ChoiceQuestionMultiAnswer> answers = answerService.findChoiceQuestionMultiAnswersByQuestion(question);
 				result.setChoiceQuestionMultiAnswers(answers);
+				result.setQuestionType(Utility.getQuestionType(question));
 			}
 		}
 		
@@ -75,10 +78,12 @@ public class AnswerController {
 			if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
 				List<SingleChoiceMatrixAnswer> answers = answerService.findSingleChoiceMatrixAnswersByQuestion(question);
 				result.setSingleChoiceMatrinxAnswers(answers);
+				result.setQuestionType(Utility.getQuestionType(question));
 			}
 			if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
 				List<MultiChoiceMatrixAnswer> answers = answerService.findMultiChoiceMatrixAnswersByQuestion(question);
 				result.setMultiChoiceMatrixAnswers(answers);
+				result.setQuestionType(Utility.getQuestionType(question));
 			}
 		}
 		
@@ -87,6 +92,7 @@ public class AnswerController {
 			SelectionQuestion question = questionService.findSelectionQuestionById(request.getId());
 			List<SelectionQuestionAnswer> answers = answerService.findSelectionQuestionAnswersByQuestion(question);
 			result.setSelectionQuestionAnswers(answers);
+			result.setQuestionType(Utility.getQuestionType(question));
 		}
 		
 		result.setStatus(ResponseStatus.OK);

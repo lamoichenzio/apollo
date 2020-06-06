@@ -14,5 +14,5 @@ public class MultiChoiceMatrixAnswerValue {
 	private String id;
 	
 	@ElementCollection
-	private List<String> matrixAnswerValues;
+	private List<String> values;
 }

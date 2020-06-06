@@ -27,5 +27,5 @@ public class MultiChoiceMatrixAnswer extends Answer {
 	private MatrixQuestion question;
 
 	@ElementCollection
-	private Map<String, MultiChoiceMatrixAnswerValue> answer = new HashMap<>();
+	private Map<String, MultiChoiceMatrixAnswerValue> answers = new HashMap<>();
 }

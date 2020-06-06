@@ -27,5 +27,5 @@ public class SingleChoiceMatrixAnswer extends Answer {
 	private MatrixQuestion question;
 
 	@ElementCollection
-	private Map<String, String> answer = new HashMap<>();
+	private Map<String, String> answers = new HashMap<>();
 }

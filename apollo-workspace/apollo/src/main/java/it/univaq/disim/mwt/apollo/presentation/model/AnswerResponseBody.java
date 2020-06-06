@@ -18,6 +18,7 @@ public class AnswerResponseBody extends ResponseBody {
     private List<ChoiceQuestionSingleAnswer> choiceQuestionSingleAnswers;
     private List<InputQuestionAnswer> inputQuestionAnswers;
     private List<MultiChoiceMatrixAnswer> multiChoiceMatrixAnswers;
-    private List<SelectionQuestionAnswer> selectionQuestionAnswers;
     private List<SingleChoiceMatrixAnswer> singleChoiceMatrinxAnswers;
+    private List<SelectionQuestionAnswer> selectionQuestionAnswers;
+    private QuestionType questionType;
 }
