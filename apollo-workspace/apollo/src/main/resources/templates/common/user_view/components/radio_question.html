@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="question">
+		<div th:each="radioAnswer, stat : *{choiceQuestionSingleAnswers}"
+			th:if="${radioAnswer.question == question}" class="row">
+			
+			<!-- Related question -->
+			<input type="hidden" th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].question}">
+			
+			<div class="col-10 mx-1 px-2 py-3">
+				<!-- OPTIONS -->
+				<div th:each="option, optionStat : ${question.options}"
+					class="custom-control custom-radio">
+					<input type="radio"
+						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
+						th:value="${option}"> 
+					<label th:for="choiceQuestionSingleAnswers+${stat.index}+.answer+${optionStat.index+1}"
+						th:text="${option}"></label>
+				</div>
+
+				<!-- Other -->
+				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
+					<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
+					<input type="text" class="form-control"
+						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
+						size="45" th:placeholder="#{question.otherchoiceplaceholder}">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+

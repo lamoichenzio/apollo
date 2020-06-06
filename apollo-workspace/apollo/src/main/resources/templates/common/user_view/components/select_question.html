@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="question">
+		<div th:each="selectAnswer, stat : *{selectionQuestionAnswers}"
+			th:if="${selectAnswer.question == question}" class="row">
+
+			<!-- Related question -->
+			<input type="hidden"
+				th:field="*{selectionQuestionAnswers[__${stat.index}__].question}">
+
+			<div class="col-6 px-3 py-3">
+				<label class="form-control-label">[[#{question.options}]]</label> <select
+					class="custom-select"
+					th:field="*{selectionQuestionAnswers[__${stat.index}__].answer}">
+					<option th:each="option, optionStat : ${question.options}"
+						th:value="${option}" th:text="${option}"
+						th:selected="${optionStat.index == 0} ? 'selected' : null"></option>
+				</select>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

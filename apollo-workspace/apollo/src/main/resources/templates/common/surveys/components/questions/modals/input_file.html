@@ -22,7 +22,7 @@
 						<!--Update fase-->
 						<div class="form-control-label" th:if="${question.id != null}">
 							<div th:if="${question.file != null}">
-								<input type="hidden" th:field="*{file.id}" />
+								<input type="hidden" th:field="*{file}" />
 								<small>
 									File: [[*{file.name}]]
 								</small>
