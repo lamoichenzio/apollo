@@ -73,6 +73,7 @@ public class QuestionGroupController {
 		if (errors.hasErrors()) {
 			return "group/form";
 		}
+
 		service.updateQuestionGroup(group);
 		return "redirect:/surveys/detail?id="+group.getSurvey().getId();
 	}

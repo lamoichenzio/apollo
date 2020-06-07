@@ -25,7 +25,7 @@ import lombok.ToString;
 @Document(collection = "QuestionGroups")
 @TypeAlias("QuestionGroup")
 @EqualsAndHashCode(exclude = "questions")
-@ToString(exclude = "questions")
+@ToString(exclude="questions")
 public class QuestionGroup {
 	
 	@Id
