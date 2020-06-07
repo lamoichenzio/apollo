@@ -1,6 +1,10 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -26,7 +30,10 @@ import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import it.univaq.disim.mwt.apollo.presentation.model.AnswerBody;
 import it.univaq.disim.mwt.apollo.presentation.model.AnswerResponseBody;
+import it.univaq.disim.mwt.apollo.presentation.model.AnswerType;
+import it.univaq.disim.mwt.apollo.presentation.model.QuestionBody;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionRequestBody;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionType;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
@@ -45,45 +52,116 @@ public class AnswerController {
 	@ResponseBody
 	public ResponseEntity<AnswerResponseBody> getAnswersData(@Valid @RequestBody QuestionRequestBody request) throws BusinessException {
 		
-		AnswerResponseBody result = new AnswerResponseBody();
+		AnswerResponseBody response = new AnswerResponseBody();
 		System.out.println(request.toString());
 		
 		// Input
 		if(request.getType().equals(QuestionType.INPUT)) {
 			InputQuestion question = questionService.findInputQuestionById(request.getId());
 			List<InputQuestionAnswer> answers = answerService.findInputQuestionAnswersByQuestion(question);
-			result.setInputQuestionAnswers(answers);
-			result.setQuestionType(Utility.getQuestionType(question));
+			
+			// Set QuestionBody
+			response.setQuestion(
+					QuestionBody.builder()
+					.id(question.getId())
+					.type(QuestionType.INPUT)
+					.build());
+			
+			// Set Answers
+			for(InputQuestionAnswer answer : answers) {
+				AnswerBody body = AnswerBody.builder()
+						.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
+						.build();
+				response.addAnswerBody(body);
+			}
+			
+			response.setType(AnswerType.SINGLE);
 		}
 		
 		// Choice
 		if(request.getType().equals(QuestionType.CHOICE)) {
 			ChoiceQuestion question = questionService.findChoiceQuestionById(request.getId());
+
+			// Set QuestionBody
+			response.setQuestion(QuestionBody.builder()
+					.id(question.getId())
+					.options(question.getOptions())
+					.type(QuestionType.CHOICE)
+					.otherChoice(question.isOtherChoice())
+					.build());
 			
 			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
 				List<ChoiceQuestionSingleAnswer> answers = answerService.findChoiceQuestionSingleAnswersByQuestion(question);
-				result.setChoiceQuestionSingleAnswers(answers);
-				result.setQuestionType(Utility.getQuestionType(question));
+
+				// Set Answers
+				for(ChoiceQuestionSingleAnswer answer : answers) {
+					AnswerBody body = AnswerBody.builder()
+							.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
+							.build();
+					response.addAnswerBody(body);
+				}
+				response.setType(AnswerType.SINGLE);
 			}
+			
 			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
 				List<ChoiceQuestionMultiAnswer> answers = answerService.findChoiceQuestionMultiAnswersByQuestion(question);
-				result.setChoiceQuestionMultiAnswers(answers);
-				result.setQuestionType(Utility.getQuestionType(question));
+
+				// Set Answers
+				for(ChoiceQuestionMultiAnswer answer : answers) {
+					AnswerBody body = AnswerBody.builder()
+							.answers(answer.getAnswers())
+							.build();
+					response.addAnswerBody(body);
+				}
+				response.setType(AnswerType.MULTIPLE);
 			}
 		}
 		
 		// Matrix
 		if(request.getType().equals(QuestionType.MATRIX)) {
 			MatrixQuestion question = questionService.findMatrixQuestionById(request.getId());
+			
+			// Set QuestionBody
+			response.setQuestion(QuestionBody.builder()
+					.id(question.getId())
+					.options(question.getOptions())
+					.optionValues(question.getOptionValues())
+					.type(QuestionType.MATRIX)
+					.build());
+			
 			if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
 				List<SingleChoiceMatrixAnswer> answers = answerService.findSingleChoiceMatrixAnswersByQuestion(question);
-				result.setSingleChoiceMatrinxAnswers(answers);
-				result.setQuestionType(Utility.getQuestionType(question));
+				
+				// Set Answers
+				for(SingleChoiceMatrixAnswer answer : answers) {
+					Map<String, List<String>> awr = new HashMap<>();
+					
+					for (String key : answer.getAnswers().keySet()) {
+						awr.put(key, Arrays.asList(answer.getAnswers().get(key)));
+					}
+					
+					AnswerBody body = AnswerBody.builder()
+							.matrixAnswers(awr)
+							.build();
+					response.addAnswerBody(body);
+				}
+				response.setType(AnswerType.SINGLE);
 			}
+			
 			if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
 				List<MultiChoiceMatrixAnswer> answers = answerService.findMultiChoiceMatrixAnswersByQuestion(question);
-				result.setMultiChoiceMatrixAnswers(answers);
-				result.setQuestionType(Utility.getQuestionType(question));
+				
+				// Set Answers
+				for(MultiChoiceMatrixAnswer answer : answers) {
+					Map<String, List<String>> awr = new HashMap<>();
+					
+					for (String key : answer.getAnswers().keySet()) {
+						awr.put(key, answer.getAnswers().get(key).getValues());
+					}
+					
+					response.addAnswerBody(AnswerBody.builder().matrixAnswers(awr).build());
+				}
+				response.setType(AnswerType.MULTIPLE);
 			}
 		}
 		
@@ -91,13 +169,20 @@ public class AnswerController {
 		if (request.getType().equals(QuestionType.SELECTION)) {
 			SelectionQuestion question = questionService.findSelectionQuestionById(request.getId());
 			List<SelectionQuestionAnswer> answers = answerService.findSelectionQuestionAnswersByQuestion(question);
-			result.setSelectionQuestionAnswers(answers);
-			result.setQuestionType(Utility.getQuestionType(question));
+			
+			// Set Answers
+			for(SelectionQuestionAnswer answer : answers) {
+				AnswerBody body = AnswerBody.builder()
+						.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
+						.build();
+				response.addAnswerBody(body);
+			}
+			response.setType(AnswerType.SINGLE);
 		}
 		
-		result.setStatus(ResponseStatus.OK);
+		response.setStatus(ResponseStatus.OK);
 		
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(response);
 	}
 	
 	/** CREATE **/

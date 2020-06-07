@@ -48,21 +48,29 @@ $(function () {
         }
 
         let response = { 
-            questionType: 'INPUT',
-            choiceQuestionMultiAnswers: [
+            question :{
+                type: 'INPUT',
+                options: null,
+                otherChoice: false
+            },
+            type: null,
+            values: [
                 {
-                    question: {
-                        options: ['Opzione 1', 'Opzione 2', 'Opzione 3', 'Opzione 4']
-                    },
-                    answers: ['Opzione 1', 'Opzione 4']
+                    answers: ['Pippo pluto e paperino']
                 },
                 {
-                    question: {
-                        options: ['Opzione 1', 'Opzione 2', 'Opzione 3', 'Opzione 4']
-                    },
-                    answers: ['Opzione 1', 'Opzione 2']
+                    answers: ['Pippo e pluto']
                 },
-        ]};
+                {
+                    answers: ['Minnie e topolino']
+                },
+                {
+                    answers: ['Non lo so']
+                },
+                {
+                    answers: ['Boh']
+                }
+            ]};
         aggregateResult(response);
 
     });
@@ -154,32 +162,35 @@ function aggregateResult(result) {
     let aggregation;
     let index;
 
-    switch (result.questionType) {
+    switch (result.question.type) {
         case 'CHOICE':
             index = 0;
 
             // Multi choice
-            if (result.choiceQuestionMultiAnswers != null) {
-                aggregation = aggregateMultiChoice(result.choiceQuestionMultiAnswers);
+            if (result.type == 'MULTIPLE' && result.values != null) {
+                aggregation = aggregateMultiChoice(result);
             } 
             // Single Choice
-            else if (result.choiceQuestionSingleAnswers != null) {
-                aggregation = aggregateSingleChoice(result.choiceQuestionSingleAnswers);
+            else if (result.type == 'SINGLE' && result.values != null) {
+                aggregation = aggregateSingleChoice(result);
             } else {
                 $("#answers_container").append(ALERT);
                 $("#alert_text").append('<strong>Attention!</strong> There is no data to display.');
             }
 
-            if (aggregation.options) {
+            if (aggregation && aggregation.options) {
+
                 for (let op of aggregation.options) {
                     let percentValue = op.value ? (op.value / aggregation.total) * 100 : op.value;
-
+                    
                     $("#answers_container").append(CHOICE_SUMMARY);
                     $("#option_name").text(op.label);
                     $("#option_name").attr('id', 'option_name_' + index);
-                    $("#option_progress_bar").css("width", percentValue + '%');
+                    $("#option_progress_bar").css(
+                        "width", 
+                        (percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
                     $("#option_progress_bar").attr('id', 'option_progress_bar_' + index);
-                    $("#option_progress_value").text(percentValue + '%');
+                    $("#option_progress_value").text((percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
                     $("#option_progress_value").attr('title', op.label);
                     $("#option_progress_value").attr('id', 'option_progress_value_' + index);
                     index+=1;
@@ -190,8 +201,8 @@ function aggregateResult(result) {
         case 'INPUT': 
             index = 0;
 
-            if (result.inputQuestionAnswers != null) {
-                aggregation = aggregateInput(result.inputQuestionAnswers);
+            if (result.values != null) {
+                aggregation = aggregateInput(result);
                 for (let val of aggregation.values) {
                     $("#answers_container").append(INPUT_SUMMARY);
                     $("#text_value").text(val.text);
@@ -210,15 +221,15 @@ function aggregateResult(result) {
             index = 0;
 
             // Multi choice matrix
-            if (result.multiChoiceMatrixAnswers != null) {
-                aggregation = aggregateMultiChoice(result.multiChoiceMatrixAnswers);
+            if (result.type == 'MULTIPLE' && result.values != null) {
+                aggregation = aggregateMultiChoiceMatrixAnswer(result);
             }
             // Single Choice matrix
-            else if (result.singleChoiceMatrinxAnswers != null) {
-                aggregation = aggregateSingleChoice(result.singleChoiceMatrinxAnswers);
+            else if (result.type == 'MULTIPLE' && result.values != null) {
+                aggregation = aggregateSingleChoiceMatrixAnswer(result);
             }
 
-            if (aggregation.options) {
+            if (aggregation && aggregation.options) {
                 for (let option of aggregation.options) {
                     $("#answers_container").append(MATRIX_SUMMARY);
                     $("#option_name").text(option.label);
@@ -244,8 +255,8 @@ function aggregateResult(result) {
 
         case 'SELECTION': 
             index = 0;
-            if (result.selectionQuestionAnswers != null) {
-                aggregation = aggregateSelectionQuestionAnswer(result).selectionQuestionAnswers;
+            if (result.values != null) {
+                aggregation = aggregateSelectionQuestionAnswer(result);
                 
                 for (let op of aggregation.options) {
                     let percentValue = op.value ? (op.value / aggregation.total) * 100 : op.value;
@@ -253,9 +264,9 @@ function aggregateResult(result) {
                     $("#answers_container").append(CHOICE_SUMMARY);
                     $("#option_name").text(op.label);
                     $("#option_name").attr('id', 'option_name_' + index);
-                    $("#option_progress_bar").css("width", percentValue + '%');
+                    $("#option_progress_bar").css("width", (percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
                     $("#option_progress_bar").attr('id', 'option_progress_bar_' + index);
-                    $("#option_progress_value").text(percentValue + '%');
+                    $("#option_progress_value").text((percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
                     $("#option_progress_value").attr('title', op.label);
                     $("#option_progress_value").attr('id', 'option_progress_value_' + index);
                     index+=1;
@@ -273,28 +284,33 @@ function aggregateResult(result) {
 
 /**
  * Aggregate results for ChoiceQuestionMultiAnswer.
- * @param {Array} answers 
+ * @param {Object} answer
  */
-function aggregateMultiChoice(answers) {
+function aggregateMultiChoice(answer) {
     let aggregation = { options:[], otherValues: '', total: 0 };
 
-    answers[0].question.options.forEach(elem => {
+    answer.question.options.forEach(elem => {
         aggregation.options.push({ label: elem, value: 0 });
     });
 
     // Fill aggregation element
     let other = 0;
-    for (let data of answers) {
+    for (let data of answer.values) {
+        let otherVal = null;
         data.answers.forEach(elem => {
-            aggregation.options.forEach(item => {
-                if (item.label == elem) item.value += 1;
-                else { other += 1; aggregation.otherValues += elem + ',' }
-            });
+            let row = aggregation.options.find(item => item.label == elem);
+            if (row != undefined) {
+                row.value += 1;
+            } else {
+                other += 1;
+                aggregation.otherValues += otherVal + ',';
+            }
             aggregation.total += 1;
         });
+
     }
 
-    if (answers[0].question.otherChoice) aggregation.options.push({ label: 'other', value: other });
+    if (answer.question.otherChoice) aggregation.options.push({ label: 'Other', value: other });
     aggregation.otherValues = aggregation.otherValues.length ? aggregation.otherValues.slice(0, -1) : null;
 
     return aggregation;
@@ -302,26 +318,29 @@ function aggregateMultiChoice(answers) {
 
 /**
  * Aggregate results for ChoiceQuestionSingleAnswer.
- * @param {Array} answers 
+ * @param {Object} answer
  */
-function aggregateSingleChoice(answers) {
+function aggregateSingleChoice(answer) {
     let aggregation = { options: [], otherValues: '', total: 0 };
 
-    answers[0].question.options.forEach(elem => {
+    answer.question.options.forEach(elem => {
         aggregation.options.push({ label: elem, value: 0 });
     });
 
     // Fill aggregation element
     let other = 0;
-    for (let data of answers) {
-        aggregation.options.forEach(item => {
-            if (item.label == data.answer) item.value += 1;
-            else { other += 1; aggregation.otherValues += elem + ',' }
-            aggregation.total += 1;
-        });
+    for (let data of answer.values) {
+        let row = aggregation.options.find(item => item.label == data.answers[0]);
+        if (row != undefined) {
+            row.value += 1;
+        } else {
+            other += 1;
+            aggregation.otherValues += otherVal + ',';
+        }
+        aggregation.total += 1;
     }
 
-    if (answers[0].question.otherChoice) aggregation.options.push({ label: 'other', value: other });
+    if (answer.question.otherChoice) aggregation.options.push({ label: 'Other', value: other });
     aggregation.otherValues = aggregation.otherValues.length ? aggregation.otherValues.slice(0, -1) : null;
 
     return aggregation;
@@ -329,50 +348,54 @@ function aggregateSingleChoice(answers) {
 
 /**
  * Aggregate results for InputQuestionAnswer.
- * @param {Array} answers 
+ * @param {Object} answer
  */
-function aggregateInput(answers) {
+function aggregateInput(answer) {
     let aggregation = { values: [], total: 0, type: null};
 
     // Fill aggregation element
-    for (let data of answers) {
+    for (let data of answer.values) {
         if (aggregation.values.length) {
-            aggregation.values.forEach(elem => {
-                if (elem.text == data.answer) elem.val += 1;
-            });
+            let row = aggregation.values.find(item => item.label == data.answers[0]);
+            if (row != undefined) {
+                row.val += 1;
+            } else {
+                aggregation.values.push({ text: data.answers[0], val: 1 });
+            }
         } else {
-            aggregation.values.push({ text: data.answer, val: 0});
+            aggregation.values.push({ text: data.answers[0], val: 1 });
         }
 
         aggregation.total += 1;
     }
-    aggregation.type = answers[0].question.type;
+
+    aggregation.type = answer.question.type;
 
     return aggregation;
 }
 
 /**
  * Aggregate results for MultiChoiceMatrixAnswer.
- * @param {Array} answers 
+ * @param {Object} answer
  */
-function aggregateMultiChoiceMatrixAnswer(answers) {
+function aggregateMultiChoiceMatrixAnswer(answer) {
     let aggregation = { options: [], total: 0 };
 
-    answers[0].question.options.forEach(elem => {
+    answer.question.options.forEach(elem => {
         aggregation.options.push({
             label: elem, 
-            optionValues: answers[0].question.optionValues.map(val => {
+            optionValues: answer.question.optionValues.map(val => {
                 val = { text: val, value: 0 };
             }) 
         });
     });
 
     // Fill aggregation element
-    for (let data of answers) {
-        for (let [key, matrixValues] of Object.entries(data.answers)) {
+    for (let data of answer.values) {
+        for (let [key, matrixValues] of Object.entries(data.matrixAnswers)) {
             aggregation.options.forEach(item => {
                 if (item.label == key) {
-                    matrixValues.values.forEach(val => {
+                    matrixValues.forEach(val => {
                         item.optionValues.forEach(optVal => { 
                             if (val == optVal.text) optVal.value += 1;
                             aggregation.total += 1;
@@ -388,27 +411,27 @@ function aggregateMultiChoiceMatrixAnswer(answers) {
 
 /**
  * Aggregate results for SingleChoiceMatrixAnswer.
- * @param {Array} answers 
+ * @param {Object} answer
  */
-function aggregateSingleChoiceMatrixAnswer(answers) {
+function aggregateSingleChoiceMatrixAnswer(answer) {
     let aggregation = { options: [], total: 0 };
 
-    answers[0].question.options.forEach(elem => {
+    answer.question.options.forEach(elem => {
         aggregation.options.push({
             label: elem,
-            optionValues: answers[0].question.optionValues.map(val => {
+            optionValues: answer.question.optionValues.map(val => {
                 val = { text: val, value: 0 };
             })
         });
     });
 
     // Fill aggregation element
-    for (let data of answers) {
-        for (let [key, matrixValue] of Object.entries(data.answers)) {
+    for (let data of answer.values) {
+        for (let [key, matrixValue] of Object.entries(data.matrixAnswers)) {
             aggregation.options.forEach(item => {
                 if (item.label == key) {
                     item.optionValues.forEach(optVal => {
-                        if (matrixValue == optVal.text) optVal.value += 1;
+                        if (matrixValue[0] == optVal.text) optVal.value += 1;
                         aggregation.total += 1;
                     });
                 }
@@ -421,21 +444,25 @@ function aggregateSingleChoiceMatrixAnswer(answers) {
 
 /**
  * Aggregate results for ChoiceQuestionSingleAnswer.
- * @param {Array} answers 
+ * @param {Object} answer
  */
-function aggregateSelectionQuestionAnswer(answers) {
+function aggregateSelectionQuestionAnswer(answer) {
     let aggregation = { options: [], total: 0 };
 
-    answers[0].question.options.forEach(elem => {
+    answer.question.options.forEach(elem => {
         aggregation.options.push({ label: elem, value: 0 });
     });
 
     // Fill aggregation element
-    for (let data of answers) {
-        aggregation.options.forEach(item => {
-            if (item.label == data.answer) item.value += 1;
-            aggregation.total += 1;
-        });
+    for (let data of answer.values) {
+        let row = aggregation.options.find(item => item.label == data.answers[0]);
+        if (row != undefined) {
+            row.value += 1;
+        } else {
+            other += 1;
+            aggregation.otherValues += otherVal + ',';
+        }
+        aggregation.total += 1;
     }
 
     return aggregation;
