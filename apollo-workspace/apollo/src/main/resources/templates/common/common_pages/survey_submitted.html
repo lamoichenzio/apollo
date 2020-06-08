@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layout/frame_public}">
 <body>
-Sondaggio inviato
+	<div layout:fragment="page-content" class="card">
+		<div class="card-body p-5">
+			<h4 th:text="#{common.thankyou}" class="card-title"></h4>
+			<div class="row justify-content-between">
+				<div class="col-12">
+					<div class="row align-items-center my-2 px-1">
+						<p th:utext="#{survey.submitted}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
