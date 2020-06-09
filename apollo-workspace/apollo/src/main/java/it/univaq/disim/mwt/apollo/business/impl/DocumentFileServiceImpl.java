@@ -9,7 +9,6 @@ import it.univaq.disim.mwt.apollo.business.DocumentFileService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.DocumentFileRepository;
 import it.univaq.disim.mwt.apollo.domain.DocumentFile;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional

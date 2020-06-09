@@ -12,7 +12,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.Question;
 @Repository
 public interface InputQuestionAnswerRepository extends MongoRepository<InputQuestionAnswer, String> {
 	
-	@Query("{'question : ?0'}")
+	@Query("{'question' : ?0}")
 	List<InputQuestionAnswer> findByQuestion(Question question);
 	
 }

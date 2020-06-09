@@ -12,6 +12,8 @@ public interface SurveyAnswerService {
 	
 	List<SurveyAnswer> findAllSurveyAnswers() throws BusinessException;
 	
+	List<SurveyAnswer> findAllBySurvey(Survey survey) throws BusinessException;
+	
 	ResponseGrid<SurveyAnswer> findAllSurveyAnswersPaginated(RequestGrid request, Survey survey) throws BusinessException;
 	
 	SurveyAnswer findSurveyAnswerById(String id) throws BusinessException;

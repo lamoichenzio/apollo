@@ -12,7 +12,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.Question;
 @Repository
 public interface ChoiceQuestionSingleAnswerRepository extends MongoRepository<ChoiceQuestionSingleAnswer, String> {
 
-	@Query("{'question : ?0'}")
+	@Query("{'question' : ?0}")
 	List<ChoiceQuestionSingleAnswer> findByQuestion(Question question);
 	
 }

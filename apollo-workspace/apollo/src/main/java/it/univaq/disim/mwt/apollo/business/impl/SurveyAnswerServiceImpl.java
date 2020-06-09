@@ -48,6 +48,11 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 	}
 
 	@Override
+	public List<SurveyAnswer> findAllBySurvey(Survey survey) throws BusinessException {
+		return surveyAnswerRepository.findAllBySurvey(survey);
+	}
+	
+	@Override
 	@Transactional(readOnly = true)
 	public ResponseGrid<SurveyAnswer> findAllSurveyAnswersPaginated(RequestGrid request, Survey survey) throws BusinessException {
 		try{
