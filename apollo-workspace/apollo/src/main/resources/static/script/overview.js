@@ -61,7 +61,6 @@ $(function () {
         let question = questionList.find((elem) => elem.id == selectedQuestionId);
 
         // Reset answers container
-        $("#question_title").text(question.title);
         $("#answers_paceholder").hide();
         $("#answers_container").empty();
 
@@ -79,7 +78,6 @@ $(function () {
  * @param {String} question_id
  */
 function getAnswersData(question) {
-
     let request = {
         id: question.id, 
         type: question.type 
@@ -98,10 +96,11 @@ function getAnswersData(question) {
 
             // OK for success
             if (response.status === 'OK') {
+                $("#question_title").text(question.title);
                 aggregateResult(response);
             } else {
-                $("#answers_container").append(ALERT);
-                $("#alert_text").append('<strong>Error!</strong>' + response.msg);
+                $("#answers_container").append(ALERT_ERROR);
+                $("#alert_text_error").append('<strong>Error!</strong>' + response.msg);
             }
 
         },
@@ -138,10 +137,11 @@ function getQuestionsData(group_id) {
                 for (let data of questionList) {
                     let option = '<option value="' + data.id + '">' + i + '</option>';
                     $("#question_select").append(option);
+                    i += 1;
                 }
             } else {
-                $("#answers_container").append(ALERT);
-                $("#alert_text").append('<strong>Error!</strong>' + response.msg);
+                $("#answers_container").append(ALERT_ERROR);
+                $("#alert_text_error").append('<strong>Error!</strong>' + response.msg);
             }
 
         },
@@ -172,8 +172,9 @@ function aggregateResult(result) {
             else if (result.type == 'SINGLE' && result.values != null) {
                 aggregation = aggregateSingleChoice(result);
             } else {
-                $("#answers_container").append(ALERT);
-                $("#alert_text").append('<strong>Attention!</strong> There is no data to display.');
+                $("#answers_container").append(ALERT_ERROR);
+                $("#alert_text_error").append('<strong>Attention!</strong> There is no data to display.');
+                return;
             }
 
             if (aggregation && aggregation.options) {
@@ -199,7 +200,7 @@ function aggregateResult(result) {
         case 'INPUT': 
             index = 0;
 
-            if (result.values != null) {
+            if (result.values != null && result.values.length) {
                 aggregation = aggregateInput(result);
                 for (let val of aggregation.values) {
                     $("#answers_container").append(INPUT_SUMMARY);
@@ -210,8 +211,9 @@ function aggregateResult(result) {
                     index+=1;
                 }
             } else {
-                $("#answers_container").append(ALERT);
-                $("#alert_text").append('<strong>Attention!</strong> There is no data to display.');
+                $("#answers_container").append(ALERT_WARNING);
+                $("#alert_text_warning").append('<strong>Warning!</strong> There is no data to display.');
+                return;
             }
             break;
 
@@ -245,10 +247,9 @@ function aggregateResult(result) {
                     index+=1;
                 }
             } else {
-                $("#answers_container").append(ALERT);
-                $("#alert_text").append('<strong>Attention!</strong> There is no data to display.');
+                $("#answers_container").append(ALERT_ERROR);
+                $("#alert_text_error").append('<strong>Attention!</strong> There is no data to display.');
             }
-
             break;
 
         case 'SELECTION': 
@@ -270,14 +271,13 @@ function aggregateResult(result) {
                     index+=1;
                 }
             } else {
-                $("#answers_container").append(ALERT);
-                $("#alert_text").append('<strong>Attention!</strong> There is no data to display.');
+                $("#answers_container").append(ALERT_ERROR);
+                $("#alert_text_error").append('<strong>Attention!</strong> There is no data to display.');
             }
             break;
     
         default: break;
     }
-    return null;
 }
 
 /**
