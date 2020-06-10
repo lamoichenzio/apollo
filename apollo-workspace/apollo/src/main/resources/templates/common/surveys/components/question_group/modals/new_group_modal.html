@@ -16,12 +16,12 @@
 			    </div>
 
 				<form id="question_group_form" th:action="${#request.getRequestURI()}" th:object="${group}" class="form-horizontal" method="post">
-					<input type="hidden" name="survey" th:field="*{survey}">					
+					<input type="hidden" name="survey" th:field="*{survey}">
 					
-					<input th:if="${group.id != null}" type="hidden" th:field="*{id}" />
-			
-					<div class="modal-body">
+					<input th:if="${group.id != null}" type="hidden" name="id" th:field="*{id}" />
+					<input th:if="${group.questions != null}" type="hidden" name="questions" th:field="*{questions}" />
 
+					<div class="modal-body">
 						<!-- TITLE -->
 						<div class="form-group">
 							<label for="codice" class="form-control-label"

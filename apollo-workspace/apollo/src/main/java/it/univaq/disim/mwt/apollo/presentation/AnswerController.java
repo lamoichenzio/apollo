@@ -1,36 +1,41 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import it.univaq.disim.mwt.apollo.business.AnswerService;
+import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
-import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionSingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.answers.SelectionQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import it.univaq.disim.mwt.apollo.presentation.model.AnswerBody;
 import it.univaq.disim.mwt.apollo.presentation.model.AnswerResponseBody;
+import it.univaq.disim.mwt.apollo.presentation.model.AnswerType;
+import it.univaq.disim.mwt.apollo.presentation.model.QuestionBody;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionRequestBody;
+import it.univaq.disim.mwt.apollo.presentation.model.QuestionType;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 
 @Controller
@@ -38,42 +43,146 @@ import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 public class AnswerController {
 
 	@Autowired
+	private QuestionService questionService;
+	
+	@Autowired
 	private AnswerService answerService;
 
-	@GetMapping("/findanswers")
+	@PostMapping("/findanswers")
 	@ResponseBody
-	public ResponseEntity<AnswerResponseBody> getAnswerData(@Valid @RequestBody QuestionRequestBody request) throws BusinessException {
+	public ResponseEntity<AnswerResponseBody> getAnswersData(@Valid @RequestBody QuestionRequestBody request) throws BusinessException {
 		
-		AnswerResponseBody result = new AnswerResponseBody();
+		AnswerResponseBody response = new AnswerResponseBody();
+		System.out.println(request.toString());
 		
-//		if(question instanceof InputQuestion || question instanceof SelectionQuestion) {
-//			List<SingleAnswer> answers = answerService.findSingleAnswersByQuestion(question);
-//			result.setSingleAnswers(answers);
-//		}
-//		if(question instanceof ChoiceQuestion) {
-//			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
-//				List<SingleAnswer> answers = answerService.findSingleAnswersByQuestion(question);
-//				result.setSingleAnswers(answers);
-//			}
-//			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
-//				List<MultiAnswer> answers = answerService.findMultiAnswersByQuestion(question);
-//				result.setMultiAnswers(answers);
-//			}
-//		}
-//		if(question instanceof MatrixQuestion) {
-//			if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
-//				List<SingleChoiceMatrixAnswer> answers = answerService.findSingleChoiceMatrixAnswersByQuestion(question);
-//				result.setSingleChoiceMatrixAnswers(answers);
-//			}
-//			if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
-//				List<MultiChoiceMatrixAnswer> answers = answerService.findMultiChoiceMatrixAnswersByQuestion(question);
-//				result.setMultiChoiceMatrixAnswers(answers);
-//			}
-//		}
+		// Input
+		if(request.getType().equals(QuestionType.INPUT)) {
+			InputQuestion question = questionService.findInputQuestionById(request.getId());
+			List<InputQuestionAnswer> answers = answerService.findInputQuestionAnswersByQuestion(question);
+			
+			// Set QuestionBody
+			response.setQuestion(
+					QuestionBody.builder()
+					.id(question.getId())
+					.type(QuestionType.INPUT)
+					.build());
+			
+			// Set Answers
+			for(InputQuestionAnswer answer : answers) {
+				AnswerBody body = AnswerBody.builder()
+						.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
+						.build();
+				response.addAnswerBody(body);
+			}
+			
+			response.setType(AnswerType.SINGLE);
+		}
 		
-		result.setStatus(ResponseStatus.OK);
+		// Choice
+		if(request.getType().equals(QuestionType.CHOICE)) {
+			ChoiceQuestion question = questionService.findChoiceQuestionById(request.getId());
+
+			// Set QuestionBody
+			response.setQuestion(QuestionBody.builder()
+					.id(question.getId())
+					.options(question.getOptions())
+					.type(QuestionType.CHOICE)
+					.otherChoice(question.isOtherChoice())
+					.build());
+			
+			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
+				List<ChoiceQuestionSingleAnswer> answers = answerService.findChoiceQuestionSingleAnswersByQuestion(question);
+
+				// Set Answers
+				for(ChoiceQuestionSingleAnswer answer : answers) {
+					AnswerBody body = AnswerBody.builder()
+							.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
+							.build();
+					response.addAnswerBody(body);
+				}
+				response.setType(AnswerType.SINGLE);
+			}
+			
+			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
+				List<ChoiceQuestionMultiAnswer> answers = answerService.findChoiceQuestionMultiAnswersByQuestion(question);
+
+				// Set Answers
+				for(ChoiceQuestionMultiAnswer answer : answers) {
+					AnswerBody body = AnswerBody.builder()
+							.answers(answer.getAnswers())
+							.build();
+					response.addAnswerBody(body);
+				}
+				response.setType(AnswerType.MULTIPLE);
+			}
+		}
 		
-		return ResponseEntity.ok(result);
+		// Matrix
+		if(request.getType().equals(QuestionType.MATRIX)) {
+			MatrixQuestion question = questionService.findMatrixQuestionById(request.getId());
+			
+			// Set QuestionBody
+			response.setQuestion(QuestionBody.builder()
+					.id(question.getId())
+					.options(question.getOptions())
+					.optionValues(question.getOptionValues())
+					.type(QuestionType.MATRIX)
+					.build());
+			
+			if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
+				List<SingleChoiceMatrixAnswer> answers = answerService.findSingleChoiceMatrixAnswersByQuestion(question);
+				
+				// Set Answers
+				for(SingleChoiceMatrixAnswer answer : answers) {
+					Map<String, List<String>> awr = new HashMap<>();
+					
+					for (String key : answer.getAnswers().keySet()) {
+						awr.put(key, Arrays.asList(answer.getAnswers().get(key)));
+					}
+					
+					AnswerBody body = AnswerBody.builder()
+							.matrixAnswers(awr)
+							.build();
+					response.addAnswerBody(body);
+				}
+				response.setType(AnswerType.SINGLE);
+			}
+			
+			if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
+				List<MultiChoiceMatrixAnswer> answers = answerService.findMultiChoiceMatrixAnswersByQuestion(question);
+				
+				// Set Answers
+				for(MultiChoiceMatrixAnswer answer : answers) {
+					Map<String, List<String>> awr = new HashMap<>();
+					
+					for (String key : answer.getAnswers().keySet()) {
+						awr.put(key, answer.getAnswers().get(key).getValues());
+					}
+					
+					response.addAnswerBody(AnswerBody.builder().matrixAnswers(awr).build());
+				}
+				response.setType(AnswerType.MULTIPLE);
+			}
+		}
+		
+		// Selection
+		if (request.getType().equals(QuestionType.SELECTION)) {
+			SelectionQuestion question = questionService.findSelectionQuestionById(request.getId());
+			List<SelectionQuestionAnswer> answers = answerService.findSelectionQuestionAnswersByQuestion(question);
+			
+			// Set Answers
+			for(SelectionQuestionAnswer answer : answers) {
+				AnswerBody body = AnswerBody.builder()
+						.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
+						.build();
+				response.addAnswerBody(body);
+			}
+			response.setType(AnswerType.SINGLE);
+		}
+		
+		response.setStatus(ResponseStatus.OK);
+		
+		return ResponseEntity.ok(response);
 	}
 	
 	/** CREATE **/

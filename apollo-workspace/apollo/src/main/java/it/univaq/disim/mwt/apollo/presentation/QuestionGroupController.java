@@ -75,6 +75,7 @@ public class QuestionGroupController {
 			log.info(errors.toString());
 			return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
 		}
+
 		service.updateQuestionGroup(group);
 		return "redirect:/surveys/detail?id="+group.getSurvey().getId();
 	}

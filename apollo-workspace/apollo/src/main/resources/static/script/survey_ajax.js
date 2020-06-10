@@ -10,7 +10,7 @@ const SELECT = 'SELECT';
 const MATRIX = 'MATRIX';
 const STANDARD = 'STANDARD';
 
-const SPINNER = '<div id="spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div >';
+const SPINNER = '<div id="spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div>';
 
 var optionList = [];
 var optionValues = [];

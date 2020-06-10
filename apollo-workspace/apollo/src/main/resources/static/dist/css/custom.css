@@ -41,3 +41,8 @@
 .hidden {
   display: none;
 }
+
+.answers-container {
+	max-height: 200px;
+    overflow-y: scroll;
+}

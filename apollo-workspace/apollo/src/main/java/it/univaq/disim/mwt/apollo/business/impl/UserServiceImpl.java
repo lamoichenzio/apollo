@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.univaq.disim.mwt.apollo.business.RoleService;
 import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
-import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 @Service

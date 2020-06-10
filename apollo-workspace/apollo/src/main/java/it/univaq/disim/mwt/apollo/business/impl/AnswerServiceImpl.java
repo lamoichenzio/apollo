@@ -3,6 +3,7 @@ package it.univaq.disim.mwt.apollo.business.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -152,38 +153,63 @@ public class AnswerServiceImpl implements AnswerService {
 	/** FIND BY ID **/
 	
 	@Override
+	@Transactional(readOnly = true)
 	public ChoiceQuestionMultiAnswer findChoiceQuestionMultiAnswerById(String id) throws BusinessException {
-		return null;
+		try {
+			return choiceQuestionMultiAnswerRepository.findById(id).get();
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public ChoiceQuestionSingleAnswer findChoiceQuestionSingleAnswerById(String id) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return choiceQuestionSingleAnswerRepository.findById(id).get();
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public InputQuestionAnswer findInputQuestionAnswerById(String id) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return inputQuestionAnswerRepository.findById(id).get();
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public MultiChoiceMatrixAnswer findMultiChoiceMatrixAnswerById(String id) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return multiChoiceMatrixAnswerRepository.findById(id).get();
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public SelectionQuestionAnswer findSelectionQuestionAnswerById(String id) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return selectionQuestionAnswerRepository.findById(id).get();
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public SingleChoiceMatrixAnswer findSingleChoiceMatrixAnswerById(String id) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return singleChoiceMatrixAnswerRepository.findById(id).get();
+		} catch (DataAccessException e) {
+			throw new BusinessException(e);
+		}
 	}
 	
 }

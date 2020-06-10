@@ -12,7 +12,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.Question;
 @Repository
 public interface MultiChoiceMatrixAnswerRepository extends MongoRepository<MultiChoiceMatrixAnswer, String> {
 
-	@Query("{'question : ?0'}")
+	@Query("{'question' : ?0}")
 	List<MultiChoiceMatrixAnswer> findByQuestion(Question question);
 	
 }

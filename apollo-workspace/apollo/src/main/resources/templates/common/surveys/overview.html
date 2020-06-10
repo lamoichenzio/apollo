@@ -6,6 +6,7 @@
     <div layout:fragment="page-content">
         <!-- <script th:src="@{/script/survey_ajax.js}"></script> -->
         <script th:src="@{/script/overview.js}"></script>
+        <script th:src="@{/script/utility.js}"></script>
 
         <div class="col-md-12">
             <div id="modal_holder"></div>
@@ -41,22 +42,12 @@
                                 <div class="row">
                                     <div class="col">
                                         <h6 class="text-muted mb-1">[[#{common.answers}]]</h6>
-                                        <span class="h3 font-weight-bold mb-0 ">31</span>
+                                        <span class="h3 font-weight-bold mb-0">[[${answers.size()}]]</span>
                                     </div>
                                     <div class="col-auto">
-                                        <div class="progress-circle progress-sm" id="progress-circle-1" data-progress="100" data-text="100%"
-                                            data-color="success" style="position: relative;">
-                                            <svg viewBox="0 0 100 100" style="display: block;">
-                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee"
-                                                    stroke-width="2" fill-opacity="0"></path>
-                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#36b37e"
-                                                    stroke-width="7" fill-opacity="0"
-                                                    style="stroke-dasharray: 292.273, 292.273; stroke-dashoffset: 00.000;"></path>
-                                            </svg>
-                                            <div class="progressbar-text"
-                                                style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(54, 179, 126);">
-                                                100%</div>
-                                        </div>
+                                        <span class="h3 font-weight-bold mb-0" style="color: rgb(54, 179, 126);">
+                                            <i class="far fa-user-edit fa-2x"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -71,23 +62,13 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <h6 class="text-muted mb-1">New tasks</h6>
-                                        <span class="h3 font-weight-bold mb-0 ">34</span>
+                                        <h6 class="text-muted mb-1">Condivisioni</h6>
+                                        <span class="h3 font-weight-bold mb-0 ">0</span>
                                     </div>
                                     <div class="col-auto">
-                                        <div class="progress-circle progress-sm" id="progress-circle-2" data-progress="60"
-                                            data-text="60%" data-color="primary" style="position: relative;"><svg viewBox="0 0 100 100"
-                                                style="display: block;">
-                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93" stroke="#eee"
-                                                    stroke-width="2" fill-opacity="0"></path>
-                                                <path d="M 50,50 m 0,-46.5 a 46.5,46.5 0 1 1 0,93 a 46.5,46.5 0 1 1 0,-93"
-                                                    stroke="#6e00ff" stroke-width="7" fill-opacity="0"
-                                                    style="stroke-dasharray: 292.273, 292.273; stroke-dashoffset: 116.909;"></path>
-                                            </svg>
-                                            <div class="progressbar-text"
-                                                style="position: absolute; left: 50%; top: 50%; padding: 0px; margin: 0px; transform: translate(-50%, -50%); color: rgb(110, 0, 255);">
-                                                60%</div>
-                                        </div>
+                                        <span class="h3 font-weight-bold mb-0" style="color: rgb(51, 80, 211);">
+                                            <i class="far fa-paper-plane fa-2x"></i>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -100,13 +81,13 @@
                             <div class="card-header">
                                 <div class="row justify-content-between">
                                     <div class="col-4">
-                                        <label class="form-control-label">Question</label>
+                                        <label class="form-control-label">[[#{question.title}]]</label>
                                         <select id="question_select" class="custom-select">
                                             <option id="default_option" value="" selected="true">-- None --</option>
                                         </select>
                                     </div>
                                     <div class="col-5">
-                                        <label class="form-control-label">Question Group</label>
+                                        <label class="form-control-label">[[#{common.group}]]</label>
                                         <select id="group_select" class="custom-select">
                                             <option value="" selected="true">-- None --</option>
                                             <th:block th:if="${groups != null && groups.size() > 0}">
@@ -119,73 +100,34 @@
 
                             <div class="card-body">
                                 <!-- Question Title -->
-                                <div class="row">
+                                <div class="row mb-4">
                                     <div class="col-12">
-                                        <span id="question_title" class="text-sm text-muted">
-                                            [[#{common.choosequestion}]]
-                                        </span>
+                                        <h6 id="question_title" class="text-sm mb-0"></h6>
                                     </div>
                                 </div>
                     
                                 <!-- Answers -->
-                                <div class="my-3">
+                                <div class="answers-container my-1">
 
-                                    <div class="row mb-2">
-                                        <div class="col-9">
-                                            <div class="progress-wrapper">
-                                                <span class="progress-label text-muted text-sm">Logo design</span>
-                                                <div class="progress mt-1 mb-2" style="height: 5px;">
-                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 40%;"></div>
-                                                </div>
-                                            </div>
+                                    <!-- Answer placeholder -->
+                                    <div id="answers_paceholder" class="row justify-content-center">
+                                        <div class="col-12 text-center">
+                                            <span id="title_placeholder" class="text-sm text-muted">
+                                                [[#{common.choosequestion}]]
+                                            </span>
                                         </div>
-                                        <div class="col-3 align-self-end text-right">
-                                            <span class="h6 mb-0">40%</span>
+                                        <div class="col-2 my-3">
+                                            <span><i class="fas fa-list fa-4x"></i></span>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-9">
-                                            <div class="progress-wrapper">
-                                                <span class="progress-label text-muted text-sm">Website mockup</span>
-                                                <div class="progress mt-1 mb-2" style="height: 5px;">
-                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="67" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 67%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 align-self-end text-right">
-                                            <span class="h6 mb-0">67%</span>
-                                        </div>
+
+                                    <div id="spinner" class="d-flex justify-content-center"></div>
+
+                                    <!-- Answers container -->
+                                    <div id="answers_container">                          
+                                        <!-- Replace content via js -->   
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-9">
-                                            <div class="progress-wrapper">
-                                                <span class="progress-label text-muted text-sm">Landing page</span>
-                                                <div class="progress mt-1 mb-2" style="height: 5px;">
-                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="89" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 89%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 align-self-end text-right">
-                                            <span class="h6 mb-0">89%</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-9">
-                                            <div class="progress-wrapper">
-                                                <span class="progress-label text-muted text-sm">Mobile testing</span>
-                                                <div class="progress mt-1 mb-2" style="height: 5px;">
-                                                    <div class="progress-bar bg-purple" role="progressbar" aria-valuenow="55" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 55%;"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-3 align-self-end text-right">
-                                            <span class="h6 mb-0">55%</span>
-                                        </div>
-                                    </div>
+                                    <!-- ./Answers container -->
 
                                 </div>
                             </div>
@@ -277,7 +219,6 @@
                 
             </div>
 
-            
         </div>
 
         <!-- Answers list -->
@@ -313,7 +254,6 @@
                                     <th th:text="#{answer.name}">Name</th>
                                     <th>Email</th>
                                     <th th:text="#{answer.groups}">Groups</th>
-                                    <th th:text="#{answer.totanswers}">Tot Answers</th>
                                     <th th:text="#{answer.completion}">Completion</th>
                                     <th th:text="#{common.submitteddate}">Submitted Date</th>
                                 </tr>
@@ -358,11 +298,9 @@
                             }
                         },
                         {
-                            "data": "totAnswers"
-                        },
-                        {
-                            "data": "completion",
+                            "data": "totAnswers",
                             "render": function (data, type, row, meta) {
+                                
                                 return '<div class="d-flex align-items-center"><span class="completion mr-2">70%</span><div><div class="progress" style="width: 100px;"><div class="progress-bar bg-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div></div></div></div>';
                             }
                         },

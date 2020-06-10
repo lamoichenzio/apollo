@@ -11,5 +11,7 @@ public class QuestionBody {
 	private String id;
 	private String title;
 	private List<String> options;
+	private List<String> optionValues;
+	private Boolean otherChoice;
 	private QuestionType type;
 }

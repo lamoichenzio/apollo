@@ -1,7 +1,19 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
-import it.univaq.disim.mwt.apollo.business.DocumentFileService;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import it.univaq.disim.mwt.apollo.business.DocumentFileService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
@@ -11,19 +23,12 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InputQuestion
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MatrixQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SelectQuestionRepository;
 import it.univaq.disim.mwt.apollo.domain.DocumentFile;
-import it.univaq.disim.mwt.apollo.domain.questions.*;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.Question;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 @Transactional

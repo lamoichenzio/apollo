@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
@@ -37,6 +38,9 @@ public class SurveyController {
 
 	@Autowired
 	private SurveyService surveyService;
+	
+	@Autowired
+	private SurveyAnswerService surveyAnswerService;
 	
 	@Autowired
 	private FileValidator validator;
@@ -65,6 +69,7 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
 		model.addAttribute("groups", survey.getQuestionGroups());
+		model.addAttribute("answers", surveyAnswerService.findAllBySurvey(survey));
 		return "/common/surveys/overview";
 	}
 
