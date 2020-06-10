@@ -17,7 +17,7 @@
 						<div class="form-control-label">
 							<label for="questionfile" th:text="#{file.label}"></label>
 							<input type="file" id="questionfile" name="questionfile" th:value="${questionfile}" accept="image/*"/>
-							 <span id="file_error" class="text-danger text-sm hidden"></span>
+							<span id="file_error" class="text-danger text-sm hidden"></span>
 						</div>
 						<!--Update fase-->
 						<div class="form-control-label" th:if="${question.id != null}">
