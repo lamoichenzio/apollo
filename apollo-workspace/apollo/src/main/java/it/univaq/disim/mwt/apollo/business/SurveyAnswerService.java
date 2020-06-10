@@ -16,8 +16,6 @@ public interface SurveyAnswerService {
 	
 	SurveyAnswer findSurveyAnswerById(String id) throws BusinessException;
 	
-	SurveyAnswer mapSurveyToSurveyAnswer(Survey survey) throws BusinessException;
-	
 	void createSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
 	
 }

@@ -99,7 +99,6 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 
 		surveyAnswer.setTotAnswers(totAnswers);
 		try {
-			//surveyAnswerRepository.save(surveyAnswer);
 			for (Answer answer : inputQuestionAnswers) {
 				answerService.createAnswer(answer);
 			}
@@ -122,52 +121,6 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 		} catch (DataAccessException e) {
 			throw new BusinessException(e);
 		}
-	}
-
-	@Override
-	public SurveyAnswer mapSurveyToSurveyAnswer(Survey survey) throws BusinessException {
-		SurveyAnswer surveyAnswer = new SurveyAnswer();
-		surveyAnswer.setSurvey(survey);
-		for (QuestionGroup questionGroup : survey.getQuestionGroups()) {
-			for (Question question : questionGroup.getQuestions()) {
-				if (question instanceof InputQuestion) {
-					InputQuestionAnswer answer = new InputQuestionAnswer();
-					answer.setQuestion((InputQuestion) question);
-					surveyAnswer.addInputQuestionAnswer(answer);
-				}
-				if (question instanceof ChoiceQuestion) {
-					if (((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
-						ChoiceQuestionSingleAnswer answer = new ChoiceQuestionSingleAnswer();
-						answer.setQuestion((ChoiceQuestion) question);
-						surveyAnswer.addChoiceQuestionSingleAnswer(answer);
-					}
-					if (((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
-						ChoiceQuestionMultiAnswer answer = new ChoiceQuestionMultiAnswer();
-						answer.setQuestion((ChoiceQuestion) question);
-						surveyAnswer.addChoiceQuestionMultiAnswer(answer);
-					}
-				}
-				if (question instanceof SelectionQuestion) {
-					SelectionQuestionAnswer answer = new SelectionQuestionAnswer();
-					answer.setQuestion((SelectionQuestion) question);
-					surveyAnswer.addSelectionQuestionAnswer(answer);
-				}
-				if (question instanceof MatrixQuestion) {
-					if (((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
-						SingleChoiceMatrixAnswer answer = new SingleChoiceMatrixAnswer();
-						answer.setQuestion((MatrixQuestion) question);
-						surveyAnswer.addSingleChoiceMatrixAnswer(answer);
-					}
-					if (((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
-						MultiChoiceMatrixAnswer answer = new MultiChoiceMatrixAnswer();
-						answer.setQuestion((MatrixQuestion) question);
-						surveyAnswer.addMultiChoiceMatrixAnswer(answer);
-					}
-
-				}
-			}
-		}
-		return surveyAnswer;
 	}
 
 }

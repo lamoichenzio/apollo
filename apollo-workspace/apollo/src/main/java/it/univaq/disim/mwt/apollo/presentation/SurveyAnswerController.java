@@ -20,6 +20,7 @@ import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.impl.ConversionUtility;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class SurveyAnswerController {
 			//TODO gestire logica sondaggio privato
 			return "common/common_pages/survey_private";
 		}
-		SurveyAnswer surveyAnswer = surveyAnswerService.mapSurveyToSurveyAnswer(survey);
+		SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
 		log.info(surveyAnswer.toString());
 		model.addAttribute("surveyanswer", surveyAnswer);
 		model.addAttribute("survey", survey);
@@ -60,36 +61,7 @@ public class SurveyAnswerController {
 		surveyAnswerService.createSurveyAnswer(surveyAnswer);
 		return "common/common_pages/survey_submitted";
 	}
-//	
-//	@GetMapping("/update")
-//	public String updateStart(@RequestParam String id, Model model) throws BusinessException {
-//		SurveyAnswer userAnswer = surveyAnswerService.findUserAnswerById(id);
-//		model.addAttribute("useranswer", userAnswer);
-//		return "useranswer/form";
-//	}
-//	
-//	@PostMapping("/update")
-//	public String update(@Valid @ModelAttribute("useranswer") SurveyAnswer userAnswer, Errors errors) throws BusinessException {
-//		if(errors.hasErrors()) {
-//			return "useranswer/form";
-//		}
-//		surveyAnswerService.updateUserAnswer(userAnswer);
-//		return "redirect:/common/form";
-//	}
-//	
-//	@GetMapping("/delete")
-//	public String delete(@RequestParam String id) throws BusinessException {
-//		surveyAnswerService.deleteUserAnswerById(id);
-//		return "redirect:/common/form";
-//	}
-//	
-//	@PostMapping("/delete")
-//	public String delete(@ModelAttribute("useranswer") SurveyAnswer userAnswer) throws BusinessException {
-//		surveyAnswerService.deleteUserAnswer(userAnswer);
-//		return "redirect:/common/form";
-//	}
-	
-	
+		
 	@PostMapping("/findbysurveypaginated")
 	@ResponseBody
 	public ResponseGrid<SurveyAnswer> findAllPaginated(@RequestBody RequestGrid requestGrid, @RequestParam String id) throws BusinessException {
