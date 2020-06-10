@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,9 +22,12 @@ import it.univaq.disim.mwt.apollo.domain.Survey;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import lombok.ToString;
 
 @Data
 @Document(collection="SurveyAnswers")
+@ToString(exclude = "survey")
+@TypeAlias("SurveyAnswer")
 public class SurveyAnswer {
 	
 	@Id

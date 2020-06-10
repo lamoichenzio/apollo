@@ -18,13 +18,6 @@ public interface SurveyAnswerService {
 	
 	SurveyAnswer findSurveyAnswerById(String id) throws BusinessException;
 	
-	SurveyAnswer mapSurveyToSurveyAnswer(Survey survey) throws BusinessException;
-	
 	void createSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
 	
-	void updateSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
-	
-	void deleteSurveyAnswer(SurveyAnswer SurveyAnswer) throws BusinessException;
-	
-	void deleteSurveyAnswerById(String id) throws BusinessException;
 }

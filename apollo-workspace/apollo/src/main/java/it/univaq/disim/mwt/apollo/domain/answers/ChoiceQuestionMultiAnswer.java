@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "Answers")
-@TypeAlias("MultiAnswer")
+@TypeAlias("ChoiceQuestionMultiAnswer")
 public class ChoiceQuestionMultiAnswer extends Answer {
 
 	@DBRef
