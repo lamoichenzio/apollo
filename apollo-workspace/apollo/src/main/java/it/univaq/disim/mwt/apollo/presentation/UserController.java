@@ -61,4 +61,29 @@ public class UserController {
 		model.addAttribute("userCreated", true);
 		return "index";
 	}
+
+	@GetMapping("/update")
+	public String updateStart(Model model){
+		User user = Utility.getUser();
+		model.addAttribute("user", user);
+		return "/common/user/form";
+	}
+
+	@PostMapping("/update")
+	public String update(@ModelAttribute("user") @Valid User user, Errors errors,
+						 Model model, @RequestParam("icon") MultipartFile file) throws BusinessException{
+		fileValidator.validate(file, errors);
+		if(errors.hasErrors()){
+			log.info(errors.toString());
+			model.addAttribute("errors", errors);
+			return "/common/user/form";
+		}
+		try{
+			service.updateUser(user);
+		} catch (DoubleEntryException e) {
+			model.addAttribute("duplicate", true);
+			return "/common/user/form";
+		}
+		return "redirect:/surveys/dashboard";
+	}
 }

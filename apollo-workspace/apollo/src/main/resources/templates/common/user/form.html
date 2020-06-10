@@ -1,0 +1,91 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{/common/layout/frame_public}">
+<body>
+<div layout:fragment="page-content">
+    <div class="card p-5">
+        <div class="card-header">
+            <h5 class="card-title">
+                Update profile
+            </h5>
+        </div>
+        <div class="card-body">
+            <form action="#" th:action="${#request.getRequestURI()}" method="post" enctype="multipart/form-data"
+                  th:object="${user}">
+                <input type="hidden" th:field="*{id}">
+                <input type="hidden" th:field="*{role}">
+                <input type="hidden" th:field="*{password}">
+                <input type="hidden" th:field="*{pic}" th:if="*{pic != null}">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Icon</label>
+                            <div class="m-3">
+                                <img alt="Image placeholder" src="../../assets/img/theme/light/team-1-800x800.jpg"
+                                     class="avatar  rounded-circle avatar-lg" th:src="@{/dist/img/icons/user/user.png}"
+                                     th:if="*{pic == null}">
+                                <img alt="Image placeholder" src="../../assets/img/theme/light/team-1-800x800.jpg"
+                                     class="avatar  rounded-circle avatar-lg" th:src="*{pic}"
+                                     th:if="*{pic != null}">
+                            </div>
+                            <input type="file" class="form-control-file" name="icon" th:value="${pic}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label">First name</label>
+                            <input class="form-control" type="text" th:field="*{firstname}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Last name</label>
+                            <input class="form-control" type="text" th:field="*{lastname}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Username</label>
+                            <input class="form-control" type="text" th:field="*{username}" required th:errorclass="is-invalid">
+                            <div th:if="${#fields.hasErrors('username')}"
+                                 th:each="err: ${#fields.errors('username')}" th:utext="${err}">errors</div>
+                            <div th:if="${duplicate}" th:utext="#{errors.duplicate}">errors</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Email</label>
+                            <input class="form-control" type="email" th:field="*{email}" required th:errorclass="is-invalid">
+                            <div th:if="${#fields.hasErrors('email')}"
+                                 th:each="err: ${#fields.errors('email')}" th:utext="${err}">errors</div>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-md-6">-->
+<!--                        <div class="form-group">-->
+<!--                            <label class="form-control-label">Old password</label>-->
+<!--                            <input class="form-control" type="password">-->
+<!--                            <label class="form-control-label">New password</label>-->
+<!--                            <input class="form-control" type="password">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div class="row mt-4">
+                    <div class="col-12 form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
