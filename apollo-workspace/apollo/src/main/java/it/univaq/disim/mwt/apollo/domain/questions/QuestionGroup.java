@@ -1,7 +1,7 @@
 package it.univaq.disim.mwt.apollo.domain.questions;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,10 +15,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import it.univaq.disim.mwt.apollo.domain.Survey;
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
 import lombok.ToString;
 
 @Data
@@ -43,8 +41,7 @@ public class QuestionGroup {
 	private Survey survey;
 
 	@DBRef
-	@Setter(AccessLevel.NONE)
-	private Set<Question> questions = new HashSet<>();
+	private List<Question> questions = new ArrayList<>();
 	
 	public void addQuestion(Question question) {
 		question.setQuestionGroup(this);

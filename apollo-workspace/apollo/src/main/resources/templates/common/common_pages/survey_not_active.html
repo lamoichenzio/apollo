@@ -1,5 +1,18 @@
-<html>
-	<body>
-		Sondaggio non attivo
-	</body>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/layout/frame_public}">
+<body>
+	<div layout:fragment="page-content" class="card">
+		<div class="card-body p-5">
+			<h4 th:text="#{survey.notactive}" class="card-title"></h4>
+			<div class="row justify-content-between">
+				<div class="col-12">
+					<div class="row align-items-center my-2 px-1">
+						<p th:utext="#{survey.notactive.descr}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
 </html>

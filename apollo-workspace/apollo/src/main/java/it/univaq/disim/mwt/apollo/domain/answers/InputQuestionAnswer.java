@@ -14,13 +14,13 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Document(collection="Answers")
-@TypeAlias("SingleAnswer")
+@Document(collection = "Answers")
+@TypeAlias("InputQuestionAnswer")
 public class InputQuestionAnswer extends Answer {
 
 	@DBRef
 	@NotNull
 	private InputQuestion question;
-	
+
 	private String answer;
 }

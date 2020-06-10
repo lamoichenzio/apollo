@@ -6,10 +6,6 @@
 	<div layout:fragment="page-content">
 		<script th:src="@{/script/survey_ajax.js}"></script>
 
-		<!-- <div class="col-md-12">
-			<div id="modal_holder"></div>
-		</div> -->
-
 		<!-- Page title -->
 		<div class="page-title">
 			<div class="row justify-content-between align-items-center">
@@ -30,19 +26,18 @@
 					<!-- Description-->
 					<div class="col-12">
 						<div class="row align-items-center my-2 px-1">
-							<p id="survey_desc" type="text" class="text-lg my2-1 p-1"
+							<p id="survey_desc" class="text-lg my2-1 p-1"
 								th:text="${survey.description}"></p>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="card-body pb-0" th:replace="common/user_view/form :: form">
-			<!--Form-->
-			</div>
-	
+			
+			<!-- Form -->
+			<div class="card-body pb-0" th:replace="~{common/user_view/form :: form}"></div>
+		
 		</div>
 	</div>
-	<!-- ./page-content -->
+	
 </body>
 </html>

@@ -12,21 +12,21 @@ import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 public interface SurveyService {
-	
+
 	List<Survey> findAllSurveys() throws BusinessException;
-	
+
 	ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid request, User user) throws BusinessException;
-	
+
 	List<Survey> findSurveysByName(String name) throws BusinessException;
 
 	List<Survey> findSurveysByStartDateOrEndDate(LocalDate startDate, LocalDate endDate) throws BusinessException;
-	
+
 	Survey findSurveyById(String id) throws BusinessException;
-	
+
 	void createSurvey(Survey survey, MultipartFile file) throws BusinessException;
-	
+
 	void updateSurvey(Survey survey, MultipartFile file) throws BusinessException;
-	
+
 	void deleteSurvey(Survey survey) throws BusinessException;
 
 }

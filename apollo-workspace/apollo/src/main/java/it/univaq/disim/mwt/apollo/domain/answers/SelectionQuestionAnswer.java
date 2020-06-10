@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Document(collection="Answers")
-@TypeAlias("SingleAnswer")
+@TypeAlias("SelectionQuestionAnswer")
 public class SelectionQuestionAnswer extends Answer {
 
 	@DBRef

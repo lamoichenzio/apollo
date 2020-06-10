@@ -12,27 +12,27 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Document(collection = "Answers")
 @EqualsAndHashCode(exclude = "surveyAnswer")
-//@ToString(exclude="groupAnswer")
+@ToString(exclude = "surveyAnswer")
 public abstract class Answer {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
-	
+
 	@CreatedDate
 	private Date createdDate;
-	
+
 	@LastModifiedDate
 	private Date lastModifiedDate;
-	
+
 	@NotNull
 	@DBRef
-	private SurveyAnswer surveyAnswer; 
+	private SurveyAnswer surveyAnswer;
 }
