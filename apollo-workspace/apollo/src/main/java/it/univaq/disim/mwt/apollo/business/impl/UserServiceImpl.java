@@ -50,4 +50,17 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void updateUser(User user) throws BusinessException {
+		try {
+			userRepository.save(user);
+		}
+		catch(DataIntegrityViolationException e) {
+			throw new DoubleEntryException(e);
+		}
+		catch(DataAccessException e) {
+			throw new BusinessException(e);
+		}
+	}
+
 }

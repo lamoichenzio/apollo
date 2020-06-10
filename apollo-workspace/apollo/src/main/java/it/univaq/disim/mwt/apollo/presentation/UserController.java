@@ -2,14 +2,13 @@ package it.univaq.disim.mwt.apollo.presentation;
 
 import javax.validation.Valid;
 
+import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import it.univaq.disim.mwt.apollo.business.RoleService;
 import it.univaq.disim.mwt.apollo.business.UserService;
@@ -18,9 +17,11 @@ import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
 import it.univaq.disim.mwt.apollo.business.validators.UserValidator;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.User;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
 	@Autowired
@@ -28,8 +29,12 @@ public class UserController {
 	
 	@Autowired
 	private UserValidator validator;
+
+	@Autowired
+	private FileValidator fileValidator;
 	
-	@Autowired RoleService roleService;
+	@Autowired
+	private RoleService roleService;
 
 	@GetMapping("/create")
 	public String create(Model model) throws BusinessException {

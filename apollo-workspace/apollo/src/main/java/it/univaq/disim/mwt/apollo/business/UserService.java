@@ -8,5 +8,6 @@ public interface UserService {
 	
 	User findByUsername(String username) throws BusinessException;
 	void createUser(User user) throws BusinessException;
+	void updateUser(User user) throws BusinessException;
 	
 }
