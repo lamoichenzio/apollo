@@ -5,12 +5,35 @@
 
 let questionList = [];
 let defaultSelectOption;
-let defaultQuestionTitle;
 
+let response_mock = {
+    question: {
+        type: 'INPUT',
+        options: null,
+        otherChoice: false
+    },
+    type: null,
+    values: [
+        {
+            answers: ['Pippo pluto e paperino']
+        },
+        {
+            answers: ['Pippo e pluto']
+        },
+        {
+            answers: ['Minnie e topolino']
+        },
+        {
+            answers: ['Non lo so']
+        },
+        {
+            answers: ['Boh']
+        }
+    ]
+};
 
 $(function () {
     defaultSelectOption = $("#default_option");
-    defaultQuestionTitle = $("#title_placeholder");
 
     // Tooltip inizialize
     $('[data-toggle="tooltip"]').tooltip();
@@ -44,36 +67,11 @@ $(function () {
 
         // TO DO: change question select
         if (selectedQuestionId != null && selectedQuestionId != '') {
-            // getAnswersData(question);
+            $("#spinner").append(SPINNER);
+            getAnswersData(question);
         }
-
-        let response = { 
-            question :{
-                type: 'INPUT',
-                options: null,
-                otherChoice: false
-            },
-            type: null,
-            values: [
-                {
-                    answers: ['Pippo pluto e paperino']
-                },
-                {
-                    answers: ['Pippo e pluto']
-                },
-                {
-                    answers: ['Minnie e topolino']
-                },
-                {
-                    answers: ['Non lo so']
-                },
-                {
-                    answers: ['Boh']
-                }
-            ]};
-        aggregateResult(response);
-
     });
+
 });
 
 /**
