@@ -50,6 +50,7 @@ public class UserController {
 			throws BusinessException {
 		validator.validate(user, errors);
 		if (errors.hasErrors()) {
+			log.info(errors.toString());
 			return "auth/register";
 		}
 		try {
@@ -63,27 +64,32 @@ public class UserController {
 	}
 
 	@GetMapping("/update")
-	public String updateStart(Model model){
+	public String updateStart(Model model) throws BusinessException{
 		User user = Utility.getUser();
-		model.addAttribute("user", user);
+		User newUser = service.findByUsername(user.getUsername());
+		model.addAttribute("user", newUser);
 		return "/common/user/form";
 	}
 
 	@PostMapping("/update")
 	public String update(@ModelAttribute("user") @Valid User user, Errors errors,
 						 Model model, @RequestParam("icon") MultipartFile file) throws BusinessException{
+		
+		User oldUser = Utility.getUser();
+		user.setId(oldUser.getId());
+		user.setUsername(oldUser.getUsername());
+		user.setPassword(oldUser.getPassword());
+		user.setRole(oldUser.getRole());
+
 		fileValidator.validate(file, errors);
+		validator.validate(user, errors);
+		
 		if(errors.hasErrors()){
 			log.info(errors.toString());
 			model.addAttribute("errors", errors);
 			return "/common/user/form";
 		}
-		try{
-			service.updateUser(user);
-		} catch (DoubleEntryException e) {
-			model.addAttribute("duplicate", true);
-			return "/common/user/form";
-		}
+		service.updateUser(user, file);	
 		return "redirect:/surveys/dashboard";
 	}
 }

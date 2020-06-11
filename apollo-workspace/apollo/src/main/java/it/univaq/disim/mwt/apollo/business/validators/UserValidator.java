@@ -17,7 +17,16 @@ public class UserValidator implements Validator{
 	@Override
 	public void validate(Object target, Errors errors) {
 		User user = (User) target;
-		if(!user.getPassword().equals(user.getPasswordConfirm())) {
+		if(user.getUsername() == null || user.getUsername() == "") {
+			errors.rejectValue("username", "NotBlank");
+		}
+		if(user.getPassword() == null || user.getPassword() == "") {
+			errors.rejectValue("password", "NotBlank");
+		}
+		if(user.getRole() == null) {
+			errors.reject("NotNull");
+		}
+		if(user.getId() == null && !user.getPassword().equals(user.getPasswordConfirm())) {
 			errors.rejectValue("passwordConfirm", "differentfields");
 		}
 	}

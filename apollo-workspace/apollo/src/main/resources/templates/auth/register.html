@@ -20,6 +20,7 @@
 							<form role="form" action="#"
 								th:action="${#request.getRequestURI()}" method="post"
 								th:object="${user}">
+								<input type="hidden" th:field="*{role}">
 								<div class="form-group">
 									<label class="form-control-label" th:text="#{common.username}">Username</label>
 									<div class="input-group input-group-merge">
