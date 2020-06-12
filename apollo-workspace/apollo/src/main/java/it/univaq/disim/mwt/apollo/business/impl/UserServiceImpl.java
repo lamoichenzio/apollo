@@ -55,6 +55,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User user, MultipartFile file) throws BusinessException {
 		try {
+			if(!user.getNewPassword().isEmpty()) {
+				String passEncoded = encoder.encode(user.getNewPassword());
+				user.setPassword(passEncoded);
+			}
 			if(file != null && !file.isEmpty()) {
 				user.setPic(new String(Base64.getEncoder().encode(file.getBytes()),"UTF-8"));
 			}
@@ -68,6 +72,12 @@ public class UserServiceImpl implements UserService {
 		} catch (IOException e) {
 			throw new BusinessException(e);
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
+	public boolean userExistsByUsername(String username) throws BusinessException {
+		return userRepository.existsByUsername(username);
 	}
 
 }

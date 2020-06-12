@@ -11,5 +11,5 @@ public interface UserService {
 
 	void createUser(User user) throws BusinessException;
 	void updateUser(User user, MultipartFile file) throws BusinessException;
-	
+	boolean userExistsByUsername(String username) throws BusinessException; 
 }

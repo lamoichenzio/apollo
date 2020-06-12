@@ -26,13 +26,13 @@ public class UserController {
 
 	@Autowired
 	private UserService service;
-	
+
 	@Autowired
-	private UserValidator validator;
+	private UserValidator userValidator;
 
 	@Autowired
 	private FileValidator fileValidator;
-	
+
 	@Autowired
 	private RoleService roleService;
 
@@ -48,7 +48,7 @@ public class UserController {
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("user") User user, Errors errors, Model model)
 			throws BusinessException {
-		validator.validate(user, errors);
+		userValidator.validate(user, errors);
 		if (errors.hasErrors()) {
 			log.info(errors.toString());
 			return "auth/register";
@@ -64,7 +64,7 @@ public class UserController {
 	}
 
 	@GetMapping("/update")
-	public String updateStart(Model model) throws BusinessException{
+	public String updateStart(Model model) throws BusinessException {
 		User user = Utility.getUser();
 		User newUser = service.findByUsername(user.getUsername());
 		model.addAttribute("user", newUser);
@@ -72,9 +72,9 @@ public class UserController {
 	}
 
 	@PostMapping("/update")
-	public String update(@ModelAttribute("user") @Valid User user, Errors errors,
-						 Model model, @RequestParam("icon") MultipartFile file) throws BusinessException{
-		
+	public String update(@ModelAttribute("user") @Valid User user, Errors errors, Model model,
+			@RequestParam("icon") MultipartFile file) throws BusinessException {
+
 		User oldUser = Utility.getUser();
 		user.setId(oldUser.getId());
 		user.setUsername(oldUser.getUsername());
@@ -82,14 +82,14 @@ public class UserController {
 		user.setRole(oldUser.getRole());
 
 		fileValidator.validate(file, errors);
-		validator.validate(user, errors);
-		
-		if(errors.hasErrors()){
+		userValidator.validate(user, errors);
+
+		if (errors.hasErrors()) {
 			log.info(errors.toString());
 			model.addAttribute("errors", errors);
 			return "/common/user/form";
 		}
-		service.updateUser(user, file);	
+		service.updateUser(user, file);
 		return "redirect:/surveys/dashboard";
 	}
 }

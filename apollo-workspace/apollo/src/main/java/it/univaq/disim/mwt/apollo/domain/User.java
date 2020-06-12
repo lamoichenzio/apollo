@@ -32,9 +32,14 @@ public class User {
 	@Size(min = 5)
 	private String password;
 	
-	@Size(min = 5)
 	@Transient
 	private String passwordConfirm;
+	
+	@Transient
+	private String oldPassword;
+	
+	@Transient
+	private String newPassword;
 	
 	@Email
 	private String email;

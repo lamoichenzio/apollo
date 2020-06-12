@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
+import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
@@ -29,11 +30,9 @@ import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/surveys")
-@Slf4j
 public class SurveyController {
 
 	@Autowired
@@ -44,6 +43,9 @@ public class SurveyController {
 	
 	@Autowired
 	private FileValidator validator;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/dashboard")
 	public String dashboard() {
@@ -180,6 +182,12 @@ public class SurveyController {
 		surveyService.deleteSurvey(survey);
 
 		return "redirect:/surveys/dashboard";
+	}
+	
+	@ModelAttribute
+	public void getUser(Model model) throws BusinessException {
+		User user = userService.findByUsername(Utility.getUser().getUsername());
+		model.addAttribute("user",user);
 	}
 
 }

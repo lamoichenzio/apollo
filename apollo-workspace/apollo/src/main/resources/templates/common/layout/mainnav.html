@@ -19,18 +19,8 @@
 				
 				<!-- Right menu -->
 				<ul
-					class="navbar-nav ml-lg-auto align-items-center d-none d-lg-flex" sec:authorize="isAuthenticated()">
-					<!-- <li class="nav-item"><a href="#"
-						class="nav-link nav-link-icon sidenav-toggler"
-						data-action="sidenav-pin" data-target="#sidenav-main"><i
-							class="far fa-bars"></i></a></li>
-					<li class="nav-item"><a href="#"
-						class="nav-link nav-link-icon" data-action="omnisearch-open"
-						data-target="#omnisearch"><i class="far fa-search"></i></a></li>
-					<li class="nav-item dropdown dropdown-animate"><a
-						class="nav-link nav-link-icon" href="#" role="button"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
-							class="far fa-bell"></i></a></li> -->
+					class="navbar-nav ml-lg-auto align-items-center d-none d-lg-flex" 
+					sec:authorize="isAuthenticated()">
 					<li class="nav-item dropdown dropdown-animate"><a
 						class="nav-link pr-lg-0" href="#" role="button"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,12 +30,12 @@
 									alt="Image placeholder"
 									src="./dist/img/theme/light/team-4-800x800.jpg"
 									th:src="@{/dist/img/icons/user/user.png}"
-									th:if="${#authentication.getPrincipal().getUser().getPic() == null}">
+									th:if="${user.pic == null}">
 								<img
 									alt="Image placeholder"
 									src="./dist/img/theme/light/team-4-800x800.jpg"
-									th:src="${'data:image/jpg;base64,'+#authentication.getPrincipal().getUser().getPic()}"
-									th:if="${#authentication.getPrincipal().getUser().getPic() != null}">
+									th:src="${'data:image/jpg;base64,'+user.pic}"
+									th:if="${user.pic != null}">
 								</span>
 								<div class="ml-2 d-none d-lg-block">
 									<span class="mb-0 text-sm  font-weight-bold" sec:authentication="name">John Snow</span>
@@ -54,17 +44,11 @@
 					</a>
 						<div
 							class="dropdown-menu dropdown-menu-sm dropdown-menu-right dropdown-menu-arrow">
-							<h6 class="dropdown-header px-0">Hi John!</h6>
+							<h6 class="dropdown-header px-0" th:if="${user.firstname == null || user.firstname == ''}">[[#{common.hi}]] [[${user.username}]]!</h6>
+							<h6 class="dropdown-header px-0" th:if="${user.firstname != null && user.firstname != '' }">[[#{common.hi}]] [[${user.firstname}]]!</h6>
 							<a class="dropdown-item" href="#" th:href="@{/user/update}"> <i class="far fa-user"></i>
-								<span>My profile</span>
+								<span th:text="#{common.updateprofile}">My profile</span>
 							</a> 
-							<!-- <a href="#!" class="dropdown-item"> <i class="far fa-cog"></i>
-								<span>Settings</span>
-							</a> <a href="#!" class="dropdown-item"> <i
-								class="far fa-credit-card"></i> <span>Billing</span>
-							</a> <a href="#!" class="dropdown-item"> <i class="far fa-tasks"></i>
-								<span>Activity</span>
-							</a>  -->
 							<div class="dropdown-divider"></div>
 							<a href="#!" class="dropdown-item" th:href="@{/logout}"> 
 								<i class="far fa-sign-out-alt"></i> <span>Logout</span>
