@@ -2,8 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-	<nav
-		class="navbar navbar-main navbar-expand-lg navbar-dark bg-primary navbar-border"
+	<nav class="navbar navbar-main navbar-expand-lg navbar-dark bg-primary navbar-border"
 		id="navbar-main" th:fragment="mainnav">
 		<div class="container-fluid">
 			<!-- Brand + Toggler (for mobile devices) -->
@@ -48,8 +47,8 @@
 					</a>
 						<div
 							class="dropdown-menu dropdown-menu-sm dropdown-menu-right dropdown-menu-arrow">
-							<h6 class="dropdown-header px-0">Hi [[${#authentication.name}]]!</h6>
-							<a href="#!" class="dropdown-item"> <i class="far fa-user"></i>
+							<h6 class="dropdown-header px-0">Hi John!</h6>
+							<a class="dropdown-item" href="#" th:href="@{/user/update}"> <i class="far fa-user"></i>
 								<span>My profile</span>
 							</a> 
 							<!-- <a href="#!" class="dropdown-item"> <i class="far fa-cog"></i>
