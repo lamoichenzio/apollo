@@ -18,12 +18,12 @@ public class FileValidator implements Validator {
         if(!file.isEmpty()){
             // Check file type
             if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
-                errors.rejectValue("file", "wrongFileType");
+                errors.reject("WrongFileType");
             }
             // Check file size
             long fileSizeInMB = file.getSize()/(1024*1024);
             if(fileSizeInMB > 5){
-                errors.rejectValue("file", "fileSizeExceed");
+                errors.reject("FileSizeExceed");
             }
         }
     }

@@ -21,13 +21,15 @@
 										class="avatar  rounded-circle avatar-lg"
 										th:src="@{/dist/img/icons/user/user.png}"
 										th:if="*{pic == null}"> 
-									<img src="../../assets/img/theme/light/team-1-800x800.jpg"
+									<img
+										src="../../assets/img/theme/light/team-1-800x800.jpg"
 										class="avatar  rounded-circle avatar-lg"
 										th:src="${'data:image/jpg;base64,'+user.pic}"
 										th:if="*{pic != null}">
 								</div>
 								<input type="file" class="form-control-file" name="icon"
-									th:value="${pic}">
+									accept="image/*" th:value="${pic}">
+								<p th:if="${#fields.hasErrors('global')}" th:errors="*{global}"></p>
 							</div>
 						</div>
 					</div>

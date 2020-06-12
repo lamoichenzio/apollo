@@ -17,11 +17,9 @@ import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.domain.User;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(rollbackFor = DoubleEntryException.class)
-@Slf4j
 public class UserServiceImpl implements UserService {
 
 	@Autowired
