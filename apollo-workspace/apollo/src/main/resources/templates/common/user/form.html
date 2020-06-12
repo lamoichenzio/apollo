@@ -20,8 +20,7 @@
 										src="../../assets/img/theme/light/team-1-800x800.jpg"
 										class="avatar  rounded-circle avatar-lg"
 										th:src="@{/dist/img/icons/user/user.png}"
-										th:if="*{pic == null}"> 
-									<img
+										th:if="*{pic == null}"> <img
 										src="../../assets/img/theme/light/team-1-800x800.jpg"
 										class="avatar  rounded-circle avatar-lg"
 										th:src="${'data:image/jpg;base64,'+user.pic}"
@@ -72,7 +71,7 @@
 					<div class="row mt-4">
 						<div class="col-6 form-group">
 							<button type="submit" class="btn btn-primary">Submit</button>
-							<a class="btn btn-link btn-">Back</a>
+							<a class="btn btn-secondary" th:href="@{/surveys/dashboard}">Back</a>
 						</div>
 					</div>
 				</form>

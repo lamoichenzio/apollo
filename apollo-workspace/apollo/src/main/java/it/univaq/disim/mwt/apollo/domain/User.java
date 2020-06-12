@@ -1,7 +1,5 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import java.sql.Blob;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;

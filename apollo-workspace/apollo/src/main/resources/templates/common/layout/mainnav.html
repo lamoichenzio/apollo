@@ -35,10 +35,17 @@
 						class="nav-link pr-lg-0" href="#" role="button"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<div class="media media-pill align-items-center">
-								<span class="avatar rounded-circle"> <img
+								<span class="avatar rounded-circle"> 
+								<img
 									alt="Image placeholder"
 									src="./dist/img/theme/light/team-4-800x800.jpg"
-									th:src="@{/dist/img/theme/light/team-4-800x800.jpg}">
+									th:src="@{/dist/img/icons/user/user.png}"
+									th:if="${#authentication.getPrincipal().getUser().getPic() == null}">
+								<img
+									alt="Image placeholder"
+									src="./dist/img/theme/light/team-4-800x800.jpg"
+									th:src="${'data:image/jpg;base64,'+#authentication.getPrincipal().getUser().getPic()}"
+									th:if="${#authentication.getPrincipal().getUser().getPic() != null}">
 								</span>
 								<div class="ml-2 d-none d-lg-block">
 									<span class="mb-0 text-sm  font-weight-bold" sec:authentication="name">John Snow</span>

@@ -68,6 +68,7 @@ public class SurveyServiceImpl implements SurveyService {
 					.withIgnorePaths("secret")
 					.withIgnorePaths("active")
 					.withIgnorePaths("questionGroups")
+					.withIgnorePaths("user.password","user.email","user.firstname","user.lastname","user.pic")
 					.withIgnoreNullValues();
 			Example<Survey> example = Example.of(survey, matcher);
 
