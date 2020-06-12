@@ -5,7 +5,6 @@ import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -40,12 +39,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createUser(User user) throws BusinessException{
+		if(userExistsByUsername(user.getUsername())) {
+			throw new DoubleEntryException("double username");
+		}
 		user.setPassword(encoder.encode(user.getPassword()));
 		try {
 			userRepository.save(user);
-		}
-		catch(DataIntegrityViolationException e) {
-			throw new DoubleEntryException();
 		}
 		catch(DataAccessException e) {
 			throw new BusinessException(e);
@@ -64,9 +63,6 @@ public class UserServiceImpl implements UserService {
 			}
 			userRepository.save(user);
 		}
-		catch(DataIntegrityViolationException e) {
-			throw new DoubleEntryException();
-		}
 		catch(DataAccessException e) {
 			throw new BusinessException(e);
 		} catch (IOException e) {
@@ -78,6 +74,11 @@ public class UserServiceImpl implements UserService {
 	@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 	public boolean userExistsByUsername(String username) throws BusinessException {
 		return userRepository.existsByUsername(username);
+	}
+
+	@Override
+	public User findById(Long id) throws BusinessException {
+		return userRepository.findById(id).get();
 	}
 
 }

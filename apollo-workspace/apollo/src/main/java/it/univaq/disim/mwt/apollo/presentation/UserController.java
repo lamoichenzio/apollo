@@ -66,7 +66,7 @@ public class UserController {
 	@GetMapping("/update")
 	public String updateStart(Model model) throws BusinessException {
 		User user = Utility.getUser();
-		User newUser = service.findByUsername(user.getUsername());
+		User newUser = service.findById(user.getId());
 		model.addAttribute("user", newUser);
 		return "/common/user/form";
 	}
@@ -77,7 +77,6 @@ public class UserController {
 
 		User oldUser = Utility.getUser();
 		user.setId(oldUser.getId());
-		user.setUsername(oldUser.getUsername());
 		user.setPassword(oldUser.getPassword());
 		user.setRole(oldUser.getRole());
 

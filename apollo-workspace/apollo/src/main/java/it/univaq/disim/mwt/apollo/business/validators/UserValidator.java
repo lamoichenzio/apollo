@@ -9,8 +9,10 @@ import org.springframework.validation.Validator;
 import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.User;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 public class UserValidator implements Validator{
 	
 	@Autowired
@@ -38,14 +40,17 @@ public class UserValidator implements Validator{
 		}
 		
 		//Username Validation
-//		try {
-//			if(service.userExistsByUsername(user.getUsername())) {
-//				
-//			}
-//		} catch (BusinessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			if(service.userExistsByUsername(user.getUsername())) {
+				User otherUser = service.findByUsername(user.getUsername());
+				if(otherUser.getId() != user.getId()) {					
+					errors.rejectValue("username", "NotUnique");
+				}
+			}
+		} catch (BusinessException e) {
+			log.info(e.getMessage());
+			errors.reject("genericError");
+		}
 		
 		//Check password confirm on creation
 		if(user.getId() == null && !user.getPassword().equals(user.getPasswordConfirm())) {

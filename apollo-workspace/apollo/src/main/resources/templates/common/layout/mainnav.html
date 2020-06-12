@@ -38,7 +38,7 @@
 									th:if="${user.pic != null}">
 								</span>
 								<div class="ml-2 d-none d-lg-block">
-									<span class="mb-0 text-sm  font-weight-bold" sec:authentication="name">John Snow</span>
+									<span class="mb-0 text-sm  font-weight-bold" th:text="${user.username}">John Snow</span>
 								</div>
 							</div>
 					</a>

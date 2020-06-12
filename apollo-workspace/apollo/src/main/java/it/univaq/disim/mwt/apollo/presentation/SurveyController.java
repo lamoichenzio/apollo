@@ -186,7 +186,7 @@ public class SurveyController {
 	
 	@ModelAttribute
 	public void getUser(Model model) throws BusinessException {
-		User user = userService.findByUsername(Utility.getUser().getUsername());
+		User user = userService.findById(Utility.getUser().getId());
 		model.addAttribute("user",user);
 	}
 
