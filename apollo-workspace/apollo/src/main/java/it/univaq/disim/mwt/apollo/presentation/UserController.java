@@ -89,6 +89,7 @@ public class UserController {
 			return "/common/user/form";
 		}
 		service.updateUser(user, file);
-		return "redirect:/surveys/dashboard";
+		model.addAttribute("ok","ok");
+		return "/common/user/form";
 	}
 }
