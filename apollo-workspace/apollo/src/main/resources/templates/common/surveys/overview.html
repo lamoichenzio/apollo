@@ -146,7 +146,7 @@
                             </div>
                             <div class="card-body py-3 flex-grow-1">
                                 <!-- Progress -->
-                                <div class="pb-3 mb-3 border-bottom">
+                                <div class="pb-4 my-3 border-bottom">
                                     <div class="row align-items-center">
                                         <div class="col-12 text-center">
                                             <!-- Avatar -->
@@ -159,17 +159,17 @@
                                     </div>
                                 </div>
                                 <!-- Description -->
-                                <p class="text-sm mb-0">[[${survey.description}]]</p>
+                                <p class="text-sm my-1 py-1">[[${survey.description}]]</p>
                             </div>
 
                             <div class="card-footer py-0">
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item px-0">
                                         <div class="row align-items-center">
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <span class="form-control-label">[[#{survey.secret}]]:</span>
                                             </div>
-                                            <div class="col-6 text-right">
+                                            <div class="col-8 text-right">
                                                 <span id="survey_secret" th:if="${survey.secret}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
                                                 <span id="survey_secret" th:if="${!survey.secret}" class="text-right badge badge-danger badge-pill mx-2">No</span>
                                             </div>
@@ -177,10 +177,10 @@
                                     </li>
                                     <li class="list-group-item px-0">
                                         <div class="row align-items-center">
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <span class="form-control-label">[[#{common.published}]]:</span>
                                             </div>
-                                            <div class="col-6 text-right">
+                                            <div class="col-8 text-right">
                                                 <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
                                                 <span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
                                             </div>
@@ -188,10 +188,10 @@
                                     </li>
                                     <li class="list-group-item px-0">
                                         <div class="row align-items-center">
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <span class="form-control-label">[[#{common.publiclink}]]</span>
                                             </div>
-                                            <div class="col-6 text-right">
+                                            <div class="col-8 text-right">
                                                 <span id="urlId" class="text-right" th:text="${survey.urlId != null ? survey.urlId : ''}"></span>
                                             </div>
                                         </div>
@@ -267,6 +267,8 @@
         </div>
         <!-- ./Answers list-->
         <script th:inline="javascript">
+            var groups = [[${ groups }]];
+
             $(document).ready(function () {
                 let row_index = 0;
 
@@ -286,7 +288,7 @@
                         {
                             "data": "email",
                             "render": function (data, type, row, meta) {
-                                return '<span class="d-block text-sm text-muted mb-3">' + (row.email ? row.email : '-') + '</a>';
+                                return '<span class="d-block text-sm text-muted mb-3">' + (data ? data : '-') + '</a>';
                             }
                         },
                         { 
@@ -294,7 +296,6 @@
                             "render": function (data, type, row, meta) {
                                 let elem = '';
                                 let index = 0;
-                                let groups = [[${ groups }]];
 
                                 for (let item of groups) {
                                     let url = row.survey.id + '/answer/' + row.id + '?group=' + index;
@@ -307,7 +308,8 @@
                         {
                             "data": "totAnswers",
                             "render": function (data, type, row, meta) {
-                                return '<div class="d-flex align-items-center"><span class="completion mr-2">70%</span><div><div class="progress" style="width: 100px;"><div class="progress-bar bg-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div></div></div></div>';
+                                let completion = (row.totAnswers / getTotQuestions(groups)) * 100;
+                                return '<div class="d-flex align-items-center"><span class="completion mr-2">'+completion+'%</span><div><div class="progress" style="width:100px;"><div class="progress-bar bg-success" role="progressbar" aria-valuenow="'+completion+'" aria-valuemin="0" aria-valuemax="100" style="width: '+completion+'%;"></div></div></div></div>';
                             }
                         },
                         { 

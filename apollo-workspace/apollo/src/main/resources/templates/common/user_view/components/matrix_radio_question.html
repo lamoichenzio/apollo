@@ -24,10 +24,12 @@
 					<span th:each="option, optionStat : ${question.options}">
 						<tr>
 							<th scope="row">[[${option}]]</th>
-							<td th:each="optionValue : ${question.optionValues}"><input
+							<td th:each="optionValue : ${question.optionValues}">
+								<input
 								type="radio"
 								th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answer[__${option}__]}"
-								th:value="${optionValue}" /></td>
+								th:value="${optionValue}"
+								th:disabled="${readonly}" /></td>
 						</tr>
 						<tr class="table-divider"></tr>
 					</span>

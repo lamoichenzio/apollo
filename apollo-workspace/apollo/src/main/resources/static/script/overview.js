@@ -477,3 +477,15 @@ function aggregateSelectionQuestionAnswer(answer) {
 
     return aggregation;
 }
+
+/**
+ * Get total number of questions in a survey.
+ * @param {Array} groups 
+ */
+function getTotQuestions(groups) {
+    let counter = 0;
+    for (let group of groups) {
+        counter += group.questions ? group.questions.length : 0;
+    }
+    return counter;
+}

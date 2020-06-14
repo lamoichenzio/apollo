@@ -79,9 +79,9 @@ public class AnswerController {
 			// TO DO: Rework
 			if (question.getType().equals(InputType.TEXT) || question.getType().equals(InputType.TEXTAREA)) {
 				response.setType(AnswerType.TEXT);
-			} else if (question.getType().equals(AnswerType.NUMBER)) {
+			} else if (question.getType().equals(InputType.NUMBER)) {
 				response.setType(AnswerType.NUMBER);
-			} else if (question.getType().equals(AnswerType.DATE)) {
+			} else if (question.getType().equals(InputType.DATE)) {
 				response.setType(AnswerType.DATE);
 			}
 		}
@@ -177,6 +177,13 @@ public class AnswerController {
 		if (request.getType().equals(QuestionType.SELECTION)) {
 			SelectionQuestion question = questionService.findSelectionQuestionById(request.getId());
 			List<SelectionQuestionAnswer> answers = answerService.findSelectionQuestionAnswersByQuestion(question);
+			
+			// Set QuestionBody
+			response.setQuestion(QuestionBody.builder()
+					.id(question.getId())
+					.options(question.getOptions())
+					.type(QuestionType.SELECTION)
+					.build());
 			
 			// Set Answers
 			for(SelectionQuestionAnswer answer : answers) {

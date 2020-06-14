@@ -98,30 +98,48 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 		List<SingleChoiceMatrixAnswer> singleChoiceMatrixAnswers = surveyAnswer.getSingleChoiceMatrixAnswers();
 		List<MultiChoiceMatrixAnswer> multiChoiceMatrixAnswers = surveyAnswer.getMultiChoiceMatrixAnswers();
 
-		int totAnswers = inputQuestionAnswers.size() + choiceQuestionSingleAnswers.size()
-				+ choiceQuestionMultiAnswers.size() + selectionQuestionAnswers.size() + singleChoiceMatrixAnswers.size()
-				+ multiChoiceMatrixAnswers.size();
+		int totAnswers = 0;
 
-		surveyAnswer.setTotAnswers(totAnswers);
 		try {
-			for (Answer answer : inputQuestionAnswers) {
+			for (InputQuestionAnswer answer : inputQuestionAnswers) {
+				if (answer.getAnswer() != null && !answer.getAnswer().equals("")) {
+					totAnswers += 1;
+				}
+				answerService.createAnswer(answer);
+
+			}
+			for (ChoiceQuestionSingleAnswer answer : choiceQuestionSingleAnswers) {
+				if (answer.getAnswer()!= null && !answer.getAnswer().equals("")) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : choiceQuestionSingleAnswers) {
+			for (ChoiceQuestionMultiAnswer answer : choiceQuestionMultiAnswers) {
+				if (answer.getAnswers() != null && answer.getAnswers().size() > 0) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : choiceQuestionMultiAnswers) {
+			for (SelectionQuestionAnswer answer : selectionQuestionAnswers) {
+				if (answer.getAnswer() != null && !answer.getAnswer().equals("")) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : selectionQuestionAnswers) {
+			for (SingleChoiceMatrixAnswer answer : singleChoiceMatrixAnswers) {
+				if (answer.getAnswers() != null && answer.getAnswers().size() > 0) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : singleChoiceMatrixAnswers) {
+			for (MultiChoiceMatrixAnswer answer : multiChoiceMatrixAnswers) {
+				if (answer.getAnswers() != null && answer.getAnswers().size() > 0) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : multiChoiceMatrixAnswers) {
-				answerService.createAnswer(answer);
-			}
+			
+			surveyAnswer.setTotAnswers(totAnswers);
 			surveyAnswerRepository.save(surveyAnswer);
 		} catch (DataAccessException e) {
 			throw new BusinessException(e);

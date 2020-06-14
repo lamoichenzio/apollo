@@ -47,7 +47,7 @@ public class SurveyAnswer {
 	private Survey survey;
 	
 	@NotNull
-	private int totAnswers;
+	private Integer totAnswers;
 	
 	@CreatedDate
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss")
