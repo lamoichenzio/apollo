@@ -2,22 +2,23 @@
 <body>
 	<div th:fragment="question">
 		<div th:each="inputAnswer, inputAnswerStat : *{inputQuestionAnswers}" th:if="${inputAnswer.question == question}">
-			<input type="hidden" th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].question}">
+			<input type="hidden" th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].question}" th:disabled="${readonly}">
 			<input type="text" 
 				class="form-control"
 				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
-				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}">
+				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}" th:disabled="${readonly}">
 			<input type="number" 
 				class="form-control"
 				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
-				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).NUMBER}">
+				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).NUMBER}" th:disabled="${readonly}">
 			<input type="date" 
 				class="form-control"
 				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
-				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}">
+				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}" th:disabled="${readonly}">
 			<textarea class="form-control" rows="3" resize="none"
 				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}"
-				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"></textarea>
+				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
+				th:disabled="${readonly}"></textarea>
 		</div>
 	</div>
 </body>

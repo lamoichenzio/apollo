@@ -9,9 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 @Document(collection="Answers")
 @TypeAlias("ChoiceQuestionSingleAnswer")
 public class ChoiceQuestionSingleAnswer extends Answer {

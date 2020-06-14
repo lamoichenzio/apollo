@@ -4,7 +4,6 @@
 
 <body>
     <div layout:fragment="page-content">
-        <!-- <script th:src="@{/script/survey_ajax.js}"></script> -->
         <script th:src="@{/script/overview.js}"></script>
         <script th:src="@{/script/utility.js}"></script>
 
@@ -258,7 +257,7 @@
                                     <th th:text="#{common.submitteddate}">Submitted Date</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="list">
                             </tbody>
                         </table>
                     </div>
@@ -269,30 +268,35 @@
         <!-- ./Answers list-->
         <script th:inline="javascript">
             $(document).ready(function () {
+                let row_index = 0;
+
                 $('#survey_table').DataTable({
                     "columns": [
                         { 
                             "data": "name",
                             "render": function (data, type, row, meta) {
+                                row_index += 1;
                                 if (row.name) {
                                     return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.name + '</a></div>';
                                 } else {
-                                    return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.id + '</a></div>';
+                                    return '<div class="media-body ml-3"><a href="[(@{/answers/survey/view})]/' + row.id + '" class="name mb-0 h6 text-sm">Answer ' + row_index + '</a></div>';
                                 }      
                             }
                         },
                         {
                             "data": "email",
                             "render": function (data, type, row, meta) {
-                                return '<span class="d-block text-sm text-muted mb-3">' + row.email + '</a>';
+                                return '<span class="d-block text-sm text-muted mb-3">' + (row.email ? row.email : '-') + '</a>';
                             }
                         },
                         { 
                             "data": "groupAnswers",
                             "render": function (data, type, row, meta) {
                                 let elem = '';
-                                for (let item of row.groupAnswers) {
-                                    elem += '<a href="#" class="badge badge-secondary">' + item.group.title + '</a>'
+                                let groups = [[${ groups }]];
+
+                                for (let item of groups) {
+                                    elem += '<a href="#" class="badge badge-secondary">' + item.title + '</a>&nbsp;'
                                 }
                                 return elem;
                             }
@@ -300,7 +304,6 @@
                         {
                             "data": "totAnswers",
                             "render": function (data, type, row, meta) {
-                                
                                 return '<div class="d-flex align-items-center"><span class="completion mr-2">70%</span><div><div class="progress" style="width: 100px;"><div class="progress-bar bg-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width: 70%;"></div></div></div></div>';
                             }
                         },
@@ -308,7 +311,7 @@
                             "data": "date",
                             "render": function (data, type, row, meta) {
                                 let submittedDate = new Date(row.date);
-                                return '<span>' + submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear() + '</span>';
+                                return '<span>' + submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear() + ' ' + submittedDate.getHours() + ':'+ submittedDate.getMinutes() +'</span>';
                             }
                         }
                     ],

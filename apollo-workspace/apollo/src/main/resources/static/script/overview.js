@@ -8,26 +8,26 @@ let defaultSelectOption;
 
 let response_mock = {
     question: {
-        type: 'INPUT',
-        options: null,
+        type: 'CHOICE',
+        options: ['Opzione 1', 'Opzione 2', 'Opzione 3', 'Opzione 4'],
         otherChoice: false
     },
-    type: null,
+    type: 'MULTIPLE',
     values: [
         {
-            answers: ['Pippo pluto e paperino']
+            answers: ['Opzione 1', 'Opzione 3']
         },
         {
-            answers: ['Pippo e pluto']
+            answers: ['Opzione 1', 'Opzione 3']
         },
         {
-            answers: ['Minnie e topolino']
+            answers: ['Opzione 1', 'Opzione 4']
         },
         {
-            answers: ['Non lo so']
+            answers: ['Opzione 2', 'Opzione 3']
         },
         {
-            answers: ['Boh']
+            answers: ['Opzione 1', 'Opzione 4']
         }
     ]
 };
@@ -73,6 +73,7 @@ $(function () {
 
 });
 
+
 /**
  * Call server controller in order to retrieve Answers data by selected question.
  * @param {String} question_id
@@ -93,7 +94,7 @@ function getAnswersData(question) {
         timeout: 10000,
         success: function (response) {
             $("#spinner").empty();
-
+   
             // OK for success
             if (response.status === 'OK') {
                 $("#question_title").text(question.title);
@@ -199,11 +200,21 @@ function aggregateResult(result) {
 
         case 'INPUT': 
             index = 0;
+            let input_summary = INPUT_SUMMARY;
+
+            // Set icon
+            if (result.type == 'TEXT') {
+                input_summary = input_summary.replace('[icon]', '<i class="fas fa-align-left fa-2x"></i>');
+            } else if (result.type == 'NUMBER') {
+                input_summary = input_summary.replace('[icon]', '<i class="fas fa-calculator fa-2x"></i>');
+            } else if (result.type == 'DATE') {
+                input_summary = input_summary.replace('[icon]', '<i class="fas fa-calendar-alt fa-2x"></i>');
+            }
 
             if (result.values != null && result.values.length) {
                 aggregation = aggregateInput(result);
                 for (let val of aggregation.values) {
-                    $("#answers_container").append(INPUT_SUMMARY);
+                    $("#answers_container").append(input_summary);
                     $("#text_value").text(val.text);
                     $("#text_value").attr('id', 'text_value_' + index);
                     $("#counter_value").text(val.val);
@@ -328,6 +339,7 @@ function aggregateSingleChoice(answer) {
     // Fill aggregation element
     let other = 0;
     for (let data of answer.values) {
+        let otherVal = null;
         let row = aggregation.options.find(item => item.label == data.answers[0]);
         if (row != undefined) {
             row.value += 1;

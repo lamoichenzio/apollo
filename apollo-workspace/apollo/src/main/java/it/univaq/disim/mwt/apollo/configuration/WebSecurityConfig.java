@@ -38,8 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/common/accessdenied").and()
 			.authorizeRequests()
 			// Specificare le url che sono soggette ad autenticazione ed autorizzazione
-			.antMatchers("/", "/static/**", "/favicon.ico", "/answers/**").permitAll()
-			.antMatchers("/surveys/**").authenticated();
+			.antMatchers("/surveys/**","/answers/survey/view/**").authenticated()
+			.antMatchers("/", "/static/**", "/favicon.ico", "/answers/survey/**").permitAll();
 
 	}
 }

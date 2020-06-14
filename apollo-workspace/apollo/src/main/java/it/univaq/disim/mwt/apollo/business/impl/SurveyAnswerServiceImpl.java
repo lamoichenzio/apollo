@@ -27,13 +27,6 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SelectionQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
-import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -65,15 +58,22 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 			SurveyAnswer surveyAnswer = new SurveyAnswer();
 			surveyAnswer.setSurvey(survey);
 
-			ExampleMatcher matcher = ExampleMatcher.matchingAll()
-					.withMatcher("survey", GenericPropertyMatchers.ignoreCase()).withIgnoreNullValues();
+			ExampleMatcher matcher = ExampleMatcher
+					.matchingAll()
+					.withMatcher("survey", GenericPropertyMatchers.ignoreCase())
+					.withIgnorePaths("inputQuestionAnswers")
+					.withIgnorePaths("choiceQuestionSingleAnswers")
+					.withIgnorePaths("selectionQuestionAnswers")
+					.withIgnorePaths("choiceQuestionMultiAnswers")
+					.withIgnorePaths("singleChoiceMatrixAnswers")
+					.withIgnorePaths("multiChoiceMatrixAnswers")
+					.withIgnorePaths("totAnswers")
+					.withIgnoreNullValues();
+			
 			Example<SurveyAnswer> example = Example.of(surveyAnswer, matcher);
 
 			Pageable pageable = ConversionUtility.requestGrid2Pageable(request);
 			Page<SurveyAnswer> page = surveyAnswerRepository.findAll(example, pageable);
-			page.getContent().forEach(item -> {
-				log.info(item.toString());
-			});
 
 			return new ResponseGrid<SurveyAnswer>(request.getDraw(), page.getTotalElements(), page.getTotalElements(),
 					page.getContent());

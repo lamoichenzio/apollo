@@ -113,16 +113,13 @@
 						{
 							"data": "name",
 							"render": function (data, type, row, meta) {
-								return '<a href="[(@{/surveys/overview})]/' + row.id +
-									'" class="name mb-0 h6 text-md">' + row.name + '</a>';
+								return '<a href="[(@{/surveys/overview})]/' + row.id + '" class="name mb-0 h6 text-md">' + row.name + '</a>';
 							}
 						},
 						{
 							"data": "active",
 							"render": function (data, type, row, meta) {
-								return '<span class="badge badge-dot mr-4"><i class="' + (row.active ?
-										'bg-success' : 'bg-danger') + '"></i><span class="status">' + (
-										row.active ? '[[#{common.active}]]' : '[[#{common.inactive}]]') +
+								return '<span class="badge badge-dot mr-4"><i class="' + (row.active ?'bg-success' : 'bg-danger') + '"></i><span class="status">' + (row.active ? [[#{common.active}]] : [[#{common.inactive}]]) +
 									'</span></span>';
 							}
 						},

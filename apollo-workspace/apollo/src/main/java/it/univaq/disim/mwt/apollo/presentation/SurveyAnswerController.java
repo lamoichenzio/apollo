@@ -39,15 +39,17 @@ public class SurveyAnswerController {
 	@GetMapping("/{id}")
 	public String createStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
+		
 		if(!survey.isActive()) {
 			return "common/common_pages/survey_not_active";
 		}
-		if(survey.isSecret()) {
+		if(survey.isSecret()) { 
 			//TODO gestire logica sondaggio privato
 			return "common/common_pages/survey_private";
 		}
+		
 		SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
-		log.info(surveyAnswer.toString());
+		
 		model.addAttribute("surveyanswer", surveyAnswer);
 		model.addAttribute("survey", survey);
 		return "common/user_view/survey";
@@ -61,12 +63,25 @@ public class SurveyAnswerController {
 		surveyAnswerService.createSurveyAnswer(surveyAnswer);
 		return "common/common_pages/survey_submitted";
 	}
+	
+	@GetMapping("/view/{id}")
+	public String createView(@PathVariable("id") String id, Model model) throws BusinessException {
+		SurveyAnswer surveyAnswer = surveyAnswerService.findSurveyAnswerById(id);
+
+		log.info(surveyAnswer.toString());
+		
+		model.addAttribute("surveyanswer", surveyAnswer);
+		model.addAttribute("readonly", true);
+		return "common/user_view/survey";
+	}
 		
 	@PostMapping("/findbysurveypaginated")
 	@ResponseBody
 	public ResponseGrid<SurveyAnswer> findAllPaginated(@RequestBody RequestGrid requestGrid, @RequestParam String id) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
-		return surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
+		ResponseGrid<SurveyAnswer> response = surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
+
+		return response;
 	}
 	
 }

@@ -28,6 +28,7 @@ import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.InputType;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 import it.univaq.disim.mwt.apollo.presentation.model.AnswerBody;
@@ -48,12 +49,12 @@ public class AnswerController {
 	@Autowired
 	private AnswerService answerService;
 
+	// TO DO: Rework the method in another class
 	@PostMapping("/findanswers")
 	@ResponseBody
 	public ResponseEntity<AnswerResponseBody> getAnswersData(@Valid @RequestBody QuestionRequestBody request) throws BusinessException {
 		
 		AnswerResponseBody response = new AnswerResponseBody();
-		System.out.println(request.toString());
 		
 		// Input
 		if(request.getType().equals(QuestionType.INPUT)) {
@@ -75,7 +76,14 @@ public class AnswerController {
 				response.addAnswerBody(body);
 			}
 			
-			response.setType(AnswerType.SINGLE);
+			// TO DO: Rework
+			if (question.getType().equals(InputType.TEXT) || question.getType().equals(InputType.TEXTAREA)) {
+				response.setType(AnswerType.TEXT);
+			} else if (question.getType().equals(AnswerType.NUMBER)) {
+				response.setType(AnswerType.NUMBER);
+			} else if (question.getType().equals(AnswerType.DATE)) {
+				response.setType(AnswerType.DATE);
+			}
 		}
 		
 		// Choice
@@ -90,7 +98,7 @@ public class AnswerController {
 					.otherChoice(question.isOtherChoice())
 					.build());
 			
-			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.RADIO)) {
+			if(question.getChoiceType().equals(ChoiceType.RADIO)) {
 				List<ChoiceQuestionSingleAnswer> answers = answerService.findChoiceQuestionSingleAnswersByQuestion(question);
 
 				// Set Answers
@@ -103,7 +111,7 @@ public class AnswerController {
 				response.setType(AnswerType.SINGLE);
 			}
 			
-			if(((ChoiceQuestion) question).getChoiceType().equals(ChoiceType.CHECK)) {
+			if(question.getChoiceType().equals(ChoiceType.CHECK)) {
 				List<ChoiceQuestionMultiAnswer> answers = answerService.findChoiceQuestionMultiAnswersByQuestion(question);
 
 				// Set Answers
@@ -129,7 +137,7 @@ public class AnswerController {
 					.type(QuestionType.MATRIX)
 					.build());
 			
-			if(((MatrixQuestion) question).getType().equals(ChoiceType.RADIO)) {
+			if(question.getType().equals(ChoiceType.RADIO)) {
 				List<SingleChoiceMatrixAnswer> answers = answerService.findSingleChoiceMatrixAnswersByQuestion(question);
 				
 				// Set Answers
@@ -148,7 +156,7 @@ public class AnswerController {
 				response.setType(AnswerType.SINGLE);
 			}
 			
-			if(((MatrixQuestion) question).getType().equals(ChoiceType.CHECK)) {
+			if(question.getType().equals(ChoiceType.CHECK)) {
 				List<MultiChoiceMatrixAnswer> answers = answerService.findMultiChoiceMatrixAnswersByQuestion(question);
 				
 				// Set Answers
