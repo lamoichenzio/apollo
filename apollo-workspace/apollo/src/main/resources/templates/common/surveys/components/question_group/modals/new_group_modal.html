@@ -19,12 +19,12 @@
 					<input type="hidden" name="survey" th:field="*{survey}">
 					
 					<input th:if="${group.id != null}" type="hidden" name="id" th:field="*{id}" />
-					<input th:if="${group.questions != null}" type="hidden" name="questions" th:field="*{questions}" />
+<!--					<input th:if="${group.questions != null}" type="hidden" name="questions" th:field="*{questions}" />-->
 
 					<div class="modal-body">
 						<!-- TITLE -->
 						<div class="form-group">
-							<label for="codice" class="form-control-label"
+							<label for="title" class="form-control-label"
 								th:text="#{group.title}"></label>
 							<input type="text" th:field="*{title}" class="form-control" maxlength="60" required/>
 							<span th:if="${#fields.hasErrors('title')}"
@@ -33,7 +33,7 @@
 
 						<!-- DESCRIPTION -->
 						<div class="form-group">
-							<label for="codice" class="form-control-label"
+							<label for="description" class="form-control-label"
 								th:text="#{group.description}"></label>
 							<input type="text" th:field="*{description}" class="form-control" />
 							<span th:if="${#fields.hasErrors('description')}"

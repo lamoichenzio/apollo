@@ -26,7 +26,7 @@
 							<th scope="row">[[${option}]]</th>
 							<td th:each="optionValue : ${question.optionValues}"><input
 								type="radio"
-								th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answer[__${option}__]}"
+								th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"
 								th:value="${optionValue}" /></td>
 						</tr>
 						<tr class="table-divider"></tr>
