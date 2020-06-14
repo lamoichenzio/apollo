@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.presentation;
+package it.univaq.disim.mwt.apollo.presentation.helpers;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

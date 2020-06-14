@@ -29,6 +29,7 @@ import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionBody;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionResponseBody;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;

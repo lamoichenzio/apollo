@@ -19,7 +19,6 @@ import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyAnswerRepository;
 import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.answers.Answer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionSingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
@@ -74,7 +73,9 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 
 			Pageable pageable = ConversionUtility.requestGrid2Pageable(request);
 			Page<SurveyAnswer> page = surveyAnswerRepository.findAll(example, pageable);
-
+			
+			log.info(page.getContent().toString());
+			
 			return new ResponseGrid<SurveyAnswer>(request.getDraw(), page.getTotalElements(), page.getTotalElements(),
 					page.getContent());
 		} catch (DataAccessException e) {

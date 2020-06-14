@@ -27,6 +27,7 @@ import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
 import lombok.extern.slf4j.Slf4j;
@@ -95,6 +96,8 @@ public class SurveyController {
 				.map(x -> x.getDefaultMessage())
 				.collect(Collectors.joining(","))
 			);
+			
+			log.info(errors.toString());
 
 			return ResponseEntity.badRequest().body(result);
 		}

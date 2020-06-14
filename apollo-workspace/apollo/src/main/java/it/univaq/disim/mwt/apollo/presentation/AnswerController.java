@@ -1,10 +1,6 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -28,13 +24,10 @@ import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.InputType;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
-import it.univaq.disim.mwt.apollo.presentation.model.AnswerBody;
+import it.univaq.disim.mwt.apollo.presentation.helpers.AnswerHelper;
 import it.univaq.disim.mwt.apollo.presentation.model.AnswerResponseBody;
-import it.univaq.disim.mwt.apollo.presentation.model.AnswerType;
-import it.univaq.disim.mwt.apollo.presentation.model.QuestionBody;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionRequestBody;
 import it.univaq.disim.mwt.apollo.presentation.model.QuestionType;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
@@ -49,7 +42,6 @@ public class AnswerController {
 	@Autowired
 	private AnswerService answerService;
 
-	// TO DO: Rework the method in another class
 	@PostMapping("/findanswers")
 	@ResponseBody
 	public ResponseEntity<AnswerResponseBody> getAnswersData(@Valid @RequestBody QuestionRequestBody request) throws BusinessException {
@@ -61,67 +53,21 @@ public class AnswerController {
 			InputQuestion question = questionService.findInputQuestionById(request.getId());
 			List<InputQuestionAnswer> answers = answerService.findInputQuestionAnswersByQuestion(question);
 			
-			// Set QuestionBody
-			response.setQuestion(
-					QuestionBody.builder()
-					.id(question.getId())
-					.type(QuestionType.INPUT)
-					.build());
-			
-			// Set Answers
-			for(InputQuestionAnswer answer : answers) {
-				AnswerBody body = AnswerBody.builder()
-						.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
-						.build();
-				response.addAnswerBody(body);
-			}
-			
-			// TO DO: Rework
-			if (question.getType().equals(InputType.TEXT) || question.getType().equals(InputType.TEXTAREA)) {
-				response.setType(AnswerType.TEXT);
-			} else if (question.getType().equals(InputType.NUMBER)) {
-				response.setType(AnswerType.NUMBER);
-			} else if (question.getType().equals(InputType.DATE)) {
-				response.setType(AnswerType.DATE);
-			}
+			response = AnswerHelper.inputQuestionAnswers2AnswerResponseBody(question, answers);
 		}
 		
 		// Choice
 		if(request.getType().equals(QuestionType.CHOICE)) {
 			ChoiceQuestion question = questionService.findChoiceQuestionById(request.getId());
-
-			// Set QuestionBody
-			response.setQuestion(QuestionBody.builder()
-					.id(question.getId())
-					.options(question.getOptions())
-					.type(QuestionType.CHOICE)
-					.otherChoice(question.isOtherChoice())
-					.build());
 			
 			if(question.getChoiceType().equals(ChoiceType.RADIO)) {
 				List<ChoiceQuestionSingleAnswer> answers = answerService.findChoiceQuestionSingleAnswersByQuestion(question);
-
-				// Set Answers
-				for(ChoiceQuestionSingleAnswer answer : answers) {
-					AnswerBody body = AnswerBody.builder()
-							.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
-							.build();
-					response.addAnswerBody(body);
-				}
-				response.setType(AnswerType.SINGLE);
+				response = AnswerHelper.choiceQuestionSingleAnswers2AnswerResponseBody(question, answers);
 			}
 			
 			if(question.getChoiceType().equals(ChoiceType.CHECK)) {
 				List<ChoiceQuestionMultiAnswer> answers = answerService.findChoiceQuestionMultiAnswersByQuestion(question);
-
-				// Set Answers
-				for(ChoiceQuestionMultiAnswer answer : answers) {
-					AnswerBody body = AnswerBody.builder()
-							.answers(answer.getAnswers())
-							.build();
-					response.addAnswerBody(body);
-				}
-				response.setType(AnswerType.MULTIPLE);
+				response = AnswerHelper.choiceQuestionMultiAnswers2AnswerResponseBody(question, answers);
 			}
 		}
 		
@@ -129,47 +75,16 @@ public class AnswerController {
 		if(request.getType().equals(QuestionType.MATRIX)) {
 			MatrixQuestion question = questionService.findMatrixQuestionById(request.getId());
 			
-			// Set QuestionBody
-			response.setQuestion(QuestionBody.builder()
-					.id(question.getId())
-					.options(question.getOptions())
-					.optionValues(question.getOptionValues())
-					.type(QuestionType.MATRIX)
-					.build());
 			
 			if(question.getType().equals(ChoiceType.RADIO)) {
 				List<SingleChoiceMatrixAnswer> answers = answerService.findSingleChoiceMatrixAnswersByQuestion(question);
-				
-				// Set Answers
-				for(SingleChoiceMatrixAnswer answer : answers) {
-					Map<String, List<String>> awr = new HashMap<>();
-					
-					for (String key : answer.getAnswers().keySet()) {
-						awr.put(key, Arrays.asList(answer.getAnswers().get(key)));
-					}
-					
-					AnswerBody body = AnswerBody.builder()
-							.matrixAnswers(awr)
-							.build();
-					response.addAnswerBody(body);
-				}
-				response.setType(AnswerType.SINGLE);
+				response = AnswerHelper.singleChoiceMatrixAnswers2AnswerResponseBody(question, answers);
 			}
 			
 			if(question.getType().equals(ChoiceType.CHECK)) {
 				List<MultiChoiceMatrixAnswer> answers = answerService.findMultiChoiceMatrixAnswersByQuestion(question);
-				
-				// Set Answers
-				for(MultiChoiceMatrixAnswer answer : answers) {
-					Map<String, List<String>> awr = new HashMap<>();
-					
-					for (String key : answer.getAnswers().keySet()) {
-						awr.put(key, answer.getAnswers().get(key).getValues());
-					}
-					
-					response.addAnswerBody(AnswerBody.builder().matrixAnswers(awr).build());
-				}
-				response.setType(AnswerType.MULTIPLE);
+				response = AnswerHelper.multiChoiceMatrixAnswers2AnswerResponseBody(question, answers);
+
 			}
 		}
 		
@@ -178,21 +93,7 @@ public class AnswerController {
 			SelectionQuestion question = questionService.findSelectionQuestionById(request.getId());
 			List<SelectionQuestionAnswer> answers = answerService.findSelectionQuestionAnswersByQuestion(question);
 			
-			// Set QuestionBody
-			response.setQuestion(QuestionBody.builder()
-					.id(question.getId())
-					.options(question.getOptions())
-					.type(QuestionType.SELECTION)
-					.build());
-			
-			// Set Answers
-			for(SelectionQuestionAnswer answer : answers) {
-				AnswerBody body = AnswerBody.builder()
-						.answers(new ArrayList<String>(Arrays.asList(answer.getAnswer())))
-						.build();
-				response.addAnswerBody(body);
-			}
-			response.setType(AnswerType.SINGLE);
+			response = AnswerHelper.selectionQuestionAnswersAnswers2AnswerResponseBody(question, answers);
 		}
 		
 		response.setStatus(ResponseStatus.OK);
