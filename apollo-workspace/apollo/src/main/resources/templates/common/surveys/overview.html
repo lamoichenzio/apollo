@@ -278,10 +278,12 @@
                             "data": "name",
                             "render": function (data, type, row, meta) {
                                 row_index += 1;
+                                let url = row.survey.id + '/answer/' + row.id + '?group=0';
+
                                 if (row.name) {
                                     return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.name + '</a></div>';
                                 } else {
-                                    return '<div class="media-body ml-3"><a href="[(@{/forms/survey/view})]/' + row.id + '?group=0" class="name mb-0 h6 text-sm">Answer ' + row_index + '</a></div>';
+                                    return '<div class="media-body ml-3"><a href="[(@{/forms/survey})]/' + url + '" class="name mb-0 h6 text-sm">Answer ' + row_index + '</a></div>';
                                 }      
                             }
                         },

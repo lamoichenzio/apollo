@@ -98,8 +98,6 @@ public class SurveyController {
 				.map(x -> x.getDefaultMessage())
 				.collect(Collectors.joining(","))
 			);
-			
-			log.info(errors.toString());
 
 			return ResponseEntity.badRequest().body(result);
 		}

@@ -17,6 +17,8 @@ import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
 import it.univaq.disim.mwt.apollo.business.validators.UserValidator;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
+
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
