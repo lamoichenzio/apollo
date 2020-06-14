@@ -1,16 +1,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<div th:fragment="form" title="group-container">
+	<div th:fragment="form">
+		<script th:inline="javascript">
+			var readonly = [[${readonly}]];
+			var translations = {
+				next: [[#{ common.next }]],
+				submit: [[#{ common.submit }]]
+			};
+		</script>
+		<script th:src="@{/script/user_view.js}"></script>
+
 		<form th:action="@{/answers/survey/create}" method="post"
 			th:object="${surveyanswer}" id="form">
+
 			<input type="hidden" th:field="*{survey}">
+
 			<div class="card-body pb-0">
 				<!-- Iterate Question Groups -->
-				<div th:each="group, groupStat : ${survey.questionGroups}" class="tab">
+				<div th:each="group, groupStat : ${surveyanswer.survey.questionGroups}" class="tab">
 					<div class="row">
 						<div class="col-10">
-							<h5 class="mb-1 p-1">[[${groupStat.index+1}+'.
-								'+${group.title}]]</h5>
+							<h5 class="mb-1 p-1">[[${groupStat.index+1}+'.'+${group.title}]]</h5>
 							<h6 class="text-muted mb-3 p-1">[[${group.description}]]</h6>
 						</div>
 					</div>
@@ -20,7 +30,7 @@
 							class="card-body row align-items-center mx-2 justify-content-center">
 							<!-- Iterate questions of the group -->
 							<div class="col-12"
-								th:each="question, questionStat : ${survey.questionGroups[__${groupStat.index}__].questions}">
+								th:each="question, questionStat : ${surveyanswer.survey.questionGroups[__${groupStat.index}__].questions}">
 
 								<div class="row align-items-center mx-0 justify-content-center">
 									<div class="col-10 card border shadow-none p-3">
@@ -86,61 +96,38 @@
 						<!-- Circles which indicates the steps of the form: -->
 					</div>
 				</div>
-				<div class="m-4">
-					<button type="button" id="prevBtn"
-						class="btn btn-sm btn-primary btn-icon rounded-pill"
-						th:text="#{common.previous}" onclick="nextPrev(-1)">Previous</button>
-					<button type="button" id="nextBtn"
-						class="btn btn-sm btn-primary btn-icon rounded-pill"
-						onclick="nextPrev(1)"></button>
+
+				<!-- Steps -->
+				<div class="row justify-content-center">
+					<div class="col-12">
+						<div id="step_container" style="text-align: center" class="m-4">
+							<span class="step" th:each="questionGroup, stat : ${surveyanswer.survey.questionGroups}"
+								th:id="${stat.index + 1}"></span>
+						</div>
+					</div>
 				</div>
-				<div style="text-align: center" class="m-4">
-					<span class="step"
-						th:each="questionGroup : ${survey.questionGroups}"></span>
+
+				<!-- Buttons -->
+				<div class="row">
+					<div class="col-6">
+						<div class="p-1 mb-3">
+							<button type="button" id="prevBtn" class="btn btn-sm btn-secondary btn-icon-label rounded-pill" onclick="nextPrev(-1)">
+								<span class="btn-inner--icon"><i class="fas fa-chevron-left"></i></span>
+								<span class="btn-inner--text" th:text="#{common.previous}">Previous</span>
+
+							</button>
+						</div>
+					</div>
+
+					<div class="col-6">
+						<div id="rightBtn" class="p-1 mb-3 text-right">
+							<button type="button" id="nextBtn" class="btn btn-sm btn-primary btn-icon-label rounded-pill" onclick="nextPrev(1)"></button>
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>
-		<script th:inline="javascript">
-			var currentTab = 0; 
-			showTab(currentTab);
-	
-			function showTab(n) {
-				var x = $(".tab");
-				x[n].style.display = "block";
-				if (n == 0) {
-					$("#prevBtn").css("display", "none");
-				} else {
-					$("#prevBtn").css("display", "inline");
-				}
-				if (n == (x.length - 1)) {
-					$("#nextBtn").html([[#{common.submit}]]);
-				} else {
-					$("#nextBtn").html([[#{common.next}]]);
-				}
-				fixStepIndicator(n)
-			}
-	
-			function nextPrev(n) {
-				var x = $(".tab");
-				x[currentTab].style.display="none";
-				currentTab = currentTab + n;
-				if (currentTab >= x.length) {
-					$("#form").submit();
-					return false;
-				}
-				showTab(currentTab);
-			}
-			
-			function fixStepIndicator(n) {
-			  // This function removes the "active" class of all steps...
-			  var i, x = $(".step");
-			  for (i = 0; i < x.length; i++) {
-			    x[i].className = x[i].className.replace(" active", "");
-			  }
-			  //... and adds the "active" class to the current step:
-			  x[n].className += " active";
-			}
-		</script>
+
 	</div>
 </body>
 

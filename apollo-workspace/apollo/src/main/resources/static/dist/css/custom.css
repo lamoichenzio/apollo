@@ -62,6 +62,10 @@
   opacity: 0.5;
 }
 
+.step:hover {
+  cursor: pointer;
+}
+
 .step.active {
   opacity: 1;
 }

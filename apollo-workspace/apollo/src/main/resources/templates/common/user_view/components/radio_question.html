@@ -11,11 +11,11 @@
 				<!-- OPTIONS -->
 				<div th:each="option, optionStat : ${question.options}"
 					class="custom-control custom-radio">
-					<input type="radio"
+					<input type="radio" class="custom-control-input"
 						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-						th:value="${option}"> 
+						th:value="${option}" th:disabled="${readonly}"> 
 					<label th:for="choiceQuestionSingleAnswers+${stat.index}+.answer+${optionStat.index+1}"
-						th:text="${option}"></label>
+						th:text="${option}" class="custom-control-label"></label>
 				</div>
 
 				<!-- Other -->
@@ -23,7 +23,8 @@
 					<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
 					<input type="text" class="form-control"
 						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-						size="45" th:placeholder="#{question.otherchoiceplaceholder}">
+						size="45" th:placeholder="#{question.otherchoiceplaceholder}"
+						th:disabled="${readonly}">
 				</div>
 			</div>
 		</div>
