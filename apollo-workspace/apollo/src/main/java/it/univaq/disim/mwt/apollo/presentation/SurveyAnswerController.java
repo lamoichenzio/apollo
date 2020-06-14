@@ -26,7 +26,7 @@ import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/answers/survey")
+@RequestMapping("/forms/survey")
 @Slf4j
 public class SurveyAnswerController {
 
@@ -36,7 +36,7 @@ public class SurveyAnswerController {
 	@Autowired
 	private SurveyService surveyService;
 
-	@GetMapping("/{id}")
+	@GetMapping("/{id}/fill")
 	public String createStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		
@@ -64,8 +64,8 @@ public class SurveyAnswerController {
 		return "common/common_pages/survey_submitted";
 	}
 	
-	@GetMapping("/view/{id}")
-	public String createView(@PathVariable("id") String id, @RequestParam int group, Model model) throws BusinessException {
+	@GetMapping("/{surveyid}/answer/{id}")
+	public String createView(@PathVariable("id") String id, @PathVariable("surveyid") String surveyId, @RequestParam int group, Model model) throws BusinessException {
 		SurveyAnswer surveyAnswer = surveyAnswerService.findSurveyAnswerById(id);
 
 		log.info(surveyAnswer.toString());
@@ -73,9 +73,10 @@ public class SurveyAnswerController {
 		model.addAttribute("surveyanswer", surveyAnswer);
 		model.addAttribute("readonly", true);
 		model.addAttribute("groupIndex", group);
+		
 		return "common/user_view/survey";
 	}
-		
+		 
 	@PostMapping("/findbysurveypaginated")
 	@ResponseBody
 	public ResponseGrid<SurveyAnswer> findAllPaginated(@RequestBody RequestGrid requestGrid, @RequestParam String id) throws BusinessException {

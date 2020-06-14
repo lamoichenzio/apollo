@@ -11,7 +11,7 @@
 		</script>
 		<script th:src="@{/script/user_view.js}"></script>
 
-		<form th:action="@{/answers/survey/create}" method="post"
+		<form th:action="@{/forms/survey/create}" method="post"
 			th:object="${surveyanswer}" id="form">
 
 			<input type="hidden" th:field="*{survey}">
