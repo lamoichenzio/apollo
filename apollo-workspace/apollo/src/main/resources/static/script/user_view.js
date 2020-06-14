@@ -9,7 +9,9 @@ let currentStep = 1;
 
 $(function () {
 
+    console.log(groupIndex);
     // Show the first tab
+    if (groupIndex) currentTabIndex = groupIndex;
     showTab(currentTabIndex);
 
     // Register step click event

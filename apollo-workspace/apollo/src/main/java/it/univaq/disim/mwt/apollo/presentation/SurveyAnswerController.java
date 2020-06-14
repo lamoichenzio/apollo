@@ -65,13 +65,14 @@ public class SurveyAnswerController {
 	}
 	
 	@GetMapping("/view/{id}")
-	public String createView(@PathVariable("id") String id, Model model) throws BusinessException {
+	public String createView(@PathVariable("id") String id, @RequestParam int group, Model model) throws BusinessException {
 		SurveyAnswer surveyAnswer = surveyAnswerService.findSurveyAnswerById(id);
 
 		log.info(surveyAnswer.toString());
 		
 		model.addAttribute("surveyanswer", surveyAnswer);
 		model.addAttribute("readonly", true);
+		model.addAttribute("groupIndex", group);
 		return "common/user_view/survey";
 	}
 		

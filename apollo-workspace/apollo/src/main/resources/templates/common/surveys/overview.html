@@ -279,7 +279,7 @@
                                 if (row.name) {
                                     return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.name + '</a></div>';
                                 } else {
-                                    return '<div class="media-body ml-3"><a href="[(@{/answers/survey/view})]/' + row.id + '" class="name mb-0 h6 text-sm">Answer ' + row_index + '</a></div>';
+                                    return '<div class="media-body ml-3"><a href="[(@{/answers/survey/view})]/' + row.id + '?group=0" class="name mb-0 h6 text-sm">Answer ' + row_index + '</a></div>';
                                 }      
                             }
                         },
@@ -293,10 +293,12 @@
                             "data": "groupAnswers",
                             "render": function (data, type, row, meta) {
                                 let elem = '';
+                                let index = 0;
                                 let groups = [[${ groups }]];
 
                                 for (let item of groups) {
-                                    elem += '<a href="#" class="badge badge-secondary">' + item.title + '</a>&nbsp;'
+                                    elem += '<a href="[(@{/answers/survey/view})]/' + row.id + '?group=' + index + '" class="badge badge-secondary">' + item.title + '</a>&nbsp;'
+                                    index+=1;
                                 }
                                 return elem;
                             }

@@ -3,6 +3,7 @@
 	<div th:fragment="form">
 		<script th:inline="javascript">
 			var readonly = [[${readonly}]];
+			var groupIndex = [[${groupIndex}]];
 			var translations = {
 				next: [[#{ common.next }]],
 				submit: [[#{ common.submit }]]
