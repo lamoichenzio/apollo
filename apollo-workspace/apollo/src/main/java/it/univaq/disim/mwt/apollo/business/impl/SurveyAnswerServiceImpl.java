@@ -19,7 +19,6 @@ import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyAnswerRepository;
 import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.answers.Answer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionSingleAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
@@ -27,13 +26,6 @@ import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SelectionQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.ChoiceType;
-import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -65,16 +57,25 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 			SurveyAnswer surveyAnswer = new SurveyAnswer();
 			surveyAnswer.setSurvey(survey);
 
-			ExampleMatcher matcher = ExampleMatcher.matchingAll()
-					.withMatcher("survey", GenericPropertyMatchers.ignoreCase()).withIgnoreNullValues();
+			ExampleMatcher matcher = ExampleMatcher
+					.matchingAll()
+					.withMatcher("survey", GenericPropertyMatchers.ignoreCase())
+					.withIgnorePaths("inputQuestionAnswers")
+					.withIgnorePaths("choiceQuestionSingleAnswers")
+					.withIgnorePaths("selectionQuestionAnswers")
+					.withIgnorePaths("choiceQuestionMultiAnswers")
+					.withIgnorePaths("singleChoiceMatrixAnswers")
+					.withIgnorePaths("multiChoiceMatrixAnswers")
+					.withIgnorePaths("totAnswers")
+					.withIgnoreNullValues();
+			
 			Example<SurveyAnswer> example = Example.of(surveyAnswer, matcher);
 
 			Pageable pageable = ConversionUtility.requestGrid2Pageable(request);
 			Page<SurveyAnswer> page = surveyAnswerRepository.findAll(example, pageable);
-			page.getContent().forEach(item -> {
-				log.info(item.toString());
-			});
-
+			
+			log.info(page.getContent().toString());
+			
 			return new ResponseGrid<SurveyAnswer>(request.getDraw(), page.getTotalElements(), page.getTotalElements(),
 					page.getContent());
 		} catch (DataAccessException e) {
@@ -98,30 +99,48 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 		List<SingleChoiceMatrixAnswer> singleChoiceMatrixAnswers = surveyAnswer.getSingleChoiceMatrixAnswers();
 		List<MultiChoiceMatrixAnswer> multiChoiceMatrixAnswers = surveyAnswer.getMultiChoiceMatrixAnswers();
 
-		int totAnswers = inputQuestionAnswers.size() + choiceQuestionSingleAnswers.size()
-				+ choiceQuestionMultiAnswers.size() + selectionQuestionAnswers.size() + singleChoiceMatrixAnswers.size()
-				+ multiChoiceMatrixAnswers.size();
+		int totAnswers = 0;
 
-		surveyAnswer.setTotAnswers(totAnswers);
 		try {
-			for (Answer answer : inputQuestionAnswers) {
+			for (InputQuestionAnswer answer : inputQuestionAnswers) {
+				if (answer.getAnswer() != null && !answer.getAnswer().equals("")) {
+					totAnswers += 1;
+				}
+				answerService.createAnswer(answer);
+
+			}
+			for (ChoiceQuestionSingleAnswer answer : choiceQuestionSingleAnswers) {
+				if (answer.getAnswer()!= null && !answer.getAnswer().equals("")) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : choiceQuestionSingleAnswers) {
+			for (ChoiceQuestionMultiAnswer answer : choiceQuestionMultiAnswers) {
+				if (answer.getAnswers() != null && answer.getAnswers().size() > 0) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : choiceQuestionMultiAnswers) {
+			for (SelectionQuestionAnswer answer : selectionQuestionAnswers) {
+				if (answer.getAnswer() != null && !answer.getAnswer().equals("")) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : selectionQuestionAnswers) {
+			for (SingleChoiceMatrixAnswer answer : singleChoiceMatrixAnswers) {
+				if (answer.getAnswers() != null && answer.getAnswers().size() > 0) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : singleChoiceMatrixAnswers) {
+			for (MultiChoiceMatrixAnswer answer : multiChoiceMatrixAnswers) {
+				if (answer.getAnswers() != null && answer.getAnswers().size() > 0) {
+					totAnswers += 1;
+				}
 				answerService.createAnswer(answer);
 			}
-			for (Answer answer : multiChoiceMatrixAnswers) {
-				answerService.createAnswer(answer);
-			}
+			
+			surveyAnswer.setTotAnswers(totAnswers);
 			surveyAnswerRepository.save(surveyAnswer);
 		} catch (DataAccessException e) {
 			throw new BusinessException(e);

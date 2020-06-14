@@ -1,19 +1,28 @@
 const SPINNER = '<div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only"> Loading...</span></div>';
 
-const ALERT = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
-    +'<div id="alert_text">'
-    +'<span class="alert-group-icon text-"><i class="fas fa-exclamation-triangle"></i></span>'
+const ALERT_ERROR = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
+    +'<div id="alert_text_error">'
+    +'<span class="alert-group-icon text-"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;'
     +'</div>'
     +'<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
     +'<span aria-hidden="true">&times;</span>'
     +'</button>'
     +'</div>';
 
+const ALERT_WARNING = '<div class="alert alert-warning alert-dismissible fade show" role="alert">'
+    + '<div id="alert_text_warning">'
+    + '<span class="alert-group-icon text-"><i class="fas fa-info-circle"></i></span>&nbsp;'
+    + '</div>'
+    + '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+    + '<span aria-hidden="true">&times;</span>'
+    + '</button>'
+    + '</div>';
+
 const INPUT_SUMMARY = '<div class="card mb-3 border shadow-none">'
     + '<div class="px-3 py-3">'
     + '<div class="row align-items-center">'
     + '<div class="col-auto">'
-    + '<span><i class="fas fa-align-left fa-2x"></i></span>'
+    + '<span id="input_icon">[icon]</span>'
     + '</div>'
     + '<div class="col ml-n2 pl-4">'
     + '<p id="text_value" class="card-text small text-muted"></p>'

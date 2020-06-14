@@ -24,10 +24,12 @@
 					<span th:each="option, optionStat : ${question.options}">
 						<tr>
 							<th scope="row">[[${option}]]</th>
-							<td th:each="optionValue : ${question.optionValues}"><input
+							<td th:each="optionValue : ${question.optionValues}">
+								<input
 								type="checkbox"
 								th:field="*{multiChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__].values}"
-								th:value="${optionValue}" /></td>
+								th:value="${optionValue}" 
+								th:disabled="${readonly}"/></td>
 						</tr>
 						<tr class="table-divider"></tr>
 					</span>

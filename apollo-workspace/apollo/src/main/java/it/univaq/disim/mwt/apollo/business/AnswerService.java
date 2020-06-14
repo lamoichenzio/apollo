@@ -12,7 +12,11 @@ import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SelectionQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 
 public interface AnswerService {
 	
@@ -30,12 +34,12 @@ public interface AnswerService {
 	ResponseGrid<SelectionQuestionAnswer> findAllSelectionQuestionAnswersPaginated(RequestGrid request) throws BusinessException;
 	ResponseGrid<SingleChoiceMatrixAnswer> findAllSingleChoiceMatrixAnswersPaginated(RequestGrid request) throws BusinessException;
 
-	List<ChoiceQuestionMultiAnswer> findChoiceQuestionMultiAnswersByQuestion(Question question) throws BusinessException;
-	List<ChoiceQuestionSingleAnswer> findChoiceQuestionSingleAnswersByQuestion(Question question) throws BusinessException;
-	List<InputQuestionAnswer> findInputQuestionAnswersByQuestion(Question question) throws BusinessException;
-	List<MultiChoiceMatrixAnswer> findMultiChoiceMatrixAnswersByQuestion(Question question) throws BusinessException;
-	List<SelectionQuestionAnswer> findSelectionQuestionAnswersByQuestion(Question question) throws BusinessException;
-	List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(Question question) throws BusinessException;
+	List<ChoiceQuestionMultiAnswer> findChoiceQuestionMultiAnswersByQuestion(ChoiceQuestion question) throws BusinessException;
+	List<ChoiceQuestionSingleAnswer> findChoiceQuestionSingleAnswersByQuestion(ChoiceQuestion question) throws BusinessException;
+	List<InputQuestionAnswer> findInputQuestionAnswersByQuestion(InputQuestion question) throws BusinessException;
+	List<MultiChoiceMatrixAnswer> findMultiChoiceMatrixAnswersByQuestion(MatrixQuestion question) throws BusinessException;
+	List<SelectionQuestionAnswer> findSelectionQuestionAnswersByQuestion(SelectionQuestion question) throws BusinessException;
+	List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(MatrixQuestion question) throws BusinessException;
 
 	ChoiceQuestionMultiAnswer findChoiceQuestionMultiAnswerById(String id) throws BusinessException;
 	ChoiceQuestionSingleAnswer findChoiceQuestionSingleAnswerById(String id) throws BusinessException;

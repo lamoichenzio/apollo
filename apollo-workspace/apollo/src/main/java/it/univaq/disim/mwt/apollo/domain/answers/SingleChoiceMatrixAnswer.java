@@ -16,8 +16,8 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Data
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = false)
+@EqualsAndHashCode(callSuper = false)
 @Document(collection="Answers")
 @TypeAlias("SingleChoiceMatrixAnswer")
 public class SingleChoiceMatrixAnswer extends Answer {

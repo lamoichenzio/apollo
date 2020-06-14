@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 @Document(collection = "Questions")
 @TypeAlias("InputQuestion")
 public class InputQuestion extends Question {

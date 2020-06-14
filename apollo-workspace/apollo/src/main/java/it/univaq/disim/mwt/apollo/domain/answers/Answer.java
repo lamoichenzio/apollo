@@ -12,6 +12,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,6 +22,7 @@ import lombok.ToString;
 @Document(collection = "Answers")
 @EqualsAndHashCode(exclude = "surveyAnswer")
 @ToString(exclude = "surveyAnswer")
+@JsonIgnoreProperties(value = {"surveyAnswer"})
 public abstract class Answer {
 
 	@Id

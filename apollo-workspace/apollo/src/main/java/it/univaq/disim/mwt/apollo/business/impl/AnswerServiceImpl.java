@@ -24,7 +24,10 @@ import it.univaq.disim.mwt.apollo.domain.answers.InputQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.MultiChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SelectionQuestionAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
+import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
+import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 
 @Service
 @Transactional
@@ -127,36 +130,36 @@ public class AnswerServiceImpl implements AnswerService {
 	/** FIND BY QUESTION **/
 
 	@Override
-	public List<ChoiceQuestionMultiAnswer> findChoiceQuestionMultiAnswersByQuestion(Question question)
+	public List<ChoiceQuestionMultiAnswer> findChoiceQuestionMultiAnswersByQuestion(ChoiceQuestion question)
 			throws BusinessException {
 		return choiceQuestionMultiAnswerRepository.findByQuestion(question);
 	}
 
 	@Override
-	public List<ChoiceQuestionSingleAnswer> findChoiceQuestionSingleAnswersByQuestion(Question question)
+	public List<ChoiceQuestionSingleAnswer> findChoiceQuestionSingleAnswersByQuestion(ChoiceQuestion question)
 			throws BusinessException {
 		return choiceQuestionSingleAnswerRepository.findByQuestion(question);
 	}
 
 	@Override
-	public List<InputQuestionAnswer> findInputQuestionAnswersByQuestion(Question question) throws BusinessException {
+	public List<InputQuestionAnswer> findInputQuestionAnswersByQuestion(InputQuestion question) throws BusinessException {
 		return inputQuestionAnswerRepository.findByQuestion(question);
 	}
 
 	@Override
-	public List<MultiChoiceMatrixAnswer> findMultiChoiceMatrixAnswersByQuestion(Question question)
+	public List<MultiChoiceMatrixAnswer> findMultiChoiceMatrixAnswersByQuestion(MatrixQuestion question)
 			throws BusinessException {
 		return multiChoiceMatrixAnswerRepository.findByQuestion(question);
 	}
 
 	@Override
-	public List<SelectionQuestionAnswer> findSelectionQuestionAnswersByQuestion(Question question)
+	public List<SelectionQuestionAnswer> findSelectionQuestionAnswersByQuestion(SelectionQuestion question)
 			throws BusinessException {
 		return selectionQuestionAnswerRepository.findByQuestion(question);
 	}
 
 	@Override
-	public List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(Question question)
+	public List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(MatrixQuestion question)
 			throws BusinessException {
 		return singleChoiceMatrixAnswerRepository.findByQuestion(question);
 	}

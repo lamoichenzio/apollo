@@ -2,10 +2,15 @@ package it.univaq.disim.mwt.apollo.domain.questions;
 
 import it.univaq.disim.mwt.apollo.domain.DocumentFile;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +21,9 @@ import java.util.Date;
 
 @Data
 @Document(collection = "Questions")
+@EqualsAndHashCode(exclude = "questionGroup")
+@ToString(exclude="questionGroup")
+@JsonIgnoreProperties(value = {"questionGroup"})
 public abstract class Question {
 	
 	@Id
@@ -32,7 +40,7 @@ public abstract class Question {
 	
 	private DocumentFile file;
 
-	@DBRef(lazy = true)
+	@DBRef
 	private QuestionGroup questionGroup;
 	
 }

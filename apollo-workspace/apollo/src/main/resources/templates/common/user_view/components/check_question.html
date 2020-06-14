@@ -12,13 +12,13 @@
 
 			<div class="col-10 mx-1 px-2 py-3">
 				<!-- OPTIONS -->
-				<div th:each="option, optionStat : ${question.options}">
-					<input type="checkbox"
+				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox">
+					<input type="checkbox" class="custom-control-input"
 						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
-						th:value="${option}"> 
+						th:value="${option}" th:disabled="${readonly}"> 
 					<label
 						th:for="choiceQuestionMultiAnswers+${stat.index}+.answers+${optionStat.index+1}"
-						th:text="${option}"></label>
+						th:text="${option}" class="custom-control-label"></label>
 				</div>
 
 				<!-- Other -->
@@ -26,7 +26,8 @@
 					<input type="text" class="form-control" id="other_choice"
 						name="other_choice" size="45"
 						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
-						th:placeholder="#{question.otherchoiceplaceholder}">
+						th:placeholder="#{question.otherchoiceplaceholder}"
+						th:disabled="${readonly}">
 				</div>
 			</div>
 		</div>
