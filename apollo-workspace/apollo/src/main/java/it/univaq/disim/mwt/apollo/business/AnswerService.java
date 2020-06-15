@@ -19,20 +19,6 @@ import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 
 public interface AnswerService {
-	
-	List<ChoiceQuestionMultiAnswer> findAllChoiceQuestionMultiAnswers() throws BusinessException;
-	List<ChoiceQuestionSingleAnswer> findAllChoiceQuestionSingleAnswer() throws BusinessException;
-	List<InputQuestionAnswer> findAllInputQuestionAnswers() throws BusinessException;
-	List<MultiChoiceMatrixAnswer> findAllMultiChoiceMatrixAnswer() throws BusinessException;
-	List<SelectionQuestionAnswer> findAllSelectionQuestionAnswers() throws BusinessException;
-	List<SingleChoiceMatrixAnswer> findAllSingleChoiceMatrixAnswers() throws BusinessException;
-	
-	ResponseGrid<ChoiceQuestionMultiAnswer> findAllChoiceQuestionMultiAnswersPaginated(RequestGrid request) throws BusinessException;
-	ResponseGrid<ChoiceQuestionSingleAnswer> findAllChoiceQuestionSingleAnswersPaginated(RequestGrid request) throws BusinessException;
-	ResponseGrid<InputQuestionAnswer> findAllInputQuestionAnswersPaginated(RequestGrid request) throws BusinessException;
-	ResponseGrid<MultiChoiceMatrixAnswer> findAllMultiChoiceMatrixAnswersPaginated(RequestGrid request) throws BusinessException;
-	ResponseGrid<SelectionQuestionAnswer> findAllSelectionQuestionAnswersPaginated(RequestGrid request) throws BusinessException;
-	ResponseGrid<SingleChoiceMatrixAnswer> findAllSingleChoiceMatrixAnswersPaginated(RequestGrid request) throws BusinessException;
 
 	List<ChoiceQuestionMultiAnswer> findChoiceQuestionMultiAnswersByQuestion(ChoiceQuestion question) throws BusinessException;
 	List<ChoiceQuestionSingleAnswer> findChoiceQuestionSingleAnswersByQuestion(ChoiceQuestion question) throws BusinessException;
@@ -41,22 +27,6 @@ public interface AnswerService {
 	List<SelectionQuestionAnswer> findSelectionQuestionAnswersByQuestion(SelectionQuestion question) throws BusinessException;
 	List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(MatrixQuestion question) throws BusinessException;
 
-	ChoiceQuestionMultiAnswer findChoiceQuestionMultiAnswerById(String id) throws BusinessException;
-	ChoiceQuestionSingleAnswer findChoiceQuestionSingleAnswerById(String id) throws BusinessException;
-	InputQuestionAnswer findInputQuestionAnswerById(String id) throws BusinessException;
-	MultiChoiceMatrixAnswer findMultiChoiceMatrixAnswerById(String id) throws BusinessException;
-	SelectionQuestionAnswer findSelectionQuestionAnswerById(String id) throws BusinessException;
-	SingleChoiceMatrixAnswer findSingleChoiceMatrixAnswerById(String id) throws BusinessException;
-
 	void createAnswer(Answer answer) throws BusinessException;
 
-//	void updateAnswer(ChoiceQuestionMultiAnswer answer) throws BusinessException;
-//	void updateAnswer(MultiChoiceMatrixAnswer answer) throws BusinessException;
-//	void updateAnswer(InputQuestionAnswer answer) throws BusinessException;
-//	void updateAnswer(SingleChoiceMatrixAnswer answer) throws BusinessException;
-//	
-//	void deleteAnswer(ChoiceQuestionMultiAnswer answer) throws BusinessException;
-//	void deleteAnswer(MultiChoiceMatrixAnswer answer) throws BusinessException;
-//	void deleteAnswer(InputQuestionAnswer answer) throws BusinessException;
-//	void deleteAnswer(SingleChoiceMatrixAnswer answer) throws BusinessException;
 }

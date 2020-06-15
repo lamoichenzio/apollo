@@ -21,9 +21,8 @@ import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.impl.ConversionUtility;
+import it.univaq.disim.mwt.apollo.business.ConversionUtility;
 import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,8 +37,6 @@ public class SurveyAnswerController {
 	@Autowired
 	private SurveyService surveyService;
 	
-	@Autowired
-	private UserService userService;
 
 	@GetMapping("/{id}/fill")
 	public String createStart(@PathVariable("id") String id, Model model) throws BusinessException {

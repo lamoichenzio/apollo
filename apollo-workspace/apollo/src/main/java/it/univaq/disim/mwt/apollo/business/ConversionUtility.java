@@ -1,4 +1,4 @@
-package it.univaq.disim.mwt.apollo.business.impl;
+package it.univaq.disim.mwt.apollo.business;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +29,13 @@ public class ConversionUtility {
                 "asc".equals(requestGrid.getSortDir()) ? Sort.Direction.ASC : Sort.Direction.DESC,
                 requestGrid.getSortCol());
     }
-	
+
+
+    /**
+    * Builds a SurveyAnswer object based on the survey passed as input
+    * @param survey The survey used to create the answer
+    *
+     */
 	public static SurveyAnswer survey2SurveyAnswer(Survey survey){
 		SurveyAnswer surveyAnswer = new SurveyAnswer();
 		surveyAnswer.setSurvey(survey);

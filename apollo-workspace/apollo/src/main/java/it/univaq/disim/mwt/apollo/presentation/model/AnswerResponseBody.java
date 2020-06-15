@@ -22,7 +22,7 @@ public class AnswerResponseBody extends ResponseBody {
     private AnswerType type;
     
     @Setter(AccessLevel.NONE)
-    private List<AnswerBody> values = new ArrayList<AnswerBody>();
+    private List<AnswerBody> values = new ArrayList<>();
 
 	public void addAnswerBody(AnswerBody answerBody) {
 		values.add(answerBody);
