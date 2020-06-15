@@ -6,10 +6,11 @@
 
 let currentTabIndex = 0;
 let currentStep = 1;
+let tabs = [];
 
 $(function () {
+    tabs = $(".tab").toArray();
 
-    console.log(groupIndex);
     // Show the first tab
     if (groupIndex) currentTabIndex = groupIndex;
     showTab(currentTabIndex);
@@ -30,16 +31,15 @@ $(function () {
  * @param {Number} n 
  */
 function showTab(n) {
-    let tab = $(".tab");
-
-    tab[n].style.display = "block";
+    // Hide tab
+    tabs[n].style.display = "block";
 
     if (n == 0) {
         $("#prevBtn").css("display", "none");
     } else {
         $("#prevBtn").css("display", "inline");
     }
-    if (n == (tab.length - 1)) {
+    if (n == (tabs.length - 1)) {
         if (readonly) $("#nextBtn").css("display", "none");
         $("#nextBtn").html('<span class="btn-inner--text">' + translations.submit + '</span><span class="btn-inner--icon"><i class="fas fa-save"></i></span>');
     } else {
@@ -54,13 +54,11 @@ function showTab(n) {
  * @param {Number} n 1 for next group, -1 for previous group
  */
 function nextPrev(n) {
-    let tab = $(".tab");
-
     // Set tab style
-    tab[currentTabIndex].style.display = "none";
+    tabs[currentTabIndex].style.display = "none";
     currentTabIndex += n;
 
-    if (currentTabIndex >= tab.length) {
+    if (currentTabIndex >= tabs.length) {
         $("#form").submit();
         return false;
     }

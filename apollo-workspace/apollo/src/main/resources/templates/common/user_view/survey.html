@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
-	layout:decorate="~{auth/layout/frame_public}">
+	layout:decorate="~{common/layout/frame_public}">
 
 <body>
 	<div layout:fragment="page-content">
+		<script th:inline="javascript">
+			var readonly = [[${ readonly }]];
+			var groupIndex = [[${ groupIndex }]];
+			var translations = {
+				next: [[#{ common.next }]],
+				submit: [[#{ common.submit }]]
+			};
+		</script>
+		<script th:src="@{/script/user_view.js}"></script>
 		<script th:src="@{/script/survey_ajax.js}"></script>
 
 		<!-- Page title -->
