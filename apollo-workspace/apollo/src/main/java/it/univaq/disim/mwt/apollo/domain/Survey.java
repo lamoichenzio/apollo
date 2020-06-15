@@ -85,7 +85,7 @@ public class Survey {
 	 *	
 	 */
 	public void createSurveyUrl(String id){
-		this.urlId = "/answers/survey/"+id;
+		this.urlId = "/forms/survey/"+id+"/fill";
 	}
 
 	/**

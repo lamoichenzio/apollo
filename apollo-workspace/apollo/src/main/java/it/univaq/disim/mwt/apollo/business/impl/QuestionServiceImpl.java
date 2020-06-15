@@ -49,50 +49,6 @@ public class QuestionServiceImpl implements QuestionService{
 	
 	@Autowired
 	private DocumentFileService documentFileService;
-	
-	@Override
-	public List<ChoiceQuestion> findAllChoiceQuestions() throws BusinessException {
-		return choiceQuestionRepository.findAll();
-	}
-
-	@Override
-	public List<InputQuestion> findAllInputQuestions() throws BusinessException {
-		return inputQuestionRepository.findAll();
-	}
-
-	@Override
-	public List<MatrixQuestion> findAllMatrixQuestions() throws BusinessException {
-		return matrixQuestionRepository.findAll();
-	}
-
-	@Override
-	public List<SelectionQuestion> findAllSelectionQuestions() throws BusinessException {
-		return selectQuestionRepository.findAll();
-	}
-
-	@Override
-	public ResponseGrid<ChoiceQuestion> findAllChoiceQuestionsPaginated(RequestGrid request) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResponseGrid<InputQuestion> findAllInputQuestionsPaginated(RequestGrid request) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResponseGrid<MatrixQuestion> findAllMatrixQuestionsPaginated(RequestGrid request) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ResponseGrid<SelectionQuestion> findAllSelectionQuestionsPaginated(RequestGrid request) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	@Transactional(readOnly = true)

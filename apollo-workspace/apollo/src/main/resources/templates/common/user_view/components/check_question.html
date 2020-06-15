@@ -4,7 +4,7 @@
 		<!-- MULTI CHOICE QUESTION -->
 		<div class="row"
 			th:each="checkAnswer, stat : *{choiceQuestionMultiAnswers}"
-			th:if="${checkAnswer.question == question}">
+			th:if="${checkAnswer.question.id == question.id}">
 
 			<!-- Related Question -->
 			<input type="hidden"

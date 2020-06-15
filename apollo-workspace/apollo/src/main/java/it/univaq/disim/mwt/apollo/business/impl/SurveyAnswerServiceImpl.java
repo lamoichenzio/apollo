@@ -2,6 +2,7 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.util.List;
 
+import it.univaq.disim.mwt.apollo.business.ConversionUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Example;
