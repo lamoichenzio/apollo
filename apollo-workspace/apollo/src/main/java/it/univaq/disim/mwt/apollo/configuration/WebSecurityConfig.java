@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.authorizeRequests()
 			// Specificare le url che sono soggette ad autenticazione ed autorizzazione
 			.antMatchers("/surveys/**", "/answers/**", "/user/update/**", "/forms/survey/findbysurveypaginated", "/forms/survey/**/answer/**").authenticated()
-			.antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create").permitAll();
+			.antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**").permitAll();
 
 	}
 }

@@ -1,41 +1,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="modal fade" id="modal-delete-survey" tabindex="-1" role="dialog" aria-hidden="true"
-     th:fragment="accountDelete">
+<div class="modal fade" id="modal-delete-user" tabindex="-1" role="dialog" aria-hidden="true"
+     th:fragment="modal">
 
-    <div class="modal-dialog modal-dialog-centered modal" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
 
             <div class="modal-header">
                 <div class="modal-title align-items-center">
                     <!-- MODAL TITLE -->
-                    <h6 class="mb-0" th:text="#{survey.delete}"></h6>
+                    <h6 class="mb-0" th:text="#{user.delete}"></h6>
                 </div>
             </div>
-
-            <form id="survey_delete_form" th:action="@{/surveys/delete}"
-                  class="form-horizontal" th:object="${survey_id}" method="post">
-
-                <input type="hidden" name="survey_id" th:value="${survey_id}" />
-
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <span class="form-control-label" th:text="#{survey.deletemessage}"></span>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="form-control-label" th:utext="#{user.deletemessage}"></span>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="password" th:utext="#{common.inputpassword}"></label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                            <span class="error-message" id="pass_error" th:text="#{password.error}"></span>
                         </div>
                     </div>
+                </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
-                            th:text="#{common.cancel}"></button>
-                    <button type="submit" class="btn btn-sm btn-primary rounded-pill"
-                            th:text="#{common.confirm}"></button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+                        th:text="#{common.cancel}"></button>
+                <button type="button" class="btn btn-sm btn-danger rounded-pill"
+                        th:text="#{common.confirm}" th:onclick="submit('[(${#request.getRequestURI()})]','[(@{/logout})]')"></button>
+            </div>
 
             </form>
         </div>
     </div>
+    <script>
+        $("#pass_error").hide();
+    </script>
 </div>
 
 </body>

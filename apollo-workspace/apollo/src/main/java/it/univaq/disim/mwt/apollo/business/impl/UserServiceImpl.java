@@ -3,6 +3,8 @@ package it.univaq.disim.mwt.apollo.business.impl;
 import java.io.IOException;
 import java.util.Base64;
 
+import it.univaq.disim.mwt.apollo.business.exceptions.WrongPasswordException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +21,7 @@ import it.univaq.disim.mwt.apollo.domain.User;
 
 @Service
 @Transactional(rollbackFor = DoubleEntryException.class)
+@Slf4j
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -63,9 +66,20 @@ public class UserServiceImpl implements UserService {
 			}
 			userRepository.save(user);
 		}
-		catch(DataAccessException e) {
+		catch(DataAccessException | IOException e) {
 			throw new BusinessException(e);
-		} catch (IOException e) {
+		}
+	}
+
+	@Override
+	public void deleteUser(User user, String password) throws BusinessException {
+		if(!encoder.matches(password, user.getPassword())){
+			log.info("true");
+			throw new WrongPasswordException("wrong password");
+		}
+		try{
+			userRepository.delete(user);
+		}catch (DataAccessException e){
 			throw new BusinessException(e);
 		}
 	}

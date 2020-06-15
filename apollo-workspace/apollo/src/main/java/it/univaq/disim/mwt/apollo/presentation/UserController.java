@@ -2,9 +2,13 @@ package it.univaq.disim.mwt.apollo.presentation;
 
 import javax.validation.Valid;
 
+import it.univaq.disim.mwt.apollo.business.exceptions.WrongPasswordException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
+import it.univaq.disim.mwt.apollo.presentation.model.ResponseBodyGeneric;
+import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -93,5 +97,29 @@ public class UserController {
 		service.updateUser(user, file);
 		model.addAttribute("ok","ok");
 		return "/common/user/form";
+	}
+
+	@GetMapping("/delete")
+	public String deleteStart() {
+		return "/common/user/delete_modal :: modal";
+	}
+
+	@PostMapping("/delete")
+	@ResponseBody
+	public ResponseEntity<ResponseBodyGeneric> delete(@RequestBody String password) throws BusinessException{
+		log.info("call delete");
+		User loggedUser = Utility.getUser();
+		ResponseBodyGeneric response = new ResponseBodyGeneric();
+		try{
+			service.deleteUser(service.findById(loggedUser.getId()), password);
+			response.setStatus(ResponseStatus.OK);
+			return ResponseEntity.ok(response);
+		} catch(WrongPasswordException e){
+			response.setStatus(ResponseStatus.ERROR);
+			response.setMsg("wrong password");
+			return ResponseEntity
+					.badRequest()
+					.body(response);
+		}
 	}
 }

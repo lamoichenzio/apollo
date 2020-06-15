@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AnswerResponseBody extends ResponseBody {
+public class AnswerResponseBody extends ResponseBodyGeneric {
 //    private List<ChoiceQuestionMultiAnswer> choiceQuestionMultiAnswers;
 //    private List<ChoiceQuestionSingleAnswer> choiceQuestionSingleAnswers;
 //    private List<InputQuestionAnswer> inputQuestionAnswers;
@@ -22,7 +22,7 @@ public class AnswerResponseBody extends ResponseBody {
     private AnswerType type;
     
     @Setter(AccessLevel.NONE)
-    private List<AnswerBody> values = new ArrayList<AnswerBody>();
+    private List<AnswerBody> values = new ArrayList<>();
 
 	public void addAnswerBody(AnswerBody answerBody) {
 		values.add(answerBody);
