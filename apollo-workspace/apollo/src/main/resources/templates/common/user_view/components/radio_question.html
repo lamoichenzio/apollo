@@ -2,7 +2,7 @@
 <body>
 	<div th:fragment="question">
 		<div th:each="radioAnswer, stat : *{choiceQuestionSingleAnswers}"
-			th:if="${radioAnswer.question == question}" class="row">
+			th:if="${radioAnswer.question.id == question.id}" class="row">
 			
 			<!-- Related question -->
 			<input type="hidden" th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].question}">

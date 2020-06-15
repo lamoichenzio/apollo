@@ -3,7 +3,7 @@
 	<div th:fragment="question">
 		<div class="row"
 			th:each="matrixAnswer, stat : *{singleChoiceMatrixAnswers}"
-			th:if="${matrixAnswer.question == question}">
+			th:if="${matrixAnswer.question.id == question.id}">
 
 			<!-- Related Question -->
 			<input type="hidden"

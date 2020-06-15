@@ -2,7 +2,7 @@
 <body>
 	<div th:fragment="question">
 		<div th:each="selectAnswer, stat : *{selectionQuestionAnswers}"
-			th:if="${selectAnswer.question == question}" class="row">
+			th:if="${selectAnswer.question.id == question.id}" class="row">
 
 			<!-- Related question -->
 			<input type="hidden"
