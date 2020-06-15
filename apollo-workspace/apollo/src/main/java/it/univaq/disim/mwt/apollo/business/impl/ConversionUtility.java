@@ -35,6 +35,7 @@ public class ConversionUtility {
 		surveyAnswer.setSurvey(survey);
 		for (QuestionGroup questionGroup : survey.getQuestionGroups()) {
 			for (Question question : questionGroup.getQuestions()) {
+
 				if (question instanceof InputQuestion) {
 					InputQuestionAnswer answer = new InputQuestionAnswer();
 					answer.setQuestion((InputQuestion) question);
