@@ -19,6 +19,7 @@
 				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}"
 				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
 				th:disabled="${readonly}"></textarea>
+			
 		</div>
 	</div>
 </body>
