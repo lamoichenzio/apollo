@@ -1,153 +1,151 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
-	layout:decorate="~{common/layout/frame_public}">
+      layout:decorate="~{common/layout/frame_public}">
 
 <body>
-	<div layout:fragment="page-content">
-		<script th:src="@{/script/survey_ajax.js}"></script>
-		<script th:inline="javascript">
-			$(function () {
-				// Tooltip inizialize
-				$('[data-toggle="tooltip"]').tooltip();
-			});
-			var translations = {
-				publish: [[#{ common.publish }]],
-				deactivate: [[#{ common.disable }]],
-				yes: [[#{ common.yes }]]
-			};
+<div layout:fragment="page-content">
+    <script th:src="@{/script/survey_ajax.js}"></script>
+    <script th:inline="javascript">
+        $(function () {
+            // Tooltip inizialize
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        var translations = {
+            publish: [[#{ common.publish }]],
+            deactivate: [[#{ common.disable }]],
+            yes: [[#{ common.yes }]]
+        };
 
-		</script>
-		<div class="col-md-12">
-			<div id="modal_holder"></div>
-		</div>
+    </script>
 
-		<!-- Page title -->
-		<div class="page-title">
-			<div class="row justify-content-between align-items-center">
-				<div class="col-md-8 d-flex align-items-center justify-content-between justify-content-md-start mb-3">
-					<!-- Page title + Go Back button -->
-					<div class="d-inline-block p-1 mr-2">
-						<a href="#" th:href="@{/surveys/dashboard}"
-							class="link d-inline-block font-weight-400 mb-0 text-white">
-							<i class="fas fa-arrow-left"></i>
-						</a>
-					</div>
-					<div class="d-inline-block p-1">
-						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[${survey.name}]]</h5>
-					</div>
-				</div>
-			</div>
-		</div>
+    <div class="col-md-12">
+        <div id="modal_holder"></div>
+    </div>
 
-		<!-- Listing -->
-		<div class="card">
-			<!-- Card header -->
-			<div class="card-header actions-toolbar">
-				<div class="row justify-content-between">
+    <!-- Page title -->
+    <div class="page-title">
+        <div class="row justify-content-between align-items-center">
+            <div class="col-md-8 d-flex align-items-center justify-content-between justify-content-md-start mb-3">
+                <!-- Page title + Go Back button -->
+                <div class="d-inline-block p-1 mr-2">
+                    <a href="#" th:href="@{/surveys/dashboard}"
+                       class="link d-inline-block font-weight-400 mb-0 text-white"><i
+                            class="fas fa-arrow-left"></i></a>
+                </div>
+                <div class="d-inline-block p-1">
+                    <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[${survey.name}]]</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 
-					<!-- Info -->
-					<div class="col-6 text-left">
-						<div class="row align-items-center my-2">
-							<div class="col-4">
-								<span class="text-left form-control-label">[[#{survey.secret}]]:</span>
-								<span id="survey_secret" th:if="${survey.secret}"
-									class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
-								<span id="survey_secret" th:if="${!survey.secret}"
-									class="text-right badge badge-danger badge-pill mx-2">No</span>
-							</div>
-							<div class="col-4">
-								<small>[[#{survey.startDate}]]</small>
-								<div class="h6 mb-0">
-									<span th:text="${#temporals.format(survey.startDate)}" th:if="${survey.startDate != null}"></span>
-									<span th:text="#{not.provided}" th:if="${survey.startDate == null}"></span>
-								</div>
-							</div>
+    <!-- Listing -->
+    <div class="card">
+        <!-- Card header -->
+        <div class="card-header actions-toolbar">
+            <div class="row justify-content-between">
 
-						</div>
+                <!-- Info -->
+                <div class="col-6 text-left">
+                    <div class="row align-items-center my-2">
+                        <div class="col-4">
+                            <span class="text-left form-control-label">[[#{survey.secret}]]:</span>
+                            <span id="survey_secret" th:if="${survey.secret}"
+                                  class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                            <span id="survey_secret" th:if="${!survey.secret}"
+                                  class="text-right badge badge-danger badge-pill mx-2">No</span>
+                        </div>
+                        <div class="col-4">
+                            <small>[[#{survey.startDate}]]</small>
+                            <div class="h6 mb-0">
+                                <span th:text="${#temporals.format(survey.startDate)}"
+                                      th:if="${survey.startDate != null}"></span>
+                                <span th:text="#{not.provided}" th:if="${survey.startDate == null}"></span>
+                            </div>
+                        </div>
 
-						<div class="row align-items-center my-2">
-							<div class="col-4">
-								<span class="text-left form-control-label">[[#{common.published}]]:</span>
-								<span id="survey_active" th:if="${survey.active}"
-									class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
-								<span id="survey_active" th:if="${!survey.active}"
-									class="text-right badge badge-danger badge-pill mx-2">No</span>
-							</div>
-							<div class="col-4">
-								<small>[[#{survey.endDate}]]</small>
-								<div class="h6 mb-0">
-									<span th:text="${#temporals.format(survey.endDate)}" th:if="${survey.endDate != null}"></span>
-									<span th:text="#{not.provided}" th:if="${survey.endDate == null}"></span>
-								</div>
-							</div>
-						</div>
+                    </div>
 
-					</div>
+                    <div class="row align-items-center my-2">
+                        <div class="col-4">
+                            <span class="text-left form-control-label">[[#{common.published}]]:</span>
+                            <span id="survey_active" th:if="${survey.active}"
+                                  class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                            <span id="survey_active" th:if="${!survey.active}"
+                                  class="text-right badge badge-danger badge-pill mx-2">No</span>
+                        </div>
+                        <div class="col-4">
+                            <small>[[#{survey.endDate}]]</small>
+                            <div class="h6 mb-0">
+                                <span th:text="${#temporals.format(survey.endDate)}"
+                                      th:if="${survey.endDate != null}"></span>
+                                <span th:text="#{not.provided}" th:if="${survey.endDate == null}"></span>
+                            </div>
+                        </div>
+                    </div>
 
-					<!-- Settings -->
-					<div class="col-4 text-right">
-						<div class="actions">
-							<a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip"
-								th:title="#{common.edit}" data-target="#actions-update"
-								th:onclick="getSurveyRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">
-								<i class="far fa-edit"></i>
-							</a>
-							<a href="#" class="action-item mr-3" data-action="publish-open" data-toggle="tooltip"
-								th:title="#{common.publish}" data-target="#actions-publish"
-								th:onclick="getSurveyRequest([[@{/surveys/publish}]], '#modal-publish-survey', [[${survey.id}]])">
-								<i class="fas fa-share-square"></i>
-							</a>
-							<a href="#" class="action-item mr-3" data-action="delete-open" data-toggle="tooltip"
-								th:title="#{common.delete}" data-target="#actions-deletem"
-								th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">
-								<i class="far fa-trash text-danger"></i>
-							</a>
-						</div>
-					</div>
+                </div>
 
-					<!-- Description-->
-					<div class="col-12">
-						<div class="row align-items-center my-2 px-1">
-							<p id="survey_desc" type="text" class="text-lg my2-1 p-1" th:text="${survey.description}">
-							</p>
-						</div>
-					</div>
+                <!-- Settings -->
+                <div class="col-4 text-right">
+                    <div class="actions">
+                        <a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip"
+                           th:title="#{common.edit}" data-target="#actions-update"
+                           th:onclick="getSurveyRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">
+                            <i class="far fa-edit"></i>
+                        </a>
+                        <a href="#" class="action-item mr-3" data-action="publish-open" data-toggle="tooltip"
+                           th:title="#{common.publish}" data-target="#actions-publish"
+                           th:onclick="getSurveyRequest([[@{/surveys/publish}]], '#modal-publish-survey', [[${survey.id}]])">
+                            <i class="fas fa-share-square"></i>
+                        </a>
+                        <a href="#" class="action-item mr-3" data-action="delete-open" data-toggle="tooltip"
+                           th:title="#{common.delete}" data-target="#actions-deletem"
+                           th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">
+                            <i class="far fa-trash text-danger"></i>
+                        </a>
+                    </div>
+                </div>
 
-				</div>
-			</div>
+                <!-- Description-->
+                <div class="col-12">
+                    <div class="row align-items-center my-2 px-1">
+                        <p id="survey_desc" type="text" class="text-lg my2-1 p-1" th:text="${survey.description}">
+                        </p>
+                    </div>
+                </div>
 
-			<div th:if="${param.error != null}" class="row justify-content-between align-items-center">
-				<div class="col m-4" th:text="#{apollo.questionerror}">Error</div>
-			</div>
+            </div>
+        </div>
 
-			<!-- GROUPS CONTAINER -->
-			<div th:each="questiongroup : *{survey.questionGroups}">
-				<div
-					th:replace="~{common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})}">
-				</div>
-			</div>
+        <div th:if="${param.error != null}" class="row justify-content-between align-items-center">
+            <div class="col m-4" th:text="#{apollo.questionerror}">Error</div>
+        </div>
 
-			<!-- ADD GROUP BUTTON -->
-			<div class="card-body my-4">
-				<div class="row justify-content-center">
-					<div class="col-auto d-flex align-items-center">
+        <!-- GROUPS CONTAINER -->
+        <div th:each="questiongroup : *{survey.questionGroups}">
+            <div
+                    th:replace="~{common/surveys/components/question_group/question_group_container.html :: group(groupInfo=${questiongroup})}">
+            </div>
+        </div>
 
-						<button id="create_group" type="button" class="btn btn-primary btn-icon rounded-pill"
-							th:onclick="getQuestionGroupRequest([[@{/questiongroups/create}]],
+        <!-- ADD GROUP BUTTON -->
+        <div class="card-body my-4">
+            <div class="row justify-content-center">
+                <div class="col-auto d-flex align-items-center">
+
+                    <button id="create_group" type="button" class="btn btn-primary btn-icon rounded-pill"
+                            th:onclick="getQuestionGroupRequest([[@{/questiongroups/create}]],
 							'#modal-create-new-group', [[${survey.id}]])">
 							<span class="btn-inner--icon">
 								<i class="far fa-plus"></i>
 							</span>
-							<span class="btn-inner--text" th:text="#{common.addgroup}"></span>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-	</div>
-
+                        <span class="btn-inner--text" th:text="#{common.addgroup}"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 

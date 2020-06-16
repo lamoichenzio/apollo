@@ -13,21 +13,22 @@
 				<h6 class="mb-0" th:text="${stat.index +1} + '. ' + ${question.title}"></h6>
 			</div>
 			<div class="m-1" th:if="${question.file != null}">
-				<img th:src="${'data:image/png;base64,'+question.file.data}" width="100%">
+				File: [[${question.file.name}]]
 			</div>
 
 			<div class="row">
-				<div class="col-10 mx-1 px-2 py-3">
+				<div class="col-12 px-3 py-2">
 					<!-- OPTIONS -->
 					<div th:each="option, stat : ${question.options}" class="custom-control custom-radio">
-						<input type="radio" th:id="'customRadio' + ${stat.index}" name="customRadio" class="custom-control-input">
+						<input type="radio" th:id="'customRadio' + ${stat.index}" name="customRadio" class="custom-control-input" disabled>
 						<label class="custom-control-label" th:for="'customRadio'+${stat.index}" th:text="${option}"></label>
 					</div>
 
 					<!-- Other -->
-					<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
-						<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
-						<input type="text" class="form-control" id="other_choice" name="other_choice" size="45" th:placeholder="#{question.otherchoiceplaceholder}">
+					<div  class="custom-control custom-radio" th:if="${question.otherChoice}">
+						<input type="radio" th:id="@{other_choice-} + ${question.id}" name="customRadio" class="custom-control-input" disabled>
+						<label class="custom-control-label" th:for="@{other_choice-} + ${question.id}"></label>
+						<input type="text" class="form-control form-control-flush mt-n4 border-bottom custom-input-text" disabled th:id="other_choice_text" th:placeholder="#{question.otherchoiceplaceholder}">
 					</div>
 				</div>
 			</div>

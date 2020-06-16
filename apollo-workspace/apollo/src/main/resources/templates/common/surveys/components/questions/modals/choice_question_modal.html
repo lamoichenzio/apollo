@@ -43,19 +43,11 @@
 
 						</div>
 					</div>
-					
-					
+
+
 					<div class="row">
-						<!-- Other choice -->
-						<div class="col-4 my-1">
-							<div class="form-group custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" th:field="*{otherChoice}" />
-								<label class="custom-control-label form-control-label" for="otherchoice" th:text="#{question.otherChoice}"></label>
-								<span th:if="${#fields.hasErrors('otherChoice')}" th:each="err: ${#fields.errors('otherChoice')}" th:utext="${err}"></span>
-							</div>
-						</div>
 						<!-- Input file -->
-						<div class="col-8 my-1">
+						<div class="col-12 my-1">
 							<div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
 						</div>
 					</div>
@@ -64,10 +56,10 @@
 						<div class="col-12">
 							<!-- OPTIONS TEXT -->
 							<label class="form-control-label" th:text="#{question.options}"></label>
-							
+
 							<!-- OPTIONS BLOCK -->
 							<div id="options_container">
-								
+
 								<th:block th:if="${question.options != null && question.options.size() > 0}">
 									<!--  option  -->
 									<th:block th:each="option, stat : ${question.options}">
@@ -77,18 +69,30 @@
 								</th:block>
 
 							</div>
+						</div>
 
+						<div class="col-12">
+							<!-- Other choice -->
+							<div class="form-group custom-control custom-switch">
+								<input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" th:field="*{otherChoice}"/>
+								<label class="custom-control-label form-control-label" for="otherchoice" th:text="#{question.otherChoice}"></label>
+								<span th:if="${#fields.hasErrors('otherChoice')}" th:each="err: ${#fields.errors('otherChoice')}" th:utext="${err}"></span>
+							</div>
+						</div>
+
+
+						<div class="col-12">
 
 							<!-- ADD BUTTON BLOCK -->
 							<div class="row justify-content-center align-items-center">
-								<button 
-									type="button"
-									class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
-									th:onclick="addOption()">
+								<button
+										type="button"
+										class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
+										th:onclick="addOption()">
 									<span class="btn-inner--icon">
 										<i class="far fa-plus"></i>
 									</span>
-									
+
 									<!-- ADD OPTION BUTTON -->
 									<span class="btn-inner--text">[[#{common.addoption}]]</span>
 								</button>
@@ -99,10 +103,10 @@
 
 				</div>
 				<div class="modal-footer">
-					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"th:text="#{common.cancel}"></button>	
-					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>						
+					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
+					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
 				</div>
-				
+
 				<!--File validation script-->
 				<div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
 			</form>
