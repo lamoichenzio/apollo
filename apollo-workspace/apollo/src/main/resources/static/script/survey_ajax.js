@@ -79,9 +79,9 @@ function postSurveyRequest(url, param) {
             // OK for success
             if (response.status === 'OK') {
                 if (url_splitted[url_splitted.length - 1] === 'publish') {
-                    if (response.msg == "active") {
+                    if (response.msg === "active") {
                         surveyPublished(response);   
-                    } else if (response.msg == "inactive") {
+                    } else if (response.msg === "inactive") {
                         surveyUnpublished(response);
                     }                  
                 }

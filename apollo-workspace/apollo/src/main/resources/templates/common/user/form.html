@@ -6,6 +6,10 @@
 
 	<div layout:fragment="page-content">
 
+		<div class="col-md-12">
+			<div id="modal_holder"></div>
+		</div>
+
 		<!-- Page title -->
 		<div class="page-title">
 			<div class="row justify-content-between align-items-center">
@@ -46,13 +50,11 @@
 								<div class="col-lg-8">
 									<div class="media align-items-center">
 										<img alt="Image placeholder"
-											id="pic"
 											src="../../assets/img/theme/light/team-1-800x800.jpg"
 											class="avatar rounded-circle avatar-lg"
 											th:src="@{/dist/img/icons/user/user.png}"
 											th:if="*{pic == null}"> 
 											<img alt="Image placeholder"
-											id="pic"
 											src="../../assets/img/theme/light/team-1-800x800.jpg"
 											class="avatar rounded-circle avatar-lg"
 											th:src="${'data:image/jpg;base64,'+user.pic}"
@@ -163,15 +165,22 @@
 					</div>
 
 					<div class="row mt-4">
-						<div class="col-6 form-group">
-							<button type="submit" class="btn btn-primary"
-								th:text="#{common.submit}">Submit</button>
+						<div class="col-12 form-group">
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary rounded-pill"
+										th:text="#{common.submit}">Submit</button>
+
+								<button type="button"
+										class="btn btn-danger rounded-pill"
+										th:text="#{common.deleteaccount}"
+										th:onclick="displayalert('[(@{/user/delete})]')"></button>
+							</div>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
-		
+		<script th:src="@{/script/user_script.js}"></script>
 		<script th:inline="javascript">
 			$("#file-1").change(()=>{
 				let filename = $("#file-1").val();

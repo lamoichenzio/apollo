@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SurveyResponseBody extends ResponseBody {
+public class SurveyResponseBody extends ResponseBodyGeneric {
 
     private Survey result;
 
