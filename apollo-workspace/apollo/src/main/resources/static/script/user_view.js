@@ -31,7 +31,7 @@ $(function () {
  * @param {Number} n 
  */
 function showTab(n) {
-    // Hide tab
+    // Show tab
     tabs[n].style.display = "block";
 
     if (n == 0) {

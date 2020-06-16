@@ -6,32 +6,6 @@
 let questionList = [];
 let defaultSelectOption;
 
-let response_mock = {
-    question: {
-        type: 'CHOICE',
-        options: ['Opzione 1', 'Opzione 2', 'Opzione 3', 'Opzione 4'],
-        otherChoice: false
-    },
-    type: 'MULTIPLE',
-    values: [
-        {
-            answers: ['Opzione 1', 'Opzione 3']
-        },
-        {
-            answers: ['Opzione 1', 'Opzione 3']
-        },
-        {
-            answers: ['Opzione 1', 'Opzione 4']
-        },
-        {
-            answers: ['Opzione 2', 'Opzione 3']
-        },
-        {
-            answers: ['Opzione 1', 'Opzione 4']
-        }
-    ]
-};
-
 $(function () {
     defaultSelectOption = $("#default_option");
 

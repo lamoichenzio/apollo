@@ -62,7 +62,7 @@ public class Survey {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 	
-	//@Indexed(unique=true)
+	@Indexed
 	private String urlId;
 	
 	@OneToMany
@@ -72,6 +72,9 @@ public class Survey {
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Set<QuestionGroup> questionGroups = new HashSet<>();
+	
+	@OneToMany
+	private InvitationPool invitationPool;
 	
 	public void addQuestionGroup(QuestionGroup questionGroup) {
 		questionGroup.setSurvey(this);
