@@ -192,11 +192,19 @@ function openQuestionModal(url, type, modal_id, request_param) {
         cache: false,
         timeout: 600000,
         success: function (response) {
+
+            console.log("PIPPO");
+
+            console.log(modal_id);
+
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
 
             // Check Choice Question type
             if (type && (type === CHECK || type === RADIO || type === SELECT)) {
+
+                console.log("type is " + type);
+
                 let instance = $("#instance").val();
                 setChoiceQuestionAttr(instance);
             }

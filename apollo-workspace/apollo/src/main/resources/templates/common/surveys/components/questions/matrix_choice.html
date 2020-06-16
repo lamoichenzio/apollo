@@ -9,7 +9,7 @@
             <div class="m-1">
                 <h6 class="mb-0" th:text="${stat.index +1} + '. ' + ${question.title}"></h6>
             </div>
-            <div class="row align-items-center mx-0 justify-content-center">
+            <div class="row align-items-center mx-0 mt-1 justify-content-center">
 
                 <div class="col-auto" th:if="${question.file != null}">
                     <div class="question-image">
@@ -70,8 +70,8 @@
                 <div class="dropdown-menu dropdown-menu-right">
 
                     <a href="#"
-                       th:onclick="openQuestionModal([[@{/questions/matrixquestion/update}]], [[${T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}]], '#modal-matrix-question', [[${question.id}]])"
-                       class="dropdown-item">Edit</a>
+                       th:onclick="openQuestionModal([[@{/questions/matrixquestion/update}]], [[${question.type}]], '#modal-matrix-question', [[${question.id}]])"
+                       class="dropdown-item" data-toggle="modal">Edit</a>
 
                     <a href="#"
                        th:onClick="openQuestionModal([[@{/questions/matrixquestion/delete}]], null,'#modal-delete-question', [[${question.id}]])"

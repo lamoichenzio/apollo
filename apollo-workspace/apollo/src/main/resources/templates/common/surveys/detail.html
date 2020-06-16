@@ -46,16 +46,10 @@
             <div class="row justify-content-between">
 
                 <!-- Info -->
-                <div class="col-6 text-left">
-                    <div class="row align-items-center my-2">
-                        <div class="col-4">
-                            <span class="text-left form-control-label">[[#{survey.secret}]]:</span>
-                            <span id="survey_secret" th:if="${survey.secret}"
-                                  class="text-right badge badge-success badge-pill mx-2">Yes</span>
-                            <span id="survey_secret" th:if="${!survey.secret}"
-                                  class="text-right badge badge-danger badge-pill mx-2">No</span>
-                        </div>
-                        <div class="col-4">
+                <div class="col-auto text-left">
+                    <div class="row align-items-center">
+
+                        <div class="col-auto align-items-center">
                             <small>[[#{survey.startDate}]]</small>
                             <div class="h6 mb-0">
                                 <span th:text="${#temporals.format(survey.startDate)}"
@@ -64,17 +58,8 @@
                             </div>
                         </div>
 
-                    </div>
 
-                    <div class="row align-items-center my-2">
-                        <div class="col-4">
-                            <span class="text-left form-control-label">[[#{common.published}]]:</span>
-                            <span id="survey_active" th:if="${survey.active}"
-                                  class="text-right badge badge-success badge-pill mx-2">Yes</span>
-                            <span id="survey_active" th:if="${!survey.active}"
-                                  class="text-right badge badge-danger badge-pill mx-2">No</span>
-                        </div>
-                        <div class="col-4">
+                        <div class="col-auto align-items-center">
                             <small>[[#{survey.endDate}]]</small>
                             <div class="h6 mb-0">
                                 <span th:text="${#temporals.format(survey.endDate)}"
@@ -82,13 +67,32 @@
                                 <span th:text="#{not.provided}" th:if="${survey.endDate == null}"></span>
                             </div>
                         </div>
+
+
                     </div>
 
                 </div>
 
                 <!-- Settings -->
-                <div class="col-4 text-right">
+                <div class="col-auto text-right my-auto">
+
                     <div class="actions">
+
+                        <a class="align-items-center">
+                            <span class="text-left form-control-label">[[#{survey.secret}]]:</span>
+                            <span id="survey_secret" th:if="${survey.secret}"
+                                  class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                            <span id="survey_secret" th:if="${!survey.secret}"
+                                  class="text-right badge badge-danger badge-pill mx-2">No</span>
+                        </a>
+
+                        <a class="align-items-center ml-3 mr-3">
+                            <span class="text-left form-control-label">[[#{common.published}]]:</span>
+                            <span id="survey_active" th:if="${survey.active}"
+                                  class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                            <span id="survey_active" th:if="${!survey.active}"
+                                  class="text-right badge badge-danger badge-pill mx-2">No</span>
+                        </a>
                         <a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip"
                            th:title="#{common.edit}" data-target="#actions-update"
                            th:onclick="getSurveyRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">
@@ -107,13 +111,16 @@
                     </div>
                 </div>
 
+
+            </div>
+
+            <div class="row mt-3">
                 <!-- Description-->
-                <div class="col-12">
-                    <div class="row align-items-center my-2 px-1">
-                        <p id="survey_desc" type="text" class="text-lg my2-1 p-1" th:text="${survey.description}">
-                        </p>
-                    </div>
+                <div class="col-auto">
+                        <span id="survey_desc" type="text" class="text-lg" th:text="${survey.description}">
+                        </span>
                 </div>
+
 
             </div>
         </div>

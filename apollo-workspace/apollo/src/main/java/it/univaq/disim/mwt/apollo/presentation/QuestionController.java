@@ -262,7 +262,7 @@ public class QuestionController {
     public String updateStartMatrix(@RequestParam String id, Model model) throws BusinessException {
         MatrixQuestion question = questionService.findMatrixQuestionById(id);
         model.addAttribute("question", question);
-        return "/common/surveys/components/questions/modals/matrix_question_modal :: modal-matrix-question";
+        return "/common/surveys/components/questions/modals/matrix_question_modal :: modal_matrix_question";
     }
 
     @PostMapping("/matrixquestion/update")
