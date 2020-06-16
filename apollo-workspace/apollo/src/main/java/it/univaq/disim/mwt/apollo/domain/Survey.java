@@ -46,14 +46,13 @@ public class Survey {
 	private String name;
 	
 	private String description;
-	
+
 	private DocumentFile icon;
 	
 	private boolean secret;
 	private boolean active;
 	
 	@CreatedDate
-//	@DateTimeFormat(iso=ISO.DATE)
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd@HH:mm:ss")
 	private LocalDateTime creationDate;
 	

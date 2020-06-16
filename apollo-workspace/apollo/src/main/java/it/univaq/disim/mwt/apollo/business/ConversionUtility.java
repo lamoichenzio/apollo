@@ -1,5 +1,6 @@
 package it.univaq.disim.mwt.apollo.business;
 
+import it.univaq.disim.mwt.apollo.domain.DocumentFile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -21,6 +22,11 @@ import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 public class ConversionUtility {
 	
@@ -80,5 +86,12 @@ public class ConversionUtility {
 			}
 		}
 		return surveyAnswer;
+	}
+
+	public static DocumentFile multipartFile2DocumentFile(MultipartFile file) throws IOException {
+		DocumentFile icon = new DocumentFile();
+		icon.setName(file.getOriginalFilename());
+		icon.setData(new String(Base64.getEncoder().encode(file.getBytes()), StandardCharsets.UTF_8));
+		return icon;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import it.univaq.disim.mwt.apollo.business.ConversionUtility;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,24 +96,11 @@ public class QuestionServiceImpl implements QuestionService{
 		try {
 			question.setCreationDate(new Date());
 			if(file != null && !file.isEmpty()) {
-				DocumentFile documentFile = new DocumentFile();
-				documentFile.setName(file.getOriginalFilename());
-				documentFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
 				documentFileService.create(documentFile);
 				question.setFile(documentFile);
 			}
-			if(question instanceof InputQuestion) {
-				inputQuestionRepository.save((InputQuestion)question);
-			}
-			if(question instanceof ChoiceQuestion) {
-				choiceQuestionRepository.save((ChoiceQuestion)question);
-			}
-			if(question instanceof SelectionQuestion) {
-				selectQuestionRepository.save((SelectionQuestion)question);
-			}
-			if(question instanceof MatrixQuestion) {
-				matrixQuestionRepository.save((MatrixQuestion)question);
-			}
+			saveQuestion(question);
 		}catch(IOException | DataAccessException e) {
 			throw new BusinessException(e);
 		}
@@ -123,27 +111,14 @@ public class QuestionServiceImpl implements QuestionService{
 		try {
 			question.setCreationDate(new Date());
 			if(file != null && !file.isEmpty()) {
-				DocumentFile documentFile = new DocumentFile();
-				documentFile.setName(file.getOriginalFilename());
-				documentFile.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
 				documentFileService.create(documentFile);
 				if(question.getFile() != null){
 					documentFileService.delete(question.getFile());
 				}
 				question.setFile(documentFile);
 			}
-			if(question instanceof InputQuestion) {
-				inputQuestionRepository.save((InputQuestion)question);
-			}
-			if(question instanceof ChoiceQuestion) {
-				choiceQuestionRepository.save((ChoiceQuestion)question);
-			}
-			if(question instanceof SelectionQuestion) {
-				selectQuestionRepository.save((SelectionQuestion)question);
-			}
-			if(question instanceof MatrixQuestion) {
-				matrixQuestionRepository.save((MatrixQuestion)question);
-			}
+			saveQuestion(question);
 		}catch(DataAccessException | IOException e) {
 			throw new BusinessException(e);
 		}
@@ -186,6 +161,20 @@ public class QuestionServiceImpl implements QuestionService{
 		}
 	}
 
-	
+
+	private void saveQuestion(Question question) {
+		if(question instanceof InputQuestion) {
+			inputQuestionRepository.save((InputQuestion)question);
+		}
+		if(question instanceof ChoiceQuestion) {
+			choiceQuestionRepository.save((ChoiceQuestion)question);
+		}
+		if(question instanceof SelectionQuestion) {
+			selectQuestionRepository.save((SelectionQuestion)question);
+		}
+		if(question instanceof MatrixQuestion) {
+			matrixQuestionRepository.save((MatrixQuestion)question);
+		}
+	}
 
 }

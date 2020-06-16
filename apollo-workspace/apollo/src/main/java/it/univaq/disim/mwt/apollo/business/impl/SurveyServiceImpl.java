@@ -2,6 +2,7 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 
 import it.univaq.disim.mwt.apollo.business.ConversionUtility;
@@ -123,9 +124,7 @@ public class SurveyServiceImpl implements SurveyService {
 				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
 					throw new BusinessException("File format not valid: "+ file.getContentType());
 				}
-				DocumentFile icon = new DocumentFile();
-				icon.setName(file.getOriginalFilename());
-				icon.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				DocumentFile icon = ConversionUtility.multipartFile2DocumentFile(file);
 				documentFileService.create(icon);
 				survey.setIcon(icon);
 			}
@@ -144,9 +143,7 @@ public class SurveyServiceImpl implements SurveyService {
 				if(!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
 					throw new BusinessException("File format not valid: "+ file.getContentType());
 				}
-				DocumentFile icon = new DocumentFile();
-				icon.setName(file.getOriginalFilename());
-				icon.setData(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+				DocumentFile icon = ConversionUtility.multipartFile2DocumentFile(file);
 				if(survey.getIcon() != null){
 					// Delete old icon
 					documentFileService.delete(survey.getIcon());
