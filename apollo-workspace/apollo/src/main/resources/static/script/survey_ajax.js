@@ -203,8 +203,6 @@ function openQuestionModal(url, type, modal_id, request_param) {
             // Check Choice Question type
             if (type && (type === CHECK || type === RADIO || type === SELECT)) {
 
-                console.log("type is " + type);
-
                 let instance = $("#instance").val();
                 setChoiceQuestionAttr(instance);
             }
@@ -223,12 +221,11 @@ function postQuestion(){
 function setChoiceQuestionAttr(instance) {
     optionList = optionList.length > 0 ? [] : optionList;
     setChoiceOptions();
-    
+
     if (instance && instance === MATRIX) {
         optionValues = optionValues.length > 0 ? [] : optionValues;
         setOptionValues();
     }
-
 }
 
 function setChoiceOptions() {
@@ -240,6 +237,7 @@ function setChoiceOptions() {
 function setOptionValues() {
     $("#option_values_container").children().each( function() {
         optionValues.push($(this));
+        console.log("Values " . optionValues);
     });
 }
 
@@ -332,6 +330,7 @@ function addOptionValue() {
  * @param {Number} index 
  */
 function deleteOptionValue(event, index) {
+    console.log(optionValues);
     event.preventDefault();
 
     if (optionValues.length === 1) {

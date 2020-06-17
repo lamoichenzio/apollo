@@ -26,31 +26,31 @@
                 <div class="col-12 px-3 py-2">
 
                     <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}" class="row">
-                        <div class="icon icon-sm text-dark col-auto mt-1">
-                            <i class="fas fa-font"></i>
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_text.svg}">
                         </div>
-                        <span class="col-auto ml-2 my-auto">Simple Text input</span>
+                        <span class="col-auto my-auto">Simple Text input</span>
                     </div>
 
                     <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}" class="row">
-                        <div class="icon icon-sm text-dark col-auto mt-1">
-                            <i class="fas fa-font"></i>
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_textarea.svg}">
                         </div>
-                        <span class="col-auto ml-2 my-auto">Text Area input</span>
+                        <span class="col-auto my-auto">Text Area input</span>
                     </div>
 
                     <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}" class="row">
-                        <div class="icon icon-sm text-dark col-auto mt-1">
-                            <i class="fas fa-calendar-alt"></i>
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_date.svg}">
                         </div>
-                        <span class="col-auto ml-2 my-auto">Date input</span>
+                        <span class="col-auto my-auto">Date input</span>
                     </div>
 
                     <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).NUMBER}" class="row">
-                        <div class="icon icon-sm text-dark col-auto mt-1">
-                            <i class="fas fa-tally"></i>
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_number.svg}">
                         </div>
-                        <span class="col-auto ml-2 my-auto">Number input</span>
+                        <span class="col-auto my-auto">Number input</span>
                     </div>
 
 

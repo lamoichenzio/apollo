@@ -82,6 +82,12 @@
     text-align: center;
 }
 
+.input-question-icon{
+
+    width: 5rem !important;
+
+}
+
 .question-image{
 
     width: 80px;
