@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import it.univaq.disim.mwt.apollo.business.ConversionUtility;
+import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
-import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.ConversionUtility;
+import it.univaq.disim.mwt.apollo.domain.InvitationPool;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,9 @@ public class SurveyAnswerController {
 	@Autowired
 	private SurveyService surveyService;
 	
+	@Autowired
+	private InvitationPoolService invitationPoolService;
+	
 
 	@GetMapping("/{id}/fill")
 	public String createStart(@PathVariable("id") String id, Model model) throws BusinessException {
@@ -45,15 +49,17 @@ public class SurveyAnswerController {
 		if(!survey.isActive()) {
 			return "common/common_pages/survey_not_active";
 		}
-		if(survey.isSecret()) { 
-			//TODO gestire logica sondaggio privato
-			return "common/common_pages/survey_private";
-		}
 		
 		SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
-		
+
 		model.addAttribute("surveyanswer", surveyAnswer);
 		model.addAttribute("survey", survey);
+		
+		if(survey.isSecret()) { 
+			//TODO aprire la stessa pagina ma con la modale per le credenziali già attiva
+			return "common/user_view/survey :: survey_private";
+		}
+		
 		return "common/user_view/survey";
 	}
 
@@ -64,6 +70,20 @@ public class SurveyAnswerController {
 		}
 		surveyAnswerService.createSurveyAnswer(surveyAnswer);
 		return "common/common_pages/survey_submitted";
+	}
+
+	@GetMapping("/{id}/fill/identityverification")
+	@ResponseBody
+	public Boolean identityVerification(@PathVariable("id") String id, @RequestParam String password, @RequestParam String email, Errors errors) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		InvitationPool invitationPool = invitationPoolService.findInvitationPoolBySurvey(survey);
+		
+		if (invitationPool.getPassword().equals(password) && invitationPool.getEmails().stream().filter(mail -> mail.equals(email)).findAny().orElse(null) != null) {
+			// Autenticato, chiusura della modale 
+			return true;
+		}
+		// non autenticato, mostrare l'errore nella view
+		return false;
 	}
 	
 	@GetMapping("/{surveyid}/answer/{id}")
