@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/user_view/layout/frame_public}">
+<body>
+<div layout:fragment="page-content" class="card">
+    <div id="modal_holder"></div>
+    <div class="card-body p-5">
+        <h4 th:text="#{survey.issecret}" class="card-title"></h4>
+        <div class="row justify-content-between">
+            <div class="col-12">
+                <div class="row align-items-center my-2 px-1">
+                    <p th:utext="#{survey.issecret.desc}"></p>
+                </div>
+                <button type="button" class="btn btn-primary rounded-pill" th:text="#{common.access}"
+                        th:onclick="openLoginModal('[(@{/forms/survey/validate})]','[(${survey.id})]','#modal_login')"></button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

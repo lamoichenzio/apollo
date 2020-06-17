@@ -2,6 +2,7 @@ package it.univaq.disim.mwt.apollo.presentation;
 
 import javax.validation.Valid;
 
+import it.univaq.disim.mwt.apollo.presentation.model.PrivateSurveyCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,80 +33,83 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SurveyAnswerController {
 
-	@Autowired
-	private SurveyAnswerService surveyAnswerService;
-	
-	@Autowired
-	private SurveyService surveyService;
-	
-	@Autowired
-	private InvitationPoolService invitationPoolService;
-	
+    @Autowired
+    private SurveyAnswerService surveyAnswerService;
 
-	@GetMapping("/{id}/fill")
-	public String createStart(@PathVariable("id") String id, Model model) throws BusinessException {
-		Survey survey = surveyService.findSurveyById(id);
-		
-		if(!survey.isActive()) {
-			return "common/common_pages/survey_not_active";
-		}
-		
-		SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
+    @Autowired
+    private SurveyService surveyService;
 
-		model.addAttribute("surveyanswer", surveyAnswer);
-		model.addAttribute("survey", survey);
-		
-		if(survey.isSecret()) { 
-			//TODO aprire la stessa pagina ma con la modale per le credenziali già attiva
-			return "common/user_view/survey :: survey_private";
-		}
-		
-		return "common/user_view/survey";
-	}
+    @Autowired
+    private InvitationPoolService invitationPoolService;
 
-	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("surveyanswer") SurveyAnswer surveyAnswer, Errors errors) throws BusinessException {
-		if(errors.hasErrors()) {
-			log.info(errors.toString());
-		}
-		surveyAnswerService.createSurveyAnswer(surveyAnswer);
-		return "common/common_pages/survey_submitted";
-	}
 
-	@GetMapping("/{id}/fill/identityverification")
-	@ResponseBody
-	public Boolean identityVerification(@PathVariable("id") String id, @RequestParam String password, @RequestParam String email, Errors errors) throws BusinessException {
-		Survey survey = surveyService.findSurveyById(id);
-		InvitationPool invitationPool = invitationPoolService.findInvitationPoolBySurvey(survey);
-		
-		if (invitationPool.getPassword().equals(password) && invitationPool.getEmails().stream().filter(mail -> mail.equals(email)).findAny().orElse(null) != null) {
-			// Autenticato, chiusura della modale 
-			return true;
-		}
-		// non autenticato, mostrare l'errore nella view
-		return false;
-	}
-	
-	@GetMapping("/{surveyid}/answer/{id}")
-	public String createView(@PathVariable("id") String id, @PathVariable("surveyid") String surveyId, @RequestParam int group, Model model) throws BusinessException {
-		SurveyAnswer surveyAnswer = surveyAnswerService.findSurveyAnswerById(id);
+    @GetMapping("/{id}/fill")
+    public String createStart(@PathVariable("id") String id, Model model) throws BusinessException {
+        Survey survey = surveyService.findSurveyById(id);
+        model.addAttribute("survey", survey);
+        if (!survey.isActive()) {
+            return "common/user_view/common_pages/survey_not_active";
+        }
+        if (survey.isSecret()) {
+            return "common/user_view/common_pages/survey_private";
+        }
+        SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
+        model.addAttribute("surveyanswer", surveyAnswer);
+        return "common/user_view/survey";
+    }
 
-		log.info(surveyAnswer.toString());
-		
-		model.addAttribute("surveyanswer", surveyAnswer);
-		model.addAttribute("readonly", true);
-		model.addAttribute("groupIndex", group);
-		
-		return "common/user_view/survey";
-	}
-		 
-	@PostMapping("/findbysurveypaginated")
-	@ResponseBody
-	public ResponseGrid<SurveyAnswer> findAllPaginated(@RequestBody RequestGrid requestGrid, @RequestParam String id) throws BusinessException {
-		Survey survey = surveyService.findSurveyById(id);
-		ResponseGrid<SurveyAnswer> response = surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
+    @PostMapping("/create")
+    public String create(@Valid @ModelAttribute("surveyanswer") SurveyAnswer surveyAnswer, Errors errors) throws BusinessException {
+        if (errors.hasErrors()) {
+            log.info(errors.toString());
+        }
+        surveyAnswerService.createSurveyAnswer(surveyAnswer);
+        return "common/user_view/common_pages/survey_submitted";
+    }
 
-		return response;
-	}
-	
+//    @GetMapping("/{id}/fill/verification")
+//    @ResponseBody
+//    public Boolean identityVerification(@PathVariable("id") String id,
+//                                        @RequestParam String password, @RequestParam String email, Errors errors) throws BusinessException {
+//        Survey survey = surveyService.findSurveyById(id);
+//        InvitationPool invitationPool = invitationPoolService.findInvitationPoolBySurvey(survey);
+//
+//        if (invitationPool.getPassword().equals(password) && invitationPool.getEmails().stream().filter(mail -> mail.equals(email)).findAny().orElse(null) != null) {
+//            // Autenticato, chiusura della modale
+//            return true;
+//        }
+//        // non autenticato, mostrare l'errore nella view
+//        return false;
+//    }
+
+    @GetMapping("/validate")
+    public String validation(@RequestParam("id") String id, Model model) throws BusinessException {
+        Survey survey = surveyService.findSurveyById(id);
+        PrivateSurveyCredentials credentials = new PrivateSurveyCredentials();
+        credentials.setSurvey(survey);
+        model.addAttribute("credentials", credentials);
+        return "common/user_view/components/modals/login_modal :: loginForm";
+    }
+
+    @GetMapping("/{surveyid}/answer/{id}")
+    public String createView(@PathVariable("id") String id, @PathVariable("surveyid") String surveyId, @RequestParam int group, Model model) throws BusinessException {
+        SurveyAnswer surveyAnswer = surveyAnswerService.findSurveyAnswerById(id);
+
+        log.info(surveyAnswer.toString());
+
+        model.addAttribute("surveyanswer", surveyAnswer);
+        model.addAttribute("readonly", true);
+        model.addAttribute("groupIndex", group);
+
+        return "common/user_view/survey";
+    }
+
+    @PostMapping("/findbysurveypaginated")
+    @ResponseBody
+    public ResponseGrid<SurveyAnswer> findAllPaginated(@RequestBody RequestGrid requestGrid, @RequestParam String id) throws BusinessException {
+        Survey survey = surveyService.findSurveyById(id);
+        ResponseGrid<SurveyAnswer> response = surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
+        return response;
+    }
+
 }

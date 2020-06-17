@@ -160,13 +160,7 @@ public class SurveyController {
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail?id=" + survey.getId() + "&erro=true";
 		}
-
-		if (iconfile == null) {
-			surveyService.updateSurvey(survey, null);
-		} else {
-			surveyService.updateSurvey(survey, iconfile);
-		}
-
+		surveyService.updateSurvey(survey, iconfile);
 		return "redirect:/surveys/detail?id=" + survey.getId();
 	}
 
