@@ -84,19 +84,19 @@
 
 .question-image{
 
-    width: 200px;
-    height: 200px;
+    width: 80px;
+    height: 80px;
     position: relative;
     overflow: hidden;
-    border-radius: 50%;
+    border-radius: 10%;
 
 }
 
 .question-image img{
     object-fit: cover;
-    border-radius: 50%;
-    height: 200px;
-    width: 200px;
+    border-radius: 10%;
+    height: 80px;
+    width: 80px;
 }
 
 .no-border {
@@ -133,7 +133,7 @@
 }
 
 .custom-input-text {
-    padding-left: 2pt;
+    padding-left: 10pt;
     height: auto;
     padding: 0 ! important;
 }
