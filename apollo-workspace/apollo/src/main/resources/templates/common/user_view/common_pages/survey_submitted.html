@@ -1,14 +1,14 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/layout/frame_public}">
+	layout:decorate="~{common/user_view/layout/frame_public}">
 <body>
 	<div layout:fragment="page-content" class="card">
 		<div class="card-body p-5">
-			<h4 th:text="#{survey.notactive}" class="card-title"></h4>
+			<h4 th:text="#{common.thankyou}" class="card-title"></h4>
 			<div class="row justify-content-between">
 				<div class="col-12">
 					<div class="row align-items-center my-2 px-1">
-						<p th:utext="#{survey.notactive.descr}"></p>
+						<p th:utext="#{survey.submitted}"></p>
 					</div>
 				</div>
 			</div>

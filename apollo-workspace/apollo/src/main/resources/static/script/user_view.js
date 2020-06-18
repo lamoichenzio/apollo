@@ -79,3 +79,22 @@ function fixStepIndicator(n) {
     //... and adds the "active" class to the current step:
     step[n].className += " active";
 }
+
+function openLoginModal(url, survey, modal_id){
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {id: survey},
+        dataType: 'html',
+        contentType: 'text/html; charset=UTF-8',
+        cache: false,
+        timeout: 600000,
+        success: function (response) {
+            $("#modal_holder").html(response);
+            $(modal_id).modal("show");
+        },
+        error: function (e) {
+            console.log('ERROR', e);
+        }
+    })
+}
