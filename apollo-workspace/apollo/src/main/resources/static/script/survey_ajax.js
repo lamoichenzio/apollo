@@ -345,6 +345,18 @@ function deleteOptionValue(event, index) {
     }
 }
 
+
+/**
+ * Delete Image from question.
+ * @param {Event} event
+ * @param {Number} index
+ */
+function deleteImage(event) {
+    event.preventDefault();
+    $("#file_input").val(null);
+    $("#update_case").hide();
+}
+
 /**
  * Get request body by url.
  * @param {String} url 
