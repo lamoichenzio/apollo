@@ -23,19 +23,22 @@
     </div>
 
     <!-- Page title -->
-    <div class="page-title">
+    <div class="page-title my-4">
         <div class="row justify-content-between align-items-center">
-            <div class="col-md-8 d-flex align-items-center justify-content-between justify-content-md-start mb-3">
                 <!-- Page title + Go Back button -->
-                <div class="d-inline-block p-1 mr-2">
-                    <a href="#" th:href="@{/surveys/dashboard}"
-                       class="link d-inline-block font-weight-400 mb-0 text-white"><i
-                            class="fas fa-arrow-left"></i></a>
+                <div class="d-inline-block p-1 pl-2">
+
+                    <div class="row">
+
+                        <a href="#" th:href="@{/surveys/dashboard}"
+                           class="link font-weight-400 col-1 my-auto text-white">
+                            <i class="fas fa-arrow-left"></i></a>
+
+                        <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">[[${survey.name}]]</h4>
+
+                    </div>
                 </div>
-                <div class="d-inline-block p-1">
-                    <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[${survey.name}]]</h5>
-                </div>
-            </div>
+
         </div>
     </div>
 
@@ -103,7 +106,7 @@
                            th:onclick="getSurveyRequest([[@{/surveys/publish}]], '#modal-publish-survey', [[${survey.id}]])">
                             <i class="fas fa-share-square"></i>
                         </a>
-                        <a href="#" class="action-item mr-3" data-action="delete-open" data-toggle="tooltip"
+                        <a href="#" class="action-item" data-action="delete-open" data-toggle="tooltip"
                            th:title="#{common.delete}" data-target="#actions-deletem"
                            th:onclick="getSurveyRequest([[@{/surveys/delete}]], '#modal-delete-survey', [[${survey.id}]])">
                             <i class="far fa-trash text-danger"></i>
@@ -137,7 +140,7 @@
         </div>
 
         <!-- ADD GROUP BUTTON -->
-        <div class="card-body my-4">
+        <div class="card-body  mb-4 mt-2">
             <div class="row justify-content-center">
                 <div class="col-auto d-flex align-items-center">
 

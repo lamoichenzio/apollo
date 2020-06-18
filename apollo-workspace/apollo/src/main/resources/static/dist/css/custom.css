@@ -28,6 +28,27 @@
 	
 }
 
+.logo{
+    width: 7.4rem;
+}
+
+.locale-image{
+
+    width: 38px;
+    height: 38px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 100%;
+
+}
+
+.locale-image img{
+    object-fit: cover;
+    border-radius: 100%;
+    height: 38px;
+    width: 38px;
+}
+
 /*.input-file-container {*/
 /*	margin: 10pt 0pt;*/
 /*}*/
@@ -101,6 +122,22 @@
 .question-image img{
     object-fit: cover;
     border-radius: 10%;
+    height: 80px;
+    width: 80px;
+}
+
+.profile-image{
+    width: 80px;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 100%;
+
+}
+
+.profile-image img{
+    object-fit: cover;
+    border-radius: 100%;
     height: 80px;
     width: 80px;
 }

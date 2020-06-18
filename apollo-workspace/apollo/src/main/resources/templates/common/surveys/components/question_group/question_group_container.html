@@ -1,16 +1,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="card-body pb-0" th:fragment="group" title="group-container">
+<div class="card-body pb-0 pt-3 mb-3" th:fragment="group" title="group-container">
 
 	<!-- GROUP CONTAINER -->
-	<div class="row">
-		<div class="col-10">
-			<h5 class="mb-1 p-1">[[${groupInfo.title}]]</h5>
-			<h6 class="text-muted mb-3 p-1">[[${groupInfo.description}]]</h6>
+	<div class="row mb-2">
+		<div class="col-11">
+			<h5>[[${groupInfo.title}]]</h5>
+			<h6 class="text-muted">[[${groupInfo.description}]]</h6>
 		</div>
 
-		<div class="col-2">
-			<div class="text-right px-1">
+		<div class="col-1 my-auto">
+			<div class="text-right">
 				<div class="dropdown" data-toggle="dropdown">
 					<a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true"
 						aria-expanded="false">
