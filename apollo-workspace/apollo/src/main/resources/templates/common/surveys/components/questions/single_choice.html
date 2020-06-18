@@ -5,36 +5,43 @@
 
 	<div class="row align-items-center mx-0 justify-content-center">
 
-		<div class="col-1"></div>
-
-		<div class="col-8 card border shadow-none p-3">
+		<div class="col-11 card border shadow-none p-3">
 			<!-- TITLE -->
 			<div class="m-1">
 				<h6 class="mb-0" th:text="${stat.index +1} + '. ' + ${question.title}"></h6>
 			</div>
-			<div class="m-1" th:if="${question.file != null}">
-				<img th:src="${'data:image/png;base64,'+question.file.data}" width="100%">
+			<div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+				<div class="col-auto" th:if="${question.file != null}">
+					<div class="question-image">
+
+						<img class="rounded" th:src="${'data:image/png;base64,'+question.file.data}">
+
+					</div>
+				</div>
+
 			</div>
 
 			<div class="row">
-				<div class="col-10 mx-1 px-2 py-3">
+				<div class="col-12 px-3 py-2">
 					<!-- OPTIONS -->
 					<div th:each="option, stat : ${question.options}" class="custom-control custom-radio">
-						<input type="radio" th:id="'customRadio' + ${stat.index}" name="customRadio" class="custom-control-input">
+						<input type="radio" th:id="'customRadio' + ${stat.index}" name="customRadio" class="custom-control-input" disabled>
 						<label class="custom-control-label" th:for="'customRadio'+${stat.index}" th:text="${option}"></label>
 					</div>
 
 					<!-- Other -->
-					<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
-						<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
-						<input type="text" class="form-control" id="other_choice" name="other_choice" size="45" th:placeholder="#{question.otherchoiceplaceholder}">
+					<div  class="custom-control custom-radio" th:if="${question.otherChoice}">
+						<input type="radio" th:id="@{other_choice-} + ${question.id}" name="customRadio" class="custom-control-input" disabled>
+						<label class="custom-control-label" th:for="@{other_choice-} + ${question.id}"><div class="border-bottom custom-input-text" >[[#{question.otherchoiceplaceholder}]]</div></label>
+
 					</div>
 				</div>
 			</div>
 
 		</div>
 
-		<div class="col-1 card border-0 shadow-none bg-gray-100">
+		<div class="col-auto card border-0 shadow-none bg-gray-100">
 			<div class="dropdown" data-toggle="dropdown">
 				<a href="#" class="action-item" role="button" data-toggle="dropdown"
 				   aria-haspopup="true" aria-expanded="false"> <i

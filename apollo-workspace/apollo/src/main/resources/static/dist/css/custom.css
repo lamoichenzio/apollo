@@ -28,8 +28,33 @@
 	
 }
 
+.logo{
+    width: 7.4rem;
+}
+
+.locale-image{
+
+    width: 38px;
+    height: 38px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 100%;
+
+}
+
+.locale-image img{
+    object-fit: cover;
+    border-radius: 100%;
+    height: 38px;
+    width: 38px;
+}
+
+/*.input-file-container {*/
+/*	margin: 10pt 0pt;*/
+/*}*/
+
 .input-file-container {
-	margin: 10pt 0pt;
+    margin: 0pt 0pt;
 }
 
 .error-message {
@@ -72,4 +97,86 @@
 
 .step.finish {
   background-color: #4CAF50;
+}
+
+.matrix-options-label{
+    text-align: center;
+}
+
+.input-question-icon{
+
+    width: 5rem !important;
+
+}
+
+.question-image{
+
+    width: 80px;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10%;
+
+}
+
+.question-image img{
+    object-fit: cover;
+    border-radius: 10%;
+    height: 80px;
+    width: 80px;
+}
+
+.profile-image{
+    width: 80px;
+    height: 80px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 100%;
+
+}
+
+.profile-image img{
+    object-fit: cover;
+    border-radius: 100%;
+    height: 80px;
+    width: 80px;
+}
+
+.no-border {
+    border: 0 !important;
+    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}
+
+.borer-bottom-1 {
+    border-bottom: 1pt;
+}
+
+.force-padding-10 {
+    padding: 10pt !important;
+}
+
+.force-padding-8 {
+    padding: 8pt !important;
+}
+
+.force-padding-6 {
+    padding: 6pt !important;
+}
+
+.force-padding-4 {
+    padding: 4pt !important;
+}
+
+.force-padding-2 {
+    padding: 2pt !important;
+}
+
+.force-padding-0 {
+    padding: 0pt !important;
+}
+
+.custom-input-text {
+    padding-left: 10pt;
+    height: auto;
+    padding: 0 ! important;
 }

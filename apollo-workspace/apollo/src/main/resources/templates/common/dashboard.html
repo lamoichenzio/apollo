@@ -1,165 +1,158 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
-	layout:decorate="~{common/layout/frame_public}">
+      layout:decorate="~{common/layout/frame_public}">
 
 <body>
-	<div layout:fragment="page-content">
-		<script th:src="@{/script/survey_ajax.js}"></script>
+<div layout:fragment="page-content">
+    <script th:src="@{/script/survey_ajax.js}"></script>
 
-		<div class="col-12">
-			<div id="modal_holder"></div>
-		</div>
+    <div class="col-12">
+        <div id="modal_holder"></div>
+    </div>
 
-		<!-- Page title -->
-		<div class="page-title">
-			<div class="row justify-content-between align-items-center">
-				<div
-					class="col-md-4 d-flex align-items-center justify-content-between justify-content-md-start mb-3 mb-md-0">
-					<!-- Page title + Go Back button -->
-					<div class="d-inline-block">
-						<h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[#{common.surveys}]]</h5>
-					</div>
-					<!-- Additional info -->
-					<!-- <div class="align-items-center ml-4 d-inline-flex">
-						<span class="h4 text-info mb-0 mr-2">9</span> <span class="text-sm opacity-7 text-white">Running
-							projects</span>
-					</div> -->
-					<!-- Optional link -->
-					<!-- <a href="card-listing.html" class="text-sm text-info d-none d-lg-inline-block ml-4">See
-						cards</a> -->
-				</div>
+    <!-- Page title -->
+    <div class="page-title my-4">
 
-				<div class="col-md-4 d-flex align-items-center justify-content-between justify-content-md-end">
-					<a id="create_survey" href="#"
-						th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)"
-						class="btn btn-sm btn-white btn-icon-only rounded-circle ml-4 mr-4">
+
+
+        <div class="row justify-content-between align-items-center">
+            <div class="col-8 d-flex">
+                <!-- Page title + Go Back button -->
+                <div class="d-inline-block">
+                    <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[#{common.surveys}]]</h5>
+                </div>
+            </div>
+
+            <div class="col-auto d-flex justify-content-md-end">
+                <a id="create_survey" href="#"
+                   th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)"
+                   class="btn btn-sm btn-white btn-icon-only rounded-circle ml-4 mr-4">
 						<span class="btn-inner--icon">
 							<i class="far fa-plus"></i>
 						</span>
-					</a>
-					<ul class="nav justify-content-center justify-content-md-end mr-4" style="background-color: white; border-radius: 5px;">
-						<li class="nav-item dropdown">
-						<a class="nav-link"
-							href="#" 
-							role="button" 
-							data-toggle="dropdown" 
-							aria-haspopup="true"
-							aria-expanded="false"> 
-							<img 
-								alt="Image placeholder" 
-								src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'" 
-								th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
-							<span th:text="${#locale.language}=='en' ? #{common.en} : #{common.it} " class="h6 text-sm mb-0"></span>
+                </a>
+                <ul class="nav justify-content-center justify-content-md-end">
+                    <li class="nav-item dropdown">
+                        <a class="locale-image"
+                           href="#"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            <img alt="Image placeholder"
+                                 src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
+                                 th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
 
-						</a>
-						<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-							<a href="#" 
-								th:href="@{?lang=en}"
-								class="dropdown-item"><img
-								alt="Image placeholder" 
-								src="./dist/img/icons/flags/en.svg"
-								th:src="@{/dist/img/icons/flags/en.svg}"	
-								class="mr-2">[[#{common.english}]]</a> 
-							<a href="#" 
-								th:href="@{?lang=it}"
-								class="dropdown-item"><img
-								alt="Image placeholder" 
-								src="./dist/img/icons/flags/it.svg"
-								th:src="@{/dist/img/icons/flags/it.svg}"
-								class="mr-2">[[#{common.italian}]]</a>
-						</div></li>
-					</ul>
-				</div>
-				
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                            <a href="#"
+                               th:href="@{?lang=en}"
+                               class="dropdown-item"><img
+                                    alt="Image placeholder"
+                                    src="./dist/img/icons/flags/en.svg"
+                                    th:src="@{/dist/img/icons/flags/en.svg}"
+                                    class="mr-2">[[#{common.english}]]</a>
+                            <a href="#"
+                               th:href="@{?lang=it}"
+                               class="dropdown-item"><img
+                                    alt="Image placeholder"
+                                    src="./dist/img/icons/flags/it.svg"
+                                    th:src="@{/dist/img/icons/flags/it.svg}"
+                                    class="mr-2">[[#{common.italian}]]</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
 
-			</div>
-		</div>
-		<!-- Listing -->
-		<div class="card">
 
-			<!-- Table -->
+        </div>
+    </div>
+    <!-- Listing -->
+    <div class="card">
 
-			<div class="table-responsive">
-				<table class="table" id="survey_table" width="100%" cellspacing="0">
-					<thead>
-						<tr>
-							<th th:text="#{survey.icon}">Icon</th>
-							<th th:text="#{survey.name}">Name</th>
-							<th th:text="#{survey.status}">Status</th>
-							<th th:text="#{survey.secret}">Private</th>
-							<th th:text="#{survey.creationDate}">Creation Date</th>
-							<th th:text="#{common.action}">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
-			</div>
-		</div>
+        <!-- Table -->
 
-		<script th:inline="javascript">
-			$(document).ready(function () {
-				$('#survey_table').DataTable({
-					"columns": [{
-							"data": "icon",
-							"render": function (data, type, row, meta) {
-								if (row.icon) {
-									return '<img class="avatar  rounded-circle" src="data:image/;base64,' +
-										row.icon.data + '"/>';
-								}
-								return '<img class="avatar  rounded-circle" src="/apollo/dist/img/theme/light/brand-avatar-3.png"/>';
-							}
-						},
-						{
-							"data": "name",
-							"render": function (data, type, row, meta) {
-								return '<a href="[(@{/surveys/overview})]/' + row.id + '" class="name mb-0 h6 text-md">' + row.name + '</a>';
-							}
-						},
-						{
-							"data": "active",
-							"render": function (data, type, row, meta) {
-								return '<span class="badge badge-dot mr-4"><i class="' + (row.active ?'bg-success' : 'bg-danger') + '"></i><span class="status">' + (row.active ? [[#{common.active}]] : [[#{common.inactive}]]) +
-									'</span></span>';
-							}
-						},
-						{
-							"data": "secret",
-							"render": function (data, type, row, meta) {
-								return '<span class="badge badge-dot mr-4"><i class="' + (row.secret ?
-									'bg-success' : 'bg-danger') + '"></i><span class="status">' + (
-									row.secret ? 'Yes' : 'No') + '</span></span>';
-							}
-						},
-						{
-							"data": "creationDate",
-							"render": function (data, type, row, meta) {
-								let creationDate = new Date(row.creationDate);
-								return '<span>' + creationDate.getDate() + '/' + (creationDate
-								.getMonth() + 1) + '/' + creationDate.getFullYear() + '</span>';
-							}
-						},
-						{
-							"data": "action",
-							"searchable": false,
-							"sortable": false,
-							"defaultContent": "",
-							"render": function (data, type, row, meta) {
-								return '<a href="[(@{/surveys/detail})]?id=' + row.id +
-									'" data-toggle="tooltip" title="Detail"><i class="far fa-clipboard"></i></a>' +
-									'  |  ' +
-									'<a href="#" data-toggle="tooltip" title="Delete" onclick="getSurveyRequest(\'\/apollo\/surveys\/delete\', \'#modal-delete-survey\', \'' +
-									row.id + '\')"><i class="fas fa-trash"></a>';
-							}
-						}
-					],
-					"ajax": {
-						"url": "[(@{/surveys/findallpaginated})]"
-					},
-				});
-			});
-		</script>
-	</div>
+        <div class="table-responsive">
+            <table class="table" id="survey_table" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th th:text="#{survey.icon}">Icon</th>
+                    <th th:text="#{survey.name}">Name</th>
+                    <th th:text="#{survey.status}">Status</th>
+                    <th th:text="#{survey.secret}">Private</th>
+                    <th th:text="#{survey.creationDate}">Creation Date</th>
+                    <th th:text="#{common.action}">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $('#survey_table').DataTable({
+                "columns": [{
+                    "data": "icon",
+                    "render": function (data, type, row, meta) {
+                        if (row.icon) {
+                            return '<img class="avatar  rounded-circle" src="data:image/;base64,' +
+                                row.icon.data.data + '"/>';
+                        }
+                        return '<img class="avatar  rounded-circle" src="/apollo/dist/img/theme/light/brand-avatar-3.png"/>';
+                    }
+                },
+                    {
+                        "data": "name",
+                        "render": function (data, type, row, meta) {
+                            return '<a href="[(@{/surveys/overview})]/' + row.id + '" class="name mb-0 h6 text-md">' + row.name + '</a>';
+                        }
+                    },
+                    {
+                        "data": "active",
+                        "render": function (data, type, row, meta) {
+                            return '<span class="badge badge-dot mr-4"><i class="' + (row.active ? 'bg-success' : 'bg-danger') + '"></i><span class="status">' + (row.active ? [[#{common.active}]] : [[#{common.inactive}]]) +
+                                '</span></span>';
+                        }
+                    },
+                    {
+                        "data": "secret",
+                        "render": function (data, type, row, meta) {
+                            return '<span class="badge badge-dot mr-4"><i class="' + (row.secret ?
+                                'bg-success' : 'bg-danger') + '"></i><span class="status">' + (
+                                row.secret ? 'Yes' : 'No') + '</span></span>';
+                        }
+                    },
+                    {
+                        "data": "creationDate",
+                        "render": function (data, type, row, meta) {
+                            let creationDate = new Date(row.creationDate);
+                            return '<span>' + creationDate.getDate() + '/' + (creationDate
+                                .getMonth() + 1) + '/' + creationDate.getFullYear() + '</span>';
+                        }
+                    },
+                    {
+                        "data": "action",
+                        "searchable": false,
+                        "sortable": false,
+                        "defaultContent": "",
+                        "render": function (data, type, row, meta) {
+                            return '<a href="[(@{/surveys/detail})]?id=' + row.id +
+                                '" data-toggle="tooltip" title="Detail"><i class="far fa-clipboard"></i></a>' +
+                                '  |  ' +
+                                '<a href="#" data-toggle="tooltip" title="Delete" onclick="getSurveyRequest(\'\/apollo\/surveys\/delete\', \'#modal-delete-survey\', \'' +
+                                row.id + '\')"><i class="fas fa-trash"></a>';
+                        }
+                    }
+                ],
+                "ajax": {
+                    "url": "[(@{/surveys/findallpaginated})]"
+                },
+            });
+        });
+    </script>
+</div>
 </body>
 
 </html>

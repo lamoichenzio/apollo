@@ -1,38 +1,75 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<div class="input-file-container" th:fragment="inputfile">
-		<div id="accordion-1" class="accordion accordion-stacked">
-			<div class="card">
-				<div class="card-header p-2" id="heading-1-1" data-toggle="collapse" role="button"
-					data-target="#collapse-1-1" aria-expanded="false" aria-controls="collapse-1-1">
-					<div class="mb-0 form-control-label">
-						<i class="far fa-cog mr-3"></i>
-						[[#{question.advanced}]]
-					</div>
-				</div>
-				<div id="collapse-1-1" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion-1">
-					<div class="card-body p-2">
-						<!--Creation fase-->
-						<div class="form-control-label">
-							<label for="questionfile" th:text="#{file.label}"></label>
-							<input type="file" id="questionfile" name="questionfile" accept="image/*"/>
-							<span id="file_error" class="text-danger text-sm hidden"></span>
-						</div>
-						<!--Update fase-->
-						<div class="form-control-label" th:if="${question.id != null}">
-							<div th:if="${question.file != null}">
-								<input type="hidden" th:field="*{file}" />
-								<small>
-									File: [[*{file.name}]]
-								</small>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="input-file-container" th:fragment="inputfile">
+
+    <div id="accordion-file" class="accordion accordion-spaced">
+
+        <div class="card border shadow-none">
+            <div class="card-header shadow-none no-border force-padding-10 bg-primary text-white" id="heading-1-3"
+                 data-toggle="collapse" role="button" data-target="#collapse-file-input" aria-expanded="false"
+                 aria-controls="collapse-file-input">
+                <div class="mb-0 form-control-label text-white">
+                    <i class="far fa-cog mr-3"></i>
+                    [[#{question.advanced}]]
+                </div>
+            </div>
+            <div id="collapse-file-input" class="collapse" aria-labelledby="heading-1-3" data-parent="#accordion-file">
+                <div class="card-body shadow-none">
+
+                    <!--Creation case-->
+                    <div class="form-control-label">
+                        <input type="file" id="questionfile" name="questionfile" class="custom-input-file"
+                               th:value="${questionfile}" accept="image/*"/>
+                        <label for="questionfile"><i class="fa fa-upload"></i><span id="questionfile_label"
+                                                                                    th:text="#{file.label}"></span>
+                        </label>
+                        <span id="file_error" class="text-danger text-sm hidden"></span>
+                    </div>
+
+                    <!--Update case-->
+                    <div id="update_case" class="form-control-label mt-3" th:if="${question.id != null}">
+                        <div th:if="${question.file != null}">
+                            <input id="file_input" type="hidden" th:field="*{file}"/>
+                            <div class="row">
+
+                                <small class="col-11 my-auto">
+                                    <b>File:</b> [[*{file.name}]]
+                                </small>
+
+                                <div class="col-1 my-auto">
+
+                                    <a href="#" th:onclick="deleteImage(event)">
+                                        <i class="far fa-trash text-danger"></i>
+                                    </a>
+<!--                                    <a data-toggle="tooltip" th:title="#{common.delete}" data-target="#actions-deletem"-->
+<!--                                       th:id="'delete_image_' + ${question.id}" th:onclick="deleteImage()">-->
+<!--                                        <i class="far fa-trash text-danger"></i>-->
+<!--                                    </a>-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+
+        $(document).ready(function () {
+            document.getElementById('questionfile').onchange = function () {
+                var filename = this.files[0].name;
+                var label = document.getElementById('questionfile_label');
+                label.innerText = filename;
+                console.log('Selected file: ' + filename);
+            };
+        });
+    </script>
+</div>
+
+
 </body>
 
 </html>

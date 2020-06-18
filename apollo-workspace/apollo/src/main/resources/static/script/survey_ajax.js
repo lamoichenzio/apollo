@@ -192,11 +192,17 @@ function openQuestionModal(url, type, modal_id, request_param) {
         cache: false,
         timeout: 600000,
         success: function (response) {
+
+            console.log("PIPPO");
+
+            console.log(modal_id);
+
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
 
             // Check Choice Question type
             if (type && (type === CHECK || type === RADIO || type === SELECT)) {
+
                 let instance = $("#instance").val();
                 setChoiceQuestionAttr(instance);
             }
@@ -215,12 +221,11 @@ function postQuestion(){
 function setChoiceQuestionAttr(instance) {
     optionList = optionList.length > 0 ? [] : optionList;
     setChoiceOptions();
-    
+
     if (instance && instance === MATRIX) {
         optionValues = optionValues.length > 0 ? [] : optionValues;
         setOptionValues();
     }
-
 }
 
 function setChoiceOptions() {
@@ -232,6 +237,7 @@ function setChoiceOptions() {
 function setOptionValues() {
     $("#option_values_container").children().each( function() {
         optionValues.push($(this));
+        console.log("Values " . optionValues);
     });
 }
 
@@ -324,6 +330,7 @@ function addOptionValue() {
  * @param {Number} index 
  */
 function deleteOptionValue(event, index) {
+    console.log(optionValues);
     event.preventDefault();
 
     if (optionValues.length === 1) {
@@ -336,6 +343,18 @@ function deleteOptionValue(event, index) {
         optionValues.splice(index, 1);
         adjustOptionValues();
     }
+}
+
+
+/**
+ * Delete Image from question.
+ * @param {Event} event
+ * @param {Number} index
+ */
+function deleteImage(event) {
+    event.preventDefault();
+    $("#file_input").val(null);
+    $("#update_case").hide();
 }
 
 /**
