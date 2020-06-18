@@ -1,0 +1,76 @@
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+    layout:decorate="~{common/layout/frame_public}">
+
+<body>
+    <div class="modal fade" id="modal-invitation-pool-survey" tabindex="-1" role="dialog" aria-hidden="true"
+        th:fragment="surveyInvitationPool">
+        <script th:src="@{/script/tags_input.js}"></script>
+
+        <div class="modal-dialog modal-dialog-centered modal" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <div class="modal-title align-items-center">
+                        <!-- MODAL TITLE -->
+                        <h6 class="mb-0">Invita utenti a rispondere</h6>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body">
+
+                    <div class="row mt-3">
+                        <div class="col">
+
+                                <label class="form-control-label mb-3">Emails</label>
+                                <div class="bootstrap-tagsinput"> 
+                                    <input id="tagsinput" type="text" placeholder="Type emails here separated by comma..." size="48">
+
+                                    <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
+                                        <th:block th:if="${survey.invitationPool != null }">
+                                            <span th:each="email : ${survey.invitationPool.emails}" class="tag badge badge-primary">
+                                                [[${email}]]
+                                                <span data-role="remove"></span>
+                                            </span>
+                                        </th:block>
+                                    </div>
+
+                                </div>
+                                <input id="email_data" type="text" class="form-control"
+                                    value="" data-toggle="tags" placeholder="Type here..."
+                                    style="display: none;">
+            
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8 my-1">
+                            <div id="result_container">
+                                <div id="result_message"
+                                    class="text-left justify-content-between text-xs text-muted mt-2">
+                                    <span id="invalid_mail_msg" class="font-weight-bold text-danger hidden">Uno o più indirizzi email non validi.</span>
+                                    <span id="error_message" class="font-weight-bold text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer">
+                    <button id="cancel" type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+                        th:text="#{common.cancel}"></button>
+                    <button id="publish_submit" type="submit" name="#{common.submit}" translate="yes"
+                        class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}" th:disabled="${survey.active}"
+                        th:onclick="postSurveyRequest([[@{/surveys/invitationpool}]], [[${survey}]])">
+                    </button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

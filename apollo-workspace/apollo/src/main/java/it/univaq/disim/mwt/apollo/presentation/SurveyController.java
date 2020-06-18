@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.UserService;
@@ -26,8 +27,10 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
+import it.univaq.disim.mwt.apollo.domain.InvitationPool;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
 import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
@@ -38,6 +41,9 @@ public class SurveyController {
 
 	@Autowired
 	private SurveyService surveyService;
+	
+	@Autowired
+	private InvitationPoolService invitationPoolService;
 	
 	@Autowired
 	private SurveyAnswerService surveyAnswerService;
@@ -114,6 +120,7 @@ public class SurveyController {
 			survey.setActive(true);
 			surveyService.updateSurvey(survey, null);
 			result.setMsg("active");
+			// TO DO: Send emails
 		}
 		
 		result.setStatus(ResponseStatus.OK);
@@ -122,6 +129,54 @@ public class SurveyController {
 		return ResponseEntity.ok(result);
 	}
 
+	@GetMapping("/invitationpool")
+	public String invitationPoolStart(@RequestParam String id, Model model) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		model.addAttribute("survey", survey);
+		Utility.generatingRandomAlphanumericString();
+		return "/common/surveys/modals/invitation_survey_modal :: surveyInvitationPool";
+	}
+	
+	@PostMapping("/invitationpool")
+	@ResponseBody
+	public ResponseEntity<SurveyResponseBody> invitationPool(@Valid @RequestBody String request, @RequestParam String id, Errors errors) throws BusinessException {
+
+		SurveyResponseBody result = new SurveyResponseBody();
+
+		// If error, just return a 400 bad request, along with the error message
+		if (errors.hasErrors()) {
+			result.setStatus(ResponseStatus.ERROR);
+			result.setMsg(
+				errors.getAllErrors().stream()
+				.map(x -> x.getDefaultMessage())
+				.collect(Collectors.joining(","))
+			);
+
+			return ResponseEntity.badRequest().body(result);
+		}
+
+		Survey survey = surveyService.findSurveyById(id);
+
+		if (survey.isActive()) {
+			result.setStatus(ResponseStatus.ERROR);
+			result.setMsg("Survey already active");
+			return ResponseEntity.ok(result);
+		} else {
+			// Create Invitation Pool
+			InvitationPool invitationPool = SurveyHelper.buildInvitationPool(request, invitationPoolService.findInvitationPoolBySurvey(survey), survey);
+			invitationPoolService.updateInvitationPool(invitationPool);
+			
+			// update survey
+			survey.setInvitationPool(invitationPool);
+			surveyService.updateSurvey(survey, null);
+			result.setMsg("Invitation Pool created.");
+		}
+		
+		result.setStatus(ResponseStatus.OK);
+		result.setResult(survey);
+		return ResponseEntity.ok(result);
+	}
+	
 	@GetMapping("/create")
 	public String createStart(Model model) {
 		Survey survey = new Survey();

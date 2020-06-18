@@ -5,6 +5,7 @@
 <body>
 	<div layout:fragment="page-content">
 		<script th:src="@{/script/survey_ajax.js}"></script>
+		<script th:src="@{/script/utility.js}"></script>
 		<script th:inline="javascript">
 			$(function () {
 				// Tooltip inizialize
@@ -87,6 +88,11 @@
 					<!-- Settings -->
 					<div class="col-4 text-right">
 						<div class="actions">
+							<a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send invitations"
+								data-target="#actions-invitation"
+								th:onclick="getSurveyRequest([[@{/surveys/invitationpool}]], '#modal-invitation-pool-survey', [[${survey.id}]])">
+								<i class="far fa-envelope"></i>
+							</a>
 							<a href="#" class="action-item mr-3" data-action="update-open" data-toggle="tooltip"
 								th:title="#{common.edit}" data-target="#actions-update"
 								th:onclick="getSurveyRequest([[@{/surveys/update}]], '#modal-create-new-survey', [[${survey.id}]])">

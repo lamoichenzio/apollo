@@ -69,3 +69,5 @@ const MATRIX_OPTION_ELEM = '<div class="row">'
     +'<span id="option_value" class="h6 mb-0"></span>'
     +'</div>'
     +'</div>';
+
+const TAG_BEDGE = '<span class="tag badge badge-primary">[email]<span data-role="remove"></span></span>';

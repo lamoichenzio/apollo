@@ -62,7 +62,7 @@ public class Survey {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 	
-	@Indexed
+//	@Indexed
 	private String urlId;
 	
 	@OneToMany

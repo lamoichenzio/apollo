@@ -15,17 +15,19 @@ import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Document(collection = "Invitations")
 @TypeAlias("Invitation")
+@ToString(exclude="survey")
 public class InvitationPool {
 
 	@Id
@@ -34,10 +36,10 @@ public class InvitationPool {
 	
 	@DBRef
 	@NotNull
+	@JsonIgnore
 	private Survey survey;
 	
 	@NotBlank
-	@Indexed(unique = true)
 	@Size(min = 8, max = 32)
 	private String password;
 	

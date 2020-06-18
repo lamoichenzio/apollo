@@ -10,10 +10,12 @@ const SELECT = 'SELECT';
 const MATRIX = 'MATRIX';
 const STANDARD = 'STANDARD';
 
-const SPINNER = '<div id="spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div>';
+const LOAD_SPINNER = '<div id="load_spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div>';
 
 var optionList = [];
 var optionValues = [];
+
+let emails = [];
 
 $(function () {
     // Tooltip inizialize
@@ -59,11 +61,19 @@ function getSurveyRequest(url, modal_id, param) {
  */
 function postSurveyRequest(url, param) {
     event.preventDefault();
+    let url_postfix = getUrlPostfix(url);
+    let request;
 
-    let url_splitted = url.split('/');
-    let request = getRequestByUrl(url, param, 'Survey', 'post');
-    
-    $("#result_container").prepend(SPINNER);
+    if (url_postfix === 'invitationpool') {
+        url += '?id=' + param.id;
+        if (sendInvitationPool()) {
+            request = emails.join(';');
+        }
+    } else {
+        request = getRequestByUrl(url, param, 'Survey', 'post');
+    }
+
+    $("#result_container").prepend(LOAD_SPINNER);
 
     $.ajax({
         type: "POST",
@@ -74,26 +84,51 @@ function postSurveyRequest(url, param) {
         cache: false,
         timeout: 10000,
         success: function (response) {
-            $("#spinner").remove();
+            $("#load_spinner").remove();
 
             // OK for success
             if (response.status === 'OK') {
-                if (url_splitted[url_splitted.length - 1] === 'publish') {
+                if (url_postfix === 'publish') {
                     if (response.msg === "active") {
                         surveyPublished(response);   
                     } else if (response.msg === "inactive") {
                         surveyUnpublished(response);
                     }                  
+                } else {
+                    $("#cancel").trigger("click");
                 }
             } else {
-                $("#modal_holder").empty();
+                $("#error_message").text(response.msg);
+                $("#error_message").show();
             }
             
         },
         error: function (e) {
+            $("#load_spinner").remove();
+            $("#error_message").text(e.responseJSON.msg); 
+            $("#error_message").show();
             console.log('ERROR', e);
         }
     });
+}
+
+/**
+ * Send emails and update survey.
+ * @param {String} url 
+ * @param {Object} param 
+ */
+function sendInvitationPool() {
+    if (emails.length > 0) {
+        let invitationPool = emails.filter(validateEmail);
+        if (invitationPool.length != emails.length) {
+            $("#invalid_mail_msg").show();
+            return false;
+        }
+        return true;
+    } else {
+        $("#invalid_mail_msg").show();
+    }
+    return false;
 }
 
 /**
@@ -103,7 +138,7 @@ function postSurveyRequest(url, param) {
 function surveyPublished(response) {
     $("#urlId").val(response.result.urlId);
     $("#success_message").show();
-    $("#disabled_message").hide();
+    $("#error_message").hide();
     $("#survey_active").removeClass("badge-danger").addClass("badge-success");
     $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
 
@@ -123,7 +158,7 @@ function surveyPublished(response) {
  */
 function surveyUnpublished(response) {
     $("#urlId").val(response.result.urlId);
-    $("#disabled_message").show();
+    $("#error_message").show();
     $("#success_message").hide();
     $("#survey_active").removeClass("badge-success").addClass("badge-danger");
     $("#survey_active").text("No");
@@ -136,6 +171,14 @@ function surveyUnpublished(response) {
     }
 }
 
+/**
+ * Regex email validator.
+ * @param {String} email 
+ */
+function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 
 /** QUESTION GROUP FUNCTIONS **/
 
@@ -345,9 +388,8 @@ function deleteOptionValue(event, index) {
  * @param {String} model 
  */
 function getRequestByUrl(url, request_param, model, method) {
-    let url_splitted = url.split('/');
-
-    switch (url_splitted[url_splitted.length - 1]) {
+    
+    switch (getUrlPostfix(url)) {
         case 'create':
             if (model === 'Survey') return {};
             if (model === 'QuestionGroup') return { survey_id : request_param };
@@ -359,10 +401,20 @@ function getRequestByUrl(url, request_param, model, method) {
         case 'publish':
             if (method === 'post') return request_param;
             if (method === 'get') return { id : request_param };
+            break;
+        case 'invitationpool':
+            if (method === 'post') return request_param;
+            if (method === 'get') return { id: request_param };
+            break;
         default:
             break;
     }
     return null;
+}
+
+function getUrlPostfix(url) {
+    let url_splitted = url.split('/');
+    return url_splitted[url_splitted.length - 1];
 }
 
 function copyToClipboard(elem) {
