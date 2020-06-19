@@ -4,7 +4,7 @@ import javax.validation.Valid;
 
 import it.univaq.disim.mwt.apollo.business.exceptions.WrongPasswordException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
-import it.univaq.disim.mwt.apollo.presentation.model.ResponseBodyGeneric;
+import it.univaq.disim.mwt.apollo.presentation.model.GenericResponseBody;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,10 +106,10 @@ public class UserController {
 
 	@PostMapping("/delete")
 	@ResponseBody
-	public ResponseEntity<ResponseBodyGeneric> delete(@RequestBody String password) throws BusinessException{
+	public ResponseEntity<GenericResponseBody> delete(@RequestBody String password) throws BusinessException{
 		log.info("call delete");
 		User loggedUser = Utility.getUser();
-		ResponseBodyGeneric response = new ResponseBodyGeneric();
+		GenericResponseBody response = new GenericResponseBody();
 		try{
 			service.deleteUser(service.findById(loggedUser.getId()), password);
 			response.setStatus(ResponseStatus.OK);

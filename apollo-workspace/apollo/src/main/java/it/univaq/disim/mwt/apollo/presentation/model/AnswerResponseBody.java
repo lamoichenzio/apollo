@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AnswerResponseBody extends ResponseBodyGeneric {
+public class AnswerResponseBody extends GenericResponseBody {
 	
     private QuestionBody question;
     private AnswerType type;
