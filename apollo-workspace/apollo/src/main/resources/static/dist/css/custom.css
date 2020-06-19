@@ -142,6 +142,23 @@
     width: 80px;
 }
 
+survey-image{
+    width: 60px;
+    height: 60px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 100%;
+
+}
+
+.survey-image img{
+    object-fit: cover;
+    border-radius: 100%;
+    height: 60px;
+    width: 60px;
+}
+
+
 .no-border {
     border: 0 !important;
     box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
@@ -193,6 +210,13 @@
 .scroll-content::-webkit-scrollbar {
     display: none;
 }
+
+.profile-image-name{
+
+    font-size: .875rem;
+
+}
+
 
 
 

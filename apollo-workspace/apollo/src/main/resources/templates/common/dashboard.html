@@ -91,12 +91,15 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             $('#survey_table').DataTable({
+                "language": {
+                    "emptyTable": "No data available in table"
+                },
                 "columns": [{
                     "data": "icon",
                     "render": function (data, type, row, meta) {
                         if (row.icon) {
                             return '<img class="avatar  rounded-circle" src="data:image/;base64,' +
-                                row.icon.data.data + '"/>';
+                                row.icon.data + '"/>';
                         }
                         return '<img class="avatar  rounded-circle" src="/apollo/dist/img/theme/light/brand-avatar-3.png"/>';
                     }
