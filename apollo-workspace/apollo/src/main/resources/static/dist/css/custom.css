@@ -180,3 +180,24 @@
     height: auto;
     padding: 0 ! important;
 }
+
+
+
+
+.scroll-content {
+    overflow:scroll !important;
+    height:100vh; /* I WANT THIS BUT DYNAMICALLY CHANGES W/ .OUTER */
+    -ms-overflow-style: none;
+}
+
+.scroll-content::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+/*.application .sidenav.show{*/
+
+/*    margin-left: 10px !important;*/
+
+/*}*/

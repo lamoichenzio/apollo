@@ -4,7 +4,7 @@
     <body>
 
         <!-- Sidenav -->
-        <div class="sidenav" id="sidenav-main" th:fragment="sidenav" sec:authorize="isAuthenticated()">
+        <div class="sidenav fixed-content" id="sidenav-main" th:fragment="sidenav" sec:authorize="isAuthenticated()">
 
             <!-- Sidenav header -->
             <div class="sidenav-header d-flex mt-2">
@@ -158,6 +158,12 @@
                 </a>
             </div>
      -->
+
+            <!-- Footer -->
+            <div th:replace="~{common/layout/footer :: footer}"></div>
+
         </div>
+
+
     </body>
 </html>
