@@ -1,7 +1,5 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import java.util.stream.Collectors;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,18 +92,11 @@ public class SurveyController {
 	public ResponseEntity<SurveyResponseBody> publish(@Valid @RequestBody Survey request, Errors errors)
 			throws BusinessException {
 
-		SurveyResponseBody result = new SurveyResponseBody();
+		SurveyResponseBody response = new SurveyResponseBody();
 
 		// If error, just return a 400 bad request, along with the error message
 		if (errors.hasErrors()) {
-			result.setStatus(ResponseStatus.ERROR);
-			result.setMsg(
-				errors.getAllErrors().stream()
-				.map(x -> x.getDefaultMessage())
-				.collect(Collectors.joining(","))
-			);
-
-			return ResponseEntity.badRequest().body(result);
+			return ResponseEntity.badRequest().body(SurveyHelper.addErrorResult(errors));
 		}
 
 		Survey survey = surveyService.findSurveyById(request.getId());
@@ -114,26 +105,25 @@ public class SurveyController {
 			survey.setActive(false);
 			survey.removeSurveyUrl();
 			surveyService.updateSurvey(survey, null);
-			result.setMsg("inactive");
+			response.setMsg("inactive");
 		} else {
 			survey.createSurveyUrl(survey.getId());
 			survey.setActive(true);
 			surveyService.updateSurvey(survey, null);
-			result.setMsg("active");
+			response.setMsg("active");
 			// TO DO: Send emails
 		}
 		
-		result.setStatus(ResponseStatus.OK);
-		result.setResult(survey);
+		response.setStatus(ResponseStatus.OK);
+		response.setResult(survey);
 
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(response);
 	}
 
 	@GetMapping("/invitationpool")
 	public String invitationPoolStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
-		Utility.generatingRandomAlphanumericString();
 		return "/common/surveys/modals/invitation_survey_modal :: surveyInvitationPool";
 	}
 	
@@ -141,26 +131,19 @@ public class SurveyController {
 	@ResponseBody
 	public ResponseEntity<SurveyResponseBody> invitationPool(@Valid @RequestBody String request, @RequestParam String id, Errors errors) throws BusinessException {
 
-		SurveyResponseBody result = new SurveyResponseBody();
+		SurveyResponseBody response = new SurveyResponseBody();
 
 		// If error, just return a 400 bad request, along with the error message
-		if (errors.hasErrors()) {
-			result.setStatus(ResponseStatus.ERROR);
-			result.setMsg(
-				errors.getAllErrors().stream()
-				.map(x -> x.getDefaultMessage())
-				.collect(Collectors.joining(","))
-			);
-
-			return ResponseEntity.badRequest().body(result);
+		if (!errors.hasErrors()) {
+			return ResponseEntity.badRequest().body(SurveyHelper.addErrorResult(errors));
 		}
 
 		Survey survey = surveyService.findSurveyById(id);
 
 		if (survey.isActive()) {
-			result.setStatus(ResponseStatus.ERROR);
-			result.setMsg("Survey already active");
-			return ResponseEntity.ok(result);
+			response.setStatus(ResponseStatus.ERROR);
+			response.setMsg("Survey already active");
+			return ResponseEntity.ok(response);
 		} else {
 			// Create Invitation Pool
 			InvitationPool invitationPool = SurveyHelper.buildInvitationPool(request, invitationPoolService.findInvitationPoolBySurvey(survey), survey);
@@ -169,12 +152,12 @@ public class SurveyController {
 			// update survey
 			survey.setInvitationPool(invitationPool);
 			surveyService.updateSurvey(survey, null);
-			result.setMsg("Invitation Pool created.");
+			response.setMsg("Invitation Pool created.");
 		}
 		
-		result.setStatus(ResponseStatus.OK);
-		result.setResult(survey);
-		return ResponseEntity.ok(result);
+		response.setStatus(ResponseStatus.OK);
+		response.setResult(survey);
+		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/create")
