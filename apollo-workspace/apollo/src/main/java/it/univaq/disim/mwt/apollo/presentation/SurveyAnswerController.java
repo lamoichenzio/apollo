@@ -1,26 +1,5 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import it.univaq.disim.mwt.apollo.presentation.model.PrivateSurveyCredentials;
-import it.univaq.disim.mwt.apollo.presentation.model.GenericResponseBody;
-import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import it.univaq.disim.mwt.apollo.business.ConversionUtility;
 import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
@@ -31,7 +10,20 @@ import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.InvitationPool;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.answers.SurveyAnswer;
+import it.univaq.disim.mwt.apollo.presentation.model.GenericResponseBody;
+import it.univaq.disim.mwt.apollo.presentation.model.PrivateSurveyCredentials;
+import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/forms/survey")
@@ -49,17 +41,18 @@ public class SurveyAnswerController {
 
 
     @GetMapping("/{id}/fill")
-    public String createStart(@PathVariable("id") String id, Model model) throws BusinessException {
+    public String createStart(@PathVariable("id") String id, Model model, HttpSession session) throws BusinessException {
         Survey survey = surveyService.findSurveyById(id);
         model.addAttribute("survey", survey);
         if (!survey.isActive()) {
             return "common/user_view/common_pages/survey_not_active";
         }
-        if (survey.isSecret()) {
+        if (survey.isSecret() && session.getAttribute("logged") == null) {
             return "common/user_view/common_pages/survey_private";
         }
         SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
         model.addAttribute("surveyanswer", surveyAnswer);
+        session.removeAttribute("logged");
         return "common/user_view/survey";
     }
 
@@ -73,7 +66,7 @@ public class SurveyAnswerController {
     }
 
     @GetMapping("/validate")
-    public String validateStart(@RequestParam("id") String id, Model model) throws BusinessException {
+    public String validateStart(@RequestParam("id") String id, Model model) {
         PrivateSurveyCredentials credentials = new PrivateSurveyCredentials();
         credentials.setSurveyId(id);
         model.addAttribute("credentials", credentials);
@@ -82,15 +75,15 @@ public class SurveyAnswerController {
 
     @PostMapping("/validate")
     @ResponseBody
-    public ResponseEntity<GenericResponseBody> validate(@RequestBody PrivateSurveyCredentials credentials,
-                                                        HttpServletRequest request) throws BusinessException {
+    public ResponseEntity<GenericResponseBody> validate(@RequestBody PrivateSurveyCredentials credentials, HttpServletRequest request, HttpSession session) throws BusinessException {
         Survey survey = surveyService.findSurveyById(credentials.getSurveyId());
         InvitationPool pool = invitationPoolService.findInvitationPoolBySurvey(survey);
         GenericResponseBody response = new GenericResponseBody();
         if (pool.getEmails().contains(credentials.getEmail())
                 && pool.getPassword().equals(credentials.getPassword())) {
             response.setStatus(ResponseStatus.OK);
-            response.setMsg(request.getContextPath() + "/" + request.getServletPath() + "/" + survey.getId() + "/fill");
+            session.setAttribute("logged", true);
+            response.setMsg(request.getContextPath() + "/forms/survey/" + survey.getId() + "/fill");
             return ResponseEntity.ok(response);
         }
         response.setStatus(ResponseStatus.ERROR);
