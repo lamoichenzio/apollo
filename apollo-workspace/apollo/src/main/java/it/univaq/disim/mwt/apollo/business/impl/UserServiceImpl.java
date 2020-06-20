@@ -87,12 +87,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 	public boolean userExistsByUsername(String username) throws BusinessException {
-		return userRepository.existsByUsername(username);
+		try {
+			return userRepository.existsByUsername(username);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
 	public User findById(Long id) throws BusinessException {
-		return userRepository.findById(id).get();
+		try{
+			return userRepository.findById(id).get();
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 }

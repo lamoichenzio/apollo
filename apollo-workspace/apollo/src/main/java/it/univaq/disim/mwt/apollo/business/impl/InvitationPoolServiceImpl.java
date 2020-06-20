@@ -1,26 +1,25 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
-import java.util.List;
-
+import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InvitationPoolRepository;
+import it.univaq.disim.mwt.apollo.domain.InvitationPool;
+import it.univaq.disim.mwt.apollo.domain.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
-import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InvitationPoolRepository;
-import it.univaq.disim.mwt.apollo.domain.InvitationPool;
-import it.univaq.disim.mwt.apollo.domain.Survey;
+import java.util.List;
 
 @Service
 @Transactional
 public class InvitationPoolServiceImpl implements InvitationPoolService {
 
 	@Autowired
-	InvitationPoolRepository invitationPoolRepository;
-	
+	private InvitationPoolRepository invitationPoolRepository;
+
 	@Override
 	@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
 	public List<InvitationPool> findAllInvitationPools() throws BusinessException {
@@ -36,7 +35,11 @@ public class InvitationPoolServiceImpl implements InvitationPoolService {
 	@Override
 	@Transactional(readOnly = true)
 	public InvitationPool findInvitationPoolBySurvey(Survey survey) throws BusinessException {
-		return invitationPoolRepository.findBySurvey(survey);
+		try{
+			return invitationPoolRepository.findBySurvey(survey);
+		}catch(DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override

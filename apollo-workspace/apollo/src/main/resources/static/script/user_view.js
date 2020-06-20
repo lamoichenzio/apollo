@@ -98,3 +98,29 @@ function openLoginModal(url, survey, modal_id){
         }
     })
 }
+
+function surveyLogin(url, form){
+    event.preventDefault();
+    let data = $(form).serializeToJSON();
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify(data),
+        dataType: "json",
+        contentType: "application/json",
+        cache: false,
+        timeout: 600000,
+        success: (response) => {
+            if(response.status === "OK"){
+                window.location.replace(response.msg);
+            }
+        },
+        error: (response) =>{
+            if(response.responseJSON.status === "ERROR"){
+                $("#error_alert").show();
+            }else{
+                console.log("ERROR: "+responseJSON);
+            }
+        }
+    })
+}

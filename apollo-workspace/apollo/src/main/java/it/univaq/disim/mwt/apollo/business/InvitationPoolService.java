@@ -21,4 +21,5 @@ public interface InvitationPoolService {
 	void updateInvitationPool(InvitationPool invitationPool) throws BusinessException;
 
 	void deleteInvitationPool(InvitationPool invitationPool) throws BusinessException;
+
 }

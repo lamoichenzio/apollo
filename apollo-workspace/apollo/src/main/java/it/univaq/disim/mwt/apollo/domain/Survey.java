@@ -32,8 +32,8 @@ import lombok.ToString;
 @Data
 @Document(collection = "Surveys")
 @TypeAlias("Survey")
-@EqualsAndHashCode(exclude="questionGroups")
-@ToString(exclude="questionGroups")
+@EqualsAndHashCode(exclude={"questionGroups", "invitationPool"})
+@ToString(exclude={"questionGroups", "invitationPool"})
 public class Survey {
 	
 	@Id
@@ -72,8 +72,9 @@ public class Survey {
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Set<QuestionGroup> questionGroups = new HashSet<>();
-	
-	@OneToMany
+
+	@DBRef
+	@JsonIgnore
 	private InvitationPool invitationPool;
 	
 	public void addQuestionGroup(QuestionGroup questionGroup) {

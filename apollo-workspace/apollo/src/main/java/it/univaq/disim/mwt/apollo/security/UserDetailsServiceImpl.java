@@ -18,7 +18,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO cambiare username con email
 		User user;
 		try {
 			user = service.findByUsername(username);

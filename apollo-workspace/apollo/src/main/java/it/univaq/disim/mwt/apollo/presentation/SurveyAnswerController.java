@@ -1,9 +1,14 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import it.univaq.disim.mwt.apollo.presentation.model.PrivateSurveyCredentials;
+import it.univaq.disim.mwt.apollo.presentation.model.GenericResponseBody;
+import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -67,28 +72,29 @@ public class SurveyAnswerController {
         return "common/user_view/common_pages/survey_submitted";
     }
 
-//    @GetMapping("/{id}/fill/verification")
-//    @ResponseBody
-//    public Boolean identityVerification(@PathVariable("id") String id,
-//                                        @RequestParam String password, @RequestParam String email, Errors errors) throws BusinessException {
-//        Survey survey = surveyService.findSurveyById(id);
-//        InvitationPool invitationPool = invitationPoolService.findInvitationPoolBySurvey(survey);
-//
-//        if (invitationPool.getPassword().equals(password) && invitationPool.getEmails().stream().filter(mail -> mail.equals(email)).findAny().orElse(null) != null) {
-//            // Autenticato, chiusura della modale
-//            return true;
-//        }
-//        // non autenticato, mostrare l'errore nella view
-//        return false;
-//    }
-
     @GetMapping("/validate")
-    public String validation(@RequestParam("id") String id, Model model) throws BusinessException {
-        Survey survey = surveyService.findSurveyById(id);
+    public String validateStart(@RequestParam("id") String id, Model model) throws BusinessException {
         PrivateSurveyCredentials credentials = new PrivateSurveyCredentials();
-        credentials.setSurvey(survey);
+        credentials.setSurveyId(id);
         model.addAttribute("credentials", credentials);
         return "common/user_view/components/modals/login_modal :: loginForm";
+    }
+
+    @PostMapping("/validate")
+    @ResponseBody
+    public ResponseEntity<GenericResponseBody> validate(@RequestBody PrivateSurveyCredentials credentials,
+                                                        HttpServletRequest request) throws BusinessException {
+        Survey survey = surveyService.findSurveyById(credentials.getSurveyId());
+        InvitationPool pool = invitationPoolService.findInvitationPoolBySurvey(survey);
+        GenericResponseBody response = new GenericResponseBody();
+        if (pool.getEmails().contains(credentials.getEmail())
+                && pool.getPassword().equals(credentials.getPassword())) {
+            response.setStatus(ResponseStatus.OK);
+            response.setMsg(request.getContextPath() + "/" + request.getServletPath() + "/" + survey.getId() + "/fill");
+            return ResponseEntity.ok(response);
+        }
+        response.setStatus(ResponseStatus.ERROR);
+        return ResponseEntity.badRequest().body(response);
     }
 
     @GetMapping("/{surveyid}/answer/{id}")
