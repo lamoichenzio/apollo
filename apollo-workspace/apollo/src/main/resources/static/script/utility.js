@@ -71,3 +71,21 @@ const MATRIX_OPTION_ELEM = '<div class="row">'
     +'</div>';
 
 const TAG_BEDGE = '<span class="tag badge badge-primary">[email]<span data-role="remove"></span></span>';
+
+const INVITATION_CONFIRM = '<div class="modal fade" id="modal-invitation-confirm" tabindex="-1" role="dialog" aria-hidden="true">'
+    +'<div class="modal-dialog modal-dialog-centered modal" role="document">'
+    +'<div class="modal-content">'
+    +'<div class="modal-body">'
+    +'<div class="row">'
+    +'<div class="col-12">'
+    +'<span id="send_email_confirmation" class="form-control-label">Pubblicando il sondaggio invierai la mail agli utenti invitati. Confermare?</span>'
+    +'</div>'
+    +'</div>'
+    +'</div>'
+    +'<div class="modal-footer">'
+    +'<button id="cancel" type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"Cancel></button>'
+    +'<button id="publish_invitation_submit" type="submit" translate="yes" class="btn btn-sm btn-primary rounded-pill">Send</button>'
+    +'</div>'
+    +'</div>'
+    +'</div>'
+    +'</div>';

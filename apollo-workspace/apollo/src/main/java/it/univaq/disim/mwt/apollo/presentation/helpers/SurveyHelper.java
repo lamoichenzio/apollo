@@ -28,9 +28,9 @@ public class SurveyHelper {
 			invitationPool.setSurvey(survey);
 		}
 
-        Set<String> em = new HashSet<>(Arrays.asList(emails.replace("\"", "").split(";")));
+        Set<String> em = new HashSet<>(Arrays.asList(emails.split(";")));
 		invitationPool.setEmails(em);
-		
+
 		return invitationPool;
 	}
 	
@@ -48,5 +48,14 @@ public class SurveyHelper {
 			.collect(Collectors.joining(","))
 		);
 		return response;
+	}
+	
+	public static String buildInvitationMailBody(Survey survey) {
+		String invitationBody = "You have been invited to answer the following survey:\n" + 
+				"Click the link below to reach the page.\n" +
+				survey.getUrlId() +
+				"Confirm your identity by entering your email and password.\n" + 
+				survey.getInvitationPool().getPassword();
+		return invitationBody;
 	}
 }

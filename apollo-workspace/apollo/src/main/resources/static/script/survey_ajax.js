@@ -59,26 +59,14 @@ function getSurveyRequest(url, modal_id, param) {
  * @param {String} url
  * @param {String} param
  */
-function postSurveyRequest(url, param) {
-    event.preventDefault();
-    let url_postfix = getUrlPostfix(url);
-    let request;
-
-    if (url_postfix === 'invitationpool') {
-        url += '?id=' + param.id;
-        if (sendInvitationPool()) {
-            request = emails.join(';');
-        }
-    } else {
-        request = getRequestByUrl(url, param, 'Survey', 'post');
-    }
-
+function postSurveyRequest(requestModel) {
+    // Set Spinner
     $("#result_container").prepend(LOAD_SPINNER);
 
     $.ajax({
         type: "POST",
-        url: url,
-        data: JSON.stringify(request),
+        url: requestModel.url,
+        data: requestModel.body,
         dataType: 'json',
         contentType: 'application/json',
         cache: false,
@@ -88,28 +76,89 @@ function postSurveyRequest(url, param) {
 
             // OK for success
             if (response.status === 'OK') {
-                if (url_postfix === 'publish') {
-                    if (response.msg === "active") {
-                        surveyPublished(response);   
-                    } else if (response.msg === "inactive") {
-                        surveyUnpublished(response);
-                    }                  
-                } else {
-                    $("#cancel").trigger("click");
-                }
+                handleSurveySuccessResponse(getUrlPostfix(requestModel.url), response);
             } else {
-                $("#error_message").text(response.msg);
-                $("#error_message").show();
+                handleSurveyErrorResponse(response.msg);
             }
-            
         },
         error: function (e) {
             $("#load_spinner").remove();
-            $("#error_message").text(e.responseJSON.msg); 
-            $("#error_message").show();
-            console.log('ERROR', e);
+            handleSurveyErrorResponse(e.responseJSON.msg);
+            console.error('ERROR', e);
         }
     });
+}
+
+/**
+ * Publish survey.
+ * @param {String} url 
+ * @param {Object} survey 
+ */
+function sendPublish(url, survey) {
+    let request = new RequestModel(url, JSON.stringify(survey));
+
+    if (survey.secret && !survey.active) {
+        $("#modal_holder").append(INVITATION_CONFIRM);
+        $("#modal-invitation-confirm").modal("show");
+        $("#modal_dismiss").trigger("click");
+        // adding translations
+        $("#send_email_confirmation").text(translations.sendInvitationConfirm);
+        $("#cancel").text(translations.cancel);
+        $("#publish_invitation_submit").text(translations.send);
+        // Publish and send emails
+        $("#publish_invitation_submit").click(() => postSurveyRequest(request));
+    } else {
+        postSurveyRequest(request);
+    }
+}
+
+/**
+ * Send and save invitation pool;
+ * @param {String} url 
+ * @param {String} surveyId 
+ */
+function sendInvitationPool(url, surveyId) {
+    let request = new RequestModel(url, null);
+    request.setParams({id : surveyId});
+
+    if (checkEmailPool()) {
+        request.body = emails.join(';');
+        postSurveyRequest(request);
+    }
+}
+
+/**
+ * Handle survey server call success response.
+ * @param {String} url_postfix 
+ * @param {Object} response 
+ */
+function handleSurveySuccessResponse(url_postfix, response) {
+    console.info('[SUCCESS]::[Message]: ', response.msg);
+
+    if (url_postfix === 'publish') {
+        if (response.msg === "active") {
+            surveyPublished(response);
+            // Handle close confirm modal
+            if (response.result.secret) {
+                $("#cancel").trigger("click");
+            }
+        } else if (response.msg === "inactive") {
+            surveyUnpublished(response);
+        }
+    } else {
+        // Close modal
+        $("#cancel").trigger("click");
+    }
+}
+
+/**
+ * Handle survey server call error response.
+ * @param {String} message 
+ */
+function handleSurveyErrorResponse(message) {
+    console.error('[ERROR]::[Message]: ', message);
+    $("#error_message").text(message);
+    $("#error_message").show();
 }
 
 /**
@@ -117,7 +166,7 @@ function postSurveyRequest(url, param) {
  * @param {String} url 
  * @param {Object} param 
  */
-function sendInvitationPool() {
+function checkEmailPool() {
     if (emails.length > 0) {
         let invitationPool = emails.filter(validateEmail);
         if (invitationPool.length != emails.length) {
@@ -132,7 +181,7 @@ function sendInvitationPool() {
 }
 
 /**
- * Do somethings when a survey is published.
+ * Handle response when survey is published.
  * @param {Object} response 
  */
 function surveyPublished(response) {
@@ -149,7 +198,6 @@ function surveyPublished(response) {
         $('#survey_active').text("Yes");
         $('#publish_submit').text('Disable');
     }
-
 }
 
 /**
@@ -399,11 +447,9 @@ function getRequestByUrl(url, request_param, model, method) {
         case 'delete':
             return { id: request_param };
         case 'publish':
-            if (method === 'post') return request_param;
             if (method === 'get') return { id : request_param };
             break;
         case 'invitationpool':
-            if (method === 'post') return request_param;
             if (method === 'get') return { id: request_param };
             break;
         default:
@@ -417,6 +463,10 @@ function getUrlPostfix(url) {
     return url_splitted[url_splitted.length - 1];
 }
 
+/**
+ * Copy to clipboard utility.
+ * @param {String} elem 
+ */
 function copyToClipboard(elem) {
     event.preventDefault();
     let copyText = $("#" + elem);
@@ -424,17 +474,19 @@ function copyToClipboard(elem) {
     document.execCommand("copy");
 }
 
-var getUrlParameter = function getUrlParameter(sParam) {
-    let sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+/**
+ * Request Model class.
+ * 
+ */
+let RequestModel = function(url, body) {
+    this.url = url;
+    this.params = null;
+    this.body = body;
 
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+    this.setParams = function (params) {
+        this.params = params;
+        for (let elem in this.params) {
+            this.url += '?' + elem + '=' + params[elem];
         }
-    }
-};
+    };
+}
