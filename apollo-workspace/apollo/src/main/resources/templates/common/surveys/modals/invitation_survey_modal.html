@@ -63,7 +63,7 @@
                         th:text="#{common.cancel}"></button>
                     <button id="publish_submit" type="submit" name="#{common.submit}" translate="yes"
                         class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}" th:disabled="${survey.active}"
-                        th:onclick="postSurveyRequest([[@{/surveys/invitationpool}]], [[${survey}]])">
+                        th:onclick="sendInvitationPool([[@{/surveys/invitationpool}]], [[${survey.id}]])">
                     </button>
 
                 </div>

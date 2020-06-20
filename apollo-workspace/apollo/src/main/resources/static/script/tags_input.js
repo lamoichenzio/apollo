@@ -51,7 +51,7 @@ function addTag(context, data) {
 function getInvitaionPool() {
     if ($('.tag.badge.badge-primary').toArray().length) {
         $('.tag.badge.badge-primary').each(function () {
-            emails.push($(this).text());
+            emails.push($(this).text().trim());
         });
     }
 }

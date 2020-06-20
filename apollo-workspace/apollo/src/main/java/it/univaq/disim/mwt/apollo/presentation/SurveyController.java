@@ -1,5 +1,7 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.univaq.disim.mwt.apollo.business.EmailService;
 import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
@@ -51,6 +54,9 @@ public class SurveyController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@GetMapping("/dashboard")
 	public String dashboard() {
@@ -108,10 +114,24 @@ public class SurveyController {
 			response.setMsg("inactive");
 		} else {
 			survey.createSurveyUrl(survey.getId());
+
+			if (survey.isSecret()) {
+				if (survey.getInvitationPool() != null) {
+					String[] mails = survey.getInvitationPool().getEmails().toArray(new String[0]);
+					// TO DO: send emails
+//					emailService.sendMail(mails, "Invitation", SurveyHelper.buildInvitationMailBody(survey));
+					surveyService.updateSurvey(survey, null);
+				} else {
+					response.setMsg("Non hai inserito nessun indirizzo mail.");
+					response.setStatus(ResponseStatus.ERROR);
+					return ResponseEntity.ok(response);
+				}
+			}
+			
 			survey.setActive(true);
 			surveyService.updateSurvey(survey, null);
 			response.setMsg("active");
-			// TO DO: Send emails
+			
 		}
 		
 		response.setStatus(ResponseStatus.OK);
@@ -129,14 +149,8 @@ public class SurveyController {
 	
 	@PostMapping("/invitationpool")
 	@ResponseBody
-	public ResponseEntity<SurveyResponseBody> invitationPool(@Valid @RequestBody String request, @RequestParam String id, Errors errors) throws BusinessException {
-
+	public ResponseEntity<SurveyResponseBody> invitationPool(@RequestBody String request, @RequestParam String id) throws BusinessException {
 		SurveyResponseBody response = new SurveyResponseBody();
-
-		// If error, just return a 400 bad request, along with the error message
-		if (!errors.hasErrors()) {
-			return ResponseEntity.badRequest().body(SurveyHelper.addErrorResult(errors));
-		}
 
 		Survey survey = surveyService.findSurveyById(id);
 
@@ -148,15 +162,16 @@ public class SurveyController {
 			// Create Invitation Pool
 			InvitationPool invitationPool = SurveyHelper.buildInvitationPool(request, invitationPoolService.findInvitationPoolBySurvey(survey), survey);
 			invitationPoolService.updateInvitationPool(invitationPool);
-			
+
 			// update survey
 			survey.setInvitationPool(invitationPool);
 			surveyService.updateSurvey(survey, null);
 			response.setMsg("Invitation Pool created.");
 		}
-		
+
 		response.setStatus(ResponseStatus.OK);
 		response.setResult(survey);
+		
 		return ResponseEntity.ok(response);
 	}
 	

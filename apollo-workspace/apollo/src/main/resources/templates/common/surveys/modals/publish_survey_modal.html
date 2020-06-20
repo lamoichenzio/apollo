@@ -3,7 +3,6 @@
 <body>
     <div class="modal fade" id="modal-publish-survey" tabindex="-1" role="dialog" aria-hidden="true"
         th:fragment="surveyPublish">
-        <!-- script for dynamic translations -->
         <script th:inline="javascript">
             $(function () {
                 // Tooltip inizialize
@@ -56,17 +55,18 @@
 
                 <!-- Footer -->
                 <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+                    <button id="modal_dismiss" type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
                         th:text="#{common.cancel}"></button>
                     <button id="publish_submit" type="submit" name="#{common.disable}" translate="yes" class="btn btn-sm btn-primary rounded-pill"
                         th:text="#{${survey.active ? 'common.disable' : 'common.publish'}}"
-                        th:onclick="postSurveyRequest([[@{/surveys/publish}]], [[${survey}]])"></button>
+                        th:onclick="sendPublish([[@{/surveys/publish}]], [[${survey}]])"></button>
 
                 </div>
 
             </div>
         </div>
     </div>
+
 </body>
 
 </html>
