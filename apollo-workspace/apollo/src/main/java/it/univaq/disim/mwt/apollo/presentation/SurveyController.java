@@ -1,7 +1,5 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import java.util.Arrays;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,22 +114,19 @@ public class SurveyController {
 			survey.createSurveyUrl(survey.getId());
 
 			if (survey.isSecret()) {
-				if (survey.getInvitationPool() != null) {
-					String[] mails = survey.getInvitationPool().getEmails().toArray(new String[0]);
-					// TO DO: send emails
-//					emailService.sendMail(mails, "Invitation", SurveyHelper.buildInvitationMailBody(survey));
-					surveyService.updateSurvey(survey, null);
+				if (survey.getInvitationPool() != null && survey.getInvitationPool().getEmails().size() > 0) {
+					String[] addresses = survey.getInvitationPool().getEmails().toArray(new String[0]);
+					emailService.sendHTMLMail(addresses, "Survey invitation", SurveyHelper.buildInvitationMailBody(survey));
 				} else {
-					response.setMsg("Non hai inserito nessun indirizzo mail.");
+					response.setMsg("No email address found.");
 					response.setStatus(ResponseStatus.ERROR);
-					return ResponseEntity.ok(response);
+					return ResponseEntity.badRequest().body(response);
 				}
 			}
 			
 			survey.setActive(true);
 			surveyService.updateSurvey(survey, null);
 			response.setMsg("active");
-			
 		}
 		
 		response.setStatus(ResponseStatus.OK);
@@ -157,7 +152,7 @@ public class SurveyController {
 		if (survey.isActive()) {
 			response.setStatus(ResponseStatus.ERROR);
 			response.setMsg("Survey already active");
-			return ResponseEntity.ok(response);
+			return ResponseEntity.badRequest().body(response);
 		} else {
 			// Create Invitation Pool
 			InvitationPool invitationPool = SurveyHelper.buildInvitationPool(request, invitationPoolService.findInvitationPoolBySurvey(survey), survey);

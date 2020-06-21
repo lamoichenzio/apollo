@@ -1,4 +1,11 @@
+/**
+ * 
+ * Utility js file.
+ * 
+ */
+
 const SPINNER = '<div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only"> Loading...</span></div>';
+const LOAD_SPINNER = '<div id="load_spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div>';
 
 const ALERT_ERROR = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
     +'<div id="alert_text_error">'
@@ -80,6 +87,10 @@ const INVITATION_CONFIRM = '<div class="modal fade" id="modal-invitation-confirm
     +'<div class="col-12">'
     +'<span id="send_email_confirmation" class="form-control-label">Pubblicando il sondaggio invierai la mail agli utenti invitati. Confermare?</span>'
     +'</div>'
+    +'<div class="col-12 mt-2">'
+    +'<span id="send_email_error" class="text-xs font-weight-bold text-danger hidden">Non è presente nessun indirizzo mail.</span>'
+    +'</div>'
+    +'<div class="col-12 py-2"><div class="loader"></div></div>'
     +'</div>'
     +'</div>'
     +'<div class="modal-footer">'

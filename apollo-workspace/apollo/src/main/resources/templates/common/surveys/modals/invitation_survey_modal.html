@@ -21,36 +21,30 @@
 
                     <div class="row mt-3">
                         <div class="col">
+                            <label class="form-control-label mb-3">Emails</label>
+                            <div class="bootstrap-tagsinput"> 
+                                <input id="tagsinput" type="text" placeholder="Type emails here separated by comma..." size="48">
 
-                                <label class="form-control-label mb-3">Emails</label>
-                                <div class="bootstrap-tagsinput"> 
-                                    <input id="tagsinput" type="text" placeholder="Type emails here separated by comma..." size="48">
-
-                                    <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
-                                        <th:block th:if="${survey.invitationPool != null }">
-                                            <span th:each="email : ${survey.invitationPool.emails}" class="tag badge badge-primary">
-                                                [[${email}]]
-                                                <span data-role="remove"></span>
-                                            </span>
-                                        </th:block>
-                                    </div>
-
+                                <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
+                                    <th:block th:if="${survey.invitationPool != null }">
+                                        <span th:each="email : ${survey.invitationPool.emails}" class="tag badge badge-primary">
+                                            [[${email}]]
+                                            <span data-role="remove"></span>
+                                        </span>
+                                    </th:block>
                                 </div>
-                                <input id="email_data" type="text" class="form-control"
-                                    value="" data-toggle="tags" placeholder="Type here..."
-                                    style="display: none;">
+                            </div>
             
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-8 my-1">
-                            <div id="result_container">
-                                <div id="result_message"
-                                    class="text-left justify-content-between text-xs text-muted mt-2">
-                                    <span id="invalid_mail_msg" class="font-weight-bold text-danger hidden">[[#{common.sendinvitationerror}]]</span>
-                                    <span id="error_message" class="font-weight-bold text-danger"></span>
-                                </div>
+                        <div class="col-12 py-2">
+                            <div class="loader"></div>
+                            <div id="result_message"
+                                class="text-left justify-content-between text-xs text-muted mt-2">
+                                <span id="invalid_mail_msg" class="font-weight-bold text-danger hidden">[[#{common.sendinvitationerror}]]</span>
+                                <span id="error_message" class="font-weight-bold text-danger"></span>
                             </div>
                         </div>
                     </div>

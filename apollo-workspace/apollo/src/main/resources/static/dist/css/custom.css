@@ -79,3 +79,7 @@
   overflow-y: scroll;
   border-top: 1px solid #eff2f7;
 }
+
+.loader {
+  text-align: center;
+}

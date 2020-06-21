@@ -10,8 +10,6 @@ const SELECT = 'SELECT';
 const MATRIX = 'MATRIX';
 const STANDARD = 'STANDARD';
 
-const LOAD_SPINNER = '<div id="load_spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div>';
-
 var optionList = [];
 var optionValues = [];
 
@@ -61,7 +59,7 @@ function getSurveyRequest(url, modal_id, param) {
  */
 function postSurveyRequest(requestModel) {
     // Set Spinner
-    $("#result_container").prepend(LOAD_SPINNER);
+    $(".loader").prepend(LOAD_SPINNER);
 
     $.ajax({
         type: "POST",
@@ -105,8 +103,16 @@ function sendPublish(url, survey) {
         $("#send_email_confirmation").text(translations.sendInvitationConfirm);
         $("#cancel").text(translations.cancel);
         $("#publish_invitation_submit").text(translations.send);
-        // Publish and send emails
-        $("#publish_invitation_submit").click(() => postSurveyRequest(request));
+        if (emails && emails.length > 0) {
+            // Publish and send emails
+            $("#publish_invitation_submit").click(() => {
+                postSurveyRequest(request);
+            });
+        } else {
+            $("#publish_invitation_submit").attr("disabled", true);
+            $("#send_email_error").show();
+        }
+
     } else {
         postSurveyRequest(request);
     }

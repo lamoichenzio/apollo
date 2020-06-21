@@ -27,9 +27,11 @@ public class SurveyHelper {
 			invitationPool.setPassword(Utility.generatingRandomAlphanumericString());
 			invitationPool.setSurvey(survey);
 		}
-
-        Set<String> em = new HashSet<>(Arrays.asList(emails.split(";")));
-		invitationPool.setEmails(em);
+		
+		if (emails != null && !emails.equals("")) {
+	        Set<String> em = new HashSet<>(Arrays.asList(emails.split(";")));
+			invitationPool.setEmails(em);
+		}
 
 		return invitationPool;
 	}
@@ -50,12 +52,21 @@ public class SurveyHelper {
 		return response;
 	}
 	
+	/**
+	 * Build invitation mail body.
+	 * @param survey Survey
+	 * @return String
+	 */
 	public static String buildInvitationMailBody(Survey survey) {
-		String invitationBody = "You have been invited to answer the following survey:\n" + 
-				"Click the link below to reach the page.\n" +
-				survey.getUrlId() +
-				"Confirm your identity by entering your email and password.\n" + 
-				survey.getInvitationPool().getPassword();
+		String invitationBody = "<html><body>" +
+				"<h1>Apollo</h1>"+
+				"<p>Welcome to Apollo! You have been invited to answer to a survey. </br>" + 
+				"Click the link below to reach the page.</br></p>" +
+				"<h3>" + survey.getName() + "</h3>" +
+				"<span><a href=\"http://localhost:8080/apollo"+survey.getUrlId() + "\">" +survey.getUrlId()+ "</a></span>"+
+				"<p>Confirm your identity by entering your email and password.\n</p>" + 
+				"<span>Password: <strong>"+ survey.getInvitationPool().getPassword() + "</strong></span>" +
+				"<body></html>";
 		return invitationBody;
 	}
 }

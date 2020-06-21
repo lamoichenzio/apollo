@@ -12,6 +12,9 @@ $(function () {
     registerTagRemoveEvent();
 });
 
+/**
+ * Register event for removing tag.
+ */
 function registerTagRemoveEvent() {
     $('span[data-role="remove"]').click(function (event) {
         let val = $(event.target).parent().text();
@@ -20,9 +23,13 @@ function registerTagRemoveEvent() {
     });
 }
 
+/**
+ * Register event for adding tag on keypress and input change.
+ */
 function registerTagAddingEvents() {
     $('#tagsinput').keypress(function (event) {
         if (event.which == 44 || event.which == 13) {
+            event.preventDefault();
             let data = $(this).val().split(',');
             addTag(this, data);
         }
@@ -34,6 +41,11 @@ function registerTagAddingEvents() {
     });
 }
 
+/**
+ * Add tag.
+ * @param {HTMLElement} context 
+ * @param {Array} data 
+ */
 function addTag(context, data) {
     if (data.length) {
         data.forEach(item => {
@@ -48,6 +60,9 @@ function addTag(context, data) {
     }
 }
 
+/**
+ * Get existing emails in Invitation Poll and addig its to emails array.
+ */
 function getInvitaionPool() {
     if ($('.tag.badge.badge-primary').toArray().length) {
         $('.tag.badge.badge-primary').each(function () {
