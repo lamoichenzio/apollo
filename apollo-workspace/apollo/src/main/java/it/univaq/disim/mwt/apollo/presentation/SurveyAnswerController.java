@@ -62,7 +62,7 @@ public class SurveyAnswerController {
             log.info(errors.toString());
         }
         surveyAnswerService.createSurveyAnswer(surveyAnswer);
-        return "common/user_view/common_pages/survey_submitted";
+        return "redirect:/common/survey_submitted";
     }
 
     @GetMapping("/validate")

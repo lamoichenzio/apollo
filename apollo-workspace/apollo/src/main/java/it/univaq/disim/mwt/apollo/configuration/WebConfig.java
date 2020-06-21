@@ -25,6 +25,7 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("index");
+		registry.addViewController("/common/survey_submitted").setViewName("/common/user_view/common_pages/survey_submitted");
 	}
 	
 	@Bean
