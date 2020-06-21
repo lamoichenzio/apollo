@@ -4,9 +4,15 @@
  * 
  */
 
+/**
+ * SPINNER
+ */
 const SPINNER = '<div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"><span class="sr-only"> Loading...</span></div>';
 const LOAD_SPINNER = '<div id="load_spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div>';
 
+/**
+ * ALERT
+ */
 const ALERT_ERROR = '<div class="alert alert-danger alert-dismissible fade show" role="alert">'
     +'<div id="alert_text_error">'
     +'<span class="alert-group-icon text-"><i class="fas fa-exclamation-triangle"></i></span>&nbsp;'
@@ -25,6 +31,9 @@ const ALERT_WARNING = '<div class="alert alert-warning alert-dismissible fade sh
     + '</button>'
     + '</div>';
 
+/**
+ * ANSWER AGGREGATE
+ */
 const INPUT_SUMMARY = '<div class="card mb-3 border shadow-none">'
     + '<div class="px-3 py-3">'
     + '<div class="row align-items-center">'
@@ -77,8 +86,14 @@ const MATRIX_OPTION_ELEM = '<div class="row">'
     +'</div>'
     +'</div>';
 
+/**
+ * EMAIL TAGS
+ */
 const TAG_BEDGE = '<span class="tag badge badge-primary">[email]<span data-role="remove"></span></span>';
 
+/**
+ * INVITATION MODAL
+ */
 const INVITATION_CONFIRM = '<div class="modal fade" id="modal-invitation-confirm" tabindex="-1" role="dialog" aria-hidden="true">'
     +'<div class="modal-dialog modal-dialog-centered modal" role="document">'
     +'<div class="modal-content">'
