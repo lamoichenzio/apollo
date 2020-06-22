@@ -34,12 +34,7 @@ public class SurveyAnswer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private String id;
-	
-	@Size(max=50)
-	private String name;
-	
-	@Email(message = "Email should have a valid format")
-	@Size(max=60)
+
 	private String email;
 	
 	@DBRef

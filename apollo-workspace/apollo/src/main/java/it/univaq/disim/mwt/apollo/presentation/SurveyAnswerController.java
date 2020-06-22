@@ -47,17 +47,27 @@ public class SurveyAnswerController {
         if (!survey.isActive()) {
             return "common/user_view/common_pages/survey_not_active";
         }
-        if (survey.isSecret() && session.getAttribute("logged") == null) {
-            return "common/user_view/common_pages/survey_private";
+        if (survey.isSecret()) {
+            if(session.getAttribute("email") == null){
+                return "common/user_view/common_pages/survey_private";
+            }
+            model.addAttribute("email", session.getAttribute("email"));
         }
         SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
         model.addAttribute("surveyanswer", surveyAnswer);
-        session.removeAttribute("logged");
+        session.removeAttribute("email");
         return "common/user_view/survey";
     }
 
     @PostMapping("/create")
-    public String create(@Valid @ModelAttribute("surveyanswer") SurveyAnswer surveyAnswer, Errors errors) throws BusinessException {
+    public String create(@Valid @ModelAttribute("surveyanswer") SurveyAnswer surveyAnswer, Errors errors,
+                         @ModelAttribute("email") String email) throws BusinessException {
+        if(email != null && !email.isEmpty()){
+            if(surveyAnswerService.surveyExistsBySurveyAndEmail(surveyAnswer.getSurvey(), email)){
+                return "redirect:/common/survey_answered";
+            }
+            surveyAnswer.setEmail(email);
+        }
         if (errors.hasErrors()) {
             log.info(errors.toString());
         }
@@ -79,10 +89,15 @@ public class SurveyAnswerController {
         Survey survey = surveyService.findSurveyById(credentials.getSurveyId());
         InvitationPool pool = invitationPoolService.findInvitationPoolBySurvey(survey);
         GenericResponseBody response = new GenericResponseBody();
+        if(surveyAnswerService.surveyExistsBySurveyAndEmail(survey, credentials.getEmail())){
+            response.setStatus(ResponseStatus.OK);
+            response.setMsg(request.getContextPath() + "/common/survey_answered");
+            return ResponseEntity.ok(response);
+        }
         if (pool.getEmails().contains(credentials.getEmail())
                 && pool.getPassword().equals(credentials.getPassword())) {
             response.setStatus(ResponseStatus.OK);
-            session.setAttribute("logged", true);
+            session.setAttribute("email", credentials.getEmail());
             response.setMsg(request.getContextPath() + "/forms/survey/" + survey.getId() + "/fill");
             return ResponseEntity.ok(response);
         }
@@ -93,8 +108,6 @@ public class SurveyAnswerController {
     @GetMapping("/{surveyid}/answer/{id}")
     public String createView(@PathVariable("id") String id, @PathVariable("surveyid") String surveyId, @RequestParam int group, Model model) throws BusinessException {
         SurveyAnswer surveyAnswer = surveyAnswerService.findSurveyAnswerById(id);
-
-        log.info(surveyAnswer.toString());
 
         model.addAttribute("surveyanswer", surveyAnswer);
         model.addAttribute("readonly", true);
@@ -107,8 +120,7 @@ public class SurveyAnswerController {
     @ResponseBody
     public ResponseGrid<SurveyAnswer> findAllPaginated(@RequestBody RequestGrid requestGrid, @RequestParam String id) throws BusinessException {
         Survey survey = surveyService.findSurveyById(id);
-        ResponseGrid<SurveyAnswer> response = surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
-        return response;
+        return surveyAnswerService.findAllSurveyAnswersPaginated(requestGrid, survey);
     }
 
 }
