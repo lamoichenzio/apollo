@@ -1,127 +1,134 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<div th:fragment="form">
+<div th:fragment="form">
 
-		<form th:action="@{/forms/survey/create}" method="post" th:object="${surveyanswer}" id="form">
+    <form th:action="@{/forms/survey/create}" method="post" th:object="${surveyanswer}" id="form">
 
-			<input type="hidden" th:field="*{survey}"/>
+        <input type="hidden" th:field="*{survey}"/>
 
-			<div class="card-body pb-0">
-				<!-- Iterate Question Groups -->
-				<div th:each="group, groupStat : ${surveyanswer.survey.questionGroups}" class="tab">
-					<div class="row">
-						<div class="col-10">
-							<h5 class="mb-1 p-1">[[${groupStat.index+1}+'.'+${group.title}]]</h5>
-							<h6 class="text-muted mb-3 p-1">[[${group.description}]]</h6>
-						</div>
-					</div>
+        <div class="card-body pb-0">
+            <!-- Iterate Question Groups -->
+            <div th:each="group, groupStat : ${surveyanswer.survey.questionGroups}" class="tab">
+                <div class="row">
+                    <div class="col-10">
+                        <h5 class="mb-1 p-1">[[${groupStat.index+1}+'.'+${group.title}]]</h5>
+                        <h6 class="text-muted mb-3 p-1">[[${group.description}]]</h6>
+                    </div>
+                </div>
 
-					<div class="card border mb-0 shadow-none bg-gray-100">
-						<div class="card-body row align-items-center mx-2 justify-content-center">
-							
-							<!-- Iterate questions of the group -->
-							<div class="col-12" th:each="question, questionStat : ${surveyanswer.survey.questionGroups[__${groupStat.index}__].questions}">
+                <div class="card border mb-0 shadow-none bg-gray-100">
+                    <div class="card-body row align-items-center justify-content-center">
 
-								<div class="row align-items-center mx-0 justify-content-center">
-									<div class="col-10 card border shadow-none p-3">
-										<!-- TITLE -->
-										<div class="m-1">
-											<h6 class="mb-0"
-												th:text="${groupStat.index+1}+'.'+${questionStat.index+1}+'. '+${question.title}"></h6>
-										</div>
-										<!-- Show image if exists -->
-										<div class="m-5" th:if="${question.file != null}">
-											<img th:src="${'data:image/png;base64,'+question.file.data}"
-												width="50%">
-										</div>
-										<!-- Questions -->
-										<div class="row">
-											<div class="col-10 mx-1 px-2 py-3">
+                        <!-- Iterate questions of the group -->
+                        <div class="col-12"
+                             th:each="question, questionStat : ${surveyanswer.survey.questionGroups[__${groupStat.index}__].questions}">
 
-												<!-- If Input Question -->
-												<div
-													th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}"
-													th:replace="~{common/user_view/components/text_question :: question(question=${question}, stat=${questionStat})}">
-												</div>
+                            <div class="row align-items-center mx-0 justify-content-center">
+                                <div class="col-12 card border shadow-none p-3">
+                                    <!-- TITLE -->
+                                    <div class="m-1">
+                                        <h6 class="mb-0"
+                                            th:text="${groupStat.index+1}+'.'+${questionStat.index+1}+'. '+${question.title}"></h6>
+                                    </div>
+                                    <!-- Show image if exists -->
+                                    <div class="m-2 mx-auto" th:if="${question.file != null}">
+                                        <div class="question-image">
+                                            <img class="rounded"
+                                                 th:src="${'data:image/png;base64,'+question.file.data}">
+                                        </div>
+                                    </div>
 
-												<!-- If Choice Question -->
-												<div
-													th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
-													<!-- If Radio -->
-													<div
-														th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
-														th:replace="~{common/user_view/components/radio_question.html :: question(question=${question}, stat=${questionStat})}">
-													</div>
-													<!-- If Check -->
-													<div
-														th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
-														th:replace="~{common/user_view/components/check_question.html :: question(question=${question}, stat=${questionStat})}">
-													</div>
-												</div>
-												<!-- If Select Question -->
-												<div
-													th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}"
-													th:replace="~{common/user_view/components/select_question.html :: question(question=${question}, stat=${questionStat})}">
-												</div>
-												<!-- If Matrix Question -->
-												<div
-													th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion)}">
-													<!-- If Radio -->
-													<div
-														th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
-														th:replace="~{common/user_view/components/matrix_radio_question.html :: question(question=${question}, stat=${questionStat})}">
-													</div>
-													<!-- If Check -->
-													<div
-														th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
-														th:replace="~{common/user_view/components/matrix_check_question.html :: question(question=${question}, stat=${questionStat})}">
-													</div>
-												</div>
+                                    <!-- Questions -->
+                                    <div class="row">
+                                        <div class="col-12 px-3 py-2">
 
-											</div>
-										</div>
-									</div>
-								</div>
+                                            <!-- If Input Question -->
+                                            <div
+                                                    th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.InputQuestion)}"
+                                                    th:replace="~{common/user_view/components/text_question :: question(question=${question}, stat=${questionStat})}">
+                                            </div>
 
-							</div>
-						</div>
-						<!-- Circles which indicates the steps of the form: -->
+                                            <!-- If Choice Question -->
+                                            <div
+                                                    th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">
+                                                <!-- If Radio -->
+                                                <div
+                                                        th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
+                                                        th:replace="~{common/user_view/components/radio_question.html :: question(question=${question}, stat=${questionStat})}">
+                                                </div>
+                                                <!-- If Check -->
+                                                <div
+                                                        th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
+                                                        th:replace="~{common/user_view/components/check_question.html :: question(question=${question}, stat=${questionStat})}">
+                                                </div>
+                                            </div>
+                                            <!-- If Select Question -->
+                                            <div
+                                                    th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion)}"
+                                                    th:replace="~{common/user_view/components/select_question.html :: question(question=${question}, stat=${questionStat})}">
+                                            </div>
+                                            <!-- If Matrix Question -->
+                                            <div
+                                                    th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion)}">
+                                                <!-- If Radio -->
+                                                <div
+                                                        th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"
+                                                        th:replace="~{common/user_view/components/matrix_radio_question.html :: question(question=${question}, stat=${questionStat})}">
+                                                </div>
+                                                <!-- If Check -->
+                                                <div
+                                                        th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"
+                                                        th:replace="~{common/user_view/components/matrix_check_question.html :: question(question=${question}, stat=${questionStat})}">
+                                                </div>
+                                            </div>
 
-					</div>
-				</div>
-				<!-- ./Iterate Question Groups -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-				<!-- Steps -->
-				<div class="row justify-content-center">
-					<div class="col-12">
-						<div id="step_container" style="text-align: center" class="m-4">
-							<span class="step" th:each="questionGroup, stat : ${surveyanswer.survey.questionGroups}" th:id="${stat.index + 1}"></span>
-						</div>
-					</div>
-				</div>
+                        </div>
+                    </div>
+                    <!-- Circles which indicates the steps of the form: -->
 
-				<!-- Buttons -->
-				<div class="row">
-					<div class="col-6">
-						<div class="p-1 mb-3">
-							<button type="button" id="prevBtn" class="btn btn-sm btn-secondary btn-icon-label rounded-pill" onclick="nextPrev(-1)">
-								<span class="btn-inner--icon"><i class="fas fa-chevron-left"></i></span>
-								<span class="btn-inner--text" th:text="#{common.previous}">Previous</span>
+                </div>
+            </div>
+            <!-- ./Iterate Question Groups -->
 
-							</button>
-						</div>
-					</div>
+            <!-- Steps -->
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div id="step_container" style="text-align: center" class="m-4">
+                        <span class="step" th:each="questionGroup, stat : ${surveyanswer.survey.questionGroups}"
+                              th:id="${stat.index + 1}"></span>
+                    </div>
+                </div>
+            </div>
 
-					<div class="col-6">
-						<div id="rightBtn" class="p-1 mb-3 text-right">
-							<button type="button" id="nextBtn" class="btn btn-sm btn-primary btn-icon-label rounded-pill" onclick="nextPrev(1)"></button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	
-	</div>
+            <!-- Buttons -->
+            <div class="row">
+                <div class="col-6">
+                    <div class="p-1 mb-3">
+                        <button type="button" id="prevBtn" class="btn btn-sm btn-secondary btn-icon-label rounded-pill"
+                                onclick="nextPrev(-1)">
+                            <span class="btn-inner--icon"><i class="fas fa-chevron-left"></i></span>
+                            <span class="btn-inner--text" th:text="#{common.previous}">Previous</span>
+
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div id="rightBtn" class="p-1 mb-3 text-right">
+                        <button type="button" id="nextBtn" class="btn btn-sm btn-primary btn-icon-label rounded-pill"
+                                onclick="nextPrev(1)"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
 </body>
 
 </html>

@@ -7,7 +7,7 @@
 			<!-- Related question -->
 			<input type="hidden" th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].question}">
 			
-			<div class="col-10 mx-1 px-2 py-3">
+			<div class="col-12">
 				<!-- OPTIONS -->
 				<div th:each="option, optionStat : ${question.options}"
 					class="custom-control custom-radio">
@@ -21,6 +21,10 @@
 				<!-- Other -->
 				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
 					<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
+
+					<input type="checkbox" th:id="@{other_choice-} + ${question.id}" name="customCheck" class="custom-control-input" disabled>
+					<label class="custom-control-label" th:for="@{other_choice-} + ${question.id}"><div class="border-bottom custom-input-text" >[[#{question.otherchoiceplaceholder}]]</div></label>
+
 					<input type="text" class="form-control"
 						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
 						size="45" th:placeholder="#{question.otherchoiceplaceholder}"
