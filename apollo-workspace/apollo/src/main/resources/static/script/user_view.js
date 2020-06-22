@@ -79,3 +79,10 @@ function fixStepIndicator(n) {
     //... and adds the "active" class to the current step:
     step[n].className += " active";
 }
+
+/**
+ * Set the value of other choice as the textbox input
+ */
+function otherChoiceValueSetter(textbox) {
+    $("#" + textbox.name)[0].value = textbox.value;
+}
