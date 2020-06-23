@@ -152,8 +152,8 @@
                                         <div class="col-12 text-center">
                                             <!-- Avatar -->
                                             <div class="avatar rounded-circle avatar-lg">
-                                                <img th:if="${survey.icon != null}" alt="User Icon" src="data:image/;base64,${survey.icon.data.data}"/>
-                                                <img th:if="${survey.icon == null}" alt="Image Default" src="/apollo/dist/img/theme/light/brand-avatar-3.png">
+                                                <img th:if="${survey.icon != null}" alt="User Icon" th:src="${'data:image/;base64,'+ survey.icon.data}"/>
+                                                <img th:if="${survey.icon == null}" alt="Image Default" th:src="@{/dist/img/theme/light/brand-avatar-3.png}">
                                             </div>
                                         </div>
 

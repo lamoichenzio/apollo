@@ -4,6 +4,28 @@
 <body>
 <div layout:fragment="page-content" class="card">
     <div id="modal_holder"></div>
+
+    <div class="modal hide fade" id="answered_modal" tabindex="-1" role="dialog" aria-hidden="true" th:fragment="loginForm">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title align-items-center">
+                        <!-- MODAL TITLE -->
+                        <h6 class="mb-0" th:text="#{common.warning}"></h6>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p th:utext="#{survey.alreadyanswered}"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger rounded-pill"
+                            data-dismiss="modal" th:text="#{common.cancel}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="card-body p-5">
         <h4 th:text="#{survey.issecret}" class="card-title"></h4>
         <div class="row justify-content-between">
