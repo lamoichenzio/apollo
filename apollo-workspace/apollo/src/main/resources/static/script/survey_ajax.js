@@ -70,6 +70,7 @@ function postSurveyRequest(requestModel) {
         cache: false,
         timeout: 10000,
         success: function (response) {
+            console.info('[SUCCESS]::[Status]:', response.status);
             $("#load_spinner").remove();
 
             // OK for success

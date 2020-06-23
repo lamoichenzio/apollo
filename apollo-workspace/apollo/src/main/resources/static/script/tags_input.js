@@ -6,6 +6,7 @@
 $(function () {
     // Tooltip inizialize
     $('[data-toggle="tooltip"]').tooltip();
+    emails = [];
 
     getInvitaionPool();
     registerTagAddingEvents();
@@ -17,7 +18,7 @@ $(function () {
  */
 function registerTagRemoveEvent() {
     $('span[data-role="remove"]').click(function (event) {
-        let val = $(event.target).parent().text();
+        let val = $(event.target).parent().text().trim();
         emails.splice(emails.findIndex(elem => elem == val), 1);
         $(event.target).parent().remove();
     });
