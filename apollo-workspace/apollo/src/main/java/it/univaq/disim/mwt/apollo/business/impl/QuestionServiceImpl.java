@@ -93,69 +93,72 @@ public class QuestionServiceImpl implements QuestionService{
 
 	@Override
 	public void createQuestion(Question question, MultipartFile file) throws BusinessException {
-		try {
-			question.setCreationDate(new Date());
-			if(file != null && !file.isEmpty()) {
-				DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
-				documentFileService.create(documentFile);
-				question.setFile(documentFile);
+		if(!question.getQuestionGroup().getSurvey().isActive()) {
+			try {
+				question.setCreationDate(new Date());
+				if (file != null && !file.isEmpty()) {
+					DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
+					documentFileService.create(documentFile);
+					question.setFile(documentFile);
+				}
+				saveQuestion(question);
+			} catch (IOException | DataAccessException e) {
+				throw new BusinessException(e);
 			}
-			saveQuestion(question);
-		}catch(IOException | DataAccessException e) {
-			throw new BusinessException(e);
 		}
 	}
 
 	@Override
 	public void updateQuestion(Question question, MultipartFile file) throws BusinessException {
-		try {
-			question.setCreationDate(new Date());
-			if(file != null && !file.isEmpty()) {
-				DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
-				documentFileService.create(documentFile);
-				if(question.getFile() != null){
-					documentFileService.delete(question.getFile());
+		if(!question.getQuestionGroup().getSurvey().isActive()) {
+			try {
+				question.setCreationDate(new Date());
+				if (file != null && !file.isEmpty()) {
+					DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
+					documentFileService.create(documentFile);
+					if (question.getFile() != null) {
+						documentFileService.delete(question.getFile());
+					}
+					question.setFile(documentFile);
 				}
-				question.setFile(documentFile);
+				saveQuestion(question);
+			} catch (DataAccessException | IOException e) {
+				throw new BusinessException(e);
 			}
-			saveQuestion(question);
-		}catch(DataAccessException | IOException e) {
-			throw new BusinessException(e);
 		}
 	}
 
 	@Override
 	public void deleteQuestion(Question question) throws BusinessException {
-		try {
-			if(question.getFile()!=null) {
-				documentFileService.delete(question.getFile());
+		if(!question.getQuestionGroup().getSurvey().isActive()) {
+			try {
+				if (question.getFile() != null) {
+					documentFileService.delete(question.getFile());
+				}
+				if (question instanceof InputQuestion) {
+					inputQuestionRepository.delete((InputQuestion) question);
+				}
+				if (question instanceof ChoiceQuestion) {
+					choiceQuestionRepository.delete((ChoiceQuestion) question);
+				}
+				if (question instanceof SelectionQuestion) {
+					selectQuestionRepository.delete((SelectionQuestion) question);
+				}
+				if (question instanceof MatrixQuestion) {
+					matrixQuestionRepository.delete((MatrixQuestion) question);
+				}
+			} catch (DataAccessException e) {
+				throw new BusinessException(e);
 			}
-			if(question instanceof InputQuestion) {
-				inputQuestionRepository.delete((InputQuestion)question);
-			}
-			if(question instanceof ChoiceQuestion) {
-				choiceQuestionRepository.delete((ChoiceQuestion)question);
-			}
-			if(question instanceof SelectionQuestion) {
-				selectQuestionRepository.delete((SelectionQuestion)question);
-			}
-			if(question instanceof MatrixQuestion) {
-				matrixQuestionRepository.delete((MatrixQuestion)question);
-			}
-		}catch(DataAccessException e) {
-			throw new BusinessException(e);
 		}
 	}
 	
 	@Override
 	public void deleteQuestionList(Iterable<? extends Question> entities) throws BusinessException {
 		try {
-			Iterator<Question> iter = (Iterator<Question>)entities.iterator();
-			
-			while(iter.hasNext()) {
-				deleteQuestion(iter.next());
+			for(Question question : entities){
+				deleteQuestion(question);
 			}
-
 		} catch(DataAccessException e) {
 			throw new BusinessException(e);
 		}

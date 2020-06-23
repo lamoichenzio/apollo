@@ -26,22 +26,6 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 	
 	@Autowired
 	QuestionService questionService;
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<QuestionGroup> findAllQuestionGroups() throws BusinessException {
-		try {			
-			return questionGroupRepository.findAll();
-		}catch(DataAccessException e) {
-			throw new BusinessException(e);
-		}
-	}
-
-	@Override
-	public ResponseGrid<QuestionGroup> findAllQuestionGroupsPaginated(RequestGrid request) throws BusinessException {
-		// TODO implement me
-		return null;
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -55,56 +39,49 @@ public class QuestionGroupServiceImpl implements QuestionGroupService {
 
 	@Override
 	public void createQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
-		try {			
-			questionGroupRepository.save(questionGroup);
-		}catch(DataAccessException e) {
-			throw new BusinessException(e);
+		if(!questionGroup.getSurvey().isActive()) {
+			try {
+				questionGroupRepository.save(questionGroup);
+			} catch (DataAccessException e) {
+				throw new BusinessException(e);
+			}
 		}
 	}
 
 	@Override
 	public void updateQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
-		try {			
-			questionGroupRepository.save(questionGroup);
-		}catch(DataAccessException e) {
-			throw new BusinessException(e);
+		if(!questionGroup.getSurvey().isActive()) {
+			try {
+				questionGroupRepository.save(questionGroup);
+			} catch (DataAccessException e) {
+				throw new BusinessException(e);
+			}
 		}
 	}
 
 	@Override
 	public void deleteQuestionGroup(QuestionGroup questionGroup) throws BusinessException {
-		try {	
-			// Delete related questions, if exists
-			if (questionGroup.getQuestions() != null && questionGroup.getQuestions().size() > 0) {
-				Iterable<Question> questions = (Iterable<Question>)questionGroup.getQuestions();
-				questionService.deleteQuestionList(questions);
+		if(!questionGroup.getSurvey().isActive()) {
+			try {
+				// Delete related questions, if exists
+				if (questionGroup.getQuestions() != null && questionGroup.getQuestions().size() > 0) {
+					Iterable<Question> questions = questionGroup.getQuestions();
+					questionService.deleteQuestionList(questions);
+				}
+				// Delete group
+				questionGroupRepository.delete(questionGroup);
+			} catch (DataAccessException e) {
+				throw new BusinessException(e);
 			}
-			// Delete group
-			questionGroupRepository.delete(questionGroup);
-		}catch(DataAccessException e) {
-			throw new BusinessException(e);
 		}
 	}
 
 	@Override
-	public void deleteQuestionGroupById(String id) throws BusinessException {
-		try {			
-			questionGroupRepository.deleteById(id);
-		}catch(DataAccessException e) {
-			throw new BusinessException(e);
-		}
-	}
-	
-	@Override
 	public void deleteQuestionGroupList(Iterable<? extends QuestionGroup> entities) throws BusinessException {
 		try {
-			Iterator<QuestionGroup> iter = (Iterator<QuestionGroup>)entities.iterator();
-			
-			while(iter.hasNext()) {
-				QuestionGroup group = iter.next();
-				
+			for(QuestionGroup group : entities){
 				if (group.getQuestions() != null && group.getQuestions().size() > 0) {
-					Iterable<Question> questions = (Iterable<Question>)group.getQuestions();
+					Iterable<Question> questions = group.getQuestions();
 					questionService.deleteQuestionList(questions);
 				}
 

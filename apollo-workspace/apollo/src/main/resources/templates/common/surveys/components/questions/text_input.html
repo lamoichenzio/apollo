@@ -53,16 +53,11 @@
                         <span class="col-auto my-auto">Number input</span>
                     </div>
 
-
-                    <!--                    <input th:type="${question.type}" class="form-control"-->
-                    <!--                           th:unless="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}" disabled/>-->
-                    <!--                    <textarea class="form-control" rows="3" resize="none"-->
-                    <!--                              th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}" disabled></textarea>-->
                 </div>
             </div>
         </div>
 
-        <div class="col-auto card border-0 shadow-none bg-gray-100">
+        <div class="col-auto card border-0 shadow-none bg-gray-100" th:if="${!survey.active}">
             <div class="dropdown" data-toggle="dropdown">
                 <a href="#" class="action-item" role="button" data-toggle="dropdown" aria-haspopup="true"
                    aria-expanded="false"> <i class="far fa-cog"></i>

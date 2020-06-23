@@ -98,19 +98,6 @@
                             <div class="form-group mb-0">
                                 <label class="form-control-label mb-0">Icon</label>
 
-                                <!--                                    <div class="custom-file" th:if="${survey.id == null}">-->
-                                <!--                                        <input type="file" class="custom-file-input" id="iconfile" name="iconfile" th:value="${iconfile}" accept="image/*" />-->
-                                <!--                                        <label id="survey_icon" class="custom-file-label text-truncate" for="customIcon">Choose file...</label>-->
-                                <!--                                    </div>-->
-                                <!--                                    &lt;!&ndash;Update case &ndash;&gt;-->
-                                <!--                                    <div class="custom-file" th:if="${survey.id != null}">-->
-                                <!--                                        <input type="file" class="custom-file-input" id="iconfile" name="iconfile" th:value="${iconfile}"-->
-                                <!--                                            accept="image/*" />-->
-                                <!--                                        <input type="text" class="hidden" id="icon" name="icon" th:field="*{icon}"/>-->
-                                <!--                                        <label id="survey_icon" class="custom-file-label text-truncate" for="customIcon" th:text="${survey.icon != null ? survey.icon.name : 'Choose file...'}"></label>-->
-                                <!--                                    </div>-->
-
-
                                 <!--Creation fase-->
 
                                 <div class="form-control-label">
@@ -145,11 +132,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">
+                    <a type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">
                         [[#{common.cancel}]]
-                    </button>
+                    </a>
                     <button id="survey_submit" type="submit" class="btn btn-sm btn-primary rounded-pill"
-                            th:text="#{common.submit}"></button>
+                            th:text="#{common.submit}" th:disabled="*{active}"></button>
                 </div>
 
             </form>
@@ -165,25 +152,27 @@
                 var label = document.getElementById('iconfile_label');
                 label.innerText = filename;
                 console.log('Selected file: ' + filename);
-
-
             };
+
+            if([[${survey.active}]]){
+                $(":input").attr('disabled','disabled');
+            }
         });
 
 
         $('#survey_form').submit(function (e) {
             let err = false;
             let data = $(this).serializeArray();
-            let startDate = data.find((elem) => elem.name == 'startDate');
-            let endDate = data.find((elem) => elem.name == 'endDate');
+            let startDate = data.find((elem) => elem.name === 'startDate');
+            let endDate = data.find((elem) => elem.name === 'endDate');
             let today = new Date().setHours(0, 0, 0, 0);
             let ext = $('#iconfile').val().split('.').pop().toLowerCase();
             // Dates validation
-            if (startDate.value !== "" && (new Date(startDate.value) < today)) {
+            if (startDate.value !== "" && (new Date(startDate.value) <= today)) {
                 $("#errors").text([[#{startdate.lower}]]);
                 err = true;
             }
-            if (endDate.value !== "" && (new Date(endDate.value) < today)) {
+            if (endDate.value !== "" && (new Date(endDate.value) <= today)) {
                 $("#errors").text([[#{enddate.lower}]]);
                 err = true;
             }

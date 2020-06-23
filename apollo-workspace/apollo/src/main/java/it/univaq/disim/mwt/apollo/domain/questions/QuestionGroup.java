@@ -49,7 +49,7 @@ public class QuestionGroup {
 	}
 	
 	public void removeQuestion(Question question) {
-		questions.remove(question);
+		questions.removeIf(q -> question.getId().equals(q.getId()));
 	}
 
 }

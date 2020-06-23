@@ -104,7 +104,6 @@ public class QuestionController {
 
         // Create question
         questionService.createQuestion(question, file);
-
         // Update group
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);

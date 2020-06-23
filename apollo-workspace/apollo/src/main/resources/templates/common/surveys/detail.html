@@ -74,19 +74,19 @@
 				</div>
 												
 				<!-- Settings -->
-				<div class="col-4 text-right my-auto">
+				<div class="col-6 text-right my-auto">
 					<div class="actions">
-						<a class="align-items-center">
+						<span class="align-items-center">
 							<span class="text-left form-control-label">[[#{survey.secret}]]:</span>
 							<span id="survey_secret" th:if="${survey.secret}"
 								class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
 							<span id="survey_secret" th:if="${!survey.secret}" class="text-right badge badge-danger badge-pill mx-2">No</span>
-						</a>
-						<a class="align-items-center ml-3 mr-3">
+						</span>
+						<span class="align-items-center ml-3 mr-3">
 							<span class="text-left form-control-label">[[#{common.published}]]:</span>
 							<span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">Yes</span>
 							<span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
-						</a>
+						</span>
 						<a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send invitations"
 							data-target="#actions-invitation"
 							th:onclick="getSurveyRequest([[@{/surveys/invitationpool}]], '#modal-invitation-pool-survey', [[${survey.id}]])">
@@ -132,7 +132,7 @@
 		</div>
 
 		<!-- ADD GROUP BUTTON -->
-		<div class="card-body mb-4 mt-2">
+		<div class="card-body mb-4 mt-2" th:if="${!survey.active}">
 			<div class="row justify-content-center">
 				<div class="col-auto d-flex align-items-center">
 
