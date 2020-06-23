@@ -1,42 +1,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<div th:fragment="question">
-		<div class="row"
-			th:each="matrixAnswer, stat : *{singleChoiceMatrixAnswers}"
-			th:if="${matrixAnswer.question.id == question.id}">
+<div th:fragment="question">
+    <div class="row mb-n3 shadow-none"
+         th:each="matrixAnswer, stat : *{singleChoiceMatrixAnswers}"
+         th:if="${matrixAnswer.question.id == question.id}">
 
-			<!-- Related Question -->
-			<input type="hidden"
-				th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].question}">
+        <!-- Related Question -->
+        <input type="hidden"
+               th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].question}">
 
-			<table class="table table-cards align-items-center" width="100%"
-				cellspacing="0">
-				<!-- Show options label -->
-				<thead>
-					<tr class="table-divider">
-						<th scope="col"></th>
-						<th th:each="optionValue : ${question.optionValues}" scope="col">
-							[[${optionValue}]]</th>
-					</tr>
-				</thead>
-				<!-- Show questions -->
-				<tbody>
-					<span th:each="option, optionStat : ${question.options}">
+        <table class="table table-cards shadow-none align-items-center mx-2 " width="100%" cellspacing="0">
+            <!-- Show options label -->
+            <thead>
+            <tr class="table-divider">
+                <th scope="col"></th>
+                <th th:each="optionValue : ${question.optionValues}" scope="col">
+                    [[${optionValue}]]
+                </th>
+            </tr>
+            </thead>
+            <!-- Show questions -->
+            <tbody>
+            <span th:each="option, optionStat : ${question.options}">
 						<tr>
-							<th scope="row">[[${option}]]</th>
+							<th scope="row shadow-none">[[${option}]]</th>
 							<td th:each="optionValue : ${question.optionValues}">
-								<input
-								type="radio"
-								th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"
-								th:value="${optionValue}" 
-								th:disabled="${readonly}"/></td>
+
+								<div class="custom-control custom-radio">
+                                    <input type="radio" th:id="@{option[__${option}__].answers[__${optionValue}__]}" name="customRadio" class="custom-control-input"
+                                           th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"
+                                           th:value="${optionValue}"
+                                           th:disabled="${readonly}">
+                                    <label class="custom-control-label" th:for="@{option[__${option}__].answers[__${optionValue}__]}"></label>
+                                </div>
+
+<!--								<input-->
+<!--                                        type="radio"-->
+<!--                                        th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"-->
+<!--                                        th:value="${optionValue}"-->
+<!--                                        th:disabled="${readonly}"/></td>-->
 						</tr>
 						<tr class="table-divider"></tr>
 					</span>
-				</tbody>
-			</table>
+            </tbody>
+        </table>
 
-		</div>
-	</div>
+    </div>
+</div>
 </body>
 </html>

@@ -111,19 +111,30 @@
 
 .question-image{
 
-    width: 80px;
-    height: 80px;
+    width: 400px;
+    height: 250px;
     position: relative;
     overflow: hidden;
-    border-radius: 10%;
 
 }
 
 .question-image img{
     object-fit: cover;
-    border-radius: 10%;
-    height: 80px;
-    width: 80px;
+    width: 400px;
+    height: 250px;
+}
+
+.answer-image{
+    position: relative;
+    overflow: hidden;
+    width: 400px;
+    height: 250px;
+}
+
+.answer-image img{
+    object-fit: cover;
+    width: 400px;
+    height: 250px;
 }
 
 .profile-image{
