@@ -81,20 +81,20 @@ public class ApolloApplication {
             utenteRepository.save(standardUser);
 
             //TEST PRIVATE SURVEY
-            Survey survey = new Survey();
-            survey.setName("prova");
-            survey.setUser(standardUser);
-            survey.setSecret(true);
-            surveyRepository.save(survey);
-
-            //INVITATION POOL
-            InvitationPool pool = new InvitationPool();
-            pool.setSurvey(survey);
-            pool.setEmails(Collections.singleton("giordano.daloisio@gmail.com"));
-            pool.setPassword("prova");
-            invitationPoolRepository.save(pool);
-            survey.setInvitationPool(pool);
-            surveyRepository.save(survey);
+//            Survey survey = new Survey();
+//            survey.setName("prova");
+//            survey.setUser(standardUser);
+//            survey.setSecret(true);
+//            surveyRepository.save(survey);
+//
+//            //INVITATION POOL
+//            InvitationPool pool = new InvitationPool();
+//            pool.setSurvey(survey);
+//            pool.setEmails(Collections.singleton("giordano.daloisio@gmail.com"));
+//            pool.setPassword("prova");
+//            invitationPoolRepository.save(pool);
+//            survey.setInvitationPool(pool);
+//            surveyRepository.save(survey);
         };
     }
     

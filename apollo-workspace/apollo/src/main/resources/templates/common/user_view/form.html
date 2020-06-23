@@ -5,6 +5,7 @@
 		<form th:action="@{/forms/survey/create}" method="post" th:object="${surveyanswer}" id="form">
 
 			<input type="hidden" th:field="*{survey}"/>
+			<input type="hidden" name="email" th:value="${email}">
 
 			<div class="card-body pb-0">
 				<!-- Iterate Question Groups -->

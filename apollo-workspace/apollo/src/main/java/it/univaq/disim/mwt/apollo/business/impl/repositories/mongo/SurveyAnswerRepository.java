@@ -17,5 +17,6 @@ public interface SurveyAnswerRepository extends MongoRepository<SurveyAnswer, St
 	 * @return List<SurveyAnswer>
 	 */
 	List<SurveyAnswer> findAllBySurvey(Survey survey);
-	
+
+	boolean existsBySurveyAndEmail(Survey survey, String email);
 }
