@@ -2,8 +2,6 @@ package it.univaq.disim.mwt.apollo.business;
 
 import java.util.List;
 
-import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
-import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.answers.Answer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
@@ -15,7 +13,6 @@ import it.univaq.disim.mwt.apollo.domain.answers.SingleChoiceMatrixAnswer;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
-import it.univaq.disim.mwt.apollo.domain.questions.Question;
 import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 
 public interface AnswerService {

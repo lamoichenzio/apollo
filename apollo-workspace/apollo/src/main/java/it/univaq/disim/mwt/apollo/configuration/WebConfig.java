@@ -1,7 +1,5 @@
 package it.univaq.disim.mwt.apollo.configuration;
 
-import java.util.Locale;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -15,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import java.util.Locale;
+
 @Configuration
 @EnableMongoRepositories(basePackages = "it.univaq.disim.mwt.apollo.business.impl.repositories.mongo")
 @EnableJpaRepositories(basePackages = "it.univaq.disim.mwt.apollo.business.impl.repositories.jpa")
@@ -25,6 +25,8 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("index");
+		registry.addViewController("/common/survey_submitted").setViewName("/common/user_view/common_pages/survey_submitted");
+		registry.addViewController("/common/survey_answered").setViewName("/common/user_view/common_pages/survey_answered");
 	}
 	
 	@Bean

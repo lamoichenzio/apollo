@@ -21,15 +21,16 @@
             <form id="survey_form" th:action="${#request.getRequestURI()}" enctype="multipart/form-data"
                   th:object="${survey}" class="form-horizontal" method="post">
 
-                <!-- Input for update case -->
-                <div class="hidden">
-                    <input th:if="${survey.id != null}" type="hidden" th:field="*{id}"/>
-                    <input th:if="${survey.user != null}" type="hidden" th:field="*{user}"/>
-                    <input th:if="${survey.questionGroups != null}" type="hidden" th:field="*{questionGroups}"/>
-                    <input th:if="${survey.active != null}" type="hidden" th:field="*{active}"/>
-                    <input th:if="${survey.urlId != null}" type="hidden" th:field="*{urlId}"/>
-                    <input th:if="${survey.creationDate != null}" type="hidden" th:field="*{creationDate}"/>
-                </div>
+                    <!-- Input for update case -->
+                    <div class="hidden">
+                        <input th:if="${survey.id != null}" type="hidden" th:field="*{id}" />
+                        <input th:if="${survey.user != null}" type="hidden" th:field="*{user}" />
+                        <input th:if="${survey.questionGroups != null}" type="hidden" th:field="*{questionGroups}" />
+                        <input th:if="${survey.invitationPool != null}" type="hidden" th:field="*{invitationPool}" />
+                        <input th:if="${survey.active != null}" type="hidden" th:field="*{active}" />
+                        <input th:if="${survey.urlId != null}" type="hidden" th:field="*{urlId}" />
+                        <input th:if="${survey.creationDate != null}" type="hidden" th:field="*{creationDate}" />
+                    </div>
 
                 <div class="modal-body">
 

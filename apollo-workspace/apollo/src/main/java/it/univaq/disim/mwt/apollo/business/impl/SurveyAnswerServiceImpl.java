@@ -148,4 +148,13 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 		}
 	}
 
+	@Override
+	public boolean surveyExistsBySurveyAndEmail(Survey survey, String email) throws BusinessException {
+		try{
+			return surveyAnswerRepository.existsBySurveyAndEmail(survey, email);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
+	}
+
 }

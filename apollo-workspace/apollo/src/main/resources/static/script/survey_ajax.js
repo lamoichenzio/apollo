@@ -10,10 +10,10 @@ const SELECT = 'SELECT';
 const MATRIX = 'MATRIX';
 const STANDARD = 'STANDARD';
 
-const SPINNER = '<div id="spinner" class="spinner-border text-success" role="status"><span class="sr-only"> Loading...</span></div>';
-
 var optionList = [];
 var optionValues = [];
+
+let emails = [];
 
 $(function () {
     // Tooltip inizialize
@@ -57,53 +57,144 @@ function getSurveyRequest(url, modal_id, param) {
  * @param {String} url
  * @param {String} param
  */
-function postSurveyRequest(url, param) {
-    event.preventDefault();
-
-    let url_splitted = url.split('/');
-    let request = getRequestByUrl(url, param, 'Survey', 'post');
-    
-    $("#result_container").prepend(SPINNER);
+function postSurveyRequest(requestModel) {
+    // Set Spinner
+    $(".loader").prepend(LOAD_SPINNER);
 
     $.ajax({
         type: "POST",
-        url: url,
-        data: JSON.stringify(request),
+        url: requestModel.url,
+        data: requestModel.body,
         dataType: 'json',
         contentType: 'application/json',
         cache: false,
         timeout: 10000,
         success: function (response) {
-            $("#spinner").remove();
+            console.info('[SUCCESS]::[Status]:', response.status);
+            $("#load_spinner").remove();
 
             // OK for success
             if (response.status === 'OK') {
-                if (url_splitted[url_splitted.length - 1] === 'publish') {
-                    if (response.msg === "active") {
-                        surveyPublished(response);   
-                    } else if (response.msg === "inactive") {
-                        surveyUnpublished(response);
-                    }                  
-                }
+                handleSurveySuccessResponse(getUrlPostfix(requestModel.url), response);
             } else {
-                $("#modal_holder").empty();
+                handleSurveyErrorResponse(response.msg);
             }
-            
         },
         error: function (e) {
-            console.log('ERROR', e);
+            $("#load_spinner").remove();
+            handleSurveyErrorResponse(e.responseJSON.msg);
+            console.error('ERROR', e);
         }
     });
 }
 
 /**
- * Do somethings when a survey is published.
+ * Publish survey.
+ * @param {String} url 
+ * @param {Object} survey 
+ */
+function sendPublish(url, survey) {
+    let request = new RequestModel(url, JSON.stringify(survey));
+
+    if (survey.secret && !survey.active) {
+        $("#modal_holder").append(INVITATION_CONFIRM);
+        $("#modal-invitation-confirm").modal("show");
+        $("#modal_dismiss").trigger("click");
+        // adding translations
+        $("#send_email_confirmation").text(translations.sendInvitationConfirm);
+        $("#cancel").text(translations.cancel);
+        $("#publish_invitation_submit").text(translations.send);
+        if (emails && emails.length > 0) {
+            // Publish and send emails
+            $("#publish_invitation_submit").click(() => {
+                postSurveyRequest(request);
+            });
+        } else {
+            $("#publish_invitation_submit").attr("disabled", true);
+            $("#send_email_error").show();
+        }
+
+    } else {
+        postSurveyRequest(request);
+    }
+}
+
+/**
+ * Send and save invitation pool;
+ * @param {String} url 
+ * @param {String} surveyId 
+ */
+function sendInvitationPool(url, surveyId) {
+    let request = new RequestModel(url, null);
+    request.setParams({id : surveyId});
+
+    if (checkEmailPool()) {
+        request.body = emails.join(';');
+        postSurveyRequest(request);
+    }
+}
+
+/**
+ * Handle survey server call success response.
+ * @param {String} url_postfix 
+ * @param {Object} response 
+ */
+function handleSurveySuccessResponse(url_postfix, response) {
+    console.info('[SUCCESS]::[Message]: ', response.msg);
+
+    if (url_postfix === 'publish') {
+        if (response.msg === "active") {
+            surveyPublished(response);
+            // Handle close confirm modal
+            if (response.result.secret) {
+                $("#cancel").trigger("click");
+            }
+        } else if (response.msg === "inactive") {
+            surveyUnpublished(response);
+        }
+    } else {
+        // Close modal
+        $("#cancel").trigger("click");
+    }
+}
+
+/**
+ * Handle survey server call error response.
+ * @param {String} message 
+ */
+function handleSurveyErrorResponse(message) {
+    console.error('[ERROR]::[Message]: ', message);
+    $("#error_message").text(message);
+    $("#error_message").show();
+}
+
+/**
+ * Send emails and update survey.
+ * @param {String} url 
+ * @param {Object} param 
+ */
+function checkEmailPool() {
+    if (emails.length > 0) {
+        let invitationPool = emails.filter(validateEmail);
+        if (invitationPool.length != emails.length) {
+            $("#invalid_mail_msg").show();
+            return false;
+        }
+        return true;
+    } else {
+        $("#invalid_mail_msg").show();
+    }
+    return false;
+}
+
+/**
+ * Handle response when survey is published.
  * @param {Object} response 
  */
 function surveyPublished(response) {
     $("#urlId").val(response.result.urlId);
     $("#success_message").show();
-    $("#disabled_message").hide();
+    $("#error_message").hide();
     $("#survey_active").removeClass("badge-danger").addClass("badge-success");
     $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
 
@@ -114,7 +205,6 @@ function surveyPublished(response) {
         $('#survey_active').text("Yes");
         $('#publish_submit').text('Disable');
     }
-
 }
 
 /**
@@ -123,7 +213,7 @@ function surveyPublished(response) {
  */
 function surveyUnpublished(response) {
     $("#urlId").val(response.result.urlId);
-    $("#disabled_message").show();
+    $("#error_message").show();
     $("#success_message").hide();
     $("#survey_active").removeClass("badge-success").addClass("badge-danger");
     $("#survey_active").text("No");
@@ -136,6 +226,14 @@ function surveyUnpublished(response) {
     }
 }
 
+/**
+ * Regex email validator.
+ * @param {String} email 
+ */
+function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
 
 /** QUESTION GROUP FUNCTIONS **/
 
@@ -364,9 +462,8 @@ function deleteImage(event) {
  * @param {String} model 
  */
 function getRequestByUrl(url, request_param, model, method) {
-    let url_splitted = url.split('/');
-
-    switch (url_splitted[url_splitted.length - 1]) {
+    
+    switch (getUrlPostfix(url)) {
         case 'create':
             if (model === 'Survey') return {};
             if (model === 'QuestionGroup') return { survey_id : request_param };
@@ -376,14 +473,26 @@ function getRequestByUrl(url, request_param, model, method) {
         case 'delete':
             return { id: request_param };
         case 'publish':
-            if (method === 'post') return request_param;
             if (method === 'get') return { id : request_param };
+            break;
+        case 'invitationpool':
+            if (method === 'get') return { id: request_param };
+            break;
         default:
             break;
     }
     return null;
 }
 
+function getUrlPostfix(url) {
+    let url_splitted = url.split('/');
+    return url_splitted[url_splitted.length - 1];
+}
+
+/**
+ * Copy to clipboard utility.
+ * @param {String} elem 
+ */
 function copyToClipboard(elem) {
     event.preventDefault();
     let copyText = $("#" + elem);
@@ -391,17 +500,19 @@ function copyToClipboard(elem) {
     document.execCommand("copy");
 }
 
-var getUrlParameter = function getUrlParameter(sParam) {
-    let sPageURL = window.location.search.substring(1),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
+/**
+ * Request Model class.
+ * 
+ */
+let RequestModel = function(url, body) {
+    this.url = url;
+    this.params = null;
+    this.body = body;
 
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+    this.setParams = function (params) {
+        this.params = params;
+        for (let elem in this.params) {
+            this.url += '?' + elem + '=' + params[elem];
         }
-    }
-};
+    };
+}

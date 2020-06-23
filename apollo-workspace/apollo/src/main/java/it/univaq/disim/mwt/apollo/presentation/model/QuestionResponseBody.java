@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class QuestionResponseBody extends ResponseBodyGeneric {
+public class QuestionResponseBody extends GenericResponseBody {
     
     @Setter(AccessLevel.NONE)
     List<QuestionBody> questions = new ArrayList<QuestionBody>();

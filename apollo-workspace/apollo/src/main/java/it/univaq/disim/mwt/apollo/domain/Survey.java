@@ -32,8 +32,8 @@ import lombok.ToString;
 @Data
 @Document(collection = "Surveys")
 @TypeAlias("Survey")
-@EqualsAndHashCode(exclude="questionGroups")
-@ToString(exclude="questionGroups")
+@EqualsAndHashCode(exclude={"questionGroups", "invitationPool"})
+@ToString(exclude={"questionGroups", "invitationPool"})
 public class Survey {
 	
 	@Id
@@ -62,7 +62,7 @@ public class Survey {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 	
-	//@Indexed(unique=true)
+//	@Indexed
 	private String urlId;
 	
 	@OneToMany
@@ -72,6 +72,10 @@ public class Survey {
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Set<QuestionGroup> questionGroups = new HashSet<>();
+
+	@DBRef
+	@JsonIgnore
+	private InvitationPool invitationPool;
 	
 	public void addQuestionGroup(QuestionGroup questionGroup) {
 		questionGroup.setSurvey(this);

@@ -31,7 +31,7 @@ $(function () {
  * @param {Number} n 
  */
 function showTab(n) {
-    // Hide tab
+    // Show tab
     tabs[n].style.display = "block";
 
     if (n == 0) {
@@ -78,4 +78,49 @@ function fixStepIndicator(n) {
     }
     //... and adds the "active" class to the current step:
     step[n].className += " active";
+}
+
+function openLoginModal(url, survey, modal_id){
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {id: survey},
+        dataType: 'html',
+        contentType: 'text/html; charset=UTF-8',
+        cache: false,
+        timeout: 600000,
+        success: function (response) {
+            $("#modal_holder").html(response);
+            $(modal_id).modal("show");
+        },
+        error: function (e) {
+            console.log('ERROR', e);
+        }
+    })
+}
+
+function surveyLogin(url, form){
+    event.preventDefault();
+    let data = $(form).serializeToJSON();
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify(data),
+        dataType: "json",
+        contentType: "application/json",
+        cache: false,
+        timeout: 600000,
+        success: (response) => {
+            if(response.status === "OK"){
+                window.location.replace(response.msg);
+            }
+        },
+        error: (response) =>{
+            if(response.responseJSON.status === "ERROR"){
+                $("#error_alert").show();
+            }else{
+                console.log("ERROR: "+responseJSON);
+            }
+        }
+    })
 }

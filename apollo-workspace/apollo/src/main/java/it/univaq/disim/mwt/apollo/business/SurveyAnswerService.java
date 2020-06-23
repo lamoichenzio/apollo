@@ -19,5 +19,7 @@ public interface SurveyAnswerService {
 	SurveyAnswer findSurveyAnswerById(String id) throws BusinessException;
 	
 	void createSurveyAnswer(SurveyAnswer surveyAnswer) throws BusinessException;
+
+	boolean surveyExistsBySurveyAndEmail(Survey survey, String email) throws BusinessException;
 	
 }

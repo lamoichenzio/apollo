@@ -1,7 +1,5 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import java.util.stream.Collectors;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.univaq.disim.mwt.apollo.business.EmailService;
+import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
 import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.UserService;
@@ -26,8 +26,10 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.validators.FileValidator;
+import it.univaq.disim.mwt.apollo.domain.InvitationPool;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
 import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
@@ -40,6 +42,9 @@ public class SurveyController {
 	private SurveyService surveyService;
 	
 	@Autowired
+	private InvitationPoolService invitationPoolService;
+	
+	@Autowired
 	private SurveyAnswerService surveyAnswerService;
 	
 	@Autowired
@@ -47,6 +52,9 @@ public class SurveyController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@GetMapping("/dashboard")
 	public String dashboard() {
@@ -88,18 +96,11 @@ public class SurveyController {
 	public ResponseEntity<SurveyResponseBody> publish(@Valid @RequestBody Survey request, Errors errors)
 			throws BusinessException {
 
-		SurveyResponseBody result = new SurveyResponseBody();
+		SurveyResponseBody response = new SurveyResponseBody();
 
 		// If error, just return a 400 bad request, along with the error message
 		if (errors.hasErrors()) {
-			result.setStatus(ResponseStatus.ERROR);
-			result.setMsg(
-				errors.getAllErrors().stream()
-				.map(x -> x.getDefaultMessage())
-				.collect(Collectors.joining(","))
-			);
-
-			return ResponseEntity.badRequest().body(result);
+			return ResponseEntity.badRequest().body(SurveyHelper.addErrorResult(errors));
 		}
 
 		Survey survey = surveyService.findSurveyById(request.getId());
@@ -108,20 +109,67 @@ public class SurveyController {
 			survey.setActive(false);
 			survey.removeSurveyUrl();
 			surveyService.updateSurvey(survey, null);
-			result.setMsg("inactive");
+			response.setMsg("inactive");
 		} else {
 			survey.createSurveyUrl(survey.getId());
+
+			if (survey.isSecret()) {
+				if (survey.getInvitationPool() != null && survey.getInvitationPool().getEmails().size() > 0) {
+					String[] addresses = survey.getInvitationPool().getEmails().toArray(new String[0]);
+					emailService.sendHTMLMail(addresses, "Survey invitation", SurveyHelper.buildInvitationMailBody(survey));
+				} else {
+					response.setMsg("No email address found.");
+					response.setStatus(ResponseStatus.ERROR);
+					return ResponseEntity.badRequest().body(response);
+				}
+			}
+			
 			survey.setActive(true);
 			surveyService.updateSurvey(survey, null);
-			result.setMsg("active");
+			response.setMsg("active");
 		}
 		
-		result.setStatus(ResponseStatus.OK);
-		result.setResult(survey);
+		response.setStatus(ResponseStatus.OK);
+		response.setResult(survey);
 
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(response);
 	}
 
+	@GetMapping("/invitationpool")
+	public String invitationPoolStart(@RequestParam String id, Model model) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		model.addAttribute("survey", survey);
+		return "/common/surveys/modals/invitation_survey_modal :: surveyInvitationPool";
+	}
+	
+	@PostMapping("/invitationpool")
+	@ResponseBody
+	public ResponseEntity<SurveyResponseBody> invitationPool(@RequestBody String request, @RequestParam String id) throws BusinessException {
+		SurveyResponseBody response = new SurveyResponseBody();
+
+		Survey survey = surveyService.findSurveyById(id);
+
+		if (survey.isActive()) {
+			response.setStatus(ResponseStatus.ERROR);
+			response.setMsg("Survey already active");
+			return ResponseEntity.badRequest().body(response);
+		} else {
+			// Create Invitation Pool
+			InvitationPool invitationPool = SurveyHelper.buildInvitationPool(request, invitationPoolService.findInvitationPoolBySurvey(survey), survey);
+			invitationPoolService.updateInvitationPool(invitationPool);
+
+			// update survey
+			survey.setInvitationPool(invitationPool);
+			surveyService.updateSurvey(survey, null);
+			response.setMsg("Invitation Pool created.");
+		}
+
+		response.setStatus(ResponseStatus.OK);
+		response.setResult(survey);
+		
+		return ResponseEntity.ok(response);
+	}
+	
 	@GetMapping("/create")
 	public String createStart(Model model) {
 		Survey survey = new Survey();
@@ -160,13 +208,7 @@ public class SurveyController {
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail?id=" + survey.getId() + "&erro=true";
 		}
-
-		if (iconfile == null) {
-			surveyService.updateSurvey(survey, null);
-		} else {
-			surveyService.updateSurvey(survey, iconfile);
-		}
-
+		surveyService.updateSurvey(survey, iconfile);
 		return "redirect:/surveys/detail?id=" + survey.getId();
 	}
 

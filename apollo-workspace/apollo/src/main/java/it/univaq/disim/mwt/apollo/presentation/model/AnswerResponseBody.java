@@ -10,13 +10,7 @@ import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class AnswerResponseBody extends ResponseBodyGeneric {
-//    private List<ChoiceQuestionMultiAnswer> choiceQuestionMultiAnswers;
-//    private List<ChoiceQuestionSingleAnswer> choiceQuestionSingleAnswers;
-//    private List<InputQuestionAnswer> inputQuestionAnswers;
-//    private List<MultiChoiceMatrixAnswer> multiChoiceMatrixAnswers;
-//    private List<SingleChoiceMatrixAnswer> singleChoiceMatrinxAnswers;
-//    private List<SelectionQuestionAnswer> selectionQuestionAnswers;
+public class AnswerResponseBody extends GenericResponseBody {
 	
     private QuestionBody question;
     private AnswerType type;
