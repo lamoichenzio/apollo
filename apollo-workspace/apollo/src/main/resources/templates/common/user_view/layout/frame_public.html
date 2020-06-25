@@ -6,7 +6,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="Purpose Application UI is the following chapter we've finished in order to create a complete and robust solution next to the already known Purpose Website UI.">
+        <meta name="description"
+              content="Purpose Application UI is the following chapter we've finished in order to create a complete and robust solution next to the already known Purpose Website UI.">
         <meta name="author" content="Webpixels">
         <title th:text="#{common.applicationtitle}">Apollo</title>
         <!-- Favicon -->
@@ -21,27 +22,29 @@
         <link rel="stylesheet" href="./dist/css/custom.css"
               th:href="@{/dist/css/custom.css}">
 
-    <!-- Scripts -->
-    <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
-    <script src="./dist/js/purpose.core.js" th:src="@{/dist/js/purpose.core.js}"></script>
-    <!-- Purpose JS -->
-    <script src="./dist/js/purpose.js" th:src="@{/dist/js/purpose.js}"></script>
-    <!-- JQuery serialize to JSON -->
-    <script scr="/static/dist/js/jquery.serializeToJSON.min.js" th:src="@{/dist/js/jquery.serializeToJSON.min.js}"></script>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+        <!-- Scripts -->
+        <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+        <script src="./dist/js/purpose.core.js" th:src="@{/dist/js/purpose.core.js}"></script>
+        <!-- Purpose JS -->
+        <script src="./dist/js/purpose.js" th:src="@{/dist/js/purpose.js}"></script>
+        <!-- JQuery serialize to JSON -->
+        <script scr="/static/dist/js/jquery.serializeToJSON.min.js"
+                th:src="@{/dist/js/jquery.serializeToJSON.min.js}"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-        gtag('config', 'UA-104437451-1');
-    </script>
-    <script th:src="@{/script/user_view.js}"></script>
-    <script th:src="@{/script/survey_ajax.js}"></script>
-</head>
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+            gtag('config', 'UA-104437451-1');
+        </script>
+        <script th:src="@{/script/user_view.js}"></script>
+        <script th:src="@{/script/survey_ajax.js}"></script>
+    </head>
 
     <body class="application application-offset">
 
