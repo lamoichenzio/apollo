@@ -210,17 +210,23 @@
 			<div class="row justify-content-center">
 				<div class="col-auto d-flex align-items-center">
 
-                    <button id="create_group" type="button" class="btn btn-primary btn-icon rounded-pill"
-                            th:onclick="getQuestionGroupRequest([[@{/questiongroups/create}]],'#modal-create-new-group', [[${survey.id}]])">
-							<span class="btn-inner--icon">
-								<i class="far fa-plus"></i>
-							</span>
-                        <span class="btn-inner--text" th:text="#{common.addgroup}"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+					<button id="create_group" type="button" class="btn btn-primary btn-icon rounded-pill"
+						th:onclick="getQuestionGroupRequest([[@{/questiongroups/create}]],'#modal-create-new-group', [[${survey.id}]])">
+						<span class="btn-inner--icon">
+							<i class="far fa-plus"></i>
+						</span>
+						<span class="btn-inner--text" th:text="#{common.addgroup}"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- ./Card Listing -->
+	<script th:inline="javascript">
+		if([(${survey.active})]){
+			$('.modify').hide();
+		}
+	</script>
 </div>
 </body>
 
