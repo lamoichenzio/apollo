@@ -4,7 +4,7 @@
 	<!-- MODAL NEW INPUT QUESTION -->
 	<div class="modal fade" id="modal-input-question" tabindex="-1" role="dialog" aria-hidden="true"
 		th:fragment="modal-input-question">
-		<div class="modal-dialog modal-dialog-centered modal" role="document">
+		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="modal-title align-items-center">
@@ -16,12 +16,14 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="modal-body">
+
 				<form id="form" action="#" th:action="${#request.getRequestURI()}"
 					th:object="${question}" method="post" enctype="multipart/form-data">
 					<input type="hidden" th:field="*{questionGroup}" />
 					<!-- update case -->
 					<input th:if="${question.id != null}" type="hidden" th:field="*{id}" />
-					<div class="modal-body">
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
@@ -50,17 +52,17 @@
 								</div>
 							</div>
 						</div>
-
+				</form>
 					</div>
 					<div class="modal-footer">
 						<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
 							th:text="#{common.cancel}">Cancel</button>
-						<button type="submit" class="btn btn-sm btn-primary rounded-pill "
+						<button type="submit"  form="form" class="btn btn-sm btn-primary rounded-pill "
 							th:text="#{common.submit}">Save</button>
 					</div>
 					<!--File validation script-->
 					<div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
-				</form>
+
 			</div>
 		</div>
 	</div>

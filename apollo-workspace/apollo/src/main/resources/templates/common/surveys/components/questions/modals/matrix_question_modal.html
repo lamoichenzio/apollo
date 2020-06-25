@@ -3,7 +3,8 @@
 <div class="modal fade" id="modal-matrix-question" tabindex="-1" role="dialog" aria-hidden="true"
      th:fragment="modal_matrix_question">
 
-    <div class="modal-dialog modal-dialog-centered modal" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+
         <div class="modal-content">
 
             <div class="modal-header">
@@ -15,19 +16,20 @@
                 </div>
             </div>
 
-            <form id="form" th:action="${#request.getRequestURI()}" th:object="${question}"
-                  class="form-horizontal" method="post" enctype="multipart/form-data">
+            <div class="modal-body">
 
-                <!-- update case -->
-                <input th:if="${question.id != null}" type="hidden" th:field="*{id}"/>
+                <form id="form" th:action="${#request.getRequestURI()}" th:object="${question}" method="post" enctype="multipart/form-data">
 
-                <input type="hidden" name="group" th:field="*{questionGroup}"/>
 
-                <input type="hidden" name="type" th:value="${question.type}" th:field="*{type}"/>
+                    <!-- update case -->
+                    <input th:if="${question.id != null}" type="hidden" th:field="*{id}"/>
 
-                <input id="instance" type="hidden" name="instance" th:value="${instance}"/>
+                    <input type="hidden" name="group" th:field="*{questionGroup}"/>
 
-                <div class="modal-body">
+                    <input type="hidden" name="type" th:value="${question.type}" th:field="*{type}"/>
+
+                    <input id="instance" type="hidden" name="instance" th:value="${instance}"/>
+
 
                     <div class="row">
                         <div class="col-md-12">
@@ -130,20 +132,20 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
+                <button type="submit" form="form" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
+            </div>
 
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
-                    <button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
-                </div>
-
-                <!--File validation script-->
-                <div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
-            </form>
+            <!--File validation script-->
+            <div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
         </div>
+
+
     </div>
+
 </div>
 </html>

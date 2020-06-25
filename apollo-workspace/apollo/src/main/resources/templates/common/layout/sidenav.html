@@ -4,25 +4,30 @@
     <body>
 
         <!-- Sidenav -->
-        <div class="sidenav" id="sidenav-main" th:fragment="sidenav" sec:authorize="isAuthenticated()">
+        <div class="sidenav fixed-content show ml-4" id="sidenav-main" th:fragment="sidenav" sec:authorize="isAuthenticated()">
 
             <!-- Sidenav header -->
             <div class="sidenav-header d-flex mt-2">
                 <div class="row mx-auto">
+                    <a href="#" th:href="@{/surveys/dashboard}">
                     <img class="col-12 logo my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
                     <!--			<h5 th:text="#{common.applicationtitle}">Apollo</h5>-->
-                    <div class="ml-auto col-12">
-                        <!-- Sidenav toggler -->
-                        <div class="sidenav-toggler sidenav-toggler-dark d-md-none"
-                             data-action="sidenav-unpin" data-target="#sidenav-main">
-                            <div class="sidenav-toggler-inner">
-                                <i class="sidenav-toggler-line bg-white"></i>
-                                <i
-                                        class="sidenav-toggler-line bg-white"></i>
-                                <i
-                                        class="sidenav-toggler-line bg-white"></i>
-                            </div>
-                        </div>
+                    </a>
+
+
+                </div>
+            </div>
+
+            <div class="col-12">
+                <!-- Sidenav toggler -->
+                <div class="sidenav-toggler sidenav-toggler-dark d-md-none"
+                     data-action="sidenav-unpin" data-target="#sidenav-main">
+                    <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i
+                                class="sidenav-toggler-line bg-white"></i>
+                        <i
+                                class="sidenav-toggler-line bg-white"></i>
                     </div>
                 </div>
             </div>
@@ -82,18 +87,22 @@
                 <!-- User info -->
                 <!-- Actions -->
                 <div class="w-100 mt-4 actions d-flex justify-content-between">
-                    <a href="./home.html" class="btn btn-square text-sm active">
+
+                    <a href="#" th:href="@{/surveys/dashboard}" class="btn btn-square text-sm active">
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-home fa-1x"></i>
                         </span>
                         <span class="btn-inner--icon d-block pt-2">Home</span>
                     </a>
-                    <a href="./home.html" class="btn btn-square text-sm">
+
+                    <a id="create_survey" class="btn btn-square text-sm"
+                       th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)">
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-plus"></i>
                         </span>
                         <span class="btn-inner--icon d-block pt-2">New</span>
                     </a>
+
                     <a href="./home.html" class="btn btn-square text-sm">
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-tasks"></i>
@@ -158,6 +167,12 @@
                 </a>
             </div>
      -->
+
+            <!-- Footer -->
+            <div th:replace="~{common/layout/footer :: footer}"></div>
+
         </div>
+
+
     </body>
 </html>

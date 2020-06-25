@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{common/user_view/layout/frame_public}">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{auth/layout/frame_public}">
 <body>
 <div layout:fragment="page-content" class="row mt-8">
 
@@ -19,8 +19,8 @@
 		<div class="card-body p-5 mx-auto">
 			<div class="row">
 
-				<h4 th:text="#{survey.notactive}" class="card-title mx-auto col-auto"></h4>
-				<p class="col-12 mx-auto text-center mb-0" th:utext="#{survey.notactive.descr}"></p>
+				<h4 th:text="#{common.ops}" class="card-title mx-auto col-auto"></h4>
+				<p class="col-12 mx-auto text-center mb-0" th:utext="#{survey.private}"></p>
 
 			</div>
 
