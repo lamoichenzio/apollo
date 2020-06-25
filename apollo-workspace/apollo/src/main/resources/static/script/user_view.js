@@ -128,10 +128,3 @@ function surveyLogin(url, form){
         }
     })
 }
-
-/**
- * Set the value of other choice as the textbox input
- */
-function otherChoiceValueSetter(textbox) {
-    $("#" + textbox.name)[0].value = textbox.value;
-}

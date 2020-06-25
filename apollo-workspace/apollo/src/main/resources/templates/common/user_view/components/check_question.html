@@ -10,7 +10,7 @@
 			<input type="hidden"
 				th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].question}">
 
-			<div class="col-12">
+			<div class="col-10 mx-1 px-2 py-3">
 				<!-- OPTIONS -->
 				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox">
 					<input type="checkbox" class="custom-control-input"
@@ -23,40 +23,12 @@
 
 				<!-- Other -->
 				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
-					<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
-
-					<!-- Other -->
-					<div class="custom-control custom-checkbox" th:if="${question.otherChoice}">
-						<input type="checkbox"
-							   name="customCheckbox" class="custom-control-input"
-							   th:id="@{other_choice-} + ${question.id}"
-							   th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
-							   th:value="value"
-							   th:disabled="${readonly}">
-						<label class="custom-control-label pl-0 col-12" th:for="@{other_choice-} + ${question.id}">
-							<div class="border-bottom custom-input-text">
-								<input type="text" th:name="@{other_choice-} + ${question.id}"  placeholder="Type something..."  oninput="otherChoiceValueSetter(this)">
-							</div>
-						</label>
-					</div>
-
+					<input type="text" class="form-control" id="other_choice"
+						name="other_choice" size="45"
+						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
+						th:placeholder="#{question.otherchoiceplaceholder}"
+						th:disabled="${readonly}">
 				</div>
-
-
-<!--				&lt;!&ndash; Other &ndash;&gt;-->
-<!--				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">-->
-<!--					-->
-<!--					-->
-<!--					<input type="text" class="form-control" id="other_choice"-->
-<!--						name="other_choice" size="45"-->
-<!--						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"-->
-<!--						th:placeholder="#{question.otherchoiceplaceholder}"-->
-<!--						th:disabled="${readonly}">-->
-
-<!--				-->
-<!--					-->
-<!--					-->
-<!--				</div>-->
 			</div>
 		</div>
 	</div>

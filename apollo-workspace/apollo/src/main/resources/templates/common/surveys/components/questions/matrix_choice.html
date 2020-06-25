@@ -11,8 +11,9 @@
             <div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
 
                 <div class="col-auto" th:if="${question.file != null}">
-                    <div class="question-image rounded-lg shadow">
-                        <img class="rounded-lg border" th:src="${'data:image/png;base64,'+question.file.data}">
+                    <div class="question-image">
+
+                        <img class="rounded" th:src="${'data:image/png;base64,'+question.file.data}">
 
                     </div>
                 </div>
@@ -42,17 +43,10 @@
 								<tr class="shadow-none">
 									<th scope="row">[[${option}]]</th>
 									<td class="matrix-options-label" th:each="optionValue : ${question.optionValues}">
-
-                                        <div class="custom-control custom-checkbox"  th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck2" disabled>
-                                            <label class="custom-control-label" for="customCheck2"></label>
-                                        </div>
-
-                                        <div class="custom-control custom-radio" th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}">
-                                            <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" disabled>
-                                            <label class="custom-control-label" for="customRadio1"></label>
-                                        </div>
-
+										<input type="checkbox" disabled="disabled"
+                                               th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}"/>
+										<input type="radio" disabled="disabled"
+                                               th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}"/>
 									</td>
 								</tr>
 								<tr class="table-divider"></tr>

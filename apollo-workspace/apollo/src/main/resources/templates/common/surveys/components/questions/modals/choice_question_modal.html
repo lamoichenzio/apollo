@@ -1,119 +1,116 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <!-- MODAL NEW CHOICE QUESTION -->
 <div class="modal fade" id="modal-new-choice-question" tabindex="-1" role="dialog" aria-hidden="true"
-     th:fragment="questionChoiceForm">
+	th:fragment="questionChoiceForm">
 
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-        <div class="modal-content">
+	<div class="modal-dialog modal-dialog-centered modal" role="document">
+		<div class="modal-content">
 
-            <div class="modal-header">
-                <div class="modal-title align-items-center">
-                    <div>
-                        <!-- MODAL TITLE -->
-                        <h6 class="mb-0" th:text="#{question.choicequestion}"></h6>
-                    </div>
-                </div>
-            </div>
+			<div class="modal-header">
+				<div class="modal-title align-items-center">
+					<div>
+						<!-- MODAL TITLE -->
+						<h6 class="mb-0" th:text="#{question.choicequestion}"></h6>
+					</div>
+				</div>
+			</div>
 
-            <div class="modal-body">
+			<form id="form" th:action="${#request.getRequestURI()}" th:object="${question}"
+				class="form-horizontal" method="post" enctype="multipart/form-data">
 
+				<!-- update case -->
+				<input th:if="${question.id != null}" type="hidden" th:field="*{id}" />
 
-                <form id="form" th:action="${#request.getRequestURI()}" th:object="${question}"
-                      class="form-horizontal" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}" />
 
-                    <!-- update case -->
-                    <input th:if="${question.id != null}" type="hidden" th:field="*{id}"/>
+				<input type="hidden" name="choiceType" th:value="${question.choiceType}" th:field="*{choiceType}">
 
-                    <input type="hidden" name="group" th:value="${question.questionGroup}" th:field="*{questionGroup}"/>
+				<div class="modal-body">
 
-                    <input type="hidden" name="choiceType" th:value="${question.choiceType}" th:field="*{choiceType}">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
 
+								<!-- QUESTION TEXT -->
+								<label class="form-control-label" th:text="#{question.title}"></label>
+								<textarea class="form-control" data-toggle="autosize"
+									th:placeholder="#{question.titleplaceholder}" rows="1" th:field="*{title}"
+									required></textarea>
+								<span th:if="${#fields.hasErrors('title')}"
+									th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
+							</div>
 
-                                <!-- QUESTION TEXT -->
-                                <label class="form-control-label" th:text="#{question.title}"></label>
-                                <textarea class="form-control" data-toggle="autosize"
-                                          th:placeholder="#{question.titleplaceholder}" rows="1" th:field="*{title}"
-                                          required></textarea>
-                                <span th:if="${#fields.hasErrors('title')}"
-                                      th:each="err: ${#fields.errors('title')}" th:utext="${err}"></span>
-
-                            </div>
-
-                        </div>
-                    </div>
+						</div>
+					</div>
 
 
-                    <div class="row">
-                        <!-- Input file -->
-                        <div class="col-12 my-1">
-                            <div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
-                        </div>
-                    </div>
+					<div class="row">
+						<!-- Input file -->
+						<div class="col-12 my-1">
+							<div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
+						</div>
+					</div>
 
-                    <div class="row">
-                        <div class="col-12">
-                            <!-- OPTIONS TEXT -->
-                            <label class="form-control-label" th:text="#{question.options}"></label>
+					<div class="row">
+						<div class="col-12">
+							<!-- OPTIONS TEXT -->
+							<label class="form-control-label" th:text="#{question.options}"></label>
 
-                            <!-- OPTIONS BLOCK -->
-                            <div id="options_container">
+							<!-- OPTIONS BLOCK -->
+							<div id="options_container">
 
-                                <th:block th:if="${question.options != null && question.options.size() > 0}">
-                                    <!--  option  -->
-                                    <th:block th:each="option, stat : ${question.options}">
-                                        <div id="choice_option" th:replace="common/surveys/components/questions/modals/dynamics_options/choice_option.html :: option"></div>
-                                    </th:block>
+								<th:block th:if="${question.options != null && question.options.size() > 0}">
+									<!--  option  -->
+									<th:block th:each="option, stat : ${question.options}">
+										<div id="choice_option" th:replace="common/surveys/components/questions/modals/dynamics_options/choice_option.html :: option"></div>
+									</th:block>
 
-                                </th:block>
+								</th:block>
 
-                            </div>
-                        </div>
+							</div>
+						</div>
 
-                        <div class="col-12">
-                            <!-- Other choice -->
-                            <div class="form-group custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" th:field="*{otherChoice}"/>
-                                <label class="custom-control-label form-control-label" for="otherchoice" th:text="#{question.otherChoice}"></label>
-                                <span th:if="${#fields.hasErrors('otherChoice')}" th:each="err: ${#fields.errors('otherChoice')}" th:utext="${err}"></span>
-                            </div>
-                        </div>
+						<div class="col-12">
+							<!-- Other choice -->
+							<div class="form-group custom-control custom-switch">
+								<input type="checkbox" class="custom-control-input" name="otherchoice" id="otherchoice" th:field="*{otherChoice}"/>
+								<label class="custom-control-label form-control-label" for="otherchoice" th:text="#{question.otherChoice}"></label>
+								<span th:if="${#fields.hasErrors('otherChoice')}" th:each="err: ${#fields.errors('otherChoice')}" th:utext="${err}"></span>
+							</div>
+						</div>
 
 
-                        <div class="col-12">
+						<div class="col-12">
 
-                            <!-- ADD BUTTON BLOCK -->
-                            <div class="row justify-content-center align-items-center">
-                                <button
-                                        type="button"
-                                        class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
-                                        th:onclick="addOption()">
+							<!-- ADD BUTTON BLOCK -->
+							<div class="row justify-content-center align-items-center">
+								<button
+										type="button"
+										class="btn btn-sm btn-soft-primary btn-icon rounded-pill"
+										th:onclick="addOption()">
 									<span class="btn-inner--icon">
 										<i class="far fa-plus"></i>
 									</span>
 
-                                    <!-- ADD OPTION BUTTON -->
-                                    <span class="btn-inner--text">[[#{common.addoption}]]</span>
-                                </button>
-                            </div>
+									<!-- ADD OPTION BUTTON -->
+									<span class="btn-inner--text">[[#{common.addoption}]]</span>
+								</button>
+							</div>
 
-                        </div>
-                    </div>
-                </form>q
-            </div>
+						</div>
+					</div>
 
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
-                <button type="submit" form="form" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
-            </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
+					<button type="submit" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
+				</div>
 
-            <!--File validation script-->
-            <div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
-
-        </div>
-    </div>
+				<!--File validation script-->
+				<div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
+			</form>
+		</div>
+	</div>
 </div>
 </html>
