@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<div class="mt-5 text-sm align-self-end" id="footer-main" th:fragment="footer">	<div class="row text-center">
-		<div class="col-12">
-			<ul class="nav justify-content-center">
-				<li class="nav-item"><a class="nav-link" href="#">Support</a>
-				</li>
-				<li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Privacy</a>
-				</li>
-			</ul>
-		</div><div class="col-12 ">
-		<p class="text-sm">© 2019 <a href="https://webpixels.io" class="h6 text-sm" target="_blank">Webpixels</a>. All rights reserved.</p>
-	</div>
-
-
-	</div>
+	<div class="footer pt-5 pb-4 footer-light" id="footer-main"
+		th:fragment="footer">
+		<div class="row text-center text-sm-left align-items-sm-center">
+			<div class="col-sm-6">
+				<p class="text-sm mb-0">
+					&copy; 2019 <a href="https://webpixels.io" class="h6 text-sm"
+						target="_blank">Webpixels</a>. All rights reserved.
+				</p>
+			</div>
+			
+			<div class="col-sm-6 mb-md-0">
+				<ul class="nav justify-content-center justify-content-md-end">
+					<li class="nav-item"><a class="nav-link" href="#">Support</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+					<li class="nav-item"><a class="nav-link pr-0" href="#">Privacy</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
-
-

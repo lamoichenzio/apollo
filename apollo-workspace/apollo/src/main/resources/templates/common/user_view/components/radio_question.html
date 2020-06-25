@@ -1,50 +1,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div th:fragment="question">
-    <div th:each="radioAnswer, stat : *{choiceQuestionSingleAnswers}"
-         th:if="${radioAnswer.question.id == question.id}" class="row">
+	<div th:fragment="question">
+		<div th:each="radioAnswer, stat : *{choiceQuestionSingleAnswers}"
+			th:if="${radioAnswer.question.id == question.id}" class="row">
+			
+			<!-- Related question -->
+			<input type="hidden" th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].question}">
+			
+			<div class="col-10 mx-1 px-2 py-3">
+				<!-- OPTIONS -->
+				<div th:each="option, optionStat : ${question.options}"
+					class="custom-control custom-radio">
+					<input type="radio" class="custom-control-input"
+						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
+						th:value="${option}" th:disabled="${readonly}"> 
+					<label th:for="choiceQuestionSingleAnswers+${stat.index}+.answer+${optionStat.index+1}"
+						th:text="${option}" class="custom-control-label"></label>
+				</div>
 
-        <!-- Related question -->
-        <input type="hidden" th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].question}">
-
-        <div class="col-12">
-            <!-- OPTIONS -->
-            <div th:each="option, optionStat : ${question.options}"
-                 class="custom-control custom-radio">
-                <input type="radio" class="custom-control-input"
-                       th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-                       th:value="${option}" th:disabled="${readonly}">
-                <label th:for="choiceQuestionSingleAnswers+${stat.index}+.answer+${optionStat.index+1}"
-                       th:text="${option}" class="custom-control-label"></label>
-            </div>
-
-            <!-- Other -->
-            <div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
-                <!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
-
-                <!-- Other -->
-                <div class="custom-control custom-radio" th:if="${question.otherChoice}">
-                    <input type="radio"
-                           name="customRadio" class="custom-control-input"
-                           th:id="@{other_choice-} + ${question.id}"
-                           th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-                           th:value="value"
-                           th:disabled="${readonly}">
-                    <label class="custom-control-label col-12 pl-0" th:for="@{other_choice-} + ${question.id}">
-                        <div class="border-bottom custom-input-text">
-                            <input type="text" th:name="@{other_choice-} + ${question.id}"  placeholder="Type something..."  oninput="otherChoiceValueSetter(this)">
-                        </div>
-                    </label>
-                </div>
-
-                <!--					<input type="text" class="form-control"-->
-                <!--						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"-->
-                <!--						size="45" th:placeholder="#{question.otherchoiceplaceholder}"-->
-                <!--						th:disabled="${readonly}">-->
-            </div>
-        </div>
-    </div>
-</div>
+				<!-- Other -->
+				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
+					<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
+					<input type="text" class="form-control"
+						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
+						size="45" th:placeholder="#{question.otherchoiceplaceholder}"
+						th:disabled="${readonly}">
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
 

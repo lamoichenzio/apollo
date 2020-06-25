@@ -13,8 +13,9 @@
 			<div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
 
 				<div class="col-auto" th:if="${question.file != null}">
-					<div class="question-image rounded-lg shadow">
-						<img class="rounded-lg border" th:src="${'data:image/png;base64,'+question.file.data}">
+					<div class="question-image">
+
+						<img class="rounded" th:src="${'data:image/png;base64,'+question.file.data}">
 
 					</div>
 				</div>
@@ -40,7 +41,7 @@
 
 		</div>
 
-		<div class="col-auto card border-0 shadow-none bg-gray-100" th:if="${!survey.active}">
+		<div class="col-auto card border-0 shadow-none bg-gray-100 modify">
 			<div class="dropdown" data-toggle="dropdown">
 				<a href="#" class="action-item" role="button" data-toggle="dropdown"
 				   aria-haspopup="true" aria-expanded="false"> <i
