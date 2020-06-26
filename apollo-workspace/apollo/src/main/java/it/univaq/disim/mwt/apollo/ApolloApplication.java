@@ -1,8 +1,5 @@
 package it.univaq.disim.mwt.apollo;
 
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InvitationPoolRepository;
-import it.univaq.disim.mwt.apollo.domain.InvitationPool;
-import it.univaq.disim.mwt.apollo.domain.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,12 +13,10 @@ import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InvitationPoolRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.User;
-
-import java.util.Collections;
-import java.util.HashSet;
 
 
 @SpringBootApplication

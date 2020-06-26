@@ -35,11 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 			.loginProcessingUrl("/login")
 			.failureUrl("/?error=invalidlogin")
 			.defaultSuccessUrl("/surveys/dashboard", false).and().logout()
-			.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/common/accessdenied").and()
+			.logoutSuccessUrl("/").and().exceptionHandling()
+			.accessDeniedPage("/common/accessdenied").and()
 			.authorizeRequests()
 			// Specificare le url che sono soggette ad autenticazione ed autorizzazione
 			.antMatchers("/surveys/**", "/answers/**", "/user/update/**", "/forms/survey/findbysurveypaginated", "/forms/survey/**/answer/**").authenticated()
-			.antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**").permitAll();
+			.antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**", "/pages/**").permitAll();
 
 	}
 }
