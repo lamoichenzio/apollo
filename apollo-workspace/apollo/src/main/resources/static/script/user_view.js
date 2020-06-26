@@ -114,6 +114,10 @@ function surveyLogin(url, form){
             if(response.status === "OK"){
                 window.location.replace(response.msg);
             }
+            if(response.status === "ERROR"){
+                $('#modal_login').modal('hide');
+                $('#answered_modal').modal('show');
+            }
         },
         error: (response) =>{
             if(response.responseJSON.status === "ERROR"){

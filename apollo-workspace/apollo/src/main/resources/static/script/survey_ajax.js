@@ -176,7 +176,7 @@ function handleSurveyErrorResponse(message) {
 function checkEmailPool() {
     if (emails.length > 0) {
         let invitationPool = emails.filter(validateEmail);
-        if (invitationPool.length != emails.length) {
+        if (invitationPool.length !== emails.length) {
             $("#invalid_mail_msg").show();
             return false;
         }
@@ -197,7 +197,7 @@ function surveyPublished(response) {
     $("#error_message").hide();
     $("#survey_active").removeClass("badge-danger").addClass("badge-success");
     $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
-
+    $('.modify').hide();
     if (translations) {  
         $("#survey_active").text(translations.yes);
         $('#publish_submit').text(translations.deactivate);
@@ -218,7 +218,7 @@ function surveyUnpublished(response) {
     $("#survey_active").removeClass("badge-success").addClass("badge-danger");
     $("#survey_active").text("No");
     $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
-
+    $('.modify').show();
     if (translations) {
         $('#publish_submit').text(translations.publish);
     } else {

@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="name" class="form-control-label"
                                th:text="#{survey.name}"></label>
-                        <input type="text" th:field="*{name}" class="form-control" maxlength="50" required/>
+                        <input type="text" th:field="*{name}" class="form-control survey-field" maxlength="50" required/>
                         <span th:if="${#fields.hasErrors('name')}"
                               th:each="err: ${#fields.errors('name')}" th:utext="${err}"></span>
                     </div>
@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <label for="description" class="form-control-label"
                                        th:text="#{survey.description}"></label>
-                                <textarea class="form-control" data-toggle="autosize" rows="1"
+                                <textarea class="form-control survey-field" data-toggle="autosize" rows="1"
                                           th:field="*{description}"></textarea>
                                 <span th:if="${#fields.hasErrors('description')}"
                                       th:each="err: ${#fields.errors('description')}" th:utext="${err}"></span>
@@ -61,7 +61,7 @@
                     <div class="row">
                         <div class="col-6 my-1">
                             <div class="form-group custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" name="secret" id="secret"
+                                <input type="checkbox" class="custom-control-input survey-field" name="secret" id="secret"
                                        th:field="*{secret}">
                                 <label class="custom-control-label form-control-label" for="secret"
                                        th:text="#{survey.secret}"></label>
@@ -76,7 +76,7 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="startDate" class="form-control-label" th:text="#{survey.startDate}"></label>
-                                <input type="date" name="startDate" th:field="*{startDate}" class="form-control"/>
+                                <input type="date" name="startDate" th:field="*{startDate}" class="form-control survey-field"/>
                                 <span th:if="${#fields.hasErrors('startDate')}"
                                       th:each="err: ${#fields.errors('startDate')}" th:utext="${err}"></span>
                             </div>
@@ -85,7 +85,7 @@
                             <div class="form-group">
                                 <!-- TO DO: datetime-local type -->
                                 <label for="endDate" class="form-control-label" th:text="#{survey.endDate}"></label>
-                                <input type="date" name="endDate" th:field="*{endDate}" class="form-control"/>
+                                <input type="date" name="endDate" th:field="*{endDate}" class="form-control survey-field"/>
                                 <span th:if="${#fields.hasErrors('endDate')}"
                                       th:each="err: ${#fields.errors('endDate')}" th:utext="${err}"></span>
                             </div>
@@ -98,23 +98,10 @@
                             <div class="form-group mb-0">
                                 <label class="form-control-label mb-0">Icon</label>
 
-                                <!--                                    <div class="custom-file" th:if="${survey.id == null}">-->
-                                <!--                                        <input type="file" class="custom-file-input" id="iconfile" name="iconfile" th:value="${iconfile}" accept="image/*" />-->
-                                <!--                                        <label id="survey_icon" class="custom-file-label text-truncate" for="customIcon">Choose file...</label>-->
-                                <!--                                    </div>-->
-                                <!--                                    &lt;!&ndash;Update case &ndash;&gt;-->
-                                <!--                                    <div class="custom-file" th:if="${survey.id != null}">-->
-                                <!--                                        <input type="file" class="custom-file-input" id="iconfile" name="iconfile" th:value="${iconfile}"-->
-                                <!--                                            accept="image/*" />-->
-                                <!--                                        <input type="text" class="hidden" id="icon" name="icon" th:field="*{icon}"/>-->
-                                <!--                                        <label id="survey_icon" class="custom-file-label text-truncate" for="customIcon" th:text="${survey.icon != null ? survey.icon.name : 'Choose file...'}"></label>-->
-                                <!--                                    </div>-->
-
-
                                 <!--Creation fase-->
 
                                 <div class="form-control-label">
-                                    <input type="file" id="iconfile" name="iconfile" class="custom-input-file"
+                                    <input type="file" id="iconfile" name="iconfile" class="custom-input-file survey-field"
                                            th:value="${iconfile}" accept="image/*"/>
                                     <label for="iconfile"><i class="fa fa-upload"></i><span id="iconfile_label"  th:text="#{file.label}"></span>
                                     </label>
@@ -145,11 +132,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">
+                    <a type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">
                         [[#{common.cancel}]]
-                    </button>
+                    </a>
                     <button id="survey_submit" type="submit" class="btn btn-sm btn-primary rounded-pill"
-                            th:text="#{common.submit}"></button>
+                            th:text="#{common.submit}" th:disabled="*{active}"></button>
                 </div>
 
             </form>
@@ -165,25 +152,27 @@
                 var label = document.getElementById('iconfile_label');
                 label.innerText = filename;
                 console.log('Selected file: ' + filename);
-
-
             };
+
+            if([[${survey.active}]]){
+                $(".survey-field").attr('disabled','disabled');
+            }
         });
 
 
         $('#survey_form').submit(function (e) {
             let err = false;
             let data = $(this).serializeArray();
-            let startDate = data.find((elem) => elem.name == 'startDate');
-            let endDate = data.find((elem) => elem.name == 'endDate');
+            let startDate = data.find((elem) => elem.name === 'startDate');
+            let endDate = data.find((elem) => elem.name === 'endDate');
             let today = new Date().setHours(0, 0, 0, 0);
             let ext = $('#iconfile').val().split('.').pop().toLowerCase();
             // Dates validation
-            if (startDate.value !== "" && (new Date(startDate.value) < today)) {
+            if (startDate.value !== "" && (new Date(startDate.value) <= today)) {
                 $("#errors").text([[#{startdate.lower}]]);
                 err = true;
             }
-            if (endDate.value !== "" && (new Date(endDate.value) < today)) {
+            if (endDate.value !== "" && (new Date(endDate.value) <= today)) {
                 $("#errors").text([[#{enddate.lower}]]);
                 err = true;
             }

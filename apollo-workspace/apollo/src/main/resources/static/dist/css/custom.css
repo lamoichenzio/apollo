@@ -115,8 +115,6 @@
     height: 80px;
     position: relative;
     overflow: hidden;
-    border-radius: 10%;
-
 }
 
 .question-image img{
@@ -190,3 +188,25 @@
 .loader {
   text-align: center;
 }
+
+.scroll-content {
+    overflow:scroll !important;
+    height:100vh; /* I WANT THIS BUT DYNAMICALLY CHANGES W/ .OUTER */
+    -ms-overflow-style: none;
+}
+
+.scroll-content::-webkit-scrollbar {
+    display: none;
+}
+
+.profile-image-name{
+
+    font-size: .875rem;
+
+}
+
+/*.application .sidenav.show{*/
+
+/*    margin-left: 10px !important;*/
+
+/*}*/

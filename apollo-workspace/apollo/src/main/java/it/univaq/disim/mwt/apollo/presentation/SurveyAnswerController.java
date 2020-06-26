@@ -90,8 +90,7 @@ public class SurveyAnswerController {
         InvitationPool pool = invitationPoolService.findInvitationPoolBySurvey(survey);
         GenericResponseBody response = new GenericResponseBody();
         if(surveyAnswerService.surveyExistsBySurveyAndEmail(survey, credentials.getEmail())){
-            response.setStatus(ResponseStatus.OK);
-            response.setMsg(request.getContextPath() + "/common/survey_answered");
+            response.setStatus(ResponseStatus.ERROR);
             return ResponseEntity.ok(response);
         }
         if (pool.getEmails().contains(credentials.getEmail())

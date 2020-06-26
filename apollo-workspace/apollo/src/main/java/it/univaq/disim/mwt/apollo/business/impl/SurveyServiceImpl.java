@@ -62,14 +62,14 @@ public class SurveyServiceImpl implements SurveyService {
             survey.setName(requestGrid.getSearch().getValue());
             survey.setUser(user);
 
-            ExampleMatcher matcher = ExampleMatcher.matchingAll()
-                    .withMatcher("name", GenericPropertyMatchers.ignoreCase())
-                    .withIgnorePaths("secret")
-                    .withIgnorePaths("active")
-                    .withIgnorePaths("questionGroups")
-                    .withIgnorePaths("user.password", "user.email", "user.firstname", "user.lastname", "user.pic")
-                    .withIgnoreNullValues();
-            Example<Survey> example = Example.of(survey, matcher);
+			ExampleMatcher matcher = ExampleMatcher.matchingAll()
+					.withMatcher("name", GenericPropertyMatchers.ignoreCase())
+					.withIgnorePaths("secret")
+					.withIgnorePaths("active")
+					.withIgnorePaths("questionGroups")
+					.withIgnorePaths("user.password" , "user.email", "user.username" , "user.firstname", "user.lastname", "user.pic")
+					.withIgnoreNullValues();
+			Example<Survey> example = Example.of(survey, matcher);
 
             Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
             Page<Survey> page = surveyRepository.findAll(example, pageable);
@@ -158,15 +158,16 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public void deleteSurvey(Survey survey) throws BusinessException {
-
-        if (survey.getQuestionGroups() != null && survey.getQuestionGroups().size() > 0) {
-            Set<QuestionGroup> groups = survey.getQuestionGroups();
-            questionGroupService.deleteQuestionGroupList(groups);
+        if (!survey.isActive()) {
+            if (survey.getQuestionGroups() != null && survey.getQuestionGroups().size() > 0) {
+                Set<QuestionGroup> groups = survey.getQuestionGroups();
+                questionGroupService.deleteQuestionGroupList(groups);
+            }
+            if (survey.getInvitationPool() != null) {
+                invitationPoolService.deleteInvitationPool(survey.getInvitationPool());
+            }
+            surveyRepository.delete(survey);
         }
-        if (survey.getInvitationPool() != null) {
-            invitationPoolService.deleteInvitationPool(survey.getInvitationPool());
-        }
-        surveyRepository.delete(survey);
     }
 
 }

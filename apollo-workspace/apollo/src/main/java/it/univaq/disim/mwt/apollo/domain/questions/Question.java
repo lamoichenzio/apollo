@@ -31,7 +31,7 @@ public abstract class Question {
 	private String id;
 	
 	@NotBlank
-	@Indexed(unique=false)
+	@Indexed()
 	@Size(max=255)
 	private String title;
 	
