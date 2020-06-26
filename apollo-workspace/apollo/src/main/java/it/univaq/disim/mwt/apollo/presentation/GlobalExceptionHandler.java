@@ -27,9 +27,8 @@ public class GlobalExceptionHandler {
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		ex.printStackTrace(printWriter);
 		printWriter.flush();
-		model.addAttribute("errorMessage", stringWriter.toString());
 
-		return "/pages/error_500";
+		return "/pages/error_404";
 	}
 
 	@ExceptionHandler({BusinessException.class, Exception.class})
@@ -42,9 +41,7 @@ public class GlobalExceptionHandler {
 		
 		ex.printStackTrace(printWriter);
 		printWriter.flush();
-		String message = (ex.getCause() == null) ? "" : ex.getCause().getMessage();
-		model.addAttribute("errorCause", message);
-		model.addAttribute("errorMessage", stringWriter.toString());
+
 		return "/pages/error_500";
 	}
 	
