@@ -197,7 +197,7 @@ function surveyPublished(response) {
     $("#error_message").hide();
     $("#survey_active").removeClass("badge-danger").addClass("badge-success");
     $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
-
+    $('.modify').hide();
     if (translations) {  
         $("#survey_active").text(translations.yes);
         $('#publish_submit').text(translations.deactivate);
@@ -218,7 +218,7 @@ function surveyUnpublished(response) {
     $("#survey_active").removeClass("badge-success").addClass("badge-danger");
     $("#survey_active").text("No");
     $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
-
+    $('.modify').show();
     if (translations) {
         $('#publish_submit').text(translations.publish);
     } else {

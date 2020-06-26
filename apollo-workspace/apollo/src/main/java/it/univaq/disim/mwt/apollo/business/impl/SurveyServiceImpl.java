@@ -62,14 +62,14 @@ public class SurveyServiceImpl implements SurveyService {
             survey.setName(requestGrid.getSearch().getValue());
             survey.setUser(user);
 
-			ExampleMatcher matcher = ExampleMatcher.matchingAll()
-					.withMatcher("name", GenericPropertyMatchers.ignoreCase())
-					.withIgnorePaths("secret")
-					.withIgnorePaths("active")
-					.withIgnorePaths("questionGroups")
-					.withIgnorePaths("user.password" , "user.email", "user.username" , "user.firstname", "user.lastname", "user.pic")
-					.withIgnoreNullValues();
-			Example<Survey> example = Example.of(survey, matcher);
+            ExampleMatcher matcher = ExampleMatcher.matchingAll()
+                    .withMatcher("name", GenericPropertyMatchers.ignoreCase())
+                    .withIgnorePaths("secret")
+                    .withIgnorePaths("active")
+                    .withIgnorePaths("questionGroups")
+                    .withIgnorePaths("user.password", "user.email", "user.username", "user.firstname", "user.lastname", "user.pic")
+                    .withIgnoreNullValues();
+            Example<Survey> example = Example.of(survey, matcher);
 
             Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
             Page<Survey> page = surveyRepository.findAll(example, pageable);
@@ -135,32 +135,31 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public void updateSurvey(Survey survey, MultipartFile file) throws BusinessException {
-        if(!survey.isActive()) {
-            try {
-                if (file != null && !file.isEmpty()) {
-                    if (!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
-                        throw new BusinessException("File format not valid: " + file.getContentType());
-                    }
-                    DocumentFile icon = ConversionUtility.multipartFile2DocumentFile(file);
-                    if (survey.getIcon() != null) {
-                        // Delete old icon
-                        documentFileService.delete(survey.getIcon());
-                    }
-                    // Set new icon
-                    documentFileService.create(icon);
-                    survey.setIcon(icon);
+        try {
+            if (file != null && !file.isEmpty()) {
+                if (!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
+                    throw new BusinessException("File format not valid: " + file.getContentType());
                 }
-
-                surveyRepository.save(survey);
-            } catch (IOException | DataAccessException e) {
-                throw new BusinessException(e);
+                DocumentFile icon = ConversionUtility.multipartFile2DocumentFile(file);
+                if (survey.getIcon() != null) {
+                    // Delete old icon
+                    documentFileService.delete(survey.getIcon());
+                }
+                // Set new icon
+                documentFileService.create(icon);
+                survey.setIcon(icon);
             }
+
+            surveyRepository.save(survey);
+        } catch (IOException | DataAccessException e) {
+            throw new BusinessException(e);
         }
+
     }
 
     @Override
     public void deleteSurvey(Survey survey) throws BusinessException {
-        if(!survey.isActive()) {
+        if (!survey.isActive()) {
             if (survey.getQuestionGroups() != null && survey.getQuestionGroups().size() > 0) {
                 Set<QuestionGroup> groups = survey.getQuestionGroups();
                 questionGroupService.deleteQuestionGroupList(groups);
