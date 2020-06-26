@@ -13,7 +13,7 @@ public interface QuestionService {
 	SelectionQuestion findSelectionQuestionById(String id) throws BusinessException;
 	
 	void createQuestion(Question question, MultipartFile file) throws BusinessException;
-	void updateQuestion(Question question, MultipartFile file) throws BusinessException;
+	void updateQuestion(Question question, MultipartFile file, Boolean deleteFile) throws BusinessException;
 	void deleteQuestion(Question question) throws BusinessException;
 	
 	void deleteQuestionList(Iterable<? extends Question> entities) throws BusinessException;

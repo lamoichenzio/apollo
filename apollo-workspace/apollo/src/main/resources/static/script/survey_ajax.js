@@ -451,7 +451,7 @@ function deleteOptionValue(event, index) {
  */
 function deleteImage(event) {
     event.preventDefault();
-    $("#file_input").val(null);
+    $("#delete_file").val(true);
     $("#update_case").hide();
 }
 

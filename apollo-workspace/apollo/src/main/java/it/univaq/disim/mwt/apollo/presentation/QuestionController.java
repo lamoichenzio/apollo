@@ -119,15 +119,19 @@ public class QuestionController {
     }
 
     @PostMapping("/choicequestion/update")
-    public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file)
+    public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file, @RequestParam("deleteFile") Boolean deleteFile)
             throws BusinessException {
         validator.validate(file, errors);
-        
+
+        if (deleteFile != null){
+            System.out.println(deleteFile);
+        }else System.out.println("DELETE FILE IS NULL");
+
         if (errors.hasErrors()) {
         	log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question, file);
+        questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
 
@@ -185,14 +189,14 @@ public class QuestionController {
 
     @PostMapping("/inputquestion/update")
     public String update(@Valid @ModelAttribute("question") InputQuestion question, Errors errors,
-                         @RequestParam("questionfile") MultipartFile file)
+                         @RequestParam("questionfile") MultipartFile file, @RequestParam("deleteFile") Boolean deleteFile)
             throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
         validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question, file);
+        questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
     }
 
@@ -266,13 +270,13 @@ public class QuestionController {
     }
 
     @PostMapping("/matrixquestion/update")
-    public String update(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file)
+    public String update(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file, @RequestParam("deleteFile") Boolean deleteFile)
             throws BusinessException {
         validator.validate(file, errors);
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question, file);
+        questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
 
@@ -341,14 +345,14 @@ public class QuestionController {
     }
 
     @PostMapping("/selectionquestion/update")
-    public String update(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
+    public String update(@Valid @ModelAttribute("question") SelectionQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file, @RequestParam("deleteFile") Boolean deleteFile) throws BusinessException {
         validator.validate(file, errors);
         
         if (errors.hasErrors()) {
         	log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
-        questionService.updateQuestion(question, file);
+        questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
 

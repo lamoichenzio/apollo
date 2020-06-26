@@ -34,150 +34,155 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 @Slf4j
-public class QuestionServiceImpl implements QuestionService{
+public class QuestionServiceImpl implements QuestionService {
 
-	@Autowired
-	private ChoiceQuestionRepository choiceQuestionRepository;
-	
-	@Autowired
-	private InputQuestionRepository inputQuestionRepository;
-	
-	@Autowired
-	private MatrixQuestionRepository matrixQuestionRepository;
-	
-	@Autowired
-	private SelectQuestionRepository selectQuestionRepository;
-	
-	@Autowired
-	private DocumentFileService documentFileService;
+    @Autowired
+    private ChoiceQuestionRepository choiceQuestionRepository;
 
-	@Override
-	@Transactional(readOnly = true)
-	public ChoiceQuestion findChoiceQuestionById(String id) throws BusinessException {
-		try{
-			return choiceQuestionRepository.findById(id).get();
-		}catch (DataAccessException e){
-			throw new BusinessException(e);
-		}
-	}
+    @Autowired
+    private InputQuestionRepository inputQuestionRepository;
 
-	@Override
-	@Transactional(readOnly = true)
-	public InputQuestion findInputQuestionById(String id) throws BusinessException {
-		try {
-			return inputQuestionRepository.findById(id).get();
-		}catch (DataAccessException e){
-			throw new BusinessException(e);
-		}
-	}
+    @Autowired
+    private MatrixQuestionRepository matrixQuestionRepository;
 
-	@Override
-	@Transactional(readOnly = true)
-	public MatrixQuestion findMatrixQuestionById(String id) throws BusinessException {
-		try{
-			return matrixQuestionRepository.findById(id).get();
-		}catch (DataAccessException e){
-			throw new BusinessException(e);
-		}
-	}
+    @Autowired
+    private SelectQuestionRepository selectQuestionRepository;
 
-	@Override
-	@Transactional(readOnly = true)
-	public SelectionQuestion findSelectionQuestionById(String id) throws BusinessException {
-		try{
-			return selectQuestionRepository.findById(id).get();
-		}catch (DataAccessException e){
-			throw new BusinessException(e);
-		}
-	}
+    @Autowired
+    private DocumentFileService documentFileService;
 
-	@Override
-	public void createQuestion(Question question, MultipartFile file) throws BusinessException {
-		if(!question.getQuestionGroup().getSurvey().isActive()) {
-			try {
-				question.setCreationDate(new Date());
-				if (file != null && !file.isEmpty()) {
-					DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
-					documentFileService.create(documentFile);
-					question.setFile(documentFile);
-				}
-				saveQuestion(question);
-			} catch (IOException | DataAccessException e) {
-				throw new BusinessException(e);
-			}
-		}
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public ChoiceQuestion findChoiceQuestionById(String id) throws BusinessException {
+        try {
+            return choiceQuestionRepository.findById(id).get();
+        } catch (DataAccessException e) {
+            throw new BusinessException(e);
+        }
+    }
 
-	@Override
-	public void updateQuestion(Question question, MultipartFile file) throws BusinessException {
-		if(!question.getQuestionGroup().getSurvey().isActive()) {
-			try {
-				question.setCreationDate(new Date());
-				if (file != null && !file.isEmpty()) {
-					DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
-					documentFileService.create(documentFile);
-					if (question.getFile() != null) {
-						documentFileService.delete(question.getFile());
-					}
-					question.setFile(documentFile);
-				}
-				saveQuestion(question);
-			} catch (DataAccessException | IOException e) {
-				throw new BusinessException(e);
-			}
-		}
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public InputQuestion findInputQuestionById(String id) throws BusinessException {
+        try {
+            return inputQuestionRepository.findById(id).get();
+        } catch (DataAccessException e) {
+            throw new BusinessException(e);
+        }
+    }
 
-	@Override
-	public void deleteQuestion(Question question) throws BusinessException {
-		if(!question.getQuestionGroup().getSurvey().isActive()) {
-			try {
-				if (question.getFile() != null) {
-					documentFileService.delete(question.getFile());
-				}
-				if (question instanceof InputQuestion) {
-					inputQuestionRepository.delete((InputQuestion) question);
-				}
-				if (question instanceof ChoiceQuestion) {
-					choiceQuestionRepository.delete((ChoiceQuestion) question);
-				}
-				if (question instanceof SelectionQuestion) {
-					selectQuestionRepository.delete((SelectionQuestion) question);
-				}
-				if (question instanceof MatrixQuestion) {
-					matrixQuestionRepository.delete((MatrixQuestion) question);
-				}
-			} catch (DataAccessException e) {
-				throw new BusinessException(e);
-			}
-		}
-	}
-	
-	@Override
-	public void deleteQuestionList(Iterable<? extends Question> entities) throws BusinessException {
-		try {
-			for(Question question : entities){
-				deleteQuestion(question);
-			}
-		} catch(DataAccessException e) {
-			throw new BusinessException(e);
-		}
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public MatrixQuestion findMatrixQuestionById(String id) throws BusinessException {
+        try {
+            return matrixQuestionRepository.findById(id).get();
+        } catch (DataAccessException e) {
+            throw new BusinessException(e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SelectionQuestion findSelectionQuestionById(String id) throws BusinessException {
+        try {
+            return selectQuestionRepository.findById(id).get();
+        } catch (DataAccessException e) {
+            throw new BusinessException(e);
+        }
+    }
+
+    @Override
+    public void createQuestion(Question question, MultipartFile file) throws BusinessException {
+        if (!question.getQuestionGroup().getSurvey().isActive()) {
+            try {
+                question.setCreationDate(new Date());
+                if (file != null && !file.isEmpty()) {
+                    DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
+                    documentFileService.create(documentFile);
+                    question.setFile(documentFile);
+                }
+                saveQuestion(question);
+            } catch (IOException | DataAccessException e) {
+                throw new BusinessException(e);
+            }
+        }
+    }
+
+    @Override
+    public void updateQuestion(Question question, MultipartFile file, Boolean deleteFile) throws BusinessException {
+        if (!question.getQuestionGroup().getSurvey().isActive()) {
+            try {
+                question.setCreationDate(new Date());
+                if (file != null && !file.isEmpty()) {
+                    DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
+                    documentFileService.create(documentFile);
+                    if (question.getFile() != null) {
+                        documentFileService.delete(question.getFile());
+                    }
+                    question.setFile(documentFile);
+                }
+                else if (question.getFile() != null && deleteFile){
+                            documentFileService.delete(question.getFile());
+                            question.setFile(null);
+                }
+
+                saveQuestion(question);
+            } catch (DataAccessException | IOException e) {
+                throw new BusinessException(e);
+            }
+        }
+    }
+
+    @Override
+    public void deleteQuestion(Question question) throws BusinessException {
+        if (!question.getQuestionGroup().getSurvey().isActive()) {
+            try {
+                if (question.getFile() != null) {
+                    documentFileService.delete(question.getFile());
+                }
+                if (question instanceof InputQuestion) {
+                    inputQuestionRepository.delete((InputQuestion) question);
+                }
+                if (question instanceof ChoiceQuestion) {
+                    choiceQuestionRepository.delete((ChoiceQuestion) question);
+                }
+                if (question instanceof SelectionQuestion) {
+                    selectQuestionRepository.delete((SelectionQuestion) question);
+                }
+                if (question instanceof MatrixQuestion) {
+                    matrixQuestionRepository.delete((MatrixQuestion) question);
+                }
+            } catch (DataAccessException e) {
+                throw new BusinessException(e);
+            }
+        }
+    }
+
+    @Override
+    public void deleteQuestionList(Iterable<? extends Question> entities) throws BusinessException {
+        try {
+            for (Question question : entities) {
+                deleteQuestion(question);
+            }
+        } catch (DataAccessException e) {
+            throw new BusinessException(e);
+        }
+    }
 
 
-	private void saveQuestion(Question question) {
-		if(question instanceof InputQuestion) {
-			inputQuestionRepository.save((InputQuestion)question);
-		}
-		if(question instanceof ChoiceQuestion) {
-			choiceQuestionRepository.save((ChoiceQuestion)question);
-		}
-		if(question instanceof SelectionQuestion) {
-			selectQuestionRepository.save((SelectionQuestion)question);
-		}
-		if(question instanceof MatrixQuestion) {
-			matrixQuestionRepository.save((MatrixQuestion)question);
-		}
-	}
+    private void saveQuestion(Question question) {
+        if (question instanceof InputQuestion) {
+            inputQuestionRepository.save((InputQuestion) question);
+        }
+        if (question instanceof ChoiceQuestion) {
+            choiceQuestionRepository.save((ChoiceQuestion) question);
+        }
+        if (question instanceof SelectionQuestion) {
+            selectQuestionRepository.save((SelectionQuestion) question);
+        }
+        if (question instanceof MatrixQuestion) {
+            matrixQuestionRepository.save((MatrixQuestion) question);
+        }
+    }
 
 }
