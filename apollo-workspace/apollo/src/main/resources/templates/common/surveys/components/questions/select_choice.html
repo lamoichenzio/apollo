@@ -13,12 +13,10 @@
                 <div class="col-auto" th:if="${question.file != null}">
                     <div class="question-image rounded-lg shadow">
                         <img class="rounded-lg border" th:src="${'data:image/png;base64,'+question.file.data}">
-
                     </div>
                 </div>
 
             </div>
-
 
             <!-- OPTIONS -->
             <div class="row">
@@ -44,10 +42,10 @@
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="#"
                        th:onclick="openQuestionModal([[@{/questions/selectionquestion/update}]], 'SELECT', '#modal-new-selection-question', [[${question.id}]] )"
-                       class="dropdown-item">Edit</a>
+                       class="dropdown-item" th:text="#{common.edit}"></a>
                     <a href="#"
                        th:onclick="openQuestionModal([[@{/questions/selectionquestion/delete}]], null, '#modal-delete-question', [[${question.id}]])"
-                       class="dropdown-item text-danger">Delete</a>
+                       class="dropdown-item text-danger" th:text="#{common.delete}"></a>
                 </div>
             </div>
         </div>

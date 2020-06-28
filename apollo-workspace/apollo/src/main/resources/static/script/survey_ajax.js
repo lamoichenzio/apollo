@@ -285,19 +285,13 @@ function openQuestionModal(url, type, modal_id, request_param) {
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
-        timeout: 600000,
+        timeout: 10000,
         success: function (response) {
-
-            console.log("PIPPO");
-
-            console.log(modal_id);
-
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
 
             // Check Choice Question type
             if (type && (type === CHECK || type === RADIO || type === SELECT)) {
-
                 let instance = $("#instance").val();
                 setChoiceQuestionAttr(instance);
             }
@@ -308,11 +302,11 @@ function openQuestionModal(url, type, modal_id, request_param) {
     });
 }
 
-// TODO: creare post request per domanda
-function postQuestion(){
 
-}
-
+/**
+ * Set options list.
+ * @param {String} instance 
+ */
 function setChoiceQuestionAttr(instance) {
     optionList = optionList.length > 0 ? [] : optionList;
     setChoiceOptions();
@@ -332,7 +326,6 @@ function setChoiceOptions() {
 function setOptionValues() {
     $("#option_values_container").children().each( function() {
         optionValues.push($(this));
-        console.log("Values " . optionValues);
     });
 }
 

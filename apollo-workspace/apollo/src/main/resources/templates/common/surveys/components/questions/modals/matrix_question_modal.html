@@ -2,6 +2,7 @@
 <!-- MODAL MATRIX QUESTION -->
 <div class="modal fade" id="modal-matrix-question" tabindex="-1" role="dialog" aria-hidden="true"
      th:fragment="modal_matrix_question">
+    <script th:src="@{/script/forms_validation.js}"></script>
 
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
 
@@ -18,8 +19,7 @@
 
             <div class="modal-body">
 
-                <form id="form" th:action="${#request.getRequestURI()}" th:object="${question}" method="post" enctype="multipart/form-data">
-
+                <form id="matrix_question_form" th:action="${#request.getRequestURI()}" th:object="${question}" method="post" enctype="multipart/form-data">
 
                     <!-- update case -->
                     <input th:if="${question.id != null}" type="hidden" th:field="*{id}"/>
@@ -29,7 +29,6 @@
                     <input type="hidden" name="type" th:value="${question.type}" th:field="*{type}"/>
 
                     <input id="instance" type="hidden" name="instance" th:value="${instance}"/>
-
 
                     <div class="row">
                         <div class="col-md-12">
@@ -133,15 +132,24 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Form errors -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-left text-xs text-muted mt-2">
+                                <span id="form_error_message" class="font-weight-bold text-danger hidden"></span>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger" th:text="#{common.cancel}"></button>
-                <button type="submit" form="form" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
+                <button type="submit" form="matrix_question_form" class="btn btn-sm btn-primary rounded-pill" th:text="#{common.submit}"></button>
             </div>
 
             <!--File validation script-->
-            <div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div>
+            <!-- <div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div> -->
         </div>
 
 

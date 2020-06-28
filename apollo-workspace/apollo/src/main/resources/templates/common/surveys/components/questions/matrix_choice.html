@@ -76,11 +76,11 @@
 
                     <a href="#"
                        th:onclick="openQuestionModal([[@{/questions/matrixquestion/update}]], [[${question.type}]], '#modal-matrix-question', [[${question.id}]])"
-                       class="dropdown-item" data-toggle="modal">Edit</a>
+                       class="dropdown-item" data-toggle="modal" th:text="#{common.edit}"></a>
 
                     <a href="#"
                        th:onClick="openQuestionModal([[@{/questions/matrixquestion/delete}]], null,'#modal-delete-question', [[${question.id}]])"
-                       class="dropdown-item text-danger">Delete</a>
+                       class="dropdown-item text-danger" th:text="#{common.delete}"></a>
                 </div>
             </div>
         </div>

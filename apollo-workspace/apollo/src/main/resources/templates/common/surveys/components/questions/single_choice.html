@@ -49,10 +49,10 @@
 				<div class="dropdown-menu dropdown-menu-right">
 					<a href="#"
 					   th:onClick="openQuestionModal([[@{/questions/choicequestion/update}]], [[${question.choiceType}]], '#modal-new-choice-question', [[${question.id}]] )"
-					   class="dropdown-item">Edit</a>
+					   class="dropdown-item" th:text="#{common.edit}"></a>
 					<a href="#"
 					   th:onClick="openQuestionModal([[@{/questions/choicequestion/delete}]], null, '#modal-delete-question', [[${question.id}]])"
-					   class="dropdown-item text-danger">Delete</a>
+					   class="dropdown-item text-danger" th:text="#{common.delete}"></a>
 				</div>
 			</div>
 		</div>
