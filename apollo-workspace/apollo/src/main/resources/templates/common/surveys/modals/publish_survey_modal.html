@@ -56,7 +56,7 @@
                 <div class="modal-footer">
                     <button id="modal_dismiss" type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
                         th:text="#{common.cancel}"></button>
-                    <button id="publish_submit" type="submit" name="#{common.disable}" translate="yes" class="btn btn-sm btn-primary rounded-pill"
+                    <button id="publish_submit" type="button" name="#{common.disable}" translate="yes" class="btn btn-sm btn-primary rounded-pill"
                         th:text="#{${survey.active ? 'common.disable' : 'common.publish'}}"
                         th:onclick="sendPublish([[@{/surveys/publish}]], [[${survey}]])"></button>
 

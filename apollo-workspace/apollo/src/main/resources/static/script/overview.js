@@ -40,7 +40,7 @@ $(function () {
 
         // TO DO: change question select
         if (selectedQuestionId != null && selectedQuestionId != '') {
-            $("#spinner").append(SPINNER);
+            $("#spinner_container").append(SPINNER_PRIMARY);
             getAnswersData(question);
         }
     });
@@ -67,20 +67,20 @@ function getAnswersData(question) {
         cache: false,
         timeout: 10000,
         success: function (response) {
-            $("#spinner").empty();
+            $("#spinner_container").empty();
    
             // OK for success
             if (response.status === 'OK') {
                 $("#question_title").text(question.title);
                 aggregateResult(response);
             } else {
-                $("#answers_container").append(ALERT_ERROR);
-                $("#alert_text_error").append('<strong>Error!</strong>' + response.msg);
+                $("#answers_container").append(showAlert('error', 'Error!', response.msg));
             }
 
         },
         error: function (e) {
             console.log('ERROR', e);
+            $("#answers_container").append(showAlert('error', 'Error!', e));
             // TO DO: Redirect to ServerError page
         }
     });
@@ -115,13 +115,13 @@ function getQuestionsData(group_id) {
                     i += 1;
                 }
             } else {
-                $("#answers_container").append(ALERT_ERROR);
-                $("#alert_text_error").append('<strong>Error!</strong>' + response.msg);
+                $("#answers_container").append(showAlert('error', 'Error!', response.msg));
             }
 
         },
         error: function (e) {
             console.log('ERROR', e);
+            showAlert('error', 'Error!', e);
             // TO DO: Redirect to ServerError page
         }
     });
@@ -133,12 +133,9 @@ function getQuestionsData(group_id) {
  */
 function aggregateResult(result) {
     let aggregation;
-    let index;
 
     switch (result.question.type) {
         case 'CHOICE':
-            index = 0;
-
             // Multi choice
             if (result.type == 'MULTIPLE' && result.values != null) {
                 aggregation = aggregateMultiChoice(result);
@@ -147,64 +144,34 @@ function aggregateResult(result) {
             else if (result.type == 'SINGLE' && result.values != null) {
                 aggregation = aggregateSingleChoice(result);
             } else {
-                $("#answers_container").append(ALERT_ERROR);
-                $("#alert_text_error").append('<strong>Attention!</strong> There is no data to display.');
+                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
                 return;
             }
 
             if (aggregation && aggregation.options) {
-
-                for (let op of aggregation.options) {
-                    let percentValue = op.value ? (op.value / aggregation.total) * 100 : op.value;
-                    
-                    $("#answers_container").append(CHOICE_SUMMARY);
-                    $("#option_name").text(op.label);
-                    $("#option_name").attr('id', 'option_name_' + index);
-                    $("#option_progress_bar").css(
-                        "width", 
-                        (percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
-                    $("#option_progress_bar").attr('id', 'option_progress_bar_' + index);
-                    $("#option_progress_value").text((percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
-                    $("#option_progress_value").attr('title', op.label);
-                    $("#option_progress_value").attr('id', 'option_progress_value_' + index);
-                    index+=1;
+                for (let option of aggregation.options) {
+                    let percentValue = option.value ? (option.value / aggregation.total) * 100 : option.value;
+                    $("#answers_container").append(getChoiceSummary(option.label, percentValue));
                 }
             }
             break;
 
         case 'INPUT': 
-            index = 0;
-            let input_summary = INPUT_SUMMARY;
-
-            // Set icon
-            if (result.type == 'TEXT') {
-                input_summary = input_summary.replace('[icon]', '<i class="fas fa-align-left fa-2x"></i>');
-            } else if (result.type == 'NUMBER') {
-                input_summary = input_summary.replace('[icon]', '<i class="fas fa-calculator fa-2x"></i>');
-            } else if (result.type == 'DATE') {
-                input_summary = input_summary.replace('[icon]', '<i class="fas fa-calendar-alt fa-2x"></i>');
-            }
+            // Set incon
+            let inputIcon = getInputSummaryIcon(result.type);
 
             if (result.values != null && result.values.length) {
                 aggregation = aggregateInput(result);
-                for (let val of aggregation.values) {
-                    $("#answers_container").append(input_summary);
-                    $("#text_value").text(val.text);
-                    $("#text_value").attr('id', 'text_value_' + index);
-                    $("#counter_value").text(val.val);
-                    $("#counter_value").attr('id', 'counter_value_' + index);
-                    index+=1;
+                for (let value of aggregation.values) {
+                    $("#answers_container").append(getInputSummary(inputIcon, value.text, value.val));
                 }
             } else {
-                $("#answers_container").append(ALERT_WARNING);
-                $("#alert_text_warning").append('<strong>Warning!</strong> There is no data to display.');
+                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
                 return;
             }
             break;
 
         case 'MATRIX': 
-            index = 0;
-
             // Multi choice matrix
             if (result.type == 'MULTIPLE' && result.values != null) {
                 aggregation = aggregateMultiChoiceMatrixAnswer(result);
@@ -216,48 +183,23 @@ function aggregateResult(result) {
 
             if (aggregation && aggregation.options) {
                 for (let option of aggregation.options) {
-                    $("#answers_container").append(MATRIX_SUMMARY);
-                    $("#option_name").text(option.label);
-                    $("#option_name").attr('id', 'option_name_' + index);
-
-                    let j = 0;
-                    for (let optVal of option.optionValues) {
-                        $("#option_list_elements").append(MATRIX_OPTION_ELEM);
-                        $("#option_text").text(optVal.text);
-                        $("#option_text").attr('id', 'option_text_' + i +'_' +j);
-                        $("#option_value").text(optVal.value);
-                        $("#option_value").attr('id', 'option_value_' + i +'_' +j);
-                        j+=1;
-                    }
-                    index+=1;
+                    $("#answers_container").append(getMatrixSummary(option.label, option.optionValues));
                 }
             } else {
-                $("#answers_container").append(ALERT_ERROR);
-                $("#alert_text_error").append('<strong>Attention!</strong> There is no data to display.');
+                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
             }
             break;
 
         case 'SELECTION': 
-            index = 0;
             if (result.values != null) {
                 aggregation = aggregateSelectionQuestionAnswer(result);
                 
-                for (let op of aggregation.options) {
-                    let percentValue = op.value ? (op.value / aggregation.total) * 100 : op.value;
-
-                    $("#answers_container").append(CHOICE_SUMMARY);
-                    $("#option_name").text(op.label);
-                    $("#option_name").attr('id', 'option_name_' + index);
-                    $("#option_progress_bar").css("width", (percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
-                    $("#option_progress_bar").attr('id', 'option_progress_bar_' + index);
-                    $("#option_progress_value").text((percentValue.toString().length > 5 ? percentValue.toFixed(2) : percentValue) + '%');
-                    $("#option_progress_value").attr('title', op.label);
-                    $("#option_progress_value").attr('id', 'option_progress_value_' + index);
-                    index+=1;
+                for (let option of aggregation.options) {
+                    let percentValue = option.value ? (option.value / aggregation.total) * 100 : option.value;
+                    $("#answers_container").append(getChoiceSummary(option.label, percentValue));
                 }
             } else {
-                $("#answers_container").append(ALERT_ERROR);
-                $("#alert_text_error").append('<strong>Attention!</strong> There is no data to display.');
+                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
             }
             break;
     
@@ -368,9 +310,7 @@ function aggregateMultiChoiceMatrixAnswer(answer) {
     answer.question.options.forEach(elem => {
         aggregation.options.push({
             label: elem, 
-            optionValues: answer.question.optionValues.map(val => {
-                val = { text: val, value: 0 };
-            }) 
+            optionValues: answer.question.optionValues.map(val => val = { text: val, value: 0 }) 
         });
     });
 

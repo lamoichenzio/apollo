@@ -59,7 +59,7 @@ function getSurveyRequest(url, modal_id, param) {
  */
 function postSurveyRequest(requestModel) {
     // Set Spinner
-    $(".loader").prepend(LOAD_SPINNER);
+    $(".loader").prepend(SPINNER_SUCCESS);
 
     $.ajax({
         type: "POST",
@@ -71,7 +71,7 @@ function postSurveyRequest(requestModel) {
         timeout: 10000,
         success: function (response) {
             console.info('[SUCCESS]::[Status]:', response.status);
-            $("#load_spinner").remove();
+            $(".spinner-success").remove();
 
             // OK for success
             if (response.status === 'OK') {
@@ -81,9 +81,10 @@ function postSurveyRequest(requestModel) {
             }
         },
         error: function (e) {
-            $("#load_spinner").remove();
-            handleSurveyErrorResponse(e.responseJSON.msg);
             console.error('ERROR', e);
+            $(".spinner-success").remove();
+            // window.location.replace('http://stackoverflow.com');
+            handleSurveyErrorResponse(e.responseJSON.msg);
         }
     });
 }
@@ -97,13 +98,11 @@ function sendPublish(url, survey) {
     let request = new RequestModel(url, JSON.stringify(survey));
 
     if (survey.secret && !survey.active) {
-        $("#modal_holder").append(INVITATION_CONFIRM);
+        $("#modal_holder").append(getInvitationConfirmModal(translations));
         $("#modal-invitation-confirm").modal("show");
+        // Close publish modal
         $("#modal_dismiss").trigger("click");
-        // adding translations
-        $("#send_email_confirmation").text(translations.sendInvitationConfirm);
-        $("#cancel").text(translations.cancel);
-        $("#publish_invitation_submit").text(translations.send);
+
         if (emails && emails.length > 0) {
             // Publish and send emails
             $("#publish_invitation_submit").click(() => {
@@ -196,7 +195,6 @@ function surveyPublished(response) {
     $("#success_message").show();
     $("#error_message").hide();
     $("#survey_active").removeClass("badge-danger").addClass("badge-success");
-    $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
     $('.modify').hide();
     if (translations) {  
         $("#survey_active").text(translations.yes);
@@ -217,7 +215,6 @@ function surveyUnpublished(response) {
     $("#success_message").hide();
     $("#survey_active").removeClass("badge-success").addClass("badge-danger");
     $("#survey_active").text("No");
-    $('#publish_submit').attr("onclick", 'postSurveyRequest("\/apollo\/surveys\/publish",' + JSON.stringify(response.result) + ')');
     $('.modify').show();
     if (translations) {
         $('#publish_submit').text(translations.publish);

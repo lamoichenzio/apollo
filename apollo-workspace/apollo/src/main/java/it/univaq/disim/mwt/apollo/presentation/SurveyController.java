@@ -97,7 +97,7 @@ public class SurveyController {
 			throws BusinessException {
 
 		SurveyResponseBody response = new SurveyResponseBody();
-
+		
 		// If error, just return a 400 bad request, along with the error message
 		if (errors.hasErrors()) {
 			return ResponseEntity.badRequest().body(SurveyHelper.addErrorResult(errors));
