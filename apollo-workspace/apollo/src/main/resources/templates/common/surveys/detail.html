@@ -4,13 +4,20 @@
 
 <body>
 <div layout:fragment="page-content">
-	<script th:src="@{/script/survey_ajax.js}"></script>
-	<script th:src="@{/script/utility.js}"></script>
+	<!-- <script th:src="@{/script/survey_ajax.js}"></script>
+	<script th:src="@{/script/utility.js}"></script> -->
 	<script th:inline="javascript">
 		$(function () {
 			// Tooltip inizialize
-			$('[data-toggle="tooltip"]').tooltip();
-		});
+            $('[data-toggle="tooltip"]').tooltip();
+            // Check editable survey
+            if ([(${ survey.active })]) {
+                $(".modify").hide();
+            } else {
+                $('.modify').show();
+            }
+        });
+        
 		var translations = {
 			publish: [[#{ common.publish }]],
 			deactivate: [[#{ common.disable }]],
@@ -167,13 +174,6 @@
             </div>
         </div>
     </div>
-    <script th:inline="javascript">
-        if([(${survey.active})]){
-            $(".modify").hide();
-        }else{
-            $('.modify').show();
-        }
-    </script>
 </div>
 </body>
 

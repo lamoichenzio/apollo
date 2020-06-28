@@ -1,9 +1,13 @@
 package it.univaq.disim.mwt.apollo.configuration;
 
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.http.HttpStatus;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.LocaleResolver;
@@ -27,7 +31,15 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/login").setViewName("index");
 		registry.addViewController("/common/survey_submitted").setViewName("/common/user_view/common_pages/survey_submitted");
 		registry.addViewController("/common/survey_answered").setViewName("/common/user_view/common_pages/survey_answered");
+        registry.addViewController("/notFound").setViewName("/utility/error_404");
 	}
+	
+	@Bean
+    public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> containerCustomizer() {
+        return container -> {
+            container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/notFound"));
+        };
+    }
 	
 	@Bean
 	public LocaleResolver localeResolver() {
