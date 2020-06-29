@@ -1,9 +1,12 @@
 /**
+ * 
  * Form validation script.
  *
  */
 
 $(function () {
+
+    // Register questions form submit event
 
     $('#choice_question_form').submit(function (event) {
         let formData = $(this).serializeArray();
@@ -22,6 +25,11 @@ $(function () {
         let options = formData.filter(elem => elem.name.includes('options'));
         let values = formData.filter(elem => elem.name.includes('optionValues'));
         if (matrixFormValidation(options, values)) event.preventDefault();
+    });
+
+    $('#input_question_form').submit(function (event) {
+        // let formData = $(this).serializeArray();
+        if (fileValidation()) event.preventDefault();
     });
 });
 
@@ -51,12 +59,12 @@ function fileValidation() {
 function choiceFormValidation(options) {
     if (options.length < 2) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*Single option not allowed.');
+        $("#form_error_message").text('*' + translations.singleoption);
         return true;
     }
     if (hasDuplicates(options)) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*Duplicate options.');
+        $("#form_error_message").text('*' + translations.duplicateoptions);
         return true;
     }
     return fileValidation();
@@ -65,17 +73,17 @@ function choiceFormValidation(options) {
 function matrixFormValidation(options, values) {
     if (options.length < 2 || values.length < 2) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*Single option/value not allowed.');
+        $("#form_error_message").text('*' + translations.singleoption);
         return true;
     }
     if (hasDuplicates(options)) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*Duplicate options.');
+        $("#form_error_message").text('*' + translations.duplicateoptions);
         return true;
     }
     if (hasDuplicates(values)) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*Duplicate range values.');
+        $("#form_error_message").text('*' + translations.duplicateoptionval);
         return true;
     }
     return fileValidation();
