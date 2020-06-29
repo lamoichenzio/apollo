@@ -37,7 +37,9 @@
                         <div class="row">
 
                             <h5 class="mb-0 text-white col-auto my-auto mx-auto">
-                                [[#{common.hi}]] [[${user.getFirstname()}]]!
+                                [[#{common.hi}]] 
+                                <span th:if="${user.firstname != null && user.firstname != ''}" th:text="${user.firstname}"></span>
+                                <span th:if="${user.firstname == null || user.firstname == ''}" th:text="${user.username}"></span>!
                             </h5>
 
                             <nav class="navbar mx-0 my-0 ml-1 force-padding-0 col-auto" id="navbar-main">
