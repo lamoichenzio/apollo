@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>Apollo</h1>
+<p>
+    [[#{email.yoursurvey}]] <strong>[[${survey.name}]]</strong> [(#{email.surveyactivated})]
+    <span th:if="${survey.endDate != null}">[(#{email.activeuntil})] <strong>[[${survey.endDate}]]</strong></span>!
+</p>
+<br>
+<small>
+    [[#{email.regards}]], Apollo Team
+</small>
+</body>
+</html>

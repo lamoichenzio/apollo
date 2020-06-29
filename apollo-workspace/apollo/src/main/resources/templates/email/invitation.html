@@ -1,15 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
     <h1>Apollo</h1>
-    <p>Welcome to Apollo! You have been invited to answer to a survey.
-        </br>
-        Click the link below to reach the page.</br>
+    <p th:utext="#{email.welcome}">
     </p>
     <h3 th:text="${survey.name}"></h3>
     <a th:href="${'http://localhost:8080/apollo'+survey.urlId}">[[${survey.urlId}]]</a>
-    <p>Confirm your identity by entering your email and password.</p>
+    <p th:utext="#{email.confirm}"></p>
     <p>
-        Password: <b th:text="${survey.invitationPool.password}"></b>
+        [[#{common.password}]]: <b th:text="${survey.invitationPool.password}"></b>
     </p>
+    <br>
+    <small>[[#{email.regards}]], Apollo Team</small>
 </body>
 </html>

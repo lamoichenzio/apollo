@@ -25,5 +25,4 @@ public interface SurveyService {
 
 	void deleteSurvey(Survey survey) throws BusinessException;
 
-	void sendInvitationEmails(Survey survey) throws BusinessException;
 }

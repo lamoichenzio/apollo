@@ -29,36 +29,28 @@ public class SurveyActivationProcess {
 		LocalDate date = LocalDate.now();
 		List<Survey> surveys = surveyService.findSurveysByStartDateOrEndDate(date, date);
 		for (Survey survey : surveys) {
-			User user = survey.getUser();
+
+			// Survey activation
 			if (survey.getStartDate() != null && survey.getStartDate().equals(date)) {
 				if (!survey.isActive()) {
 					survey.setActive(true);
 					survey.createSurveyUrl(survey.getId());
 					surveyService.updateSurvey(survey, null);
-					String body = "The survey" +
-							survey.getName() +
-							" for user " +
-							user.getUsername() +
-							" has been published";
-					emailService.sendMail(user.getEmail(), "Pubblicazione sondaggio",
-							body);
-					if(survey.isSecret() && survey.getInvitationPool() != null && !survey.getInvitationPool().getEmails().isEmpty()){
-						surveyService.sendInvitationEmails(survey);
+					emailService.sendActivationMail(survey, true);
+					if(survey.isSecret() && survey.getInvitationPool() != null
+							&& !survey.getInvitationPool().getEmails().isEmpty()){
+						emailService.sendSurveyInvitationMail(survey);
 					}
 				}
 			}
+
+			// Survey deactivation
 			if (survey.getEndDate() != null && survey.getEndDate().equals(date)) {
 				if (survey.isActive()) {
 					survey.setActive(false);
 					survey.removeSurveyUrl();
 					surveyService.updateSurvey(survey, null);
-					String body = "The survey" +
-							survey.getName() +
-							" for user " +
-							user.getUsername() +
-							" has been deactivated";
-					emailService.sendMail(survey.getUser().getEmail(), "Pubblicazione sondaggio",
-							body);
+					emailService.sendActivationMail(survey, false);
 				}
 			}
 		}

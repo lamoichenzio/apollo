@@ -1,14 +1,12 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
 import javax.mail.MessagingException;
-import javax.mail.SendFailedException;
 import javax.mail.internet.MimeMessage;
 
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -31,30 +29,27 @@ public class EmailServiceImpl implements EmailService {
     private TemplateEngine engine;
 
     @Override
-    public void sendMail(String sendTo, String subject, String body) throws BusinessException {
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setTo(sendTo);
-        mail.setSubject(subject);
-        mail.setText(body);
-        mailSender.send(mail);
-    }
-
-	@Override
-	public void sendInvitationMail(String[] addresses, String subject, String body) throws BusinessException {
-        try {
+    public void sendActivationMail(Survey survey, boolean activated) throws BusinessException {
+        try{
             MimeMessage message = mailSender.createMimeMessage();
-            message.setSubject(subject);
-
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setTo(addresses);
+            Context context = new Context(LocaleContextHolder.getLocale());
+            context.setVariable("survey", survey);
+            String body = "";
+            if(activated) {
+                body = engine.process("email/activation.html", context);
+                message.setSubject("Survey Activation");
+            }else {
+                body = engine.process("email/deactivation.html", context);
+                message.setSubject("Survey Deactivation");
+            }
+            MimeMessageHelper helper = new MimeMessageHelper(message);
+            helper.setTo(survey.getUser().getEmail());
             helper.setText(body, true);
-
             mailSender.send(message);
-        } catch (MessagingException ex) {
-        	throw new BusinessException(ex);
+        } catch (MessagingException e) {
+            throw new BusinessException(e);
         }
-		
-	}
+    }
 
     @Override
     public void sendSurveyInvitationMail(Survey survey) throws BusinessException{

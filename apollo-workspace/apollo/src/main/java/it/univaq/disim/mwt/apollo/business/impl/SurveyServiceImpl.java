@@ -156,10 +156,4 @@ public class SurveyServiceImpl implements SurveyService {
         }
     }
 
-    @Override
-    public void sendInvitationEmails(Survey survey) throws BusinessException {
-        String[] addresses = survey.getInvitationPool().getEmails().toArray(new String[0]);
-        emailService.sendInvitationMail(addresses, "Survey invitation", SurveyHelper.buildInvitationMailBody(survey));
-    }
-
 }
