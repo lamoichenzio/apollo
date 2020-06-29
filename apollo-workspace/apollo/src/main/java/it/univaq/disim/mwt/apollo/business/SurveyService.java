@@ -19,6 +19,10 @@ public interface SurveyService {
 
 	List<Survey> findSurveysByName(String name) throws BusinessException;
 
+	int findSurveysCountByUserId(Long userId) throws BusinessException;
+
+	int findSurveysActiveCountByUserId(Long userId) throws BusinessException;
+
 	List<Survey> findSurveysByStartDateOrEndDate(LocalDate startDate, LocalDate endDate) throws BusinessException;
 
 	Survey findSurveyById(String id) throws BusinessException;

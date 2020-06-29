@@ -13,33 +13,34 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
-	
-	@Autowired
-	private UserDetailsService userDetailsService;
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.headers().disable().csrf().disable().formLogin()
-			.loginPage("/")
-			.loginProcessingUrl("/login")
-			.failureUrl("/?error=invalidlogin")
-			.defaultSuccessUrl("/surveys/dashboard", false).and().logout()
-			.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/common/accessdenied").and()
-			.authorizeRequests()
-			// Specificare le url che sono soggette ad autenticazione ed autorizzazione
-			.antMatchers("/surveys/**", "/answers/**", "/user/update/**", "/forms/survey/findbysurveypaginated", "/forms/survey/**/answer/**").authenticated()
-			.antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**").permitAll();
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.headers().disable().csrf().disable().formLogin()
+                .loginPage("/")
+                .loginProcessingUrl("/login")
+                .failureUrl("/?error=invalidlogin")
+                .defaultSuccessUrl("/surveys/dashboard", false).and().logout()
+                .logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/common/accessdenied").and()
+                .authorizeRequests()
+                // Specificare le url che sono soggette ad autenticazione ed autorizzazione
+                .antMatchers("/surveys/**", "/answers/**", "/user/update/**", "/forms/survey/findbysurveypaginated", "/forms/survey/**/answer/**", "/administration/**").authenticated()
+                .antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**").permitAll()
+                .antMatchers("/administration/**").hasRole("ADMIN");
+
+    }
 }
