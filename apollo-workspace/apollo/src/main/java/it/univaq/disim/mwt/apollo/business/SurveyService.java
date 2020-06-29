@@ -13,11 +13,7 @@ import it.univaq.disim.mwt.apollo.domain.User;
 
 public interface SurveyService {
 
-	List<Survey> findAllSurveys() throws BusinessException;
-
 	ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid request, User user) throws BusinessException;
-
-	List<Survey> findSurveysByName(String name) throws BusinessException;
 
 	int findSurveysCountByUserId(Long userId) throws BusinessException;
 

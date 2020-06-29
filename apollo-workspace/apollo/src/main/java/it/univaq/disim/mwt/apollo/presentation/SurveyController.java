@@ -118,8 +118,7 @@ public class SurveyController {
 
 			if (survey.isSecret()) {
 				if (survey.getInvitationPool() != null && survey.getInvitationPool().getEmails().size() > 0) {
-					String[] addresses = survey.getInvitationPool().getEmails().toArray(new String[0]);
-					emailService.sendHTMLMail(addresses, "Survey invitation", SurveyHelper.buildInvitationMailBody(survey));
+					emailService.sendSurveyInvitationMail(survey);
 				} else {
 					response.setMsg("No email address found.");
 					response.setStatus(ResponseStatus.ERROR);
