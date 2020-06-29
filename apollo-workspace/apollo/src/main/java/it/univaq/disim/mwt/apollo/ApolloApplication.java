@@ -1,8 +1,5 @@
 package it.univaq.disim.mwt.apollo;
 
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InvitationPoolRepository;
-import it.univaq.disim.mwt.apollo.domain.InvitationPool;
-import it.univaq.disim.mwt.apollo.domain.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,13 +12,8 @@ import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.RoleRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
 import it.univaq.disim.mwt.apollo.domain.Role;
 import it.univaq.disim.mwt.apollo.domain.User;
-
-import java.util.Collections;
-import java.util.HashSet;
 
 
 @SpringBootApplication
@@ -41,10 +33,7 @@ public class ApolloApplication {
 	@Bean
     public CommandLineRunner loadData(
     		UserRepository utenteRepository, 
-    		RoleRepository roleRepository, 
-    		SurveyRepository surveyRepository,
-    		ChoiceQuestionRepository choiceQuestionRepository,
-    		InvitationPoolRepository invitationPoolRepository,
+    		RoleRepository roleRepository,
     		PasswordEncoder encoder) {
 		
         return (args) -> {
@@ -80,21 +69,6 @@ public class ApolloApplication {
             standardUser.setRole(standardRole);
             utenteRepository.save(standardUser);
 
-            //TEST PRIVATE SURVEY
-//            Survey survey = new Survey();
-//            survey.setName("prova");
-//            survey.setUser(standardUser);
-//            survey.setSecret(true);
-//            surveyRepository.save(survey);
-//
-//            //INVITATION POOL
-//            InvitationPool pool = new InvitationPool();
-//            pool.setSurvey(survey);
-//            pool.setEmails(Collections.singleton("giordano.daloisio@gmail.com"));
-//            pool.setPassword("prova");
-//            invitationPoolRepository.save(pool);
-//            survey.setInvitationPool(pool);
-//            surveyRepository.save(survey);
         };
     }
     

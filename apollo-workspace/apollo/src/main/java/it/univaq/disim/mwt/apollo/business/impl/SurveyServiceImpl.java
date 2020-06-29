@@ -9,6 +9,7 @@ import it.univaq.disim.mwt.apollo.domain.DocumentFile;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
+import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -44,14 +45,8 @@ public class SurveyServiceImpl implements SurveyService {
     @Autowired
     private InvitationPoolService invitationPoolService;
 
-    @Override
-    public List<Survey> findAllSurveys() throws BusinessException {
-        try {
-            return surveyRepository.findAll();
-        } catch (DataAccessException e) {
-            throw new BusinessException(e);
-        }
-    }
+    @Autowired
+    private EmailService emailService;
 
     @Override
     @Transactional(readOnly = true)
@@ -79,16 +74,6 @@ public class SurveyServiceImpl implements SurveyService {
 
             return new ResponseGrid<Survey>(requestGrid.getDraw(), page.getTotalElements(), page.getTotalElements(),
                     page.getContent());
-        } catch (DataAccessException e) {
-            throw new BusinessException(e);
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Survey> findSurveysByName(String name) throws BusinessException {
-        try {
-            return surveyRepository.findSurveysByName(name);
         } catch (DataAccessException e) {
             throw new BusinessException(e);
         }
