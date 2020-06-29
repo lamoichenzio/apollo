@@ -34,6 +34,8 @@ import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/surveys")
 public class SurveyController {
@@ -69,8 +71,9 @@ public class SurveyController {
 	}
 	
 	@GetMapping("/detail")
-	public String detailStart(@RequestParam String id, Model model) throws BusinessException {
+	public String detailStart(@RequestParam String id, Model model, Principal principal) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
+		System.out.println(principal.toString());
 		model.addAttribute("survey", survey);
 		return "/common/surveys/detail";
 	}

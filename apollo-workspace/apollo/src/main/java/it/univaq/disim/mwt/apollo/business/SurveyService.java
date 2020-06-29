@@ -15,6 +15,10 @@ public interface SurveyService {
 
 	ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid request, User user) throws BusinessException;
 
+	int findSurveysCountByUserId(Long userId) throws BusinessException;
+
+	int findSurveysActiveCountByUserId(Long userId) throws BusinessException;
+
 	List<Survey> findSurveysByStartDateOrEndDate(LocalDate startDate, LocalDate endDate) throws BusinessException;
 
 	Survey findSurveyById(String id) throws BusinessException;

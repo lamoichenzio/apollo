@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import it.univaq.disim.mwt.apollo.domain.Survey;
@@ -17,7 +18,23 @@ public interface SurveyRepository extends MongoRepository<Survey, String> {
 	 * @return List<Survey>
 	 */
     List<Survey> findSurveysByName(String name);
-    
+
+	/**
+	 * Find all surveys by User Id.
+	 * @param userId Long
+	 * @return List<Survey>
+	 */
+	@Query(value= "{'user._id' : ?0}", count = true)
+	int findSurveysCountByUser(Long userId);
+
+	/**
+	 * Find all surveys by User Id.
+	 * @param userId Long
+	 * @return List<Survey>
+	 */
+	@Query(value= "{'user._id' : ?0, 'active': true}", count = true)
+	int findSurveysActiveCountByUser(Long userId);
+
     /**
      * Finda all survey by start date and end date.
      * @param startDate LocalDate

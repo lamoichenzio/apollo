@@ -4,14 +4,15 @@
     <body>
 
         <!-- Sidenav -->
-        <div class="sidenav fixed-content show ml-4" id="sidenav-main" th:fragment="sidenav" sec:authorize="isAuthenticated()">
+        <div class="sidenav fixed-content show ml-4" id="sidenav-main" th:fragment="sidenav"
+             sec:authorize="isAuthenticated()">
 
             <!-- Sidenav header -->
             <div class="sidenav-header d-flex mt-2">
                 <div class="row mx-auto">
                     <a href="#" th:href="@{/surveys/dashboard}">
-                    <img class="col-12 logo my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
-                    <!--			<h5 th:text="#{common.applicationtitle}">Apollo</h5>-->
+                        <img class="col-12 logo my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
+                        <!--			<h5 th:text="#{common.applicationtitle}">Apollo</h5>-->
                     </a>
 
 
@@ -34,7 +35,7 @@
             <!-- User mini profile -->
             <div class="sidenav-user d-flex flex-column align-items-center justify-content-between text-center">
                 <!-- Avatar -->
-                        <div class="row">
+                <div class="row">
 
                             <h5 class="mb-0 text-white col-auto my-auto mx-auto">
                                 [[#{common.hi}]] 
@@ -42,49 +43,50 @@
                                 <span th:if="${user.firstname == null || user.firstname == ''}" th:text="${user.username}"></span>!
                             </h5>
 
-                            <nav class="navbar mx-0 my-0 ml-1 force-padding-0 col-auto" id="navbar-main">
-                                <div class="container-fluid">
-                                    <!-- User's navbar -->
-                                    <div class="navbar-user">
-                                        <ul class="navbar-nav flex-row align-items-center">
-                                            <li class="nav-item dropdown dropdown-animate">
-                                                <a class="nav-link pr-lg-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-cog text-white"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                                    <a class="dropdown-item" href="/apollo/user/update">
-                                                        <i class="far fa-user"></i>
-                                                        <span>Modifica profilo</span>
-                                                    </a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a href="/apollo/logout" class="dropdown-item">
-                                                        <i class="far fa-sign-out-alt"></i>
-                                                        <span>Logout</span>
-                                                    </a>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </nav>
-
+                    <nav class="navbar mx-0 my-0 ml-1 force-padding-0 col-auto" id="navbar-main">
+                        <div class="container-fluid">
+                            <!-- User's navbar -->
+                            <div class="navbar-user">
+                                <ul class="navbar-nav flex-row align-items-center">
+                                    <li class="nav-item dropdown dropdown-animate">
+                                        <a class="nav-link pr-lg-0" href="#" role="button" data-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-cog text-white"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                            <a class="dropdown-item" href="/apollo/user/update">
+                                                <i class="far fa-user"></i>
+                                                <span>Modifica profilo</span>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="/apollo/logout" class="dropdown-item">
+                                                <i class="far fa-sign-out-alt"></i>
+                                                <span>Logout</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+                    </nav>
 
-                        <div class="row mt-n5">
-                            <span class="col-auto px-0 py-0 profile-image">
-                                <img alt="Image placeholder"
-                                     src="./dist/img/theme/light/team-4-800x800.jpg"
-                                     th:src="@{/dist/img/icons/user/user.png}"
-                                     th:if="${user.pic == null}">
+                </div>
 
-                                <img alt="Image placeholder"
-                                     src="./dist/img/theme/light/team-4-800x800.jpg"
-                                     th:src="${'data:image/jpg;base64,'+user.pic}"
-                                     th:if="${user.pic != null}">
-                            </span>
+                <div class="row mt-n5">
+                    <span class="col-auto px-0 py-0 profile-image">
+                        <img alt="Image placeholder"
+                             src="./dist/img/theme/light/team-4-800x800.jpg"
+                             th:src="@{/dist/img/icons/user/user.png}"
+                             th:if="${user.pic == null}">
+
+                        <img alt="Image placeholder"
+                             src="./dist/img/theme/light/team-4-800x800.jpg"
+                             th:src="${'data:image/jpg;base64,'+user.pic}"
+                             th:if="${user.pic != null}">
+                    </span>
 
 
-                        </div>
+                </div>
 
                 <!-- User info -->
                 <!-- Actions -->
@@ -105,12 +107,13 @@
                         <span class="btn-inner--icon d-block pt-2">New</span>
                     </a>
 
-<!--                    <a href="./home.html" class="btn btn-square text-sm">-->
-<!--                        <span class="btn-inner&#45;&#45;icon d-block">-->
-<!--                            <i class="far fa-tasks"></i>-->
-<!--                        </span>-->
-<!--                        <span class="btn-inner&#45;&#45;icon d-block pt-2">Home</span>-->
-<!--                    </a>-->
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a href="#" th:href="@{/administration/users}" class="btn btn-square text-sm">
+                        <span class="btn-inner--icon d-block">
+                            <i class="far fa-tasks"></i>
+                        </span>
+                        <span class="btn-inner--icon d-block pt-2">Users</span>
+                    </a></div>
                 </div>
                 <!--                <div class="w-100 mt-4 actions d-flex justify-content-between">-->
                 <!--                    <a href="./home.html" class="btn btn-square text-sm">-->

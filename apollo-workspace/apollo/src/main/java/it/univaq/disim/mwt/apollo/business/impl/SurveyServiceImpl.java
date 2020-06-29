@@ -80,6 +80,25 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public int findSurveysCountByUserId(Long userId) throws BusinessException {
+        try {
+            return surveyRepository.findSurveysCountByUser(userId);
+        } catch (DataAccessException e) {
+            throw new BusinessException(e);
+        }
+    }
+
+    @Override
+    public int findSurveysActiveCountByUserId(Long userId) throws BusinessException {
+        try {
+            return surveyRepository.findSurveysActiveCountByUser(userId);
+        } catch (DataAccessException e) {
+            throw new BusinessException(e);
+        }
+    }
+
+    @Override
     @Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
     public List<Survey> findSurveysByStartDateOrEndDate(LocalDate startDate, LocalDate endDate) throws BusinessException {
         try {
