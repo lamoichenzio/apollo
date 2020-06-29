@@ -5,7 +5,7 @@
 <div class="modal fade" id="modal-create-new-survey" tabindex="-1" role="dialog" aria-hidden="true"
      th:fragment="surveyForm">
 
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -18,21 +18,22 @@
                 </div>
             </div>
 
-            <form id="survey_form" th:action="${#request.getRequestURI()}" enctype="multipart/form-data"
-                  th:object="${survey}" class="form-horizontal" method="post">
+            <div class="modal-body">
+
+                <form id="survey_form" th:action="${#request.getRequestURI()}" enctype="multipart/form-data"
+                      th:object="${survey}" class="form-horizontal" method="post">
 
                     <!-- Input for update case -->
                     <div class="hidden">
-                        <input th:if="${survey.id != null}" type="hidden" th:field="*{id}" />
-                        <input th:if="${survey.user != null}" type="hidden" th:field="*{user}" />
-                        <input th:if="${survey.questionGroups != null}" type="hidden" th:field="*{questionGroups}" />
-                        <input th:if="${survey.invitationPool != null}" type="hidden" th:field="*{invitationPool}" />
-                        <input th:if="${survey.active != null}" type="hidden" th:field="*{active}" />
-                        <input th:if="${survey.urlId != null}" type="hidden" th:field="*{urlId}" />
-                        <input th:if="${survey.creationDate != null}" type="hidden" th:field="*{creationDate}" />
+                        <input th:if="${survey.id != null}" type="hidden" th:field="*{id}"/>
+                        <input th:if="${survey.user != null}" type="hidden" th:field="*{user}"/>
+                        <input th:if="${survey.questionGroups != null}" type="hidden" th:field="*{questionGroups}"/>
+                        <input th:if="${survey.invitationPool != null}" type="hidden" th:field="*{invitationPool}"/>
+                        <input th:if="${survey.active != null}" type="hidden" th:field="*{active}"/>
+                        <input th:if="${survey.urlId != null}" type="hidden" th:field="*{urlId}"/>
+                        <input th:if="${survey.creationDate != null}" type="hidden" th:field="*{creationDate}"/>
                     </div>
 
-                <div class="modal-body">
 
                     <!-- TITLE -->
                     <div class="form-group">
@@ -103,7 +104,7 @@
                                 <div class="form-control-label">
                                     <input type="file" id="iconfile" name="iconfile" class="custom-input-file form-element"
                                            th:value="${iconfile}" accept="image/*"/>
-                                    <label for="iconfile"><i class="fa fa-upload"></i><span id="iconfile_label"  th:text="#{file.label}"></span>
+                                    <label for="iconfile"><i class="fa fa-upload"></i><span id="iconfile_label" th:text="#{file.label}"></span>
                                     </label>
                                     <span id="file_error" class="text-danger text-sm hidden"></span>
                                 </div>
@@ -129,17 +130,19 @@
                             <span id="errors" class="text-danger text-sm hidden"></span>
                         </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <a type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">
-                        [[#{common.cancel}]]
-                    </a>
-                    <button id="survey_submit" type="submit" class="btn btn-sm btn-primary rounded-pill form-element"
-                            th:text="#{common.submit}" th:disabled="*{active}"></button>
-                </div>
+                </form>
 
-            </form>
+            </div>
+
+            <div class="modal-footer">
+                <a type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">
+                    [[#{common.cancel}]]
+                </a>
+                <button id="survey_submit" type="submit" form="survey_form" class="btn btn-sm btn-primary rounded-pill form-element"
+                        th:text="#{common.submit}" th:disabled="*{active}"></button>
+            </div>
+
 
         </div>
 
@@ -154,8 +157,8 @@
                 console.log('Selected file: ' + filename);
             };
 
-            if([[${survey.active}]]){
-                $(".form-element").attr('disabled','disabled');
+            if ([[${survey.active}]]) {
+                $(".form-element").attr('disabled', 'disabled');
             }
         });
 

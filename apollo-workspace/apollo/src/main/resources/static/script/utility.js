@@ -157,13 +157,13 @@ function getMatrixSummary(label, values) {
     }
 
     return '<div class="card mb-3 border shadow-none">'
-        + '<div class="px-3 py-3">'
+        + '<div class="px-3 py-2">'
         + '<div class="row align-items-center">'
-        + '<div class="col ml-n2">'
+        + '<div class="col">'
         + '<div class="row">'
-        + '<div class="col"><span class="card-text text-sm text-muted">' + label + '</span></div>'
+        + '<div class="col-12 border-bottom"><span class="text-sm">' + label + '</span></div>'
         + '</div>'
-        + '<div class="row"> ' + matrixOptionElems + '</div>'
+        + '<div class="row mt-1"> ' + matrixOptionElems + '</div>'
         + '</div>'
         + '</div>'
         + '</div>'
