@@ -95,6 +95,8 @@ public class QuestionController {
     @PostMapping("/choicequestion/create")
     public String create(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
+        
+        // Validate file
         validator.validate(file, errors);
         
         if (errors.hasErrors()) {
@@ -102,8 +104,14 @@ public class QuestionController {
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
 
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
+        }
+        
         // Create question
         questionService.createQuestion(question, file);
+        
         // Update group
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);
@@ -119,18 +127,20 @@ public class QuestionController {
     }
 
     @PostMapping("/choicequestion/update")
-    public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file, @RequestParam("deleteFile") Boolean deleteFile)
-            throws BusinessException {
-        validator.validate(file, errors);
-
-        if (deleteFile != null){
-            System.out.println(deleteFile);
-        }else System.out.println("DELETE FILE IS NULL");
+    public String update(@Valid @ModelAttribute("question") ChoiceQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file, @RequestParam("deleteFile") Boolean deleteFile) throws BusinessException {
+        // Validate file
+    	validator.validate(file, errors);
 
         if (errors.hasErrors()) {
         	log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
+        
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        }
+        
         questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
@@ -170,10 +180,12 @@ public class QuestionController {
                          @RequestParam("questionfile") MultipartFile file) throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
         validator.validate(file, errors);
+        
         if (errors.hasErrors()) {
             log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
+        
         questionService.createQuestion(question, file);
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);
@@ -193,9 +205,11 @@ public class QuestionController {
             throws BusinessException {
         QuestionGroup group = question.getQuestionGroup();
         validator.validate(file, errors);
+        
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
+        
         questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
     }
@@ -241,17 +255,24 @@ public class QuestionController {
 
     @PostMapping("/matrixquestion/create")
     public String create(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file) throws BusinessException {
-
-        validator.validate(file, errors);
         QuestionGroup group = question.getQuestionGroup();
-
-        System.out.println(group.toString());
-        System.out.println(question.toString());
+        validator.validate(file, errors);
 
         if (errors.hasErrors()) {
-            System.out.println(errors);
+            log.info(errors.toString());
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
+        
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        }
+        
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptionValues()) || question.getOptionValues().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        }
+        
         questionService.createQuestion(question, file);
 
         // Update group
@@ -273,9 +294,21 @@ public class QuestionController {
     public String update(@Valid @ModelAttribute("question") MatrixQuestion question, Errors errors, @RequestParam("questionfile") MultipartFile file, @RequestParam("deleteFile") Boolean deleteFile)
             throws BusinessException {
         validator.validate(file, errors);
+        
         if (errors.hasErrors()) {
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
+        
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        }
+        
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptionValues()) || question.getOptionValues().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        }
+        
         questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }
@@ -327,6 +360,11 @@ public class QuestionController {
             return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
         }
 
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        }
+        
         // Create question
         questionService.createQuestion(question, file);
 
@@ -352,6 +390,12 @@ public class QuestionController {
         	log.error(errors.toString());
             return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
         }
+        // Option list has duplicates or is too short
+        if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
+        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        }
+        
+        // Update Question
         questionService.updateQuestion(question, file, deleteFile);
         return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
     }

@@ -1,6 +1,10 @@
 package it.univaq.disim.mwt.apollo.presentation.helpers;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Random;
+import java.util.Set;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -61,5 +65,25 @@ public class Utility {
 	      .toString();
 	 
 	    return generatedString;
+	}
+	
+	/**
+	 * Find duplicates
+	 * @param <T>
+	 * @param collection
+	 * @return Boolean
+	 */
+	public static <T> Boolean findDuplicates(Collection<T> collection) {
+
+	    Set<T> duplicates = new LinkedHashSet<>();
+	    Set<T> uniques = new HashSet<>();
+
+	    for(T t : collection) {
+	        if(!uniques.add(t)) {
+	            duplicates.add(t);
+	        }
+	    }
+
+	    return duplicates.size() > 0;
 	}
 }
