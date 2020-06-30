@@ -119,7 +119,6 @@
                                     </div>
                                 </div>
 
-
                             </div>
                         </div>
                     </div>
@@ -143,26 +142,24 @@
                         th:text="#{common.submit}" th:disabled="*{active}"></button>
             </div>
 
-
         </div>
 
     </div>
+
     <script th:inline="javascript">
 
         $(document).ready(function () {
-            document.getElementById('iconfile').onchange = function () {
-                var filename = this.files[0].name;
-                var label = document.getElementById('iconfile_label');
-                label.innerText = filename;
-                console.log('Selected file: ' + filename);
-            };
+            // Register file change event
+            $('#iconfile').change(() => {
+                $('#iconfile_label').text(this.files[0].name);
+            });
 
             if ([[${survey.active}]]) {
                 $(".form-element").attr('disabled', 'disabled');
             }
         });
 
-
+        // Register submit event
         $('#survey_form').submit(function (e) {
             let err = false;
             let data = $(this).serializeArray();
@@ -170,6 +167,7 @@
             let endDate = data.find((elem) => elem.name === 'endDate');
             let today = new Date().setHours(0, 0, 0, 0);
             let ext = $('#iconfile').val().split('.').pop().toLowerCase();
+            
             // Dates validation
             if (startDate.value !== "" && (new Date(startDate.value) <= today)) {
                 $("#errors").text([[#{startdate.lower}]]);

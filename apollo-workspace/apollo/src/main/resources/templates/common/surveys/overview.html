@@ -5,7 +5,13 @@
 <body>
     <div layout:fragment="page-content">
         <script th:src="@{/script/overview.js}"></script>
-        <!-- <script th:src="@{/script/utility.js}"></script> -->
+        <script th:inline="javascript">
+            var translations = {
+                attention: [[#{ common.attention }]],
+                nodatatodisplay: [[#{ errors.nodatatodisplay }]],
+                errortitle: [[#{ common.errore.title }]]
+            };
+        </script>
 
         <div class="col-md-12">
             <div id="modal_holder"></div>
@@ -221,8 +227,6 @@
                 </div>
             </div>
             
-
-
         </div>
 
         <!-- Answers list -->
@@ -236,7 +240,7 @@
                                 <h6 class="mb-0">[[#{common.answerlist}]]</h6>
                             </div>
                             <div class="col-auto">
-                                <div class="actions">
+                                <!-- <div class="actions">
                                     <a href="#!" class="action-item">
                                         <i class="far fa-file-export"></i>
                                         <span class="d-none d-sm-inline-block mr-4">Export</span>
@@ -245,7 +249,7 @@
                                         <i class="far fa-print"></i>
                                         <span class="d-none d-sm-inline-block">Print</span>
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>

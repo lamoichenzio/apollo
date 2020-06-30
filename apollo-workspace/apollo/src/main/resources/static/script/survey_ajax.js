@@ -81,9 +81,9 @@ function postSurveyRequest(requestModel) {
             }
         },
         error: function (e) {
-            console.error('ERROR', e);
+            console.error('[ERROR]::', e);
             $(".spinner-success").remove();
-            // window.location.replace('http://stackoverflow.com');
+            // window.location.replace('target url');
             handleSurveyErrorResponse(e.responseJSON.msg);
         }
     });

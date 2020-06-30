@@ -28,11 +28,16 @@ $(function () {
     });
 
     $('#input_question_form').submit(function (event) {
-        // let formData = $(this).serializeArray();
+        // Check file validity
         if (fileValidation()) event.preventDefault();
     });
+
 });
 
+/**
+ * Check duplicates in object array.
+ * @param {Array} arr 
+ */
 function hasDuplicates(arr) {
     let counts = [];
 
@@ -46,6 +51,9 @@ function hasDuplicates(arr) {
     return false;
 }
 
+/**
+ * File validation
+ */
 function fileValidation() {
     let ext = $('#questionfile').val().split('.').pop().toLowerCase();
     if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
@@ -56,6 +64,10 @@ function fileValidation() {
     return false;
 }
 
+/**
+ * Choice form validation.
+ * @param {Array} options 
+ */
 function choiceFormValidation(options) {
     if (options.length < 2) {
         $("#form_error_message").show();
@@ -70,6 +82,11 @@ function choiceFormValidation(options) {
     return fileValidation();
 }
 
+/**
+ * MAtrix form validation.
+ * @param {Array} options 
+ * @param {Array} values 
+ */
 function matrixFormValidation(options, values) {
     if (options.length < 2 || values.length < 2) {
         $("#form_error_message").show();

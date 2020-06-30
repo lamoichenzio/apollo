@@ -74,13 +74,13 @@ function getAnswersData(question) {
                 $("#question_title").text(question.title);
                 aggregateResult(response);
             } else {
-                $("#answers_container").append(showAlert('error', 'Error!', response.msg));
+                $("#answers_container").append(showAlert('error', translations.errortitle + '!', response.msg));
             }
 
         },
         error: function (e) {
             console.log('ERROR', e);
-            $("#answers_container").append(showAlert('error', 'Error!', e));
+            $("#answers_container").append(showAlert('error', translations.errortitle+'!', e));
             // TO DO: Redirect to ServerError page
         }
     });
@@ -115,13 +115,13 @@ function getQuestionsData(group_id) {
                     i += 1;
                 }
             } else {
-                $("#answers_container").append(showAlert('error', 'Error!', response.msg));
+                $("#answers_container").append(showAlert('error', translations.errortitle + '!', response.msg));
             }
 
         },
         error: function (e) {
             console.log('ERROR', e);
-            showAlert('error', 'Error!', e);
+            showAlert('error', translations.errortitle + '!', e);
             // TO DO: Redirect to ServerError page
         }
     });
@@ -144,7 +144,7 @@ function aggregateResult(result) {
             else if (result.type == 'SINGLE' && result.values != null) {
                 aggregation = aggregateSingleChoice(result);
             } else {
-                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
                 return;
             }
 
@@ -166,7 +166,7 @@ function aggregateResult(result) {
                     $("#answers_container").append(getInputSummary(inputIcon, value.text, value.val));
                 }
             } else {
-                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
                 return;
             }
             break;
@@ -186,7 +186,7 @@ function aggregateResult(result) {
                     $("#answers_container").append(getMatrixSummary(option.label, option.optionValues));
                 }
             } else {
-                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
             }
             break;
 
@@ -199,7 +199,7 @@ function aggregateResult(result) {
                     $("#answers_container").append(getChoiceSummary(option.label, percentValue));
                 }
             } else {
-                $("#answers_container").append(showAlert('warning', 'Attention!', 'There is no data to display.'));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
             }
             break;
     
