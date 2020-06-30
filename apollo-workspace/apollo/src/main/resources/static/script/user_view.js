@@ -80,6 +80,12 @@ function fixStepIndicator(n) {
     step[n].className += " active";
 }
 
+/**
+ * Open login modal for private survey.
+ * @param {String} url 
+ * @param {Object} survey 
+ * @param {String} modal_id 
+ */
 function openLoginModal(url, survey, modal_id){
     $.ajax({
         type: "GET",
@@ -99,9 +105,14 @@ function openLoginModal(url, survey, modal_id){
     })
 }
 
-function surveyLogin(url, form){
+/**
+ * Do login.
+ * @param {String} url 
+ */
+function surveyLogin(url){
     event.preventDefault();
-    let data = $(form).serializeToJSON();
+    let data = $('#login_form').serializeToJSON();
+    
     $.ajax({
         type: "POST",
         url: url,
@@ -123,7 +134,7 @@ function surveyLogin(url, form){
             if(response.responseJSON.status === "ERROR"){
                 $("#error_alert").show();
             }else{
-                console.log("ERROR: "+responseJSON);
+                console.log("ERROR: ", response.responseJSON);
             }
         }
     })

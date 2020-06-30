@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -92,7 +91,7 @@ public class Survey {
 	 *	
 	 */
 	public void createSurveyUrl(String id){
-		this.urlId = "/forms/survey/"+id+"/fill";
+		this.urlId = "/apollo/forms/survey/"+id+"/fill";
 	}
 
 	/**

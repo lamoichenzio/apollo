@@ -27,7 +27,7 @@
                         <div class="col-11">
                             <span class="form-control-label">[[#{common.publiclink}]]</span>
                             <input id="urlId" type="text" class="form-control"
-                                th:value="${survey.urlId != null ? #request.getContextPath() + survey.urlId : ''}"
+                                th:value="${survey.urlId != null ? survey.urlId : ''}"
                                 th:placeholder="#{survey.publishplaceholder}" readonly />
                         </div>
                         <div class="col-1 mt-4 p-2">

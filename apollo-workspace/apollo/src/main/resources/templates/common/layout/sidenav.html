@@ -56,7 +56,7 @@
                                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                             <a class="dropdown-item" href="/apollo/user/update">
                                                 <i class="far fa-user"></i>
-                                                <span>Modifica profilo</span>
+                                                <span>[[#{common.updateprofile}]]</span>
                                             </a>
                                             <div class="dropdown-divider"></div>
                                             <a href="/apollo/logout" class="dropdown-item">
@@ -99,7 +99,7 @@
                         <span class="btn-inner--icon d-block pt-2">Home</span>
                     </a>
 
-                    <a id="create_survey" class="btn btn-square text-sm"
+                    <a id="create_survey" class="btn btn-square text-sm" href="#"
                        th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)">
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-plus"></i>

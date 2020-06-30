@@ -50,7 +50,7 @@
                             <div class="form-group">
                                 <label for="description" class="form-control-label"
                                        th:text="#{survey.description}"></label>
-                                <textarea class="form-control form-element" data-toggle="autosize" rows="1"
+                                <textarea class="form-control form-element" data-toggle="autosize" rows="2"
                                           th:field="*{description}"></textarea>
                                 <span th:if="${#fields.hasErrors('description')}"
                                       th:each="err: ${#fields.errors('description')}" th:utext="${err}"></span>
