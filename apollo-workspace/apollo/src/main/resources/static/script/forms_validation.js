@@ -48,7 +48,7 @@ function hasDuplicates(arr) {
 
 function fileValidation() {
     let ext = $('#questionfile').val().split('.').pop().toLowerCase();
-    if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+    if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) === -1) {
         $("#file_error").text(translations.fileinvalid);
         $("#file_error").show();
         return true;
