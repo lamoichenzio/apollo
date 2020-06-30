@@ -4,14 +4,14 @@
     <body>
 
         <!-- Sidenav -->
-        <div class="sidenav fixed-content show ml-4" id="sidenav-main" th:fragment="sidenav"
+        <div class="fixed-content show ml-4 d-none d-lg-block" id="sidenav-main" th:fragment="sidenav"
              sec:authorize="isAuthenticated()">
 
             <!-- Sidenav header -->
-            <div class="sidenav-header d-flex mt-2">
+            <div class="sidenav-header d-flex mt-1">
                 <div class="row mx-auto">
                     <a href="#" th:href="@{/surveys/dashboard}">
-                        <img class="col-12 logo my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
+                        <img class="col-12 logo pt-1 my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
                         <!--			<h5 th:text="#{common.applicationtitle}">Apollo</h5>-->
                     </a>
 
@@ -92,7 +92,7 @@
                 <!-- Actions -->
                 <div class="w-100 mt-4 actions d-flex justify-content-center">
 
-                    <a href="#" th:href="@{/surveys/dashboard}" class="btn btn-square text-sm active">
+                    <a th:classappend="${#request.requestURI == '/apollo/surveys/dashboard' ? 'active':''}" href="#" th:href="@{/surveys/dashboard}" class="btn btn-square text-sm mr-0">
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-home fa-1x"></i>
                         </span>
@@ -108,7 +108,7 @@
                     </a>
 
                     <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a href="#" th:href="@{/administration/users}" class="btn btn-square text-sm">
+                        <a th:classappend="${#request.requestURI.startsWith('/apollo/administration') ? 'active':''}" href="#" th:href="@{/administration/users}" class="btn btn-square text-sm mr-0">
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-tasks"></i>
                         </span>

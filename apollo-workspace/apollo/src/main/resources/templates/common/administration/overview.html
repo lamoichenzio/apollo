@@ -11,15 +11,15 @@
     </div>
 
     <!-- Page title -->
-    <div class="page-title my-4">
+    <div class="page-title my-4 mx-2">
         <div class="row justify-content-between align-items-center">
             <!-- Page title + Go Back button -->
-            <div class="d-inline-block p-1 pl-2">
+            <div class="d-inline-block p-1">
 
                 <div class="row">
 
                     <a href="#" th:href="@{/administration/users}"
-                       class="link font-weight-400 col-1 my-auto text-white">
+                       class="link font-weight-400 pt-1 col-auto my-auto text-white">
                         <i class="fas fa-arrow-left"></i></a>
 
                     <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">[[${managedUser.username}]]</h4>
@@ -45,7 +45,7 @@
                                         <!-- Avatar -->
                                         <div class="avatar rounded-circle overview-image">
                                             <img th:if="${managedUser.pic != null}" alt="User Icon" th:src="${'data:image/;base64,'+ user.pic.data}"/>
-                                            <img th:if="${managedUser.pic == null}" alt="Image Default" th:src="@{/dist/img/theme/light/brand-avatar-3.png}">
+                                            <img th:if="${managedUser.pic == null}" alt="Image Default" th:src="@{/dist/img/icons/user/user.png}">
                                         </div>
                                     </div>
 

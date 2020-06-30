@@ -32,10 +32,10 @@
 
 
 	<div class="card border mb-0 shadow-none bg-gray-100">
-		<div class="card-body row align-items-center mx-2 justify-content-center">
+		<div class="card-body row align-items-center justify-content-center">
 
 			<!-- GROUP CONTENTS -->
-			<div class="col-12" th:each="question, stat : *{groupInfo.questions}">
+			<div class="col-12 mx-0 my-0 px-0 py-0" th:each="question, stat : *{groupInfo.questions}">
 
 				<!-- If Choice Question -->
 				<th:block th:if="${question instanceof T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion)}">

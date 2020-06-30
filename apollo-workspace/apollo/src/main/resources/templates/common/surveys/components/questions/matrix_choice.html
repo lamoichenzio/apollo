@@ -2,8 +2,8 @@
 <body>
 <!-- MULTI CHOICE QUESTION -->
 <div class="col-12" th:fragment="matrixQuestion">
-    <div class="row align-items-center mx-0 justify-content-center">
-        <div class="col-11 card border shadow-none pt-3 pb-0 pr-3 pl-3">
+    <div class="row mb-4 align-items-center mx-0 justify-content-center">
+        <div class="col-11 card border shadow-none mb-0 pt-3 pb-0 pr-3 pl-3">
             <!-- TITLE -->
             <div class="m-1">
                 <h6 class="mb-0" th:text="${stat.index +1} + '. ' + ${question.title}"></h6>
@@ -66,9 +66,9 @@
 
         </div>
 
-        <div class="col-auto card border-0 shadow-none bg-gray-100 modify">
+        <div class="col-auto bg-gray-100 pr-0">
             <div class="dropdown" data-toggle="dropdown">
-                <a href="#" class="action-item" role="button"
+                <a href="#" class="action-item pr-0" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="far fa-cog"></i>
                 </a>

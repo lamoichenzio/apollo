@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div th:fragment="question">
-    <div class="row mb-n3 shadow-none"
+    <div class="row mb-n3 shadow-none overflow-auto"
          th:each="matrixAnswer, stat : *{singleChoiceMatrixAnswers}"
          th:if="${matrixAnswer.question.id == question.id}">
 
