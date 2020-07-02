@@ -46,7 +46,7 @@
 				</span>
 			</tbody>
 		</table>
-
+		<span class="error-message" th:if="${question.mandatory}" th:utext="#{NotBlank}"></span>
 	</div>
 </div>
 </body>

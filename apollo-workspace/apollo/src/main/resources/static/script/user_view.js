@@ -9,6 +9,9 @@ let currentStep = 1;
 let tabs = [];
 
 $(function () {
+    // Hide all errors
+    $("span.error-message").hide();
+
     tabs = $(".tab").toArray();
 
     // Show the first tab
@@ -33,13 +36,12 @@ $(function () {
 function showTab(n) {
     // Show tab
     tabs[n].style.display = "block";
-
-    if (n == 0) {
+    if (n === 0) {
         $("#prevBtn").css("display", "none");
     } else {
         $("#prevBtn").css("display", "inline");
     }
-    if (n == (tabs.length - 1)) {
+    if (n === (tabs.length - 1)) {
         if (readonly) $("#nextBtn").css("display", "none");
         $("#nextBtn").html('<span class="btn-inner--text">' + translations.submit + '</span><span class="btn-inner--icon"><i class="fas fa-save"></i></span>');
     } else {
@@ -54,6 +56,13 @@ function showTab(n) {
  * @param {Number} n 1 for next group, -1 for previous group
  */
 function nextPrev(n) {
+    // Hide errors
+    $("span.error-message").toArray().forEach(elem => elem.style.display = "none");
+
+    if(n === 1 && !validateFields()){
+        return false;
+    }
+
     // Set tab style
     tabs[currentTabIndex].style.display = "none";
     currentTabIndex += n;
@@ -80,6 +89,37 @@ function fixStepIndicator(n) {
     step[n].className += " active";
 }
 
+function validateFields(){
+    const currentTab = $(".tab:visible")
+    const requiredFields = currentTab.find($(":input[required]"));
+    const errors = currentTab.find($("span.error-message"));
+    let valid = true;
+    for(let i = 0; i<requiredFields.length; i++){
+        if(!checkField(requiredFields[i], requiredFields)){
+            errors.filter((j)=>requiredFields[i].id === errors[j].id).style.display="inline"
+            // errors[i].style.display="inline";
+            valid = false;
+        }
+    }
+    return valid;
+}
+
+function checkField(field, requiredFields){
+    let valid;
+    if(field.type === "checkbox" || field.type === "radio"){
+        valid = requiredFields.filter(i => requiredFields[i].name === field.name).toArray().some((elem)=>elem.checked === true);
+    }else{
+        valid = field.value !== undefined && field.value !== "";
+    }
+    return valid;
+}
+
+/**
+ * Opens the login modal for private surveys
+ * @param url The url of the GET request
+ * @param survey The private survey in object
+ * @param modal_id The id of the login modal
+ */
 function openLoginModal(url, survey, modal_id){
     $.ajax({
         type: "GET",
