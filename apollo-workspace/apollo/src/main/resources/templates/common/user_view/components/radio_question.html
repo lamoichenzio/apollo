@@ -41,7 +41,7 @@
         </div>
         <!-- Error container -->
         <div class="col-12 mt-3">
-            <span class="error-message" th:id="Error_choiceQuestionSingleAnswers+${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlank}"></span>
+            <span class="error-message" th:id="Error_choiceQuestionSingleAnswers+${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlankQuestion}"></span>
         </div>
     </div>
 </div>

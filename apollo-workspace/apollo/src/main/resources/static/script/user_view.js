@@ -146,13 +146,13 @@ function openLoginModal(url, survey, modal_id){
         dataType: 'html',
         contentType: 'text/html; charset=UTF-8',
         cache: false,
-        timeout: 600000,
+        timeout: 10000,
         success: function (response) {
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
         },
         error: function (e) {
-            console.log('ERROR', e);
+            console.error('ERROR', e);
         }
     })
 }
@@ -174,6 +174,7 @@ function surveyLogin(url){
         cache: false,
         timeout: 600000,
         success: (response) => {
+            console.info('[SUCCESS]::[Message]:Login success.');
             if(response.status === "OK"){
                 window.location.replace(response.msg);
             }
@@ -186,7 +187,7 @@ function surveyLogin(url){
             if(response.responseJSON.status === "ERROR"){
                 $("#error_alert").show();
             }else{
-                console.log("ERROR: ", response.responseJSON);
+                console.error("ERROR: ", response.responseJSON);
             }
         }
     })

@@ -33,11 +33,13 @@ import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
 import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
+import lombok.extern.slf4j.Slf4j;
 
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/surveys")
+@Slf4j
 public class SurveyController {
 
 	@Autowired
@@ -111,7 +113,6 @@ public class SurveyController {
 		if (survey.isActive()) {
 			survey.setActive(false);
 			survey.removeSurveyUrl();
-			surveyService.updateSurvey(survey, null);
 			response.setMsg("inactive");
 		} else {
 			survey.createSurveyUrl(survey.getId());
@@ -127,10 +128,10 @@ public class SurveyController {
 			}
 			
 			survey.setActive(true);
-			surveyService.updateSurvey(survey, null);
 			response.setMsg("active");
 		}
 		
+		surveyService.updateSurvey(survey, null);
 		response.setStatus(ResponseStatus.OK);
 		response.setResult(survey);
 
@@ -208,7 +209,7 @@ public class SurveyController {
 			@RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
 		validator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
-			return "redirect:/surveys/detail/" + survey.getId() + "?erro=true";
+			return "redirect:/surveys/detail/" + survey.getId() + "?error=true";
 		}
 		surveyService.updateSurvey(survey, iconfile);
 		return "redirect:/surveys/detail/" + survey.getId();

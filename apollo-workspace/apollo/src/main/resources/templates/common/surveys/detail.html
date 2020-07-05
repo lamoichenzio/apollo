@@ -113,7 +113,7 @@
                         </a>
                         <a class="align-items-center ml-3 mr-3">
                             <span class="text-left form-control-label">[[#{common.published}]]:</span>
-                            <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">Yes</span>
+                            <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
                             <span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
                         </a>
                         <a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send invitations"

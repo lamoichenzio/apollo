@@ -35,12 +35,7 @@
                                         th:required="${question.mandatory}">
                                     <label class="custom-control-label" th:for="singleMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}"></label>
                                 </div>
-
-<!--								<input-->
-<!--                                        type="radio"-->
-<!--                                        th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"-->
-<!--                                        th:value="${optionValue}"-->
-<!--                                        th:disabled="${readonly}"/></td>-->
+                            </td>
 						</tr>
 						<tr class="table-divider"></tr>
 					</span>
@@ -49,8 +44,7 @@
 
         <!-- Error container -->
         <div class="col-12 mt-3">
-            <span class="error-message" th:id="Error_singleMatrix + ${stat.index}" th:if="${question.mandatory}"
-                th:utext="@{*} + #{NotBlank}"></span>
+            <span class="error-message" th:id="Error_singleMatrix + ${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlankQuestion}"></span>
         </div>
     </div>
 </div>
