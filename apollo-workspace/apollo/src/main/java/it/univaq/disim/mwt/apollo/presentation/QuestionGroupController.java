@@ -58,7 +58,7 @@ public class QuestionGroupController {
 		survey.addQuestionGroup(group);
 		surveyService.updateSurvey(survey, null);
 		
-		return "redirect:/surveys/detail?id="+survey.getId();
+		return "redirect:/surveys/detail/"+survey.getId();
 	}
 	
 
@@ -77,7 +77,7 @@ public class QuestionGroupController {
 		}
 
 		service.updateQuestionGroup(group);
-		return "redirect:/surveys/detail?id="+group.getSurvey().getId();
+		return "redirect:/surveys/detail/"+group.getSurvey().getId();
 	}
 
 	@GetMapping("/delete")
@@ -98,6 +98,6 @@ public class QuestionGroupController {
 		// Delete group
 		service.deleteQuestionGroup(group);
 		
-		return "redirect:/surveys/detail?id="+survey.getId();
+		return "redirect:/surveys/detail/"+survey.getId();
 	}
 }

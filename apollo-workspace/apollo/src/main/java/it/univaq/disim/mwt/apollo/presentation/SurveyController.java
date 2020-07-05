@@ -70,11 +70,11 @@ public class SurveyController {
 		return surveyService.findAllSurveysByUserPaginated(requestGrid, user);
 	}
 	
-	@GetMapping("/detail")
-	public String detailStart(@RequestParam String id, Model model, Principal principal) throws BusinessException {
+	@GetMapping("/detail/{id}")
+	public String detailStart(@PathVariable("id") String id, Model model, Principal principal) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
-		System.out.println(principal.toString());
 		model.addAttribute("survey", survey);
+		
 		return "/common/surveys/detail";
 	}
 
@@ -193,7 +193,7 @@ public class SurveyController {
 		survey.setUser(user);
 		surveyService.createSurvey(survey, iconfile);
 
-		return "redirect:/surveys/detail?id=" + survey.getId();
+		return "redirect:/surveys/detail/" + survey.getId();
 	}
 
 	@GetMapping("/update")
@@ -208,10 +208,10 @@ public class SurveyController {
 			@RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
 		validator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
-			return "redirect:/surveys/detail?id=" + survey.getId() + "&erro=true";
+			return "redirect:/surveys/detail/" + survey.getId() + "?erro=true";
 		}
 		surveyService.updateSurvey(survey, iconfile);
-		return "redirect:/surveys/detail?id=" + survey.getId();
+		return "redirect:/surveys/detail/" + survey.getId();
 	}
 
 	@GetMapping("/delete")

@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,10 +51,10 @@ public class QuestionController {
     private FileValidator validator;
 
     
-	@GetMapping("/questionlist")
+	@GetMapping("/questionlist/{groupId}")
 	@ResponseBody
-	public ResponseEntity<QuestionResponseBody> findQuestionsByGroup(@RequestParam String id) throws BusinessException {
-		QuestionGroup group = questionGroupService.findQuestionGroupById(id);
+	public ResponseEntity<QuestionResponseBody> findQuestionsByGroup(@PathVariable("groupId") String groupId) throws BusinessException {
+		QuestionGroup group = questionGroupService.findQuestionGroupById(groupId);
 		QuestionResponseBody response = new QuestionResponseBody();
 		
 		for (Question question : group.getQuestions()) {
@@ -101,12 +102,12 @@ public class QuestionController {
         
         if (errors.hasErrors()) {
             log.error(errors.toString());
-            return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + group.getSurvey().getId() + "?error=true";
         }
 
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + group.getSurvey().getId() + "?error=true";
         }
         
         // Create question
@@ -116,7 +117,7 @@ public class QuestionController {
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);
 
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     @GetMapping("/choicequestion/update")
@@ -133,16 +134,16 @@ public class QuestionController {
 
         if (errors.hasErrors()) {
         	log.error(errors.toString());
-            return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         questionService.updateQuestion(question, file, deleteFile);
-        return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
+        return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId();
     }
 
     @GetMapping("/choicequestion/delete")
@@ -159,7 +160,7 @@ public class QuestionController {
         group.removeQuestion(question);
         questionGroupService.updateQuestionGroup(group);
 
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     /**
@@ -183,13 +184,13 @@ public class QuestionController {
         
         if (errors.hasErrors()) {
             log.error(errors.toString());
-            return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + group.getSurvey().getId() + "?error=true";
         }
         
         questionService.createQuestion(question, file);
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     @GetMapping("/inputquestion/update")
@@ -207,11 +208,11 @@ public class QuestionController {
         validator.validate(file, errors);
         
         if (errors.hasErrors()) {
-            return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         questionService.updateQuestion(question, file, deleteFile);
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     @GetMapping("/inputquestion/delete")
@@ -227,7 +228,7 @@ public class QuestionController {
         questionService.deleteQuestion(question);
         group.removeQuestion(question);
         questionGroupService.updateQuestionGroup(group);
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     /**
@@ -260,17 +261,17 @@ public class QuestionController {
 
         if (errors.hasErrors()) {
             log.info(errors.toString());
-            return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + group.getSurvey().getId() + "?error=true";
         }
         
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptionValues()) || question.getOptionValues().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         questionService.createQuestion(question, file);
@@ -279,7 +280,7 @@ public class QuestionController {
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);
 
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     @GetMapping("/matrixquestion/update")
@@ -296,21 +297,21 @@ public class QuestionController {
         validator.validate(file, errors);
         
         if (errors.hasErrors()) {
-            return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptionValues()) || question.getOptionValues().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         questionService.updateQuestion(question, file, deleteFile);
-        return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
+        return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId();
     }
 
     @GetMapping("/matrixquestion/delete")
@@ -327,7 +328,7 @@ public class QuestionController {
         group.removeQuestion(question);
         questionGroupService.updateQuestionGroup(group);
 
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     /**
@@ -357,12 +358,12 @@ public class QuestionController {
         
         if (errors.hasErrors()) {
         	log.error(errors.toString());
-            return "redirect:/surveys/detail?id=" + group.getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + group.getSurvey().getId() + "?error=true";
         }
 
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         // Create question
@@ -372,7 +373,7 @@ public class QuestionController {
         group.addQuestion(question);
         questionGroupService.updateQuestionGroup(group);
 
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
     @GetMapping("/selectionquestion/update")
@@ -388,16 +389,16 @@ public class QuestionController {
         
         if (errors.hasErrors()) {
         	log.error(errors.toString());
-            return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+            return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         // Option list has duplicates or is too short
         if (Utility.findDuplicates(question.getOptions()) || question.getOptions().size() < 2) {
-        	return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId() + "&error=true";
+        	return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId() + "?error=true";
         }
         
         // Update Question
         questionService.updateQuestion(question, file, deleteFile);
-        return "redirect:/surveys/detail?id=" + question.getQuestionGroup().getSurvey().getId();
+        return "redirect:/surveys/detail/" + question.getQuestionGroup().getSurvey().getId();
     }
 
     @GetMapping("/selectionquestion/delete")
@@ -414,7 +415,7 @@ public class QuestionController {
         group.removeQuestion(question);
         questionGroupService.updateQuestionGroup(group);
 
-        return "redirect:/surveys/detail?id=" + group.getSurvey().getId();
+        return "redirect:/surveys/detail/" + group.getSurvey().getId();
     }
 
 }

@@ -53,16 +53,11 @@ $(function () {
  * @param {String} question_id
  */
 function getAnswersData(question) {
-    let request = {
-        id: question.id, 
-        type: question.type 
-    };
+    let urlRequest = `/apollo/answers/findanswers/${question.type}/${question.id}`;
 
     $.ajax({
-        type: "POST",
-        url: '/apollo/answers/findanswers',
-        data: JSON.stringify(request),
-        dataType: 'json',
+        type: "GET",
+        url: urlRequest,
         contentType: 'application/json',
         cache: false,
         timeout: 10000,
@@ -79,23 +74,20 @@ function getAnswersData(question) {
 
         },
         error: function (e) {
-            console.log('ERROR', e);
-            $("#answers_container").append(showAlert('error', translations.errortitle+'!', e));
-            // TO DO: Redirect to ServerError page
+            console.error('ERROR', e);
+            $("#answers_container").append(showAlert('error', translations.errortitle + '!', e));
         }
     });
 }
 
 /**
  * Call server controller in order to retrieve questions data by group id.
- * @param {String} group_id
+ * @param {String} groupId
  */
-function getQuestionsData(group_id) {
+function getQuestionsData(groupId) {
     $.ajax({
         type: "GET",
-        url: '/apollo/questions/questionlist',
-        data: { id:group_id },
-        dataType: 'json',
+        url: `/apollo/questions/questionlist/${groupId}`,
         contentType: 'application/json',
         cache: false,
         timeout: 10000,
@@ -122,7 +114,6 @@ function getQuestionsData(group_id) {
         error: function (e) {
             console.log('ERROR', e);
             showAlert('error', translations.errortitle + '!', e);
-            // TO DO: Redirect to ServerError page
         }
     });
 }

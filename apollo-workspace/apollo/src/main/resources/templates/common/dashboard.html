@@ -138,7 +138,7 @@
                         "sortable": false,
                         "defaultContent": "",
                         "render": function (data, type, row, meta) {
-                            let links = '<a href="[(@{/surveys/detail})]?id=' + row.id +
+                            let links = '<a href="[(@{/surveys/detail/})]' + row.id +
                                 '" data-toggle="tooltip" title="Detail"><i class="far fa-clipboard"></i></a>';
                             
                             if(!row.active){
