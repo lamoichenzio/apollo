@@ -27,11 +27,13 @@
 							<td th:each="optionValue : ${question.optionValues}">
 
 								<div class="custom-control custom-radio">
-                                    <input type="radio" th:id="@{option[__${option}__].answers[__${optionValue}__]}" name="customRadio" class="custom-control-input"
-                                           th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"
-                                           th:value="${optionValue}"
-                                           th:disabled="${readonly}">
-                                    <label class="custom-control-label" th:for="@{option[__${option}__].answers[__${optionValue}__]}"></label>
+                                    <input type="radio" 
+                                        th:id="singleMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}" name="customRadio" class="custom-control-input"
+                                        th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"
+                                        th:value="${optionValue}"
+                                        th:disabled="${readonly}"
+                                        th:required="${question.mandatory}">
+                                    <label class="custom-control-label" th:for="singleMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}"></label>
                                 </div>
 
 <!--								<input-->
@@ -45,6 +47,11 @@
             </tbody>
         </table>
 
+        <!-- Error container -->
+        <div class="col-12 mt-3">
+            <span class="error-message" th:id="Error_singleMatrix + ${stat.index}" th:if="${question.mandatory}"
+                th:utext="@{*} + #{NotBlank}"></span>
+        </div>
     </div>
 </div>
 </body>

@@ -12,8 +12,8 @@
             <div th:each="option, optionStat : ${question.options}"
                  class="custom-control custom-radio">
                 <input type="radio" class="custom-control-input"
-                       th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-                       th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory}">
+                        th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
+                        th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory}">
                 <label th:for="choiceQuestionSingleAnswers+${stat.index}+.answer+${optionStat.index+1}"
                        th:text="${option}" class="custom-control-label"></label>
             </div>
@@ -29,8 +29,7 @@
                            th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
                            th:value="value"
                            th:disabled="${readonly}"
-                           th:required="${question.mandatory}"
-                    >
+                           th:required="${question.mandatory}">
                     <label class="custom-control-label col-12 pl-0" th:for="@{other_choice-} + ${question.id}">
                         <div class="border-bottom custom-input-text">
                             <input type="text" th:name="@{other_choice-} + ${question.id}"
@@ -39,10 +38,10 @@
                     </label>
                 </div>
             </div>
-            <span class="error-message"
-                  th:id="*{choiceQuestionSingleAnswers[__${stat.index}__]}"
-                  th:if="${question.mandatory}" th:utext="#{NotBlank}">
-        </span>
+        </div>
+        <!-- Error container -->
+        <div class="col-12 mt-3">
+            <span class="error-message" th:id="Error_choiceQuestionSingleAnswers+${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlank}"></span>
         </div>
     </div>
 </div>

@@ -59,7 +59,7 @@ function nextPrev(n) {
     // Hide errors
     $("span.error-message").toArray().forEach(elem => elem.style.display = "none");
 
-    if(n === 1 && !validateFields()){
+    if(n === 1 && !validateRequiredQuestions()){
         return false;
     }
 
@@ -89,29 +89,47 @@ function fixStepIndicator(n) {
     step[n].className += " active";
 }
 
-function validateFields(){
+/**
+ * Validate required questions.
+ */
+function validateRequiredQuestions(){
     const currentTab = $(".tab:visible")
     const requiredFields = currentTab.find($(":input[required]"));
-    const errors = currentTab.find($("span.error-message"));
-    let valid = true;
-    for(let i = 0; i<requiredFields.length; i++){
-        if(!checkField(requiredFields[i], requiredFields)){
-            errors.filter((j)=>requiredFields[i].id === errors[j].id).style.display="inline"
-            // errors[i].style.display="inline";
-            valid = false;
+
+    let requiredQuestions = {};
+
+    for (let reqField of requiredFields) {
+        requiredQuestions[reqField.id.split('.')[0]] != undefined ? requiredQuestions[reqField.id.split('.')[0]].push(reqField) : requiredQuestions[reqField.id.split('.')[0]] = [reqField];
+    }
+
+    for (let question in requiredQuestions) {
+        if (!checkAnswer(requiredQuestions[question])) {
+            let errorElement = '';
+            if (question.includes('multiMatrix')) {
+                errorElement = '#Error_' + question.split('_')[0];
+            } else if (question.includes('singleMatrix')) {
+                errorElement = '#Error_' + question.split('_')[0];
+            } else {
+                errorElement = '#Error_' + question;
+            }
+            $(errorElement).css({ 'display': 'block' });
+            return false;
         }
     }
-    return valid;
+
+    return true;
 }
 
-function checkField(field, requiredFields){
-    let valid;
-    if(field.type === "checkbox" || field.type === "radio"){
-        valid = requiredFields.filter(i => requiredFields[i].name === field.name).toArray().some((elem)=>elem.checked === true);
-    }else{
-        valid = field.value !== undefined && field.value !== "";
+/**
+ * Check question answers.
+ * @param {Array} fields 
+ */
+function checkAnswer(fields) {
+    if (fields[0].type === "checkbox" || fields[0].type === "radio") {
+        return fields.find(elem => elem.checked) != undefined;
+    } else {
+        return fields[0].value !== undefined && fields[0].value !== "";
     }
-    return valid;
 }
 
 /**

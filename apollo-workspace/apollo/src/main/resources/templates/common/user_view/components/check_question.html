@@ -12,7 +12,7 @@
 
 			<div class="col-12">
 				<!-- OPTIONS -->
-				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox">
+				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox" th:id="@{question_} + ${stat.index}">
 					<input type="checkbox" class="custom-control-input"
 						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
 						th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory}">
@@ -23,7 +23,6 @@
 
 				<!-- Other -->
 				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
-					<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
 
 					<!-- Other -->
 					<div class="custom-control custom-checkbox" th:if="${question.otherChoice}">
@@ -33,8 +32,7 @@
 							   th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
 							   th:value="value"
 							   th:disabled="${readonly}"
-							   th:required="${question.mandatory}"
-						>
+							   th:required="${question.mandatory}">
 						<label class="custom-control-label pl-0 col-12" th:for="@{other_choice-} + ${question.id}">
 							<div class="border-bottom custom-input-text">
 								<input type="text" th:name="@{other_choice-} + ${question.id}"  placeholder="Type something..."  oninput="otherChoiceValueSetter(this)">
@@ -43,8 +41,11 @@
 					</div>
 
 				</div>
-<!--				<span class="error-message" th:id="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"-->
-<!--					  th:if="${question.mandatory}" th:utext="#{NotBlank}"></span>-->
+			</div>
+
+			<!-- Error container -->
+			<div class="col-12 mt-3">
+				<span class="error-message" th:id="Error_choiceQuestionMultiAnswers + ${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlank}"></span>
 			</div>
 		</div>
 	</div>
