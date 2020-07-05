@@ -12,15 +12,14 @@
             <div th:each="option, optionStat : ${question.options}"
                  class="custom-control custom-radio">
                 <input type="radio" class="custom-control-input"
-                       th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-                       th:value="${option}" th:disabled="${readonly}">
+                        th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
+                        th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory}">
                 <label th:for="choiceQuestionSingleAnswers+${stat.index}+.answer+${optionStat.index+1}"
                        th:text="${option}" class="custom-control-label"></label>
             </div>
 
             <!-- Other -->
             <div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
-                <!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
 
                 <!-- Other -->
                 <div class="custom-control custom-radio" th:if="${question.otherChoice}">
@@ -29,19 +28,20 @@
                            th:id="@{other_choice-} + ${question.id}"
                            th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
                            th:value="value"
-                           th:disabled="${readonly}">
+                           th:disabled="${readonly}"
+                           th:required="${question.mandatory}">
                     <label class="custom-control-label col-12 pl-0" th:for="@{other_choice-} + ${question.id}">
                         <div class="border-bottom custom-input-text">
-                            <input type="text" th:name="@{other_choice-} + ${question.id}"  placeholder="Type something..."  oninput="otherChoiceValueSetter(this)">
+                            <input type="text" th:name="@{other_choice-} + ${question.id}"
+                                   placeholder="Type something..." oninput="otherChoiceValueSetter(this)">
                         </div>
                     </label>
                 </div>
-
-                <!--					<input type="text" class="form-control"-->
-                <!--						th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"-->
-                <!--						size="45" th:placeholder="#{question.otherchoiceplaceholder}"-->
-                <!--						th:disabled="${readonly}">-->
             </div>
+        </div>
+        <!-- Error container -->
+        <div class="col-12 mt-3">
+            <span class="error-message" th:id="Error_choiceQuestionSingleAnswers+${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlank}"></span>
         </div>
     </div>
 </div>

@@ -28,8 +28,10 @@
                                 <div class="col-12 card border shadow-none p-3">
                                     <!-- TITLE -->
                                     <div class="m-1">
-                                        <h6 class="mb-0"
-                                            th:text="${groupStat.index+1}+'.'+${questionStat.index+1}+'. '+${question.title}"></h6>
+                                        <h6 class="mb-0">
+                                            [(${groupStat.index+1}+.+${questionStat.index+1}+. +${question.title})]
+                                            <span th:if="${question.mandatory}">*</span>
+                                        </h6>
                                     </div>
                                     <!-- Show image if exists -->
                                     <div class="m-4 mx-auto" th:if="${question.file != null}">
@@ -82,8 +84,9 @@
                                                         th:replace="~{common/user_view/components/matrix_check_question.html :: question(question=${question}, stat=${questionStat})}">
                                                 </div>
                                             </div>
-
                                         </div>
+                                        <span class="error-message" th:id="${question.title}"
+                                              th:if="${question.mandatory}" th:utext="#{NotBlank}"></span>
                                     </div>
                                 </div>
                             </div>

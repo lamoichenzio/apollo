@@ -1,26 +1,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-	<div th:fragment="question">
-		<div th:each="inputAnswer, inputAnswerStat : *{inputQuestionAnswers}" th:if="${inputAnswer.question.id == question.id}">
-			<input type="hidden" th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].question}" th:disabled="${readonly}">
-			<input type="text" 
-				class="form-control"
-				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
-				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}" th:disabled="${readonly}">
-			<input type="number" 
-				class="form-control"
-				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
-				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).NUMBER}" th:disabled="${readonly}">
-			<input type="date" 
-				class="form-control"
-				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
-				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}" th:disabled="${readonly}">
-			<textarea class="form-control" rows="3" resize="none"
-				th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}"
-				th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
-				th:disabled="${readonly}"></textarea>
-			
-		</div>
-	</div>
+<div th:fragment="question">
+       <div th:each="inputAnswer, inputAnswerStat : *{inputQuestionAnswers}" th:if="${inputAnswer.question.id == question.id}">
+       <input type="hidden" th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].question}"
+              th:disabled="${readonly}">
+        <input type="text"
+              class="form-control"
+              th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
+              th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}"
+              th:disabled="${readonly}" th:required="${question.mandatory}">
+        <input type="number"
+              class="form-control"
+              th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
+              th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).NUMBER}"
+              th:disabled="${readonly}" th:required="${question.mandatory}">
+        <input type="date"
+              class="form-control"
+              th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
+              th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}"
+              th:disabled="${readonly}" th:required="${question.mandatory}">
+        <textarea class="form-control" rows="3" resize="none"
+              th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}"
+              th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
+              th:disabled="${readonly}" th:required="${question.mandatory}"></textarea>
+
+       </div>
+
+       <!-- Error container -->
+       <div class="col-12 mt-3">
+              <span class="error-message" th:id="Error_selectionQuestionAnswers+${stat.index}" th:if="${question.mandatory}"
+                     th:utext="@{*} + #{NotBlank}"></span>
+       </div>
+</div>
 </body>
 </html>

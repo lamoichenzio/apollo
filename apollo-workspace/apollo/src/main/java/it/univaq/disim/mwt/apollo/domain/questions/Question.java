@@ -34,7 +34,9 @@ public abstract class Question {
 	@Indexed()
 	@Size(max=255)
 	private String title;
-	
+
+	private Boolean mandatory;
+
 	@CreatedDate
 	private Date creationDate;
 	

@@ -15,8 +15,7 @@
 			<thead>
 				<tr class="table-divider">
 					<th scope="col"></th>
-					<th th:each="optionValue : ${question.optionValues}" scope="col">
-						[[${optionValue}]]</th>
+					<th th:each="optionValue : ${question.optionValues}" scope="col">[[${optionValue}]]</th>
 				</tr>
 			</thead>
 			<!-- Show questions -->
@@ -26,13 +25,14 @@
 						<th scope="row">[[${option}]]</th>
 						<td th:each="optionValue : ${question.optionValues}">
 
-
 							<div class="custom-control custom-checkbox">
-								<input type="checkbox" th:id="@{option[__${option}__].answers[__${optionValue}__]}" name="customCheckbox" class="custom-control-input"
-									   th:field="*{multiChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__].values}"
-									   th:value="${optionValue}"
-									   th:disabled="${readonly}">
-								<label class="custom-control-label" th:for="@{option[__${option}__].answers[__${optionValue}__]}"></label>
+								<input type="checkbox" 
+									th:id="multiMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}" name="customCheckbox" class="custom-control-input"
+									th:field="*{multiChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__].values}"
+								   	th:value="${optionValue}"
+									th:disabled="${readonly}"
+									th:required="${question.mandatory}">
+								<label class="custom-control-label" th:for="multiMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}"></label>
 							</div>
 
 
@@ -47,6 +47,12 @@
 			</tbody>
 		</table>
 
+		<!-- Error container -->
+		<div class="col-12 mt-3">
+			<span class="error-message" th:id="Error_multiMatrix + ${stat.index}" th:if="${question.mandatory}"
+				th:utext="@{*} + #{NotBlank}"></span>
+		</div>
+		
 	</div>
 </div>
 </body>

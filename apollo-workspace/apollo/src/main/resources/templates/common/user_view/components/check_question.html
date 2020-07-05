@@ -12,10 +12,10 @@
 
 			<div class="col-12">
 				<!-- OPTIONS -->
-				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox">
+				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox" th:id="@{question_} + ${stat.index}">
 					<input type="checkbox" class="custom-control-input"
 						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
-						th:value="${option}" th:disabled="${readonly}"> 
+						th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory}">
 					<label
 						th:for="choiceQuestionMultiAnswers+${stat.index}+.answers+${optionStat.index+1}"
 						th:text="${option}" class="custom-control-label"></label>
@@ -23,7 +23,6 @@
 
 				<!-- Other -->
 				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
-					<!-- <label class="form-control-label" for="other_choice" th:text="#{question.otherChoice}"></label> -->
 
 					<!-- Other -->
 					<div class="custom-control custom-checkbox" th:if="${question.otherChoice}">
@@ -32,7 +31,8 @@
 							   th:id="@{other_choice-} + ${question.id}"
 							   th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
 							   th:value="value"
-							   th:disabled="${readonly}">
+							   th:disabled="${readonly}"
+							   th:required="${question.mandatory}">
 						<label class="custom-control-label pl-0 col-12" th:for="@{other_choice-} + ${question.id}">
 							<div class="border-bottom custom-input-text">
 								<input type="text" th:name="@{other_choice-} + ${question.id}"  placeholder="Type something..."  oninput="otherChoiceValueSetter(this)">
@@ -41,22 +41,11 @@
 					</div>
 
 				</div>
+			</div>
 
-
-<!--				&lt;!&ndash; Other &ndash;&gt;-->
-<!--				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">-->
-<!--					-->
-<!--					-->
-<!--					<input type="text" class="form-control" id="other_choice"-->
-<!--						name="other_choice" size="45"-->
-<!--						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"-->
-<!--						th:placeholder="#{question.otherchoiceplaceholder}"-->
-<!--						th:disabled="${readonly}">-->
-
-<!--				-->
-<!--					-->
-<!--					-->
-<!--				</div>-->
+			<!-- Error container -->
+			<div class="col-12 mt-3">
+				<span class="error-message" th:id="Error_choiceQuestionMultiAnswers + ${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlank}"></span>
 			</div>
 		</div>
 	</div>

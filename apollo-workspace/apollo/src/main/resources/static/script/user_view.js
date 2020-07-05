@@ -9,6 +9,9 @@ let currentStep = 1;
 let tabs = [];
 
 $(function () {
+    // Hide all errors
+    $("span.error-message").hide();
+
     tabs = $(".tab").toArray();
 
     // Show the first tab
@@ -33,13 +36,12 @@ $(function () {
 function showTab(n) {
     // Show tab
     tabs[n].style.display = "block";
-
-    if (n == 0) {
+    if (n === 0) {
         $("#prevBtn").css("display", "none");
     } else {
         $("#prevBtn").css("display", "inline");
     }
-    if (n == (tabs.length - 1)) {
+    if (n === (tabs.length - 1)) {
         if (readonly) $("#nextBtn").css("display", "none");
         $("#nextBtn").html('<span class="btn-inner--text">' + translations.submit + '</span><span class="btn-inner--icon"><i class="fas fa-save"></i></span>');
     } else {
@@ -54,6 +56,13 @@ function showTab(n) {
  * @param {Number} n 1 for next group, -1 for previous group
  */
 function nextPrev(n) {
+    // Hide errors
+    $("span.error-message").toArray().forEach(elem => elem.style.display = "none");
+
+    if(n === 1 && !validateRequiredQuestions()){
+        return false;
+    }
+
     // Set tab style
     tabs[currentTabIndex].style.display = "none";
     currentTabIndex += n;
@@ -81,10 +90,53 @@ function fixStepIndicator(n) {
 }
 
 /**
- * Open login modal for private survey.
- * @param {String} url 
- * @param {Object} survey 
- * @param {String} modal_id 
+ * Validate required questions.
+ */
+function validateRequiredQuestions(){
+    const currentTab = $(".tab:visible")
+    const requiredFields = currentTab.find($(":input[required]"));
+
+    let requiredQuestions = {};
+
+    for (let reqField of requiredFields) {
+        requiredQuestions[reqField.id.split('.')[0]] != undefined ? requiredQuestions[reqField.id.split('.')[0]].push(reqField) : requiredQuestions[reqField.id.split('.')[0]] = [reqField];
+    }
+
+    for (let question in requiredQuestions) {
+        if (!checkAnswer(requiredQuestions[question])) {
+            let errorElement = '';
+            if (question.includes('multiMatrix')) {
+                errorElement = '#Error_' + question.split('_')[0];
+            } else if (question.includes('singleMatrix')) {
+                errorElement = '#Error_' + question.split('_')[0];
+            } else {
+                errorElement = '#Error_' + question;
+            }
+            $(errorElement).css({ 'display': 'block' });
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Check question answers.
+ * @param {Array} fields 
+ */
+function checkAnswer(fields) {
+    if (fields[0].type === "checkbox" || fields[0].type === "radio") {
+        return fields.find(elem => elem.checked) != undefined;
+    } else {
+        return fields[0].value !== undefined && fields[0].value !== "";
+    }
+}
+
+/**
+ * Opens the login modal for private surveys
+ * @param {String} url The url of the GET request
+ * @param {Object} survey The private survey in object
+ * @param {String} modal_id The id of the login modal
  */
 function openLoginModal(url, survey, modal_id){
     $.ajax({

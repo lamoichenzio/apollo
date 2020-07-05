@@ -17,6 +17,15 @@
             <div id="collapse-file-input" class="collapse" aria-labelledby="heading-1-3" data-parent="#accordion-file">
                 <div class="card-body shadow-none">
 
+                    <div class="col-12">
+                        <!-- Mandatory -->
+                        <div class="form-group custom-control custom-switch">
+                            <input type="checkbox" id="mandatory" name="mandatory" class="custom-control-input" th:field="*{mandatory}"/>
+                            <label class="custom-control-label form-control-label" for="mandatory" th:text="#{question.mandatory}"></label>
+                            <span th:if="${#fields.hasErrors('mandatory')}" th:each="err: ${#fields.errors('mandatory')}" th:utext="${err}"></span>
+                        </div>
+                    </div>
+
                     <input id="delete_file" name="deleteFile" type="hidden" value="false"/>
 
                     <!--Creation case-->
@@ -44,10 +53,6 @@
                                     <a href="#" th:onclick="deleteImage(event)">
                                         <i class="far fa-trash text-danger"></i>
                                     </a>
-<!--                                    <a data-toggle="tooltip" th:title="#{common.delete}" data-target="#actions-deletem"-->
-<!--                                       th:id="'delete_image_' + ${question.id}" th:onclick="deleteImage()">-->
-<!--                                        <i class="far fa-trash text-danger"></i>-->
-<!--                                    </a>-->
                                 </div>
 
                             </div>
