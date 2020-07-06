@@ -27,7 +27,7 @@
                            name="customRadio" class="custom-control-input"
                            th:id="@{other_choice-} + ${question.id}"
                            th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-                           th:value="value"
+                           th:value="null"
                            th:disabled="${readonly}"
                            th:required="${question.mandatory}">
                     <label class="custom-control-label col-12 pl-0" th:for="@{other_choice-} + ${question.id}">

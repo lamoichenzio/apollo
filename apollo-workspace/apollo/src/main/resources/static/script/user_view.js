@@ -95,11 +95,11 @@ function fixStepIndicator(n) {
 function validateRequiredQuestions(){
     const currentTab = $(".tab:visible")
     const requiredFields = currentTab.find($(":input[required]"));
-
+    let valid = true;
     let requiredQuestions = {};
 
     for (let reqField of requiredFields) {
-        requiredQuestions[reqField.id.split('.')[0]] != undefined ? requiredQuestions[reqField.id.split('.')[0]].push(reqField) : requiredQuestions[reqField.id.split('.')[0]] = [reqField];
+        requiredQuestions[reqField.id.split('.')[0]] !== undefined ? requiredQuestions[reqField.id.split('.')[0]].push(reqField) : requiredQuestions[reqField.id.split('.')[0]] = [reqField];
     }
 
     for (let question in requiredQuestions) {
@@ -113,11 +113,11 @@ function validateRequiredQuestions(){
                 errorElement = '#Error_' + question;
             }
             $(errorElement).css({ 'display': 'block' });
-            return false;
+            valid = false;
         }
     }
 
-    return true;
+    return valid;
 }
 
 /**
@@ -126,7 +126,12 @@ function validateRequiredQuestions(){
  */
 function checkAnswer(fields) {
     if (fields[0].type === "checkbox" || fields[0].type === "radio") {
-        return fields.find(elem => elem.checked) != undefined;
+        const allFields = $("input[name='"+fields[0].name+"']");
+        if(fields[0].type === "radio") return allFields.toArray().some((elem)=> elem.checked && elem.value !== "");
+        if(fields[0].type === "checkbox"){
+            const checkedFields = allFields.toArray().filter((elem) => elem.checked);
+            return checkedFields.length > 0 && checkedFields.filter((elem) => elem.value === "").length === 0;
+        }
     } else {
         return fields[0].value !== undefined && fields[0].value !== "";
     }
