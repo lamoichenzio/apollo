@@ -11,7 +11,8 @@
                 <div class="modal-title align-items-center">
                     <div>
                         <!-- MODAL TITLE -->
-                        <h6 class="mb-0" th:text="#{question.choicequestion}"></h6>
+                        <h6 th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).RADIO}" class="mb-0" th:text="#{question.singlechoicequestion}"></h6>
+                        <h6 th:if="${question.choiceType == T(it.univaq.disim.mwt.apollo.domain.questions.ChoiceType).CHECK}" class="mb-0" th:text="#{question.multichoicequestion}"></h6>
                     </div>
                 </div>
             </div>
@@ -48,7 +49,7 @@
                     <div class="row">
                         <!-- Input file -->
                         <div class="col-12 my-1">
-                            <div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
+                            <div th:replace="~{common/surveys/components/questions/modals/advanced_options.html :: advancedOptions}"></div>
                         </div>
                     </div>
 

@@ -1,83 +1,83 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-	<!-- MODAL NEW INPUT QUESTION -->
-	<div class="modal fade" id="modal-input-question" tabindex="-1" role="dialog" aria-hidden="true"
-		th:fragment="modal-input-question">
-		<script th:src="@{/script/forms_validation.js}"></script>
+<!-- MODAL NEW INPUT QUESTION -->
+<div class="modal fade" id="modal-input-question" tabindex="-1" role="dialog" aria-hidden="true"
+     th:fragment="modal-input-question">
+    <script th:src="@{/script/forms_validation.js}"></script>
 
-		<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<div class="modal-title align-items-center">
-						<!-- MODAL TITLE -->
-						<h6 class="mb-0" th:text="#{question.inputquestion}">Question Input</h6>
-					</div>
-				</div>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title align-items-center">
+                    <!-- MODAL TITLE -->
+                    <h6 class="mb-0" th:text="#{question.inputquestion}">Question Input</h6>
+                </div>
+            </div>
 
-				<div class="modal-body">
+            <div class="modal-body">
 
-					<form id="input_question_form" action="#" th:action="${#request.getRequestURI()}"
-						th:object="${question}" method="post" enctype="multipart/form-data">
+                <form id="input_question_form" action="#" th:action="${#request.getRequestURI()}"
+                      th:object="${question}" method="post" enctype="multipart/form-data">
 
-						<input type="hidden" th:field="*{questionGroup}" />
-						<!-- update case -->
-						<input th:if="${question.id != null}" type="hidden" th:field="*{id}" />
-						
-						<div class="row">
-							<div class="col-md-12">
-								<div class="form-group">
-									<!-- QUESTION TEXT -->
-									<label th:for="title" class="form-control-label"
-										th:text="#{question.title}">Question:</label>
-									<input type="text" th:field="*{title}" class="form-control" data-toggle="autosize"
-										th:placeholder="#{question.titleplaceholder}" required size="255"
-										maxlength="255" />
-								</div>
+                    <input type="hidden" th:field="*{questionGroup}"/>
+                    <!-- update case -->
+                    <input th:if="${question.id != null}" type="hidden" th:field="*{id}"/>
 
-								<div class="form-group">
-									<div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
-								</div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!-- QUESTION TEXT -->
+                                <label th:for="title" class="form-control-label"
+                                       th:text="#{question.title}">Question:</label>
+                                <input type="text" th:field="*{title}" class="form-control" data-toggle="autosize"
+                                       th:placeholder="#{question.titleplaceholder}" required size="255"
+                                       maxlength="255"/>
+                            </div>
 
-								<div class="form-group">
-									<!-- QUESTION TYPES -->
-									<label th:for="inputType" class="form-control-label"
-										th:text="#{question.questiontype}">Type:</label>
-									<select class="custom-select" th:field="*{type}">
-										<option
-											th:each="type : ${T(it.univaq.disim.mwt.apollo.domain.questions.InputType).values()}"
-											th:value="${type}" th:text="${type.displayValue}">
-										</option>
-									</select>
-								</div>
-							</div>
-						</div>
+                            <div class="form-group">
+                                <div th:replace="~{common/surveys/components/questions/modals/advanced_options.html :: advancedOptions}"></div>
+                            </div>
 
-						<!-- Form errors -->
-						<div class="row">
-							<div class="col-12">
-								<div class="text-left text-xs text-muted mt-2">
-									<span id="form_error_message" class="font-weight-bold text-danger hidden"></span>
-								</div>
-							</div>
-						</div>
+                            <div class="form-group">
+                                <!-- QUESTION TYPES -->
+                                <label th:for="inputType" class="form-control-label"
+                                       th:text="#{question.questiontype}">Type:</label>
+                                <select class="custom-select" th:field="*{type}">
+                                    <option th:each="type : ${T(it.univaq.disim.mwt.apollo.domain.questions.InputType).values()}" th:value="${type}" th:text="${type.displayValue}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-					</form>
-				</div>
+                    <!-- Form errors -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-left text-xs text-muted mt-2">
+                                <span id="form_error_message" class="font-weight-bold text-danger hidden"></span>
+                            </div>
+                        </div>
+                    </div>
 
-				<!-- Modal Footer -->
-				<div class="modal-footer">
-					<button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
-						th:text="#{common.cancel}">Cancel</button>
-					<button type="submit"  form="input_question_form" class="btn btn-sm btn-primary rounded-pill "
-						th:text="#{common.submit}">Save</button>
-				</div>
-				<!-- File validation script -->
-				<!-- <div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div> -->
+                </form>
+            </div>
 
-			</div>
-		</div>
-	</div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-sm btn-link text-danger"
+                        th:text="#{common.cancel}">Cancel
+                </button>
+                <button type="submit" form="input_question_form" class="btn btn-sm btn-primary rounded-pill "
+                        th:text="#{common.submit}">Save
+                </button>
+            </div>
+            <!-- File validation script -->
+            <!-- <div th:replace="~{common/surveys/components/questions/modals/form_script :: script}"></div> -->
+
+        </div>
+    </div>
+</div>
 
 </body>
 

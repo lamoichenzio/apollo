@@ -12,10 +12,7 @@
                 <div class="row mx-auto">
                     <a href="#" th:href="@{/surveys/dashboard}">
                         <img class="col-12 logo pt-1 my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
-                        <!--			<h5 th:text="#{common.applicationtitle}">Apollo</h5>-->
                     </a>
-
-
                 </div>
             </div>
 
@@ -25,27 +22,27 @@
                      data-action="sidenav-unpin" data-target="#sidenav-main">
                     <div class="sidenav-toggler-inner">
                         <i class="sidenav-toggler-line bg-white"></i>
-                        <i
-                                class="sidenav-toggler-line bg-white"></i>
-                        <i
-                                class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
                     </div>
                 </div>
             </div>
+
             <!-- User mini profile -->
             <div class="sidenav-user d-flex flex-column align-items-center justify-content-between text-center">
+
                 <!-- Avatar -->
                 <div class="row">
 
-                            <h5 class="mb-0 text-white col-auto my-auto mx-auto">
-                                [[#{common.hi}]] 
-                                <span th:if="${user.firstname != null && user.firstname != ''}" th:text="${user.firstname}"></span>
-                                <span th:if="${user.firstname == null || user.firstname == ''}" th:text="${user.username}"></span>!
-                            </h5>
-
+                    <h5 class="mb-0 text-white col-auto my-auto mx-auto">
+                        [[#{common.hi}]]
+                        <span th:if="${user.firstname != null && user.firstname != ''}"
+                              th:text="${user.firstname}"></span>
+                        <span th:if="${user.firstname == null || user.firstname == ''}"
+                              th:text="${user.username}"></span>!
+                    </h5>
                     <nav class="navbar mx-0 my-0 ml-1 force-padding-0 col-auto" id="navbar-main">
                         <div class="container-fluid">
-                            <!-- User's navbar -->
                             <div class="navbar-user">
                                 <ul class="navbar-nav flex-row align-items-center">
                                     <li class="nav-item dropdown dropdown-animate">
@@ -61,7 +58,7 @@
                                             <div class="dropdown-divider"></div>
                                             <a href="/apollo/logout" class="dropdown-item">
                                                 <i class="far fa-sign-out-alt"></i>
-                                                <span>Logout</span>
+                                                <span>[[#{menu.logout}]]</span>
                                             </a>
                                         </div>
                                     </li>
@@ -72,6 +69,7 @@
 
                 </div>
 
+                <!-- User pic -->
                 <div class="row mt-n5">
                     <span class="col-auto px-0 py-0 profile-image">
                         <img alt="Image placeholder"
@@ -85,18 +83,17 @@
                              th:if="${user.pic != null}">
                     </span>
 
-
                 </div>
 
-                <!-- User info -->
-                <!-- Actions -->
+                <!-- Menu -->
                 <div class="w-100 mt-4 actions d-flex justify-content-center">
 
-                    <a th:classappend="${#request.requestURI == '/apollo/surveys/dashboard' ? 'active':''}" href="#" th:href="@{/surveys/dashboard}" class="btn btn-square text-sm mr-0">
+                    <a th:classappend="${#request.requestURI == '/apollo/surveys/dashboard' ? 'active':''}" href="#"
+                       th:href="@{/surveys/dashboard}" class="btn btn-square text-sm mr-0">
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-home fa-1x"></i>
                         </span>
-                        <span class="btn-inner--icon d-block pt-2">Home</span>
+                        <span class="btn-inner--icon d-block pt-2">[[#{menu.home}]]</span>
                     </a>
 
                     <a id="create_survey" class="btn btn-square text-sm" href="#"
@@ -104,80 +101,26 @@
                         <span class="btn-inner--icon d-block">
                             <i class="far fa-plus"></i>
                         </span>
-                        <span class="btn-inner--icon d-block pt-2">New</span>
+                        <span class="btn-inner--icon d-block pt-2">[[#{menu.new}]]</span>
                     </a>
 
                     <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a th:classappend="${#request.requestURI.startsWith('/apollo/administration') ? 'active':''}" href="#" th:href="@{/administration/users}" class="btn btn-square text-sm mr-0">
-                        <span class="btn-inner--icon d-block">
-                            <i class="far fa-tasks"></i>
-                        </span>
-                        <span class="btn-inner--icon d-block pt-2">Users</span>
-                    </a></div>
+                        <a th:classappend="${#request.requestURI.startsWith('/apollo/administration') ? 'active':''}"
+                           href="#" th:href="@{/administration/users}" class="btn btn-square text-sm mr-0">
+                            <span class="btn-inner--icon d-block">
+                                <i class="far fa-users"></i>
+                            </span>
+                            <span class="btn-inner--icon d-block pt-2">[[#{menu.users}]]</span>
+                        </a>
+                    </div>
                 </div>
-                <!--                <div class="w-100 mt-4 actions d-flex justify-content-between">-->
-                <!--                    <a href="./home.html" class="btn btn-square text-sm">-->
-                <!--                        <span class="btn-inner&#45;&#45;icon d-block">-->
-                <!--                            <i class="far fa-columns"></i>-->
-                <!--                        </span>-->
-                <!--                        <span class="btn-inner&#45;&#45;icon d-block pt-2">Home</span>-->
-                <!--                    </a>-->
-                <!--                    <a href="./home.html" class="btn btn-square text-sm">-->
-                <!--                        <span class="btn-inner&#45;&#45;icon d-block">-->
-                <!--                            <i class="far fa-home"></i>-->
-                <!--                        </span>-->
-                <!--                        <span class="btn-inner&#45;&#45;icon d-block pt-2">Home</span>-->
-                <!--                    </a>-->
-                <!--                    <a href="./home.html" class="btn btn-square text-sm">-->
-                <!--                        <span class="btn-inner&#45;&#45;icon d-block">-->
-                <!--                            <i class="far fa-home"></i>-->
-                <!--                        </span>-->
-                <!--                        <span class="btn-inner&#45;&#45;icon d-block pt-2">Home</span>-->
-                <!--                    </a>-->
-                <!--                </div>-->
+
             </div>
-            <!-- Application nav -->
-            <!-- <div class="nav-application clearfix">
-                <a href="./home.html" class="btn btn-square text-sm active"> <span
-                    class="btn-inner--icon d-block"><i class="far fa-home fa-2x"></i></span>
-                    <span class="btn-inner--icon d-block pt-2">Home</span>
-                </a>
-                <a href="./project/card-listing.html" class="btn btn-square text-sm">
-                    <span class="btn-inner--icon d-block"><i
-                        class="far fa-project-diagram fa-2x"></i></span> <span
-                    class="btn-inner--icon d-block pt-2">Projects</span>
-                </a> <a href="./task/table-listing.html" class="btn btn-square text-sm">
-                    <span class="btn-inner--icon d-block"><i
-                        class="far fa-tasks fa-2x"></i></span> <span
-                    class="btn-inner--icon d-block pt-2">Tasks</span>
-                </a> <a href="./task/kanban-board.html" class="btn btn-square text-sm">
-                    <span class="btn-inner--icon d-block"><i
-                        class="far fa-columns fa-2x"></i></span> <span
-                    class="btn-inner--icon d-block pt-2">Kanban</span>
-                </a> <a href="./user/card-listing.html" class="btn btn-square text-sm">
-                    <span class="btn-inner--icon d-block"><i
-                        class="far fa-users-cog fa-2x"></i></span> <span
-                    class="btn-inner--icon d-block pt-2">Users</span>
-                </a> <a href="./user/profile.html" class="btn btn-square text-sm"> <span
-                    class="btn-inner--icon d-block"><i
-                        class="far fa-user-ninja fa-2x"></i></span> <span
-                    class="btn-inner--icon d-block pt-2">Profile</span>
-                </a> <a href="./shop/invoices.html" class="btn btn-square text-sm"> <span
-                    class="btn-inner--icon d-block"><i
-                        class="far fa-receipt fa-2x"></i></span> <span
-                    class="btn-inner--icon d-block pt-2">Invoices</span>
-                </a> <a href="./widgets.html" class="btn btn-square text-sm"> <span
-                    class="btn-inner--icon d-block"><i class="far fa-cogs fa-2x"></i></span>
-                    <span class="btn-inner--icon d-block pt-2">Widgets</span>
-                </a>
-            </div>
-     -->
 
             <!-- Footer -->
             <div th:replace="~{common/layout/footer :: footer}"></div>
 
         </div>
-
 
     </body>
 </html>
