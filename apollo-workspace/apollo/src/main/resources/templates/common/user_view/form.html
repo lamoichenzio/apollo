@@ -2,7 +2,7 @@
 <body>
 <div th:fragment="form">
 
-    <form th:action="@{/forms/survey/create}" method="post" th:object="${surveyanswer}" id="form">
+    <form th:action="@{/forms/survey/create}" method="post" th:object="${surveyanswer}" id="surveyAnswerform">
 
 			<input type="hidden" th:field="*{survey}"/>
 			<input type="hidden" name="email" th:value="${email}">
@@ -99,8 +99,16 @@
             </div>
             <!-- ./Iterate Question Groups -->
 
+            <div class="row justify-content-center load-content hidden">
+                <div class="col-12 my-4 p-3 text-center">
+                    <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Steps -->
-            <div class="row justify-content-center">
+            <div class="row justify-content-center steps-container">
                 <div class="col-12">
                     <div id="step_container" style="text-align: center" class="m-4">
                         <span class="step" th:each="questionGroup, stat : ${surveyanswer.survey.questionGroups}"
@@ -110,7 +118,7 @@
             </div>
 
             <!-- Buttons -->
-            <div class="row">
+            <div class="row buttons-container">
                 <div class="col-6">
                     <div class="p-1 mb-3">
                         <button type="button" id="prevBtn" class="btn btn-sm btn-secondary btn-icon-label rounded-pill"

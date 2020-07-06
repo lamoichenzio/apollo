@@ -91,10 +91,10 @@
                                     </li>
                                     <li class="list-group-item px-0">
                                         <div class="row align-items-center">
-                                            <div class="col-4">
+                                            <div class="col">
                                                 <span class="form-control-label">[[#{common.publiclink}]]</span>
                                             </div>
-                                            <div class="col-8 text-right">
+                                            <div class="col text-right">
                                                 <span id="urlId" class="text-right" th:text="${survey.urlId != null ? survey.urlId : ''}"></span>
                                             </div>
                                         </div>
@@ -292,7 +292,7 @@
                                 if (row.name) {
                                     return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.name + '</a></div>';
                                 } else {
-                                    return '<div class="media-body ml-3"><a href="[(@{/forms/survey})]/' + url + '" class="name mb-0 h6 text-sm">Answer ' + row_index + '</a></div>';
+                                    return '<div class="media-body ml-3"><a href="[(@{/forms/survey})]/' + url + '" class="name mb-0 h6 text-sm">Answer ' + row.id + '</a></div>';
                                 }      
                             }
                         },

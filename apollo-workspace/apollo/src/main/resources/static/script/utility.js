@@ -136,7 +136,7 @@ function getChoiceSummary(label, value) {
         + '</div>'
         + '</div>'
         + '<div class="col-2 align-self-end text-right">'
-        + '<span data-toggle="tooltip" title="' + label + '" class="h6 mb-0">' + (value.toString().length > 5 ? value.toFixed(2) : value) + '</span>'
+        + '<span data-toggle="tooltip" title="' + label + '" class="h6 mb-0">' + (value.toString().length > 5 ? value.toFixed(2) : value) + '%</span>'
         + '</div>'
         + '</div>';
 }

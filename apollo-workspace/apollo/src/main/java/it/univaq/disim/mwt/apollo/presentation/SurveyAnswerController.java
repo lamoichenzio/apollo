@@ -44,6 +44,7 @@ public class SurveyAnswerController {
     public String createStart(@PathVariable("id") String id, Model model, HttpSession session) throws BusinessException {
         Survey survey = surveyService.findSurveyById(id);
         model.addAttribute("survey", survey);
+        
         if (!survey.isActive()) {
             return "common/user_view/common_pages/survey_not_active";
         }
@@ -53,9 +54,11 @@ public class SurveyAnswerController {
             }
             model.addAttribute("email", session.getAttribute("email"));
         }
+        
         SurveyAnswer surveyAnswer = ConversionUtility.survey2SurveyAnswer(survey);
         model.addAttribute("surveyanswer", surveyAnswer);
         session.removeAttribute("email");
+        
         return "common/user_view/survey";
     }
 
@@ -72,9 +75,15 @@ public class SurveyAnswerController {
             log.info(errors.toString());
         }
         surveyAnswerService.createSurveyAnswer(surveyAnswer);
-        return "redirect:/common/survey_submitted";
+        return "redirect:/forms/survey/complete";
     }
 
+    @GetMapping("/complete")
+    public String formComplete() {
+    	log.info("Survey submitted!");
+    	return "/common/user_view/common_pages/survey_submitted";
+    }
+    
     @GetMapping("/validate")
     public String validateStart(@RequestParam("id") String id, Model model) {
         PrivateSurveyCredentials credentials = new PrivateSurveyCredentials();

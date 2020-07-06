@@ -7,9 +7,7 @@ import java.util.List;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.TypeAlias;
@@ -41,7 +39,6 @@ public class SurveyAnswer {
 	@NotNull
 	private Survey survey;
 	
-	@NotNull
 	private Integer totAnswers;
 	
 	@CreatedDate

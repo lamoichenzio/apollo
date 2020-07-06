@@ -56,11 +56,13 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 			throws BusinessException {
 		try {
 			SurveyAnswer surveyAnswer = new SurveyAnswer();
+			surveyAnswer.setId(request.getSearch().getValue());
 			surveyAnswer.setSurvey(survey);
 
 			ExampleMatcher matcher = ExampleMatcher
 					.matchingAll()
 					.withMatcher("survey", GenericPropertyMatchers.ignoreCase())
+					.withMatcher("id", GenericPropertyMatchers.ignoreCase())
 					.withIgnorePaths("inputQuestionAnswers")
 					.withIgnorePaths("choiceQuestionSingleAnswers")
 					.withIgnorePaths("selectionQuestionAnswers")

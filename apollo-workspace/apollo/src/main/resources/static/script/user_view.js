@@ -68,7 +68,10 @@ function nextPrev(n) {
     currentTabIndex += n;
 
     if (currentTabIndex >= tabs.length) {
-        $("#form").submit();
+        $(".load-content").show();
+        $("#surveyAnswerform").submit();
+        $(".steps-container").css({ "display": "none" });
+        $(".buttons-container").css({ "display": "none" });
         return false;
     }
 
