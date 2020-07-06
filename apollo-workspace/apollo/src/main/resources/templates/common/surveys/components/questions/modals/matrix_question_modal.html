@@ -50,7 +50,7 @@
                     <div class="row">
                         <!-- Input file -->
                         <div class="col-12 my-1">
-                            <div th:replace="~{common/surveys/components/questions/modals/input_file.html :: inputfile}"></div>
+                            <div th:replace="~{common/surveys/components/questions/modals/advanced_options.html :: advancedOptions}"></div>
                         </div>
                     </div>
 
@@ -59,7 +59,7 @@
                         <!-- Accordion card 1 -->
                         <div class="card">
                             <div class="card-header no-border force-padding-10" id="heading-1-1" data-toggle="collapse" role="button" data-target="#collapse-theme" aria-expanded="false" aria-controls="collapse-1-1">
-                                <h6 class="mb-0"><i class="far fa-file-pdf mr-3"></i>Question List</h6>
+                                <h6 class="mb-0"><i class="far fa-file-pdf mr-3"></i>[[#{question.matrix.questions}]]</h6>
                             </div>
                             <div id="collapse-theme" class="collapse" aria-labelledby="heading-1-1" data-parent="#accordion">
                                 <div class="card-body">
@@ -99,7 +99,7 @@
                         <!-- Accordion card 2 -->
                         <div class="card shadow-none">
                             <div class="card-header no-border force-padding-10 shadow-none" id="heading-1-2" data-toggle="collapse" role="button" data-target="#collapse-range" aria-expanded="false" aria-controls="collapse-1-2">
-                                <h6 class="mb-0"><i class="far fa-lock mr-3"></i>Range Value</h6>
+                                <h6 class="mb-0"><i class="far fa-lock mr-3"></i>[[#{question.matrix.options}]]</h6>
                             </div>
                             <div id="collapse-range" class="collapse" aria-labelledby="heading-1-2" data-parent="#accordion">
                                 <div class="card-body shadow-none">
