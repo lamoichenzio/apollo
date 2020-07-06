@@ -35,7 +35,7 @@
 							   th:required="${question.mandatory}">
 						<label class="custom-control-label pl-0 col-12" th:for="@{other_choice-} + ${question.id}">
 							<div class="border-bottom custom-input-text">
-								<input type="text" th:name="@{other_choice-} + ${question.id}"  placeholder="Type something..."  oninput="otherChoiceValueSetter(this)">
+								<input type="text" th:name="@{other_choice-} + ${question.id}"  th:placeholder="#{common.textinput.placeholder}"  oninput="otherChoiceValueSetter(this)">
 							</div>
 						</label>
 					</div>

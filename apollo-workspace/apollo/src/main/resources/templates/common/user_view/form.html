@@ -12,7 +12,7 @@
             <div th:each="group, groupStat : ${surveyanswer.survey.questionGroups}" class="tab">
                 <div class="row">
                     <div class="col-10">
-                        <h5 class="mb-1 p-1">[[${groupStat.index+1}+'.'+${group.title}]]</h5>
+                        <h5 class="mb-1 p-1">[[${groupStat.index+1} + '. ' + ${group.title}]]</h5>
                         <h6 class="text-muted mb-3 p-1">[[${group.description}]]</h6>
                     </div>
                 </div>
@@ -29,8 +29,8 @@
                                     <!-- TITLE -->
                                     <div class="m-1">
                                         <h6 class="mb-0">
-                                            [(${groupStat.index+1}+.+${questionStat.index+1}+. +${question.title})]
-                                            <span th:if="${question.mandatory}">*</span>
+                                            [(${groupStat.index+1}+.+${questionStat.index+1})] [[${question.title}]]
+                                            <span class="text-danger" th:if="${question.mandatory}">*</span>
                                         </h6>
                                     </div>
                                     <!-- Show image if exists -->

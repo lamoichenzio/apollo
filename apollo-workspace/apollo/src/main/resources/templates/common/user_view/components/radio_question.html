@@ -33,7 +33,7 @@
                     <label class="custom-control-label col-12 pl-0" th:for="@{other_choice-} + ${question.id}">
                         <div class="border-bottom custom-input-text">
                             <input type="text" th:name="@{other_choice-} + ${question.id}"
-                                   placeholder="Type something..." oninput="otherChoiceValueSetter(this)">
+                                   th:placeholder="#{common.textinput.placeholder}" oninput="otherChoiceValueSetter(this)">
                         </div>
                     </label>
                 </div>
