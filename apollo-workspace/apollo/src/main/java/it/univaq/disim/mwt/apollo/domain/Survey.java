@@ -65,7 +65,6 @@ public class Survey {
 	@Future
 	private LocalDate endDate;
 	
-//	@Indexed
 	private String urlId;
 	
 	@OneToMany

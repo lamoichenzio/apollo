@@ -45,19 +45,14 @@ public class QuestionGroupController {
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("group") QuestionGroup group, Errors errors) throws BusinessException {	
 		if (errors.hasErrors()) {
-			log.info(errors.toString());
-			return "/common/surveys/components/question_group/modals/new_group_modal :: questionGroupForm";
+			return "redirect:/surveys/detail/"+group.getSurvey().getId()+"?error=true";
 		}
-		
 		Survey survey = group.getSurvey();
-		
 		// Create group
 		service.createQuestionGroup(group);
-		
 		// Update survey
 		survey.addQuestionGroup(group);
 		surveyService.updateSurvey(survey, null);
-		
 		return "redirect:/surveys/detail/"+survey.getId();
 	}
 	

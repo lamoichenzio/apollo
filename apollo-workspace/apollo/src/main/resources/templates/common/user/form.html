@@ -62,7 +62,8 @@
 
                         <div class="row">
 
-                            <h5 class="mb-0" th:if="*{firstname != null && lastname != null && firstname!='' && lastname != ''}">
+                            <h5 class="mb-0"
+                                th:if="*{firstname != null && lastname != null && firstname!='' && lastname != ''}">
                                 [[*{firstname}]] [[*{lastname}]]</h5>
                         </div>
 
@@ -134,11 +135,14 @@
                         <div id="accordion-2" class="accordion accordion-spaced">
                             <!-- Accordion card 3 -->
                             <div class="card mb-0 border-bottom shadow-none">
-                                <div class="card-header no-border border-" id="heading-2-3" data-toggle="collapse" role="button" data-target="#collapse-2-3" aria-expanded="false" aria-controls="collapse-2-3">
+                                <div class="card-header no-border border-" id="heading-2-3" data-toggle="collapse"
+                                     role="button" data-target="#collapse-2-3" aria-expanded="false"
+                                     aria-controls="collapse-2-3">
                                     <h6 class="mb-0"><i class="far fa-exclamation mr-3"></i>[[#{common.passwordupdate}]]
                                     </h6>
                                 </div>
-                                <div id="collapse-2-3" class="collapse" aria-labelledby="heading-2-3" data-parent="#accordion-2">
+                                <div id="collapse-2-3" class="collapse" aria-labelledby="heading-2-3"
+                                     data-parent="#accordion-2">
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label class="form-control-label"
@@ -159,7 +163,7 @@
                                         <div class="form-group mb-0">
                                             <label class="form-control-label"
                                                    th:text="#{common.passwordconfirm}">New Password
-                                                                                       Confirm</label>
+                                                Confirm</label>
                                             <input class="form-control" type="password"
                                                    th:field="*{passwordConfirm}"
                                                    th:errorclass="is-invalid">

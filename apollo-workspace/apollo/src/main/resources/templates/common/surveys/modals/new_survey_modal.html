@@ -97,7 +97,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group mb-0">
-                                <label class="form-control-label mb-0">Icon</label>
+                                <label class="form-control-label mb-0" th:text="#{survey.icon}">Icon</label>
 
                                 <!--Creation fase-->
 
@@ -151,7 +151,7 @@
         $(document).ready(function () {
             // Register file change event
             $('#iconfile').change(() => {
-                $('#iconfile_label').text(this.files[0].name);
+                $('#iconfile_label').text($('#iconfile')[0].files[0].name);
             });
 
             if ([[${survey.active}]]) {
@@ -182,7 +182,7 @@
                 err = true;
             }
             // File validation
-            if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) == -1) {
+            if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) === -1) {
                 err = true;
                 $("#errors").text([[#{file.invalid}]]);
             }

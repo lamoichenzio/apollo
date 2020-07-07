@@ -2,23 +2,12 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.List;
-import java.util.Map;
 
-import it.univaq.disim.mwt.apollo.business.ConversionUtility;
-import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
-import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
-import it.univaq.disim.mwt.apollo.business.exceptions.WrongPasswordException;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.Survey;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
 import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
-import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,15 +16,18 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import it.univaq.disim.mwt.apollo.business.ConversionUtility;
 import it.univaq.disim.mwt.apollo.business.UserService;
+import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
+import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.exceptions.DoubleEntryException;
+import it.univaq.disim.mwt.apollo.business.exceptions.WrongPasswordException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 @Service
 @Transactional(rollbackFor = DoubleEntryException.class)
-@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
