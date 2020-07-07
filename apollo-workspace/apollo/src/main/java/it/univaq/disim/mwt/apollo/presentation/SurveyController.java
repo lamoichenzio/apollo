@@ -183,7 +183,7 @@ public class SurveyController {
 			@RequestParam("iconfile") MultipartFile iconfile) throws BusinessException {
 		validator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
-			return "redirect:surveys/dashboard?error=true";
+			return "redirect:/surveys/dashboard?error=true";
 		}
 		// Get logged user
 		User user = Utility.getUser();
