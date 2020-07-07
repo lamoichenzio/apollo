@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.univaq.disim.mwt.apollo.business.AnswerService;
-import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
-import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionMultiAnswerRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionSingleAnswerRepository;

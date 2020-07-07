@@ -67,21 +67,29 @@ public class SurveyAnswerController {
                          @ModelAttribute("email") String email) throws BusinessException {
         if(email != null && !email.isEmpty()){
             if(surveyAnswerService.surveyExistsBySurveyAndEmail(surveyAnswer.getSurvey(), email)){
-                return "redirect:/common/survey_answered";
+                return "redirect:/forms/survey/answered";
             }
             surveyAnswer.setEmail(email);
         }
         if (errors.hasErrors()) {
             log.info(errors.toString());
         }
+        
         surveyAnswerService.createSurveyAnswer(surveyAnswer);
-        return "redirect:/forms/survey/complete";
+        
+        return "redirect:/forms/survey/completed";
     }
 
-    @GetMapping("/complete")
+    @GetMapping("/completed")
     public String formComplete() {
     	log.info("Survey submitted!");
     	return "/common/user_view/common_pages/survey_submitted";
+    }
+    
+    @GetMapping("/answered")
+    public String answered() {
+    	log.info("Survey answered!");
+    	return "/common/user_view/common_pages/survey_answered";
     }
     
     @GetMapping("/validate")
@@ -98,6 +106,7 @@ public class SurveyAnswerController {
         Survey survey = surveyService.findSurveyById(credentials.getSurveyId());
         InvitationPool pool = invitationPoolService.findInvitationPoolBySurvey(survey);
         GenericResponseBody response = new GenericResponseBody();
+        
         if(surveyAnswerService.surveyExistsBySurveyAndEmail(survey, credentials.getEmail())){
             response.setStatus(ResponseStatus.ERROR);
             return ResponseEntity.ok(response);
