@@ -1,16 +1,10 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
-import it.univaq.disim.mwt.apollo.business.*;
-import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
-import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
-import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.DocumentFile;
-import it.univaq.disim.mwt.apollo.domain.Survey;
-import it.univaq.disim.mwt.apollo.domain.User;
-import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
-import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Example;
@@ -23,10 +17,20 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+import it.univaq.disim.mwt.apollo.business.ConversionUtility;
+import it.univaq.disim.mwt.apollo.business.DocumentFileService;
+import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
+import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
+import it.univaq.disim.mwt.apollo.business.SurveyService;
+import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
+import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
+import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
+import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.Survey;
+import it.univaq.disim.mwt.apollo.domain.User;
+import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
@@ -45,9 +49,6 @@ public class SurveyServiceImpl implements SurveyService {
     @Autowired
     private InvitationPoolService invitationPoolService;
 
-    @Autowired
-    private EmailService emailService;
-
     @Override
     @Transactional(readOnly = true)
     public ResponseGrid<Survey> findAllSurveysByUserPaginated(RequestGrid requestGrid, User user)
@@ -58,7 +59,7 @@ public class SurveyServiceImpl implements SurveyService {
             survey.setUser(user);
 
             ExampleMatcher matcher = ExampleMatcher.matchingAll()
-                    .withMatcher("name", GenericPropertyMatchers.ignoreCase())
+                    .withMatcher("name", GenericPropertyMatchers.contains().ignoreCase())
                     .withIgnorePaths("secret")
                     .withIgnorePaths("active")
                     .withIgnorePaths("questionGroups")
@@ -68,10 +69,6 @@ public class SurveyServiceImpl implements SurveyService {
 
             Pageable pageable = ConversionUtility.requestGrid2Pageable(requestGrid);
             Page<Survey> page = surveyRepository.findAll(example, pageable);
-            page.getContent().forEach(item -> {
-                log.info(item.toString());
-            });
-
             return new ResponseGrid<Survey>(requestGrid.getDraw(), page.getTotalElements(), page.getTotalElements(),
                     page.getContent());
         } catch (DataAccessException e) {
@@ -90,6 +87,7 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public int findSurveysActiveCountByUserId(Long userId) throws BusinessException {
         try {
             return surveyRepository.findSurveysActiveCountByUser(userId);

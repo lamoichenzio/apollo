@@ -107,7 +107,6 @@ public class UserController {
 	@PostMapping("/delete")
 	@ResponseBody
 	public ResponseEntity<GenericResponseBody> delete(@RequestBody String password) throws BusinessException{
-		log.info("call delete");
 		User loggedUser = Utility.getUser();
 		GenericResponseBody response = new GenericResponseBody();
 		try{

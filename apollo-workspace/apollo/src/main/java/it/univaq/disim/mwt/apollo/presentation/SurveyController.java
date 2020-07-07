@@ -1,5 +1,7 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +35,9 @@ import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
 import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
-import lombok.extern.slf4j.Slf4j;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/surveys")
-@Slf4j
 public class SurveyController {
 
 	@Autowired
