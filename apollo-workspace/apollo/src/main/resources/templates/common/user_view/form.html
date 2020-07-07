@@ -11,7 +11,7 @@
             <!-- Iterate Question Groups -->
             <div th:each="group, groupStat : ${surveyanswer.survey.questionGroups}" class="tab">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-12">
                         <h5 class="mb-1 p-1">[[${groupStat.index+1} + '. ' + ${group.title}]]</h5>
                         <h6 class="text-muted mb-3 p-1">[[${group.description}]]</h6>
                     </div>
