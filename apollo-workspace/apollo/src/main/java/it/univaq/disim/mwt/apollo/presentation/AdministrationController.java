@@ -1,6 +1,19 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import it.univaq.disim.mwt.apollo.business.SurveyService;
+import it.univaq.disim.mwt.apollo.business.UserService;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
@@ -10,13 +23,6 @@ import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.GenericResponseBody;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import it.univaq.disim.mwt.apollo.business.EmailService;
-import it.univaq.disim.mwt.apollo.business.UserService;
 
 @Controller
 @RequestMapping("/administration")
@@ -29,9 +35,6 @@ public class AdministrationController {
     @Autowired
     private SurveyService surveyService;
 
-    @Autowired
-    private EmailService emailService;
-
     @GetMapping("/users")
     public String dashboard() {
         return "/common/administration/admin_panel";
@@ -40,7 +43,6 @@ public class AdministrationController {
     @PostMapping("/findallpaginated")
     @ResponseBody
     public ResponseGrid<User> findAllPaginated(@RequestBody RequestGrid requestGrid) throws BusinessException {
-        System.out.println(userService.findAllPaginated(requestGrid));
         return userService.findAllPaginated(requestGrid);
     }
 

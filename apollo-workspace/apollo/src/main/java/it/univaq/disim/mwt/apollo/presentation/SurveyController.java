@@ -1,5 +1,7 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +35,9 @@ import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
 import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
-import lombok.extern.slf4j.Slf4j;
-
-import java.security.Principal;
 
 @Controller
 @RequestMapping("/surveys")
-@Slf4j
 public class SurveyController {
 
 	@Autowired
@@ -181,16 +179,14 @@ public class SurveyController {
 	}
 
 	@PostMapping("/create")
-	public String create(@Valid @ModelAttribute("survey") Survey survey,
-			@RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
+	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors,
+			@RequestParam("iconfile") MultipartFile iconfile) throws BusinessException {
 		validator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
-			return "/common/surveys/modals/new_survey_modal :: surveyForm";
+			return "redirect:/surveys/dashboard?error=true";
 		}
-
 		// Get logged user
 		User user = Utility.getUser();
-
 		survey.setUser(user);
 		surveyService.createSurvey(survey, iconfile);
 
@@ -205,18 +201,18 @@ public class SurveyController {
 	}
 
 	@PostMapping("/update")
-	public String update(@Valid @ModelAttribute("survey") Survey survey,
-			@RequestParam("iconfile") MultipartFile iconfile, Errors errors) throws BusinessException {
+	public String update(@Valid @ModelAttribute("survey") Survey survey, Errors errors,
+			@RequestParam("iconfile") MultipartFile iconfile) throws BusinessException {
 		validator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
-			return "redirect:/surveys/detail/" + survey.getId() + "?error=true";
+			return "redirect:/surveys/detail/" + survey.getId() + "&error=true";
 		}
 		surveyService.updateSurvey(survey, iconfile);
 		return "redirect:/surveys/detail/" + survey.getId();
 	}
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam String id, Model model) throws BusinessException {
+	public String delete(@RequestParam String id, Model model){
 		model.addAttribute("survey_id", id);
 		return "/common/surveys/modals/delete_survey_modal :: surveyDelete";
 
