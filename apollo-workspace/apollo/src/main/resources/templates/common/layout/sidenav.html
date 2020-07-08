@@ -33,7 +33,6 @@
 
                 <!-- Avatar -->
                 <div class="row">
-
                     <h5 class="mb-0 text-white col-auto mx-auto">
                         [[#{common.hi}]]
                         <span th:if="${user.firstname != null && user.firstname != ''}"
@@ -41,7 +40,27 @@
                         <span th:if="${user.firstname == null || user.firstname == ''}"
                               th:text="${user.username}"></span>!
                     </h5>
-                    <nav class="navbar mx-0 my-0 ml-1 force-padding-0 col-auto" id="navbar-main">
+                </div>
+
+                <!-- User pic -->
+                <div class="row ">
+                    <span class="col-auto px-0 py-0 profile-image">
+                        <img alt="Image placeholder"
+                             src="./dist/img/theme/light/team-4-800x800.jpg"
+                             th:src="@{/dist/img/icons/user/user.png}"
+                             th:if="${user.pic == null}">
+
+                        <img alt="Image placeholder"
+                             src="./dist/img/theme/light/team-4-800x800.jpg"
+                             th:src="${'data:image/jpg;base64,'+user.pic}"
+                             th:if="${user.pic != null}">
+                    </span>
+
+                </div>
+
+                <div class="row">
+
+                    <nav class="navbar mx-0 my-0 force-padding-0 col-auto" id="navbar-main">
                         <div class="container-fluid">
                             <div class="navbar-user">
                                 <ul class="navbar-nav flex-row align-items-center">
@@ -93,22 +112,6 @@
                             </div>
                         </div>
                     </nav>
-
-                </div>
-
-                <!-- User pic -->
-                <div class="row mt-n5">
-                    <span class="col-auto px-0 py-0 profile-image">
-                        <img alt="Image placeholder"
-                             src="./dist/img/theme/light/team-4-800x800.jpg"
-                             th:src="@{/dist/img/icons/user/user.png}"
-                             th:if="${user.pic == null}">
-
-                        <img alt="Image placeholder"
-                             src="./dist/img/theme/light/team-4-800x800.jpg"
-                             th:src="${'data:image/jpg;base64,'+user.pic}"
-                             th:if="${user.pic != null}">
-                    </span>
 
                 </div>
 
