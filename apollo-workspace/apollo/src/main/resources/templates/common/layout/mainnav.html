@@ -18,7 +18,6 @@
 
                     <a href="#" th:href="@{/surveys/dashboard}">
                         <img class="col-12 logo-mainnav" th:src="@{/dist/img/icons/custom/logo.svg}">
-                        <!--			<h5 th:text="#{common.applicationtitle}">Apollo</h5>-->
                     </a>
 
                 </div>
@@ -30,37 +29,68 @@
                         [[#{common.hi}]] [[${user.getFirstname()}]]!
                     </h5>
 
+                    <ul class="navbar-nav flex-row align-items-center">
 
+                        <li class="nav-item dropdown dropdown-animate mr-2">
+                            <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <img class="locale-image"
+                                     alt="Image placeholder"
+                                     src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
+                                     th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                <a href="#" th:href="@{?lang=en}" class="dropdown-item">
+                                    <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
+                                         th:src="@{/dist/img/icons/flags/en.svg}"
+                                         class="mr-2">[[#{common.english}]]
+                                </a>
+                                <a href="#"
+                                   th:href="@{?lang=it}"
+                                   class="dropdown-item"><img
+                                        alt="Image placeholder"
+                                        src="./dist/img/icons/flags/it.svg"
+                                        th:src="@{/dist/img/icons/flags/it.svg}"
+                                        class="mr-2">[[#{common.italian}]]
+                                </a>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown dropdown-animate">
+                            <div type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                 aria-haspopup="true" aria-expanded="false">
+                                <span class="col-auto px-0 py-0 profile-image-mainnav">
+                                    <img alt="Image placeholder"
+                                         src="./dist/img/theme/light/team-4-800x800.jpg"
+                                         th:src="@{/dist/img/icons/user/user.png}"
+                                         th:if="${user.pic == null}">
+
+                                    <img alt="Image placeholder"
+                                         src="./dist/img/theme/light/team-4-800x800.jpg"
+                                         th:src="${'data:image/jpg;base64,'+user.pic}"
+                                         th:if="${user.pic != null}">
+                                </span>
+
+
+                            </div>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/apollo/user/update">
+                                    <i class="far fa-user"></i>
+                                    <span>Modifica profilo</span>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/apollo/logout" class="dropdown-item">
+                                    <i class="far fa-sign-out-alt"></i>
+                                    <span>Logout</span>
+                                </a>
+                            </div>
+                        </li>
+
+                    </ul>
                     <div class="dropdown dropdown-animate dropdown-menu-left dropleft">
 
-                        <div type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                             aria-haspopup="true" aria-expanded="false">
-                            <span class="col-auto px-0 py-0 profile-image-mainnav">
-                                <img alt="Image placeholder"
-                                     src="./dist/img/theme/light/team-4-800x800.jpg"
-                                     th:src="@{/dist/img/icons/user/user.png}"
-                                     th:if="${user.pic == null}">
 
-                                <img alt="Image placeholder"
-                                     src="./dist/img/theme/light/team-4-800x800.jpg"
-                                     th:src="${'data:image/jpg;base64,'+user.pic}"
-                                     th:if="${user.pic != null}">
-                            </span>
-
-
-                        </div>
-
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="/apollo/user/update">
-                                <i class="far fa-user"></i>
-                                <span>Modifica profilo</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <a href="/apollo/logout" class="dropdown-item">
-                                <i class="far fa-sign-out-alt"></i>
-                                <span>Logout</span>
-                            </a>
-                        </div>
                     </div>
                 </div>
 
