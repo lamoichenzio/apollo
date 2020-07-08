@@ -43,7 +43,7 @@ public class UserValidator implements Validator{
 		try {
 			if(service.userExistsByUsername(user.getUsername())) {
 				User otherUser = service.findByUsername(user.getUsername());
-				if(otherUser.getId() != user.getId()) {					
+				if(!otherUser.getId().equals(user.getId())) {
 					errors.rejectValue("username", "NotUnique");
 				}
 			}
