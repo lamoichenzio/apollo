@@ -71,7 +71,7 @@ public class SurveyController {
 	}
 	
 	@GetMapping("/detail/{id}")
-	public String detailStart(@PathVariable("id") String id, Model model, Principal principal) throws BusinessException {
+	public String detailStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
 		model.addAttribute("survey", survey);
 		
@@ -205,7 +205,7 @@ public class SurveyController {
 			@RequestParam("iconfile") MultipartFile iconfile) throws BusinessException {
 		validator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
-			return "redirect:/surveys/detail/" + survey.getId() + "&error=true";
+			return "redirect:/surveys/detail/"+survey.getId()+"?error=true";
 		}
 		surveyService.updateSurvey(survey, iconfile);
 		return "redirect:/surveys/detail/" + survey.getId();

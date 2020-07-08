@@ -84,13 +84,14 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <!-- TO DO: datetime-local type -->
                                 <label for="endDate" class="form-control-label" th:text="#{survey.endDate}"></label>
                                 <input type="date" name="endDate" th:field="*{endDate}" class="form-control form-element"/>
                                 <span th:if="${#fields.hasErrors('endDate')}"
                                       th:each="err: ${#fields.errors('endDate')}" th:utext="${err}"></span>
                             </div>
                         </div>
+                        <small class="col-12 pl-3 pr-3 pb-3" th:text="#{survey.datedisclamer}">
+                        </small>
                     </div>
 
                     <!-- Icon container -->
@@ -167,17 +168,17 @@
             let endDate = data.find((elem) => elem.name === 'endDate');
             let today = new Date().setHours(0, 0, 0, 0);
             let ext = $('#iconfile').val().split('.').pop().toLowerCase();
-            
+
             // Dates validation
-            if (startDate.value !== "" && (new Date(startDate.value) <= today)) {
+            if (startDate.value !== "" && (new Date(startDate.value).setHours(0, 0, 0, 0) <= today)) {
                 $("#errors").text([[#{startdate.lower}]]);
                 err = true;
             }
-            if (endDate.value !== "" && (new Date(endDate.value) <= today)) {
+            if (endDate.value !== "" && (new Date(endDate.value).setHours(0, 0, 0, 0) <= today)) {
                 $("#errors").text([[#{enddate.lower}]]);
                 err = true;
             }
-            if (startDate.value !== "" && endDate.value !== "" && (startDate.value > endDate.value)) {
+            if (startDate.value !== "" && endDate.value !== "" && (startDate.value >= endDate.value)) {
                 $("#errors").text([[#{startdate.greater}]]);
                 err = true;
             }
