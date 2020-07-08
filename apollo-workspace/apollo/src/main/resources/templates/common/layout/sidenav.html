@@ -34,7 +34,7 @@
                 <!-- Avatar -->
                 <div class="row">
 
-                    <h5 class="mb-0 text-white col-auto my-auto mx-auto">
+                    <h5 class="mb-0 text-white col-auto mx-auto">
                         [[#{common.hi}]]
                         <span th:if="${user.firstname != null && user.firstname != ''}"
                               th:text="${user.firstname}"></span>
@@ -45,9 +45,33 @@
                         <div class="container-fluid">
                             <div class="navbar-user">
                                 <ul class="navbar-nav flex-row align-items-center">
+
+                                    <li class="nav-item dropdown dropdown-animate mr-2">
+                                        <a  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img class="locale-image"
+                                                 alt="Image placeholder"
+                                                 src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
+                                                 th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                            <a href="#" th:href="@{?lang=en}" class="dropdown-item">
+                                                <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
+                                                     th:src="@{/dist/img/icons/flags/en.svg}"
+                                                     class="mr-2">[[#{common.english}]]
+                                            </a>
+                                            <a href="#"
+                                               th:href="@{?lang=it}"
+                                               class="dropdown-item"><img
+                                                    alt="Image placeholder"
+                                                    src="./dist/img/icons/flags/it.svg"
+                                                    th:src="@{/dist/img/icons/flags/it.svg}"
+                                                    class="mr-2">[[#{common.italian}]]
+                                            </a>
+                                        </div>
+                                    </li>
+
                                     <li class="nav-item dropdown dropdown-animate">
-                                        <a class="nav-link pr-lg-0" href="#" role="button" data-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
+                                        <a  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-cog text-white"></i>
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
@@ -62,6 +86,7 @@
                                             </a>
                                         </div>
                                     </li>
+
                                 </ul>
                             </div>
                         </div>

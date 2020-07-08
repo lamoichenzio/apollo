@@ -1,31 +1,19 @@
 .question-selector{
-	
 	width: 10em;
 	height: 10em;
 	background-color: #6E00FF;
 	text-align: center;	
 		color: #fff;
 	border-radius: 8pt;
-	
 }
 
-/* .question-selector:hover {
--ms-transform: scale(1.2); IE 9
-  -webkit-transform: scale(1.2); Safari 3-8
-  transform: scale(1.2); 
-  } */
-
 .question-selector img{
-	
 	width: 6em;
 	height: 6em;
-	
 }
 
 .question-selector span{
-	
 	font-size: 10pt;
-	
 }
 
 .logo{
@@ -37,25 +25,9 @@
 }
 
 .locale-image{
-
-    width: 38px;
-    height: 38px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 100%;
-
+    height: 16px;
+    margin-top: -4px;
 }
-
-.locale-image img{
-    object-fit: cover;
-    border-radius: 100%;
-    height: 38px;
-    width: 38px;
-}
-
-/*.input-file-container {*/
-/*	margin: 10pt 0pt;*/
-/*}*/
 
 .input-file-container {
     margin: 0pt 0pt;
@@ -108,13 +80,10 @@
 }
 
 .input-question-icon{
-
     width: 5rem !important;
-
 }
 
 .question-image{
-
     width: 400px;
     height: 250px;
     position: relative;
@@ -146,7 +115,6 @@
     position: relative;
     overflow: hidden;
     border-radius: 100%;
-
 }
 
 .profile-image img{
@@ -183,10 +151,9 @@
     height: 13rem;
 }
 
-
 .no-border {
     border: 0 !important;
-    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+    box-shadow: none;
 }
 
 .borer-bottom-1 {
@@ -235,7 +202,7 @@
 
 .scroll-content {
     overflow:scroll !important;
-    height:100vh; /* I WANT THIS BUT DYNAMICALLY CHANGES W/ .OUTER */
+    height:100vh;
     -ms-overflow-style: none;
 }
 
@@ -244,13 +211,5 @@
 }
 
 .profile-image-name{
-
     font-size: .875rem;
-
 }
-
-/*.application .sidenav.show{*/
-
-/*    margin-left: 10px !important;*/
-
-/*}*/
