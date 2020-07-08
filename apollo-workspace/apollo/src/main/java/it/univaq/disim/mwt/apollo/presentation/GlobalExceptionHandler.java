@@ -33,10 +33,10 @@ public class GlobalExceptionHandler {
 	private void handleException(HttpServletRequest request, Exception ex) {
 		log.info("[Exception Occured]:: URL=" + request.getRequestURL() + ", method=" + request.getMethod() + ", message=" + ex.getMessage());
 		log.info("[Exception Class Name]:: " + ex.getClass().getName());
-//
-//		StringWriter stringWriter = new StringWriter();
-//		PrintWriter printWriter = new PrintWriter(stringWriter);
-//		ex.printStackTrace(printWriter);
-//		printWriter.flush();
+
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		ex.printStackTrace(printWriter);
+		printWriter.flush();
 	}
 }

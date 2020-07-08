@@ -6,11 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
@@ -82,7 +78,7 @@ public class QuestionGroupController {
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@ModelAttribute("group_id") String id, Errors errors) throws BusinessException {
+	public String delete(@ModelAttribute("group_id") String id) throws BusinessException {
 		QuestionGroup group = service.findQuestionGroupById(id);
 		Survey survey = group.getSurvey();
 
@@ -95,4 +91,5 @@ public class QuestionGroupController {
 		
 		return "redirect:/surveys/detail/"+survey.getId();
 	}
+
 }
