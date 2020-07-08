@@ -1,16 +1,14 @@
 package it.univaq.disim.mwt.apollo.domain.questions;
 
-import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,8 +37,9 @@ public abstract class Question {
 
 	@CreatedDate
 	private Date creationDate;
-	
-	private DocumentFile file;
+
+	@DBRef
+	private SurveyIcon file;
 
 	@DBRef
 	private QuestionGroup questionGroup;

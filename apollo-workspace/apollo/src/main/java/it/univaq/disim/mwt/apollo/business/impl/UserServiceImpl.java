@@ -70,9 +70,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) throws BusinessException {
-        if (userExistsByUsername(user.getUsername())) {
-            throw new DoubleEntryException("double username");
-        }
+//        if (userExistsByUsername(user.getUsername())) {
+//            throw new DoubleEntryException("double username");
+//        }
         user.setPassword(encoder.encode(user.getPassword()));
         try {
             userRepository.save(user);

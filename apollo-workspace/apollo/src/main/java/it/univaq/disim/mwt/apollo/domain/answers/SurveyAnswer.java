@@ -34,7 +34,7 @@ public class SurveyAnswer {
 	private String id;
 
 	private String email;
-	
+
 	@DBRef
 	@NotNull
 	private Survey survey;

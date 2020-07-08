@@ -1,21 +1,15 @@
 package it.univaq.disim.mwt.apollo.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-
+import lombok.Data;
 import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.Data;
+import javax.persistence.*;
 
 @Data
 @Document(collection = "SurveyFiles")
 @TypeAlias("SurveyFile")
-public class DocumentFile {
+public class SurveyIcon {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

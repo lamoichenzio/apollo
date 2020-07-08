@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import it.univaq.disim.mwt.apollo.business.DocumentFileService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.DocumentFileRepository;
-import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
 
 @Service
 @Transactional
@@ -19,7 +19,7 @@ public class DocumentFileServiceImpl implements DocumentFileService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public DocumentFile findById(String id) throws BusinessException {
+	public SurveyIcon findById(String id) throws BusinessException {
 		try {
 			return documentFileRepository.findById(id).get();
 		} catch (DataAccessException e) {
@@ -28,7 +28,7 @@ public class DocumentFileServiceImpl implements DocumentFileService {
 	}
 
 	@Override
-	public void create(DocumentFile file) throws BusinessException {
+	public void create(SurveyIcon file) throws BusinessException {
 		try {
 			documentFileRepository.save(file);
 		} catch (DataAccessException e) {
@@ -37,7 +37,7 @@ public class DocumentFileServiceImpl implements DocumentFileService {
 	}
 
 	@Override
-	public void update(DocumentFile file) throws BusinessException {
+	public void update(SurveyIcon file) throws BusinessException {
 		try {
 			documentFileRepository.save(file);
 		} catch (DataAccessException e) {
@@ -46,7 +46,7 @@ public class DocumentFileServiceImpl implements DocumentFileService {
 	}
 
 	@Override
-	public void delete(DocumentFile file) throws BusinessException {
+	public void delete(SurveyIcon file) throws BusinessException {
 		try {
 			documentFileRepository.delete(file);
 		} catch (DataAccessException e) {

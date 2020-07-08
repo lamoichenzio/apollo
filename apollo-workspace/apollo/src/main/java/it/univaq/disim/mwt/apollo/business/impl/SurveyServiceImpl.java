@@ -26,7 +26,7 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
@@ -123,7 +123,7 @@ public class SurveyServiceImpl implements SurveyService {
                 if (!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
                     throw new BusinessException("File format not valid: " + file.getContentType());
                 }
-                DocumentFile icon = ConversionUtility.multipartFile2DocumentFile(file);
+                SurveyIcon icon = ConversionUtility.multipartFile2DocumentFile(file);
                 documentFileService.create(icon);
                 survey.setIcon(icon);
             }
@@ -142,7 +142,7 @@ public class SurveyServiceImpl implements SurveyService {
                 if (!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
                     throw new BusinessException("File format not valid: " + file.getContentType());
                 }
-                DocumentFile icon = ConversionUtility.multipartFile2DocumentFile(file);
+                SurveyIcon icon = ConversionUtility.multipartFile2DocumentFile(file);
                 if (survey.getIcon() != null) {
                     // Delete old icon
                     documentFileService.delete(survey.getIcon());
