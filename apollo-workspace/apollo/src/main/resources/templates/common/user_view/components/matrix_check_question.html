@@ -31,7 +31,7 @@
 									th:field="*{multiChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__].values}"
 								   	th:value="${optionValue}"
 									th:disabled="${readonly}"
-									th:required="${question.mandatory}">
+									th:required="${question.mandatory && readonly == null}">
 								<label class="custom-control-label" th:for="multiMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}"></label>
 							</div>
 						</td>

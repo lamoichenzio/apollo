@@ -168,7 +168,7 @@ function aggregateResult(result) {
                 aggregation = aggregateMultiChoiceMatrixAnswer(result);
             }
             // Single Choice matrix
-            else if (result.type == 'MULTIPLE' && result.values != null) {
+            else if (result.type == 'SINGLE' && result.values != null) {
                 aggregation = aggregateSingleChoiceMatrixAnswer(result);
             }
 
@@ -334,9 +334,9 @@ function aggregateSingleChoiceMatrixAnswer(answer) {
     answer.question.options.forEach(elem => {
         aggregation.options.push({
             label: elem,
-            optionValues: answer.question.optionValues.map(val => {
-                val = { text: val, value: 0 };
-            })
+            optionValues: answer.question.optionValues.map(val => 
+                val = { text: val, value: 0 }
+            )
         });
     });
 

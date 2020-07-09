@@ -9,17 +9,17 @@
                               th:disabled="${readonly}" />
                         <input type="text" class="form-control" th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
                               th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}"
-                              th:disabled="${readonly}" th:required="${question.mandatory}" />
+                              th:disabled="${readonly}" th:required="${question.mandatory && readonly == null}" />
                         <input type="number" class="form-control" th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
                               th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).NUMBER}"
-                              th:disabled="${readonly}" th:required="${question.mandatory}" />
+                              th:disabled="${readonly}" th:required="${question.mandatory && readonly == null}" />
                         <input type="date" class="form-control" th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}"
                               th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}"
-                              th:disabled="${readonly}" th:required="${question.mandatory}" />
+                              th:disabled="${readonly}" th:required="${question.mandatory && readonly == null}" />
                         <textarea class="form-control" rows="3" resize="none"
                               th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}"
                               th:field="*{inputQuestionAnswers[__${inputAnswerStat.index}__].answer}" th:disabled="${readonly}"
-                              th:required="${question.mandatory}"></textarea>
+                              th:required="${question.mandatory && readonly == null}"></textarea>
                   </div>
                   <!-- Error container -->
                   <div class="col-12 mt-3">

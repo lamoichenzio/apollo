@@ -13,7 +13,7 @@
                  class="custom-control custom-radio">
                 <input type="radio" class="custom-control-input"
                         th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-                        th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory}">
+                        th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory && readonly == null}">
                 <label th:for="choiceQuestionSingleAnswers+${stat.index}+.answer+${optionStat.index+1}"
                        th:text="${option}" class="custom-control-label"></label>
             </div>
@@ -29,11 +29,11 @@
                            th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
                            th:value="null"
                            th:disabled="${readonly}"
-                           th:required="${question.mandatory}">
+                           th:required="${question.mandatory && readonly == null}">
                     <label class="custom-control-label col-12 pl-0" th:for="@{other_choice-} + ${question.id}">
                         <div class="border-bottom custom-input-text">
                             <input type="text" th:name="@{other_choice-} + ${question.id}"
-                                   th:placeholder="#{common.textinput.placeholder}" oninput="otherChoiceValueSetter(this)">
+                                   th:placeholder="#{common.textinput.placeholder}" th:disabled="${readonly}" oninput="otherChoiceValueSetter(this)">
                         </div>
                     </label>
                 </div>

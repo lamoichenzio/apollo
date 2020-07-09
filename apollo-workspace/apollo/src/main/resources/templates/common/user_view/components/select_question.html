@@ -13,7 +13,7 @@
 				<select
 					class="custom-select"
 					th:field="*{selectionQuestionAnswers[__${stat.index}__].answer}"
-					th:disabled="${readonly}" required="${question.mandatory}">
+					th:disabled="${readonly}" required="${question.mandatory && readonly == null}">
 
 					<option value="">-- None --</option>
 					<option th:each="option, optionStat : ${question.options}"

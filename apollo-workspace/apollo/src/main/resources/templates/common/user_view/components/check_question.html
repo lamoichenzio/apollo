@@ -15,7 +15,7 @@
 				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox" th:id="@{question_} + ${stat.index}">
 					<input type="checkbox" class="custom-control-input"
 						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
-						th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory}">
+						th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory && readonly == null}">
 					<label
 						th:for="choiceQuestionMultiAnswers+${stat.index}+.answers+${optionStat.index+1}"
 						th:text="${option}" class="custom-control-label"></label>
@@ -32,10 +32,10 @@
 							   th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
 							   th:value="null"
 							   th:disabled="${readonly}"
-							   th:required="${question.mandatory}">
+							   th:required="${question.mandatory && readonly == null}">
 						<label class="custom-control-label pl-0 col-12" th:for="@{other_choice-} + ${question.id}">
 							<div class="border-bottom custom-input-text">
-								<input type="text" th:name="@{other_choice-} + ${question.id}"  th:placeholder="#{common.textinput.placeholder}"  oninput="otherChoiceValueSetter(this)">
+								<input type="text" th:name="@{other_choice-} + ${question.id}"  th:disabled="${readonly}" th:placeholder="#{common.textinput.placeholder}"  oninput="otherChoiceValueSetter(this)">
 							</div>
 						</label>
 					</div>
