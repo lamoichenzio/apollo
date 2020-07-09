@@ -31,7 +31,7 @@
                     <!--Creation case-->
                     <div class="form-control-label">
                         <input type="file" id="questionfile" name="questionfile" class="custom-input-file"
-                               th:value="${questionfile}" accept="image/*"/>
+                               th:value="${questionfile}" accept="image/*" data-max-size="5" />
                         <label for="questionfile"><i class="fa fa-upload"></i><span id="questionfile_label"
                                                                                     th:text="#{file.label}"></span>
                         </label>
@@ -64,13 +64,11 @@
     </div>
 
     <script th:inline="javascript">
-
-        $(document).ready(function () {
-            document.getElementById('questionfile').onchange = function () {
-                var filename = this.files[0].name;
-                var label = document.getElementById('questionfile_label');
-                label.innerText = filename;
-            };
+        $(function () {
+            $('#questionfile').change(function () {
+                $('#questionfile_label').text(this.files[0].name);
+                fileSizeValidation('#questionfile', '#file_error');
+            });
         });
     </script>
 </div>

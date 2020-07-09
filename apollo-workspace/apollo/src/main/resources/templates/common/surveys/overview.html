@@ -3,25 +3,18 @@
       layout:decorate="~{common/layout/frame_public}">
 
 <body>
-<div layout:fragment="page-content">
-    <script th:src="@{/script/overview.js}"></script>
-    <script th:inline="javascript">
-        var translations = {
-            attention: [[#{ common.attention }]],
-            nodatatodisplay: [[#{ errors.nodatatodisplay }]],
-            errortitle: [[#{ common.errore.title }]]
-        };
-    </script>
+    <div layout:fragment="page-content">
+        <script th:src="@{/script/overview.js}"></script>
 
     <div class="col-md-12">
         <div id="modal_holder"></div>
     </div>
 
-    <!-- Page title -->
-    <div class="page-title my-4 mx-2">
-        <div class="row justify-content-between align-items-center">
-            <!-- Page title + Go Back button -->
-            <div class="d-inline-block p-1">
+        <!-- Page title -->
+        <div class="page-title my-4 mx-2">
+            <div class="row justify-content-between align-items-center">
+                <!-- Page title + Go Back button -->
+                <div class="d-inline-block p-1">
 
                 <div class="row">
 

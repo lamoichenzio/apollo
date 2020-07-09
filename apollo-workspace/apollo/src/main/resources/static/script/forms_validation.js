@@ -56,10 +56,33 @@ function hasDuplicates(arr) {
  */
 function fileValidation() {
     let ext = $('#questionfile').val().split('.').pop().toLowerCase();
+    
     if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) === -1) {
         $("#file_error").text(translations.fileinvalid);
         $("#file_error").show();
         return true;
+    }
+
+    return fileSizeValidation('#questionfile', '#file_error');
+}
+
+/**
+ * Check file size.
+ * @param {String} inputId 
+ * @param {String} errorSpan 
+ */
+function fileSizeValidation(inputId, errorSpan) {
+    let fileInput = $(inputId);
+    let maxSize = fileInput.data('max-size');
+    let errorMsg = translations ? translations.fileinvalidsize : 'Invalid file size';
+
+    if (fileInput.get(0).files.length) {
+        let fileSize = fileInput.get(0).files[0].size != 0 ? (fileInput.get(0).files[0].size / 1000000).toFixed(2) : 0; // in MB
+        if (fileSize > maxSize) {
+            $(errorSpan).text('*' + errorMsg + ': ' + fileSize + ' MB').show();
+            return true;
+        }
+        $(errorSpan).hide();
     }
     return false;
 }
@@ -79,6 +102,7 @@ function choiceFormValidation(options) {
         $("#form_error_message").text('*' + translations.duplicateoptions);
         return true;
     }
+    $("#form_error_message").hide();
     return fileValidation();
 }
 
@@ -103,6 +127,7 @@ function matrixFormValidation(options, values) {
         $("#form_error_message").text('*' + translations.duplicateoptionval);
         return true;
     }
+    $("#form_error_message").hide();
     return fileValidation();
 }
 
