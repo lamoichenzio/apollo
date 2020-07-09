@@ -104,7 +104,7 @@
 
                                 <div class="form-control-label">
                                     <input type="file" id="iconfile" name="iconfile" class="custom-input-file form-element"
-                                           th:value="${iconfile}" accept="image/*"/>
+                                           th:value="${iconfile}" accept="image/*" data-max-size="5000"/>
                                     <label for="iconfile"><i class="fa fa-upload"></i><span id="iconfile_label" th:text="#{file.label}"></span>
                                     </label>
                                     <span id="file_error" class="text-danger text-sm hidden"></span>
@@ -121,6 +121,9 @@
                                 </div>
 
                             </div>
+                        </div>
+                        <div class="col-8">
+                            <span id="file_error" class="text-danger text-sm hidden"></span>
                         </div>
                     </div>
 
@@ -153,6 +156,7 @@
             // Register file change event
             $('#iconfile').change(() => {
                 $('#iconfile_label').text($('#iconfile')[0].files[0].name);
+                fileSizeValidation('#iconfile','#file_error');
             });
 
             if ([[${survey.active}]]) {
@@ -187,11 +191,15 @@
                 err = true;
                 $("#errors").text([[#{file.invalid}]]);
             }
+
+            if (fileSizeValidation('#iconfile', '#file_error')) err = true;
+
             if (err) {
                 e.preventDefault();
                 $("#errors").show();
             }
         });
+
     </script>
 </div>
 

@@ -65,6 +65,28 @@ function fileValidation() {
 }
 
 /**
+ * Check file size.
+ * @param {String} inputId 
+ * @param {String} errorSpan 
+ */
+function fileSizeValidation(inputId, errorSpan) {
+    let fileInput = $(inputId);
+    let maxSize = fileInput.data('max-size');
+    let errorMsg = translations ? translations.fileinvalidsize : 'Invalid file size';
+
+    if (fileInput.get(0).files.length) {
+        let fileSize = fileInput.get(0).files[0].size; // in bytes
+        if (fileSize > maxSize) {
+            fileSize = (fileSize / 1000000).toFixed(2);
+            $(errorSpan).text('*' + errorMsg + ': ' + fileSize + ' MB').show();
+            return true;
+        }
+        $(errorSpan).hide();
+    }
+    return false;
+}
+
+/**
  * Choice form validation.
  * @param {Array} options 
  */

@@ -101,6 +101,7 @@
                 th:src="@{/dist/libs/datatables/dataTables.bootstrap4.min.js}"></script>
 
         <script th:src="@{/script/survey_ajax.js}"></script>
+        <script th:src="@{/script/forms_validation.js}"></script>
         <script th:src="@{/script/utility.js}"></script>
 
         <!-- Purpose JS -->
@@ -124,6 +125,27 @@
             });
         </script>
 
+        <!-- Translations -->
+        <!-- Utility script for dynamic js translations. -->
+        <script type="text/javascript" th:inline="javascript">
+                const translations = {
+                        publish: [[#{ common.publish }]],
+                        deactivate: [[#{ common.disable }]],
+                        yes: [[#{ common.yes }]],
+                        send: [[#{ common.send }]],
+                        cancel: [[#{ common.cancel }]],
+                        sendInvitationConfirm: [[#{ common.sendinvitationconfirm }]],
+                        noemailaddress: [[#{ errors.noemailaddress }]],
+                        fileinvalid: [[#{ file.invalid }]],
+                        duplicateoptions: [[#{ errors.duplicateoptions }]],
+                        duplicateoptionval: [[#{ errors.duplicateoptionval }]],
+                        singleoption: [[#{ errors.singleoption }]],
+                        fileinvalidsize: [[#{ file.invalidsize }]],
+                        attention: [[#{ common.attention }]],
+                        nodatatodisplay: [[#{ errors.nodatatodisplay }]],
+                        errortitle: [[#{ common.errore.title }]]
+                };
+        </script>
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script> -->

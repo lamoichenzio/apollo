@@ -5,13 +5,6 @@
 <body>
     <div layout:fragment="page-content">
         <script th:src="@{/script/overview.js}"></script>
-        <script th:inline="javascript">
-            var translations = {
-                attention: [[#{ common.attention }]],
-                nodatatodisplay: [[#{ errors.nodatatodisplay }]],
-                errortitle: [[#{ common.errore.title }]]
-            };
-        </script>
 
         <div class="col-md-12">
             <div id="modal_holder"></div>
