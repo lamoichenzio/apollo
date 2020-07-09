@@ -1,13 +1,13 @@
 package it.univaq.disim.mwt.apollo.business;
 
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
 
 public interface QuestionFileService {
 
-	DocumentFile findById(String id) throws BusinessException;
-	void create(DocumentFile file) throws BusinessException;
-	void update(DocumentFile file) throws BusinessException;
-	void delete(DocumentFile file) throws BusinessException;
+	SurveyIcon findById(String id) throws BusinessException;
+	void create(SurveyIcon file) throws BusinessException;
+	void update(SurveyIcon file) throws BusinessException;
+	void delete(SurveyIcon file) throws BusinessException;
 	
 }

@@ -40,6 +40,7 @@ public class User {
 	
 	@Transient
 	private String newPassword;
+
 	
 	@Email
 	private String email;

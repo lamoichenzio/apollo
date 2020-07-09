@@ -59,12 +59,7 @@ public class UserController {
 			log.info(errors.toString());
 			return "auth/register";
 		}
-		try {
-			service.createUser(user);
-		} catch (DoubleEntryException e) {
-			model.addAttribute("duplicate", true);
-			return "auth/register";
-		}
+		service.createUser(user);
 		model.addAttribute("userCreated", true);
 		return "index";
 	}

@@ -4,7 +4,7 @@
     <p th:utext="#{email.welcome}">
     </p>
     <h3 th:text="${survey.name}"></h3>
-    <a th:href="${'http://localhost:8080/apollo'+survey.urlId}">[[${survey.urlId}]]</a>
+    <a th:href="${'http://localhost:8080/'+survey.urlId}">[[${survey.urlId}]]</a>
     <p th:utext="#{email.confirm}"></p>
     <p>
         [[#{common.password}]]: <b th:text="${survey.invitationPool.password}"></b>

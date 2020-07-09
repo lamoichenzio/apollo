@@ -1,12 +1,11 @@
 package it.univaq.disim.mwt.apollo.business;
 
-import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
-import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionMultiAnswer;
 import it.univaq.disim.mwt.apollo.domain.answers.ChoiceQuestionSingleAnswer;
@@ -88,8 +87,8 @@ public class ConversionUtility {
 		return surveyAnswer;
 	}
 
-	public static DocumentFile multipartFile2DocumentFile(MultipartFile file) throws IOException {
-		DocumentFile icon = new DocumentFile();
+	public static SurveyIcon multipartFile2DocumentFile(MultipartFile file) throws IOException {
+		SurveyIcon icon = new SurveyIcon();
 		icon.setName(file.getOriginalFilename());
 		icon.setData(new String(Base64.getEncoder().encode(file.getBytes()), StandardCharsets.UTF_8));
 		return icon;

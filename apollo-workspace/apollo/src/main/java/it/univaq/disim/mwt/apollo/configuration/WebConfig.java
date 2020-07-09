@@ -31,14 +31,14 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/login").setViewName("index");
 		registry.addViewController("/common/survey_submitted").setViewName("/common/user_view/common_pages/survey_submitted");
 		registry.addViewController("/common/survey_answered").setViewName("/common/user_view/common_pages/survey_answered");
-        registry.addViewController("/notFound").setViewName("/utility/error_404");
+        registry.addViewController("/not_found").setViewName("/utility/error_404");
         registry.addViewController("/unauthorized").setViewName("/utility/error_401");
 	}
 	
 	@Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> containerCustomizer() {
         return container -> {
-            container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/notFound"));
+            container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/not_found"));
         };
     }
 	

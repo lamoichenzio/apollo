@@ -48,7 +48,8 @@ public class Survey {
 	
 	private String description;
 
-	private DocumentFile icon;
+	@DBRef
+	private SurveyIcon icon;
 	
 	private boolean secret;
 	private boolean active;

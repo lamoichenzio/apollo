@@ -106,7 +106,6 @@ public class SurveyAnswerController {
         Survey survey = surveyService.findSurveyById(credentials.getSurveyId());
         InvitationPool pool = invitationPoolService.findInvitationPoolBySurvey(survey);
         GenericResponseBody response = new GenericResponseBody();
-        
         if(surveyAnswerService.surveyExistsBySurveyAndEmail(survey, credentials.getEmail())){
             response.setStatus(ResponseStatus.ERROR);
             return ResponseEntity.ok(response);

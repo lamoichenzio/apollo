@@ -1,29 +1,6 @@
 package it.univaq.disim.mwt.apollo.presentation;
 
-import java.security.Principal;
-
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import it.univaq.disim.mwt.apollo.business.EmailService;
-import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
-import it.univaq.disim.mwt.apollo.business.SurveyAnswerService;
-import it.univaq.disim.mwt.apollo.business.SurveyService;
-import it.univaq.disim.mwt.apollo.business.UserService;
+import it.univaq.disim.mwt.apollo.business.*;
 import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
@@ -35,6 +12,15 @@ import it.univaq.disim.mwt.apollo.presentation.helpers.SurveyHelper;
 import it.univaq.disim.mwt.apollo.presentation.helpers.Utility;
 import it.univaq.disim.mwt.apollo.presentation.model.ResponseStatus;
 import it.univaq.disim.mwt.apollo.presentation.model.SurveyResponseBody;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/surveys")
@@ -50,7 +36,7 @@ public class SurveyController {
 	private SurveyAnswerService surveyAnswerService;
 	
 	@Autowired
-	private FileValidator validator;
+	private FileValidator fileValidator;
 	
 	@Autowired
 	private UserService userService;
@@ -73,14 +59,21 @@ public class SurveyController {
 	@GetMapping("/detail/{id}")
 	public String detailStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
+		User currentUser = Utility.getUser();
+		if(!survey.getUser().getId().equals(currentUser.getId())){
+			return "redirect:/not_found";
+		}
 		model.addAttribute("survey", survey);
-		
 		return "/common/surveys/detail";
 	}
 
 	@GetMapping("/overview/{id}")
 	public String overviewStart(@PathVariable("id") String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
+		User currentUser = Utility.getUser();
+		if(!survey.getUser().getId().equals(currentUser.getId())){
+			return "redirect:/not_found";
+		}
 		model.addAttribute("survey", survey);
 		model.addAttribute("groups", survey.getQuestionGroups());
 		model.addAttribute("answers", surveyAnswerService.findAllBySurvey(survey));
@@ -90,6 +83,10 @@ public class SurveyController {
 	@GetMapping("/publish")
 	public String publishStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
+		User currentUser = Utility.getUser();
+		if(!survey.getUser().getId().equals(currentUser.getId())){
+			return "redirect:/not_found";
+		}
 		model.addAttribute("survey", survey);
 		return "/common/surveys/modals/publish_survey_modal :: surveyPublish";
 	}
@@ -139,6 +136,10 @@ public class SurveyController {
 	@GetMapping("/invitationpool")
 	public String invitationPoolStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
+		User currentUser = Utility.getUser();
+		if(!survey.getUser().getId().equals(currentUser.getId())){
+			return "redirect:/not_found";
+		}
 		model.addAttribute("survey", survey);
 		return "/common/surveys/modals/invitation_survey_modal :: surveyInvitationPool";
 	}
@@ -181,7 +182,7 @@ public class SurveyController {
 	@PostMapping("/create")
 	public String create(@Valid @ModelAttribute("survey") Survey survey, Errors errors,
 			@RequestParam("iconfile") MultipartFile iconfile) throws BusinessException {
-		validator.validate(iconfile, errors);
+		fileValidator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/dashboard?error=true";
 		}
@@ -196,6 +197,10 @@ public class SurveyController {
 	@GetMapping("/update")
 	public String updateStart(@RequestParam String id, Model model) throws BusinessException {
 		Survey survey = surveyService.findSurveyById(id);
+		User currentUser = Utility.getUser();
+		if(!survey.getUser().getId().equals(currentUser.getId())){
+			return "redirect:/not_found";
+		}
 		model.addAttribute("survey", survey);
 		return "/common/surveys/modals/new_survey_modal :: surveyForm";
 	}
@@ -203,7 +208,7 @@ public class SurveyController {
 	@PostMapping("/update")
 	public String update(@Valid @ModelAttribute("survey") Survey survey, Errors errors,
 			@RequestParam("iconfile") MultipartFile iconfile) throws BusinessException {
-		validator.validate(iconfile, errors);
+		fileValidator.validate(iconfile, errors);
 		if (errors.hasErrors()) {
 			return "redirect:/surveys/detail/"+survey.getId()+"?error=true";
 		}
@@ -212,7 +217,12 @@ public class SurveyController {
 	}
 
 	@GetMapping("/delete")
-	public String delete(@RequestParam String id, Model model){
+	public String delete(@RequestParam String id, Model model) throws BusinessException {
+		Survey survey = surveyService.findSurveyById(id);
+		User currentUser = Utility.getUser();
+		if(!survey.getUser().getId().equals(currentUser.getId())){
+			return "redirect:/not_found";
+		}
 		model.addAttribute("survey_id", id);
 		return "/common/surveys/modals/delete_survey_modal :: surveyDelete";
 
@@ -227,7 +237,7 @@ public class SurveyController {
 	}
 	
 	@ModelAttribute
-	public void getUser(Model model) throws BusinessException {
+	public void setUser(Model model) throws BusinessException {
 		User user = userService.findById(Utility.getUser().getId());
 		model.addAttribute("user",user);
 	}

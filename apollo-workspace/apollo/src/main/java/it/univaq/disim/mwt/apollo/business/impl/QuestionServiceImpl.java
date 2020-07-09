@@ -2,12 +2,8 @@ package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import it.univaq.disim.mwt.apollo.business.ConversionUtility;
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -16,14 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.disim.mwt.apollo.business.DocumentFileService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
-import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
-import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InputQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MatrixQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SelectQuestionRepository;
-import it.univaq.disim.mwt.apollo.domain.DocumentFile;
+import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
@@ -97,9 +91,9 @@ public class QuestionServiceImpl implements QuestionService {
             try {
                 question.setCreationDate(new Date());
                 if (file != null && !file.isEmpty()) {
-                    DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
-                    documentFileService.create(documentFile);
-                    question.setFile(documentFile);
+                    SurveyIcon surveyIcon = ConversionUtility.multipartFile2DocumentFile(file);
+                    documentFileService.create(surveyIcon);
+                    question.setFile(surveyIcon);
                 }
                 saveQuestion(question);
             } catch (IOException | DataAccessException e) {
@@ -114,12 +108,12 @@ public class QuestionServiceImpl implements QuestionService {
             try {
                 question.setCreationDate(new Date());
                 if (file != null && !file.isEmpty()) {
-                    DocumentFile documentFile = ConversionUtility.multipartFile2DocumentFile(file);
-                    documentFileService.create(documentFile);
+                    SurveyIcon surveyIcon = ConversionUtility.multipartFile2DocumentFile(file);
+                    documentFileService.create(surveyIcon);
                     if (question.getFile() != null) {
                         documentFileService.delete(question.getFile());
                     }
-                    question.setFile(documentFile);
+                    question.setFile(surveyIcon);
                 }
                 else if (question.getFile() != null && deleteFile){
                             documentFileService.delete(question.getFile());
