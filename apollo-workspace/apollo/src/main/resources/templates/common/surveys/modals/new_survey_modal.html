@@ -104,7 +104,7 @@
 
                                 <div class="form-control-label">
                                     <input type="file" id="iconfile" name="iconfile" class="custom-input-file form-element"
-                                           th:value="${iconfile}" accept="image/*" data-max-size="5000"/>
+                                           th:value="${iconfile}" accept="image/*" data-max-size="5"/>
                                     <label for="iconfile"><i class="fa fa-upload"></i><span id="iconfile_label" th:text="#{file.label}"></span>
                                     </label>
                                     <span id="file_error" class="text-danger text-sm hidden"></span>
@@ -152,7 +152,7 @@
 
     <script th:inline="javascript">
 
-        $(document).ready(function () {
+        $(function () {
             // Register file change event
             $('#iconfile').change(() => {
                 $('#iconfile_label').text($('#iconfile')[0].files[0].name);
