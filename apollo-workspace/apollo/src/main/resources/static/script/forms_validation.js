@@ -6,7 +6,7 @@
 
 $(function () {
 
-    // Register questions form submit event
+    // Questions: Register form submit event
 
     $('#choice_question_form').submit(function (event) {
         let formData = $(this).serializeArray();
@@ -29,10 +29,47 @@ $(function () {
 
     $('#input_question_form').submit(function (event) {
         // Check file validity
-        if (fileValidation()) event.preventDefault();
+        if (fileValidation('#questionfile')) event.preventDefault();
+    });
+
+    // Survey: Register form submit event
+    $('#survey_form').submit(function (event) {
+        let data = $(this).serializeArray();
+
+        // Dates validation
+        if (surveyDateValidation(data.find((elem) => elem.name === 'startDate'), data.find((elem) => elem.name === 'endDate')) || fileValidation('#iconfile')) {
+            event.preventDefault();
+            $("#errors").show();
+        } else {
+            $("#errors").hide();
+        }
     });
 
 });
+
+
+/**
+ * Validate survey dates.
+ * @param {Date} startDate 
+ * @param {Date} endDate 
+ */
+function surveyDateValidation(startDate, endDate) {
+    let today = new Date().setHours(0, 0, 0, 0);
+
+    if (startDate.value !== "" && (new Date(startDate.value).setHours(0, 0, 0, 0) <= today)) {
+        $("#errors").text('*' + translations.error.date.startlower);
+        return true;
+    }
+    if (endDate.value !== "" && (new Date(endDate.value).setHours(0, 0, 0, 0) <= today)) {
+        $("#errors").text('*' + translations.error.date.endlower);
+        return true;
+    }
+    if (startDate.value !== "" && endDate.value !== "" && (startDate.value >= endDate.value)) {
+        $("#errors").text('*' + (startDate.value === endDate.value ? translations.error.date.equals : translations.error.date.startgrather));
+        return true;
+    }
+    return false;
+}
 
 /**
  * Check duplicates in object array.
@@ -54,16 +91,16 @@ function hasDuplicates(arr) {
 /**
  * File validation
  */
-function fileValidation() {
-    let ext = $('#questionfile').val().split('.').pop().toLowerCase();
+function fileValidation(inputId) {
+    let ext = $(inputId).val().split('.').pop().toLowerCase();
     
     if (ext !== "" && $.inArray(ext, ['png', 'jpg', 'jpeg']) === -1) {
-        $("#file_error").text(translations.fileinvalid);
+        $("#file_error").text('*' + translations.file.invalid);
         $("#file_error").show();
         return true;
     }
 
-    return fileSizeValidation('#questionfile', '#file_error');
+    return fileSizeValidation(inputId, '#file_error');
 }
 
 /**
@@ -74,7 +111,7 @@ function fileValidation() {
 function fileSizeValidation(inputId, errorSpan) {
     let fileInput = $(inputId);
     let maxSize = fileInput.data('max-size');
-    let errorMsg = translations ? translations.fileinvalidsize : 'Invalid file size';
+    let errorMsg = translations ? translations.file.invalidsize : 'Invalid file size';
 
     if (fileInput.get(0).files.length) {
         let fileSize = fileInput.get(0).files[0].size != 0 ? (fileInput.get(0).files[0].size / 1000000).toFixed(2) : 0; // in MB
@@ -94,16 +131,16 @@ function fileSizeValidation(inputId, errorSpan) {
 function choiceFormValidation(options) {
     if (options.length < 2) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*' + translations.singleoption);
+        $("#form_error_message").text('*' + translations.error.singleoption);
         return true;
     }
     if (hasDuplicates(options)) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*' + translations.duplicateoptions);
+        $("#form_error_message").text('*' + translations.error.duplicateoptions);
         return true;
     }
     $("#form_error_message").hide();
-    return fileValidation();
+    return fileValidation('#questionfile');
 }
 
 /**
@@ -114,20 +151,20 @@ function choiceFormValidation(options) {
 function matrixFormValidation(options, values) {
     if (options.length < 2 || values.length < 2) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*' + translations.singleoption);
+        $("#form_error_message").text('*' + translations.error.singleoption);
         return true;
     }
     if (hasDuplicates(options)) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*' + translations.duplicateoptions);
+        $("#form_error_message").text('*' + translations.error.duplicateoptions);
         return true;
     }
     if (hasDuplicates(values)) {
         $("#form_error_message").show();
-        $("#form_error_message").text('*' + translations.duplicateoptionval);
+        $("#form_error_message").text('*' + translations.error.duplicateoptionval);
         return true;
     }
     $("#form_error_message").hide();
-    return fileValidation();
+    return fileValidation('#questionfile');
 }
 

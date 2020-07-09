@@ -69,13 +69,13 @@ function getAnswersData(question) {
                 $("#question_title").text(question.title);
                 aggregateResult(response);
             } else {
-                $("#answers_container").append(showAlert('error', translations.errortitle + '!', response.msg));
+                $("#answers_container").append(showAlert('error', translations.error.title + '!', response.msg));
             }
 
         },
         error: function (e) {
             console.error('ERROR', e);
-            $("#answers_container").append(showAlert('error', translations.errortitle + '!', e));
+            $("#answers_container").append(showAlert('error', translations.error.title + '!', e));
         }
     });
 }
@@ -107,13 +107,13 @@ function getQuestionsData(groupId) {
                     i += 1;
                 }
             } else {
-                $("#answers_container").append(showAlert('error', translations.errortitle + '!', response.msg));
+                $("#answers_container").append(showAlert('error', translations.error.title + '!', response.msg));
             }
 
         },
         error: function (e) {
             console.log('ERROR', e);
-            showAlert('error', translations.errortitle + '!', e);
+            showAlert('error', translations.error.title + '!', e);
         }
     });
 }
@@ -135,7 +135,7 @@ function aggregateResult(result) {
             else if (result.type == 'SINGLE' && result.values != null) {
                 aggregation = aggregateSingleChoice(result);
             } else {
-                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.error.nodatatodisplay));
                 return;
             }
 
@@ -157,7 +157,7 @@ function aggregateResult(result) {
                     $("#answers_container").append(getInputSummary(inputIcon, value.text, value.val));
                 }
             } else {
-                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.error.nodatatodisplay));
                 return;
             }
             break;
@@ -177,7 +177,7 @@ function aggregateResult(result) {
                     $("#answers_container").append(getMatrixSummary(option.label, option.optionValues));
                 }
             } else {
-                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.error.nodatatodisplay));
             }
             break;
 
@@ -190,7 +190,7 @@ function aggregateResult(result) {
                     $("#answers_container").append(getChoiceSummary(option.label, percentValue));
                 }
             } else {
-                $("#answers_container").append(showAlert('warning', translations.attention, translations.nodatatodisplay));
+                $("#answers_container").append(showAlert('warning', translations.attention, translations.error.nodatatodisplay));
             }
             break;
     

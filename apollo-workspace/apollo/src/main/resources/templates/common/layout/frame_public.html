@@ -101,7 +101,6 @@
                 th:src="@{/dist/libs/datatables/dataTables.bootstrap4.min.js}"></script>
 
         <script th:src="@{/script/survey_ajax.js}"></script>
-        <script th:src="@{/script/forms_validation.js}"></script>
         <script th:src="@{/script/utility.js}"></script>
 
         <!-- Purpose JS -->
@@ -135,15 +134,25 @@
                         send: [[#{ common.send }]],
                         cancel: [[#{ common.cancel }]],
                         sendInvitationConfirm: [[#{ common.sendinvitationconfirm }]],
-                        noemailaddress: [[#{ errors.noemailaddress }]],
-                        fileinvalid: [[#{ file.invalid }]],
-                        duplicateoptions: [[#{ errors.duplicateoptions }]],
-                        duplicateoptionval: [[#{ errors.duplicateoptionval }]],
-                        singleoption: [[#{ errors.singleoption }]],
-                        fileinvalidsize: [[#{ file.invalidsize }]],
                         attention: [[#{ common.attention }]],
-                        nodatatodisplay: [[#{ errors.nodatatodisplay }]],
-                        errortitle: [[#{ common.errore.title }]]
+                        error: {
+                                title: [[#{ common.errore.title }]],
+                                nodatatodisplay: [[#{ errors.nodatatodisplay }]],
+                                singleoption: [[#{ errors.singleoption }]],
+                                duplicateoptionval: [[#{ errors.duplicateoptionval }]],
+                                duplicateoptions: [[#{ errors.duplicateoptions }]],
+                                noemailaddress: [[#{ errors.noemailaddress }]],
+                                date: {
+                                        startgrather: [[#{ startdate.greater }]],
+                                        startlower: [[#{ startdate.lower }]],
+                                        endlower: [[#{ enddate.lower }]],
+                                        equals: [[#{date.equals}]]
+                                }
+                        },
+                        file: {
+                                invalid: [[#{ file.invalid }]],
+                                invalidsize: [[#{ file.invalidsize }]]
+                        }
                 };
         </script>
 

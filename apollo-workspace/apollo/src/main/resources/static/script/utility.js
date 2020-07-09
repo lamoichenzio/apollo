@@ -68,7 +68,7 @@ function getInvitationConfirmModal(text) {
         + '<span class="form-control-label">' + text.sendInvitationConfirm + '</span>'
         + '</div>'
         + '<div class="col-12 mt-2 text-center">'
-        + '<span id="send_email_error" class="text-xs font-weight-bold text-danger hidden">' + text.noemailaddress + '</span>'
+        + '<span id="send_email_error" class="text-xs font-weight-bold text-danger hidden">' + text.error.noemailaddress + '</span>'
         + '</div>'
         + '<div class="col-12 py-2"><div class="loader"></div></div>'
         + '</div>'
