@@ -21,9 +21,9 @@
 
                     <div class="row mt-3">
                         <div class="col">
-                            <label class="form-control-label mb-3">Emails</label>
+                            <label class="form-control-label mb-3">[[#{common.emails}]]</label>
                             <div class="bootstrap-tagsinput"> 
-                                <input id="tagsinput" type="text" placeholder="Type emails here separated by comma..." size="48">
+                                <input id="tagsinput" type="text" th:placeholder="#{common.emailprompttext}" size="48">
 
                                 <div id="tags_input_container" class="custom-tagsinput py-2 mt-2">
                                     <th:block th:if="${survey.invitationPool != null }">

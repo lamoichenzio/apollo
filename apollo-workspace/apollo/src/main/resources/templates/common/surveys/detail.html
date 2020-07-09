@@ -116,7 +116,7 @@
                             <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
                             <span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
                         </a>
-                        <a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send invitations"
+                        <a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" th:title="#{common.sendinvitation}"
                            data-target="#actions-invitation"
                            th:onclick="getSurveyRequest([[@{/surveys/invitationpool}]], '#modal-invitation-pool-survey', [[${survey.id}]])">
                             <i class="far fa-envelope"></i>

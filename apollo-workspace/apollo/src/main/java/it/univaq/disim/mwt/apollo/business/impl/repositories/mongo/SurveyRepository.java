@@ -20,7 +20,7 @@ public interface SurveyRepository extends MongoRepository<Survey, String> {
     List<Survey> findSurveysByName(String name);
 
 	/**
-	 * Find all surveys by User Id.
+	 * Count all surveys by User Id.
 	 * @param userId Long
 	 * @return List<Survey>
 	 */
@@ -28,7 +28,7 @@ public interface SurveyRepository extends MongoRepository<Survey, String> {
 	int findSurveysCountByUser(Long userId);
 
 	/**
-	 * Find all surveys by User Id.
+	 * Count all active surveys by User Id.
 	 * @param userId Long
 	 * @return List<Survey>
 	 */
@@ -36,7 +36,7 @@ public interface SurveyRepository extends MongoRepository<Survey, String> {
 	int findSurveysActiveCountByUser(Long userId);
 
     /**
-     * Finda all survey by start date and end date.
+     * Find all survey by start date and end date.
      * @param startDate LocalDate
      * @param endDate LocalDate
      * @return List<Survey>
