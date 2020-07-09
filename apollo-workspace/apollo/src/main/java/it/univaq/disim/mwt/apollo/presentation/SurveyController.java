@@ -61,7 +61,7 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		User currentUser = Utility.getUser();
 		if(!survey.getUser().getId().equals(currentUser.getId())){
-			return "redirect:/not_found";
+			return "redirect:/unauthorized";
 		}
 		model.addAttribute("survey", survey);
 		return "/common/surveys/detail";
@@ -72,7 +72,7 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		User currentUser = Utility.getUser();
 		if(!survey.getUser().getId().equals(currentUser.getId())){
-			return "redirect:/not_found";
+			return "redirect:/unauthorized";
 		}
 		model.addAttribute("survey", survey);
 		model.addAttribute("groups", survey.getQuestionGroups());
@@ -85,7 +85,7 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		User currentUser = Utility.getUser();
 		if(!survey.getUser().getId().equals(currentUser.getId())){
-			return "redirect:/not_found";
+			return "redirect:/unauthorized";
 		}
 		model.addAttribute("survey", survey);
 		return "/common/surveys/modals/publish_survey_modal :: surveyPublish";
@@ -138,7 +138,7 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		User currentUser = Utility.getUser();
 		if(!survey.getUser().getId().equals(currentUser.getId())){
-			return "redirect:/not_found";
+			return "redirect:/unauthorized";
 		}
 		model.addAttribute("survey", survey);
 		return "/common/surveys/modals/invitation_survey_modal :: surveyInvitationPool";
@@ -199,7 +199,7 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		User currentUser = Utility.getUser();
 		if(!survey.getUser().getId().equals(currentUser.getId())){
-			return "redirect:/not_found";
+			return "redirect:/unauthorized";
 		}
 		model.addAttribute("survey", survey);
 		return "/common/surveys/modals/new_survey_modal :: surveyForm";
@@ -221,7 +221,7 @@ public class SurveyController {
 		Survey survey = surveyService.findSurveyById(id);
 		User currentUser = Utility.getUser();
 		if(!survey.getUser().getId().equals(currentUser.getId())){
-			return "redirect:/not_found";
+			return "redirect:/unauthorized";
 		}
 		model.addAttribute("survey_id", id);
 		return "/common/surveys/modals/delete_survey_modal :: surveyDelete";
