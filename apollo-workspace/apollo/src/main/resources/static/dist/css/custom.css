@@ -84,26 +84,12 @@
 }
 
 .question-image{
-    width: 400px;
-    height: 250px;
-    position: relative;
-    overflow: hidden;
-}
-
-.question-image img{
     object-fit: cover;
     width: 400px;
     height: 250px;
 }
 
 .answer-image{
-    position: relative;
-    overflow: hidden;
-    width: 400px;
-    height: 250px;
-}
-
-.answer-image img{
     object-fit: cover;
     width: 400px;
     height: 250px;
@@ -112,31 +98,15 @@
 .profile-image{
     width: 80px;
     height: 80px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 100%;
-}
-
-.profile-image img{
     object-fit: cover;
     border-radius: 100%;
-    height: 80px;
-    width: 80px;
 }
 
 .profile-image-mainnav{
     width: 50px;
     height: 50px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 100%;
-}
-
-.profile-image-mainnav img{
     object-fit: cover;
     border-radius: 100%;
-    height: 50px;
-    width: 50px;
 }
 
 .survey-image{
@@ -146,10 +116,27 @@
     width: 60px;
 }
 
+.dashboard-survey-image{
+    object-fit: cover;
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+}
+
+/*OVERVIEW PAGE*/
+
 .overview-image{
     width: 13rem;
     height: 13rem;
+    object-fit: cover;
+    border-radius: 100%;
 }
+
+
+
+
+
+/*UTILS*/
 
 .no-border {
     border: 0 !important;

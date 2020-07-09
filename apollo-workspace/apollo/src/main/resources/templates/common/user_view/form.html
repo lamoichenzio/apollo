@@ -35,8 +35,8 @@
                                     </div>
                                     <!-- Show image if exists -->
                                     <div class="m-4 mx-auto" th:if="${question.file != null}">
-                                        <div class="answer-image rounded-lg shadow">
-                                            <img class="rounded-lg border"
+                                        <div class=" rounded-lg shadow">
+                                            <img class="rounded-lg border answer-image"
                                                  th:src="${'data:image/png;base64,'+question.file.data}">
                                         </div>
                                     </div>

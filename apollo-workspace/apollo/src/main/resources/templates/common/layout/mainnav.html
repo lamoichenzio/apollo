@@ -59,13 +59,15 @@
                         <li class="nav-item dropdown dropdown-animate">
                             <div type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                  aria-haspopup="true" aria-expanded="false">
-                                <span class="col-auto px-0 py-0 profile-image-mainnav">
+                                <span class="col-auto px-0 py-0">
                                     <img alt="Image placeholder"
+                                         class="profile-image-mainnav"
                                          src="./dist/img/theme/light/team-4-800x800.jpg"
                                          th:src="@{/dist/img/icons/user/user.png}"
                                          th:if="${user.pic == null}">
 
                                     <img alt="Image placeholder"
+                                         class="profile-image-mainnav"
                                          src="./dist/img/theme/light/team-4-800x800.jpg"
                                          th:src="${'data:image/jpg;base64,'+user.pic}"
                                          th:if="${user.pic != null}">

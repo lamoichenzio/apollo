@@ -47,16 +47,18 @@
                 <!-- Change avatar -->
                 <div class="row mb-4">
                     <div class="col-auto">
-                        <span class="profile-image">
-                                    <img alt="Image placeholder"
-                                         src="../../assets/img/theme/light/team-1-800x800.jpg"
-                                         th:src="@{/dist/img/icons/user/user.png}"
-                                         th:if="*{pic == null}">
-                                    <img alt="Image placeholder"
-                                         src="../../assets/img/theme/light/team-1-800x800.jpg"
-                                         th:src="${'data:image/jpg;base64,'+user.pic}"
-                                         th:if="*{pic != null}">
-                                            </span>
+                        <span>
+                            <img alt="Image placeholder"
+                                 src="../../assets/img/theme/light/team-1-800x800.jpg"
+                                 class="profile-image"
+                                 th:src="@{/dist/img/icons/user/user.png}"
+                                 th:if="*{pic == null}">
+                            <img alt="Image placeholder"
+                                 src="../../assets/img/theme/light/team-1-800x800.jpg"
+                                 class="profile-image"
+                                 th:src="${'data:image/jpg;base64,'+user.pic}"
+                                 th:if="*{pic != null}">
+                        </span>
                     </div>
                     <div class="col-auto my-auto">
 
@@ -163,7 +165,7 @@
                                         <div class="form-group mb-0">
                                             <label class="form-control-label"
                                                    th:text="#{common.passwordconfirm}">New Password
-                                                Confirm</label>
+                                                                                       Confirm</label>
                                             <input class="form-control" type="password"
                                                    th:field="*{passwordConfirm}"
                                                    th:errorclass="is-invalid">

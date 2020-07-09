@@ -43,10 +43,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-12 text-center">
                                         <!-- Avatar -->
-                                        <div class="avatar rounded-circle overview-image">
-                                            <img th:if="${managedUser.pic != null}" alt="User Icon" th:src="${'data:image/;base64,'+ user.pic.data}"/>
-                                            <img th:if="${managedUser.pic == null}" alt="Image Default" th:src="@{/dist/img/icons/user/user.png}">
-                                        </div>
+                                            <img th:if="${managedUser.pic != null}" class="overview-image" alt="User Icon" th:src="${'data:image/;base64,'+ user.pic}"/>
+                                            <img th:if="${managedUser.pic == null}" class="overview-image" alt="Image Default" th:src="@{/dist/img/icons/user/user.png}">
                                     </div>
 
                                 </div>

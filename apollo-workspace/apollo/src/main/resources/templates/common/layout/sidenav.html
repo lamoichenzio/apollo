@@ -44,13 +44,15 @@
 
                 <!-- User pic -->
                 <div class="row ">
-                    <span class="col-auto px-0 py-0 profile-image">
+                    <span class="col-auto px-0 py-0">
                         <img alt="Image placeholder"
+                             class="profile-image"
                              src="./dist/img/theme/light/team-4-800x800.jpg"
                              th:src="@{/dist/img/icons/user/user.png}"
                              th:if="${user.pic == null}">
 
                         <img alt="Image placeholder"
+                             class="profile-image"
                              src="./dist/img/theme/light/team-4-800x800.jpg"
                              th:src="${'data:image/jpg;base64,'+user.pic}"
                              th:if="${user.pic != null}">
@@ -73,7 +75,7 @@
                                                  src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
                                                  th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
                                             <a href="#" th:href="@{?lang=en}" class="dropdown-item">
                                                 <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
                                                      th:src="@{/dist/img/icons/flags/en.svg}"
@@ -95,7 +97,7 @@
                                            aria-expanded="false">
                                             <i class="fas fa-cog text-white"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
                                             <a class="dropdown-item" href="/apollo/user/update">
                                                 <i class="far fa-user"></i>
                                                 <span>[[#{common.updateprofile}]]</span>

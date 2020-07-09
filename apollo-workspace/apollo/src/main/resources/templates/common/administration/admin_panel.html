@@ -20,7 +20,7 @@
 
                 <div class="row">
 
-                    <h4 class="font-weight-400 col-auto mb-0 text-white ml-1">Admin Panel</h4>
+                    <h4 class="font-weight-400 col-auto mb-0 text-white ml-1">[[#{admin.adminpanel}]]</h4>
 
                 </div>
             </div>
@@ -70,10 +70,10 @@
                         "render": function (data, type, row, meta) {
                             console.log(row)
                             if (row.pic) {
-                                return '<img class="avatar  rounded-circle" src="data:image/;base64,' +
+                                return '<img class="dashboard-survey-image" src="data:image/;base64,' +
                                     row.pic + '"/>';
                             }
-                            return '<img class="avatar  rounded-circle" src="[(@{/dist/img/icons/user/user.png})]"/>';
+                            return '<img class="dashboard-survey-image" src="[(@{/dist/img/icons/user/user.png})]"/>';
                         }
                     },
                     {

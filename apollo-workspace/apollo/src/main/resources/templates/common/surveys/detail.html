@@ -50,7 +50,7 @@
             <div class="row justify-content-between">
 
                 <!-- Info -->
-                <div class="col-auto text-left mb-3">
+                <div class="col-auto text-left">
                     <div class="row align-items-center">
 
                          <span class="col-auto">
@@ -89,7 +89,7 @@
                 </div>
 
                 <!-- Settings -->
-                <div class="col-auto d-none d-md-block text-right my-2 mb-3 justify-content-end">
+                <div class="col-auto d-none d-md-block text-right my-2 justify-content-end">
                     <div class="actions">
                         <a class="align-items-center">
                             <span class="text-left form-control-label">[[#{survey.secret}]]:</span>
@@ -102,7 +102,7 @@
                             <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
                             <span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
                         </a>
-                        <a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send invitations"
+                        <a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" th:title="#{common.sendinvitation}"
                            data-target="#actions-invitation"
                            th:onclick="getSurveyRequest([[@{/surveys/invitationpool}]], '#modal-invitation-pool-survey', [[${survey.id}]])">
                             <i class="far fa-envelope"></i>
@@ -127,7 +127,7 @@
 
 
                 <!-- Settings -->
-                <div class="col-auto d-md-none  text-right my-2 mb-3 justify-content-end text-center">
+                <div class="col-auto d-md-none  text-right my-2 justify-content-end text-center">
                 <div class="actions">
                         <a th:if="${survey.secret}" href="#" class="action-item mr-3" data-action="invitation-open" data-toggle="tooltip" title="Send invitations"
                            data-target="#actions-invitation"
@@ -152,7 +152,7 @@
                     </div>
                 </div>
 
-                <div class="col-12 d-md-none text-center my-2 mb-3">
+                <div class="col-12 d-md-none text-center my-2">
                     <div class="actions">
                         <a class="align-items-center">
                             <span class="text-left form-control-label">[[#{survey.secret}]]:</span>
@@ -171,7 +171,7 @@
 
             </div>
 
-            <div class="row">
+            <div class="row mt-3" th:if="${survey.description != ''}">
                 <!-- Description-->
                 <div class="col-auto">
                         <span id="survey_desc" type="text" class="text-lg" th:text="${survey.description}">
