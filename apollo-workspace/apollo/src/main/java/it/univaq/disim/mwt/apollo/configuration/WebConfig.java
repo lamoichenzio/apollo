@@ -1,5 +1,7 @@
 package it.univaq.disim.mwt.apollo.configuration;
 
+import java.util.Locale;
+
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
@@ -17,8 +19,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import java.util.Locale;
-
 @Configuration
 @EnableMongoRepositories(basePackages = "it.univaq.disim.mwt.apollo.business.impl.repositories.mongo")
 @EnableJpaRepositories(basePackages = "it.univaq.disim.mwt.apollo.business.impl.repositories.jpa")
@@ -32,6 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/common/survey_submitted").setViewName("/common/user_view/common_pages/survey_submitted");
 		registry.addViewController("/common/survey_answered").setViewName("/common/user_view/common_pages/survey_answered");
         registry.addViewController("/notFound").setViewName("/utility/error_404");
+        registry.addViewController("/unauthorized").setViewName("/utility/error_401");
 	}
 	
 	@Bean

@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import it.univaq.disim.mwt.apollo.presentation.CustomAccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +31,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+	@Bean
+	public AccessDeniedHandler accessDeniedHandler(){
+	    return new CustomAccessDeniedHandler();
+	}
+	
+	
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.headers().disable().csrf().disable().formLogin()
@@ -35,12 +44,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .failureUrl("/?error=invalidlogin")
                 .defaultSuccessUrl("/surveys/dashboard", false).and().logout()
-                .logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/common/accessdenied").and()
+                .logoutSuccessUrl("/").and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and()
                 .authorizeRequests()
+                .antMatchers("/administration/**").authenticated()
+                .antMatchers("/administration/**").hasRole("ADMIN")
                 // Specificare le url che sono soggette ad autenticazione ed autorizzazione
-                .antMatchers("/surveys/**", "/answers/**", "/user/update/**", "/forms/survey/findbysurveypaginated", "/forms/survey/**/answer/**", "/administration/**").authenticated()
-                .antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**").permitAll()
-                .antMatchers("/administration/**").hasRole("ADMIN");
+                .antMatchers("/surveys/**", "/answers/**", "/user/update/**", "/forms/survey/findbysurveypaginated", "/forms/survey/**/answer/**").authenticated()
+                .antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**").permitAll();
+
 
     }
 }
