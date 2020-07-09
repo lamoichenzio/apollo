@@ -73,7 +73,7 @@
                                                  src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
                                                  th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
                                             <a href="#" th:href="@{?lang=en}" class="dropdown-item">
                                                 <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
                                                      th:src="@{/dist/img/icons/flags/en.svg}"
@@ -95,7 +95,7 @@
                                            aria-expanded="false">
                                             <i class="fas fa-cog text-white"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
                                             <a class="dropdown-item" href="/apollo/user/update">
                                                 <i class="far fa-user"></i>
                                                 <span>[[#{common.updateprofile}]]</span>
