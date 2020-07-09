@@ -34,7 +34,7 @@
     <!-- Listing -->
     <div class="card">
         <!-- Card header -->
-        <div class="card-header actions-toolbar">
+        <div class="card-header actions-toolbar" th:if="${surveyanswer.survey.description != ''}">
             <p id="survey_desc" class="mb-0"
                th:text="${surveyanswer.survey.description}"></p>
         </div>

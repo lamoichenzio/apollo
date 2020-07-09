@@ -44,13 +44,15 @@
 
                 <!-- User pic -->
                 <div class="row ">
-                    <span class="col-auto px-0 py-0 profile-image">
+                    <span class="col-auto px-0 py-0">
                         <img alt="Image placeholder"
+                             class="profile-image"
                              src="./dist/img/theme/light/team-4-800x800.jpg"
                              th:src="@{/dist/img/icons/user/user.png}"
                              th:if="${user.pic == null}">
 
                         <img alt="Image placeholder"
+                             class="profile-image"
                              src="./dist/img/theme/light/team-4-800x800.jpg"
                              th:src="${'data:image/jpg;base64,'+user.pic}"
                              th:if="${user.pic != null}">
