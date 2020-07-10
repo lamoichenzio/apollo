@@ -18,8 +18,8 @@ let emails = [];
 $(function () {
     // Tooltip inizialize
     $('[data-toggle="tooltip"]').tooltip();
-
 });
+
 
 /** SURVEY FUNCTIONS **/
 
@@ -30,9 +30,7 @@ $(function () {
  * @param {Object} param 
  */
 function getSurveyRequest(url, modal_id, param) {
-    event.preventDefault();
-
-    let request = getRequestByUrl(url, param, 'Survey', 'get');
+    let request = getUrlPostfix(url) === 'create' ? {} : { id: param };
 
     $.ajax({
         type: "GET",
@@ -43,6 +41,7 @@ function getSurveyRequest(url, modal_id, param) {
         cache: false,
         timeout: 10000,
         success: function (response) {
+            console.info('[GET Request]::[Success]');
             $("#modal_holder").html(response);
             $(modal_id).modal("show");
         },
@@ -94,7 +93,7 @@ function postSurveyRequest(requestModel) {
  * @param {String} url 
  * @param {Object} survey 
  */
-function sendPublish(url, survey) {
+function sendPublish(url) {
     let request = new RequestModel(url, JSON.stringify(survey));
 
     if (survey.secret && !survey.active) {
@@ -103,12 +102,13 @@ function sendPublish(url, survey) {
         // Close publish modal
         $("#modal_dismiss").trigger("click");
 
-        if (emails && emails.length > 0) {
+        if ((survey.invitationPool && survey.invitationPool.emails.length) || (emails && emails.length)) {
             // Publish and send emails
             $("#publish_invitation_submit").click(() => {
                 postSurveyRequest(request);
             });
         } else {
+            console.info('[PUBLISH]::No emails found.');
             $("#publish_invitation_submit").attr("disabled", true);
             $("#send_email_error").show();
         }
@@ -142,6 +142,7 @@ function handleSurveySuccessResponse(url_postfix, response) {
     console.info('[SUCCESS]::[Message]: ', response.msg);
 
     if (url_postfix === 'publish') {
+        survey.active = response.result.active;
         if (response.msg === "active") {
             surveyPublished(response);
             // Handle close confirm modal
@@ -216,6 +217,7 @@ function surveyUnpublished(response) {
     $("#survey_active").removeClass("badge-success").addClass("badge-danger");
     $("#survey_active").text("No");
     $('.modify').show();
+
     if (translations) {
         $('#publish_submit').text(translations.publish);
     } else {
@@ -455,19 +457,12 @@ function getRequestByUrl(url, request_param, model, method) {
     
     switch (getUrlPostfix(url)) {
         case 'create':
-            if (model === 'Survey') return {};
             if (model === 'QuestionGroup') return { survey_id : request_param };
             if (model === 'Question') return { group_id: request_param };
         case 'update':
             return { id: request_param };
         case 'delete':
             return { id: request_param };
-        case 'publish':
-            if (method === 'get') return { id : request_param };
-            break;
-        case 'invitationpool':
-            if (method === 'get') return { id: request_param };
-            break;
         default:
             break;
     }

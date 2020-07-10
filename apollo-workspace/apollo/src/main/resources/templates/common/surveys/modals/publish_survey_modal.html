@@ -58,7 +58,7 @@
                         th:text="#{common.cancel}"></button>
                     <button id="publish_submit" type="button" name="#{common.disable}" translate="yes" class="btn btn-sm btn-primary rounded-pill"
                         th:text="#{${survey.active ? 'common.disable' : 'common.publish'}}"
-                        th:onclick="sendPublish([[@{/surveys/publish}]], [[${survey}]])"></button>
+                        th:onclick="sendPublish([[@{/surveys/publish}]])"></button>
 
                 </div>
 

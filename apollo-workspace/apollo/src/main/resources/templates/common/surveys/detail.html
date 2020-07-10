@@ -4,19 +4,14 @@
 
 <body>
 <div layout:fragment="page-content">
-
 	<script th:inline="javascript">
-		$(function () {
-			// Tooltip inizialize
-            $('[data-toggle="tooltip"]').tooltip();
+        let survey = [[${ survey }]];
+        $(function () {
             // Check editable survey
-            if ([(${ survey.active })]) {
-                $(".modify").hide();
-            } else {
-                $('.modify').show();
-            }
+            survey.active ? $(".modify").hide() : $('.modify').show();
         });
 	</script>
+    <script th:src="@{/script/survey_ajax.js}"></script>
 
 	<!-- Modal container -->
 	<div class="col-md-12">

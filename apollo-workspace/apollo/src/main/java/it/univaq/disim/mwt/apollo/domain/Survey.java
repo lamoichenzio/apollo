@@ -77,7 +77,6 @@ public class Survey {
 	private Set<QuestionGroup> questionGroups = new HashSet<>();
 
 	@DBRef
-	@JsonIgnore
 	private InvitationPool invitationPool;
 	
 	public void addQuestionGroup(QuestionGroup questionGroup) {
