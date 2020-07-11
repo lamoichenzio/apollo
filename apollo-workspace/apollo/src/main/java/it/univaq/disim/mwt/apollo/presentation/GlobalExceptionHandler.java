@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,17 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 public class GlobalExceptionHandler {
 	
 	@ExceptionHandler({NotFoundException.class, NoSuchElementException.class})
-	public String handleNotFoundException(HttpServletRequest request, Exception ex) {
+	public String handleNotFoundException(HttpServletRequest request, Exception ex, Model model) {
 		log.info("[Exception Occured]::[404]::URL=" + request.getRequestURL() + ", method=" + request.getMethod() + ", message=" + ex.getMessage());
 		log.info("[Exception Class Name]:: " + ex.getClass().getName());
+
 		return "/utility/error_404";
 	}
 
 	@ExceptionHandler({BusinessException.class, Exception.class})
-	public String handleBusinessException(HttpServletRequest request, Exception ex) {
+	public String handleBusinessException(HttpServletRequest request, Exception ex, Model model) {
 		log.info("[Exception Occured]::[500]::URL=" + request.getRequestURL() + ", method=" + request.getMethod() + ", message=" + ex.getMessage());
 		log.info("[Exception Class Name]:: " + ex.getClass().getName());
-		return "/utility/error_500";
+		
+		return "redirect:/internal_server_error";
 	}
 	
 }

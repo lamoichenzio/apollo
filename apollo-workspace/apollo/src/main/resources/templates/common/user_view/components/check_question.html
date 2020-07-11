@@ -5,7 +5,6 @@
 		<div class="row"
 			th:each="checkAnswer, stat : *{choiceQuestionMultiAnswers}"
 			th:if="${checkAnswer.question.id == question.id}">
-
 			<!-- Related Question -->
 			<input type="hidden"
 				th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].question}">
@@ -30,13 +29,13 @@
 							   name="customCheckbox" class="custom-control-input"
 							   th:id="@{other_choice-} + ${question.id}"
 							   th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
-							   th:value="null"
+							   th:value="${readonly != null && (checkAnswer.answers.size() > 0 && checkAnswer.answers[checkAnswer.answers.size()-1] != checkAnswer.question.options[checkAnswer.question.options.size()-1]) ? checkAnswer.answers[checkAnswer.answers.size()-1]: null}"
 							   th:disabled="${readonly}"
 							   th:required="${question.mandatory && readonly == null}">
 						<label class="custom-control-label pl-0 col-12" th:for="@{other_choice-} + ${question.id}">
 							<div class="border-bottom custom-input-text">
-								<input type="text" th:name="@{other_choice-} + ${question.id}"  th:disabled="${readonly}" th:placeholder="#{common.textinput.placeholder}"  oninput="otherChoiceValueSetter(this)">
-							</div>
+								<input th:if="${readonly != null}" type="text" th:name="@{other_choice-} + ${question.id}" th:value="${checkAnswer.answers.size() > 0 && (checkAnswer.answers[checkAnswer.answers.size()-1] != checkAnswer.question.options[checkAnswer.question.options.size()-1]) ? checkAnswer.answers[checkAnswer.answers.size()-1] : null}" th:disabled="${readonly}" />
+								<input th:if="${readonly == null}" type="text" th:name="@{other_choice-} + ${question.id}" th:disabled="${readonly}" th:placeholder="#{common.textinput.placeholder}"  oninput="otherChoiceValueSetter(this)">							</div>
 						</label>
 					</div>
 

@@ -179,7 +179,7 @@ public class SurveyController {
 	public String createStart(Model model) {
 		Survey survey = new Survey();
 		log.info("[SurveyController]::Survey Creation");
-		model.addAttribute("survey", survey);
+		model.addAttribute("survey", survey); 
 		return "/common/surveys/modals/new_survey_modal :: surveyForm";
 	}
 

@@ -36,7 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    return new CustomAccessDeniedHandler();
 	}
 	
-	
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.headers().disable().csrf().disable().formLogin()
@@ -50,8 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/administration/**").hasRole("ADMIN")
                 // Specificare le url che sono soggette ad autenticazione ed autorizzazione
                 .antMatchers("/surveys/**", "/answers/**", "/user/update/**", "/forms/survey/findbysurveypaginated", "/forms/survey/**/answer/**").authenticated()
-                .antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**").permitAll();
-
+                .antMatchers("/", "/static/**", "/favicon.ico", "/forms/survey/**/fill", "/forms/survey/create", "/user/create/**", "/utility/**").permitAll();
 
     }
 }

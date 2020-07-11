@@ -32,6 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
 		registry.addViewController("/common/survey_submitted").setViewName("/common/user_view/common_pages/survey_submitted");
 		registry.addViewController("/common/survey_answered").setViewName("/common/user_view/common_pages/survey_answered");
         registry.addViewController("/not_found").setViewName("/utility/error_404");
+        registry.addViewController("/internal_server_error").setViewName("/utility/error_500");
         registry.addViewController("/unauthorized").setViewName("/utility/error_401");
 	}
 	

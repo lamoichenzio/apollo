@@ -27,13 +27,13 @@
                            name="customRadio" class="custom-control-input"
                            th:id="@{other_choice-} + ${question.id}"
                            th:field="*{choiceQuestionSingleAnswers[__${stat.index}__].answer}"
-                           th:value="null"
+                            th:value="${readonly != null && (radioAnswer.answer != null && !radioAnswer.question.options.contains(radioAnswer.answer)) ? radioAnswer.answer : null}"
                            th:disabled="${readonly}"
                            th:required="${question.mandatory && readonly == null}">
                     <label class="custom-control-label col-12 pl-0" th:for="@{other_choice-} + ${question.id}">
                         <div class="border-bottom custom-input-text">
-                            <input type="text" th:name="@{other_choice-} + ${question.id}"
-                                   th:placeholder="#{common.textinput.placeholder}" th:disabled="${readonly}" oninput="otherChoiceValueSetter(this)">
+                            <input th:if="${readonly != null}" type="text" th:name="@{other_choice-} + ${question.id}" th:value="${radioAnswer.answer != null && !radioAnswer.question.options.contains(radioAnswer.answer) ? radioAnswer.answer : null}" th:disabled="${readonly}" />
+                            <input th:if="${readonly == null}" type="text" th:name="@{other_choice-} + ${question.id}" th:placeholder="#{common.textinput.placeholder}" th:disabled="${readonly}" oninput="otherChoiceValueSetter(this)">
                         </div>
                     </label>
                 </div>
