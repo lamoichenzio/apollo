@@ -8,7 +8,8 @@ const RADIO = 'RADIO';
 const SELECT = 'SELECT';
 
 const MATRIX = 'MATRIX';
-const STANDARD = 'STANDARD';
+
+const LOGIN = '/apollo/';
 
 var optionList = [];
 var optionValues = [];
@@ -46,7 +47,8 @@ function getSurveyRequest(url, modal_id, param) {
             $(modal_id).modal("show");
         },
         error: function (e) {
-            console.log('ERROR', e);
+            console.error('ERROR', e);
+            if (e.status === 403) window.location = LOGIN;
         }
     });
 }
@@ -81,6 +83,7 @@ function postSurveyRequest(requestModel) {
         },
         error: function (e) {
             console.error('[ERROR]::', e);
+            if (e.status === 403) window.location = LOGIN;
             $(".spinner-success").remove();
             // window.location.replace('target url');
             handleSurveyErrorResponse(e.responseJSON.msg);
@@ -234,6 +237,7 @@ function validateEmail(email) {
     return re.test(String(email).toLowerCase());
 }
 
+
 /** QUESTION GROUP FUNCTIONS **/
 
 
@@ -259,7 +263,8 @@ function getQuestionGroupRequest(url, modal_id, survey_id) {
             $(modal_id).modal("show");
         },
         error: function (e) {
-            console.log('ERROR', e);
+            console.error('ERROR', e);
+            if (e.status === 403) window.location = LOGIN;
         }
     });
 }
@@ -299,7 +304,8 @@ function openQuestionModal(url, type, modal_id, request_param) {
             }
         },
         error: function (e) {
-            console.log('ERROR', e);
+            console.error('ERROR', e);
+            if (e.status === 403) window.location = LOGIN;
         }
     });
 }
@@ -420,7 +426,6 @@ function addOptionValue() {
  * @param {Number} index 
  */
 function deleteOptionValue(event, index) {
-    console.log(optionValues);
     event.preventDefault();
 
     if (optionValues.length === 1) {

@@ -75,6 +75,7 @@ function getAnswersData(question) {
         },
         error: function (e) {
             console.error('ERROR', e);
+            if (e.status === 403) window.location = "/apollo/";
             $("#answers_container").append(showAlert('error', translations.error.title + '!', e));
         }
     });
