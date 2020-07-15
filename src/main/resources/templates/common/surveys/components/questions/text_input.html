@@ -1,0 +1,81 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<!-- TEXT QUESTION -->
+<div class="col-12" th:fragment="inputQuestion">
+    <div class="row align-items-center mx-0 mb-4 justify-content-center">
+
+        <div class="col-11 card border shadow-none mb-0 p-3">
+            <!-- TITLE -->
+            <div class="m-1">
+                <h6 class="mb-0">
+                    [[${stat.index +1} + '. ' + ${question.title}]]
+                    <span class="text-danger" th:if="${question.mandatory}">*</span>
+                </h6>
+            </div>
+            <div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+                <div class="col-auto" th:if="${question.file != null}">
+                    <div class="rounded-lg shadow">
+                        <img class="rounded-lg border question-image" th:src="${'data:image/png;base64,'+question.file.data}">
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-12 px-3 py-2">
+
+                    <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXT}" class="row">
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_text.svg}">
+                        </div>
+                        <span class="col-auto my-auto">[[#{common.textinput.placeholder}]]</span>
+                    </div>
+
+                    <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).TEXTAREA}" class="row">
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_textarea.svg}">
+                        </div>
+                        <span class="col-auto my-auto">[[#{common.areainput.placeholder}]]</span>
+                    </div>
+
+                    <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).DATE}" class="row">
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_date.svg}">
+                        </div>
+                        <span class="col-auto my-auto">[[#{common.dateinput.placeholder}]]</span>
+                    </div>
+
+                    <div th:if="${question.type == T(it.univaq.disim.mwt.apollo.domain.questions.InputType).NUMBER}" class="row">
+                        <div class="col-auto my-auto">
+                            <img class="input-question-icon" th:src="@{/dist/img/icons/custom/icon_number.svg}">
+                        </div>
+                        <span class="col-auto my-auto">[[#{common.numberinput.placeholder}]]</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-auto bg-gray-100 pr-0 modify">
+            <div class="dropdown" data-toggle="dropdown">
+                <a href="#" class="action-item pr-0" role="button" data-toggle="dropdown" aria-haspopup="true" title="Open"
+                   aria-expanded="false"> <i class="far fa-cog"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="#"
+                       th:onClick="openQuestionModal([[@{/questions/inputquestion/update}]], [[${question.type}]], '#modal-input-question', [[${question.id}]] )"
+                       class="dropdown-item" th:text="#{common.edit}"></a>
+                    <a href="#"
+                       th:onClick="openQuestionModal([[@{/questions/inputquestion/delete}]], null, '#modal-delete-question', [[${question.id}]])"
+                       class="dropdown-item text-danger" th:text="#{common.delete}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

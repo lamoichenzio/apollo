@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org"
+	layout:decorate="~{auth/layout/frame_public}">
+
+<body>
+	<!-- Register -->
+	<div class="min-vh-100 py-5 d-flex align-items-center"
+		layout:fragment="page-content">
+		<div class="w-100">
+			<div class="row justify-content-center">
+				<div class="col-sm-8 col-lg-5">
+					<div class="card shadow zindex-100 mb-0">
+						<div class="card-body px-md-5 py-5">
+							<div class="mb-5">
+								<h6 class="h3" th:text="#{common.createaccount}">Create
+									account</h6>
+							</div>
+							<span class="clearfix"></span>
+							<form role="form" action="#"
+								th:action="${#request.getRequestURI()}" method="post"
+								th:object="${user}">
+								<input type="hidden" th:field="*{role}">
+								<div class="form-group">
+									<label class="form-control-label" th:text="#{common.username}">Username</label>
+									<div class="input-group input-group-merge">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="far fa-user"></i></span>
+										</div>
+										<input type="text" th:field="*{username}" class="form-control"
+											placeholder="Username" required th:errorclass="is-invalid">
+									</div>
+									<div th:if="${#fields.hasErrors('username')}"
+										th:each="err: ${#fields.errors('username')}" th:utext="${err}">errors</div>
+									<div th:if="${duplicate}" th:utext="#{errors.duplicate}">errors</div>
+								</div>
+								<div class="form-group">
+									<label class="form-control-label"
+										th:text="#{common.emailaddress}">Email address</label>
+									<div class="input-group input-group-merge">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="far fa-at"></i></span>
+										</div>
+										<input type="email" th:field="*{email}" class="form-control"
+											placeholder="name@example.com" required
+											th:errorclass="is-invalid">
+									</div>
+									<div th:if="${#fields.hasErrors('email')}"
+										th:each="err: ${#fields.errors('email')}" th:utext="${err}">errors</div>
+								</div>
+								<div class="form-group mb-4">
+									<label class="form-control-label" th:text="#{common.password}">Password</label>
+									<div class="input-group input-group-merge">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="far fa-key"></i></span>
+										</div>
+										<input type="password" th:field="*{password}"
+											class="form-control" placeholder="********" required
+											th:errorclass="is-invalid">
+									</div>
+									<div th:if="${#fields.hasErrors('password')}"
+										th:each="err: ${#fields.errors('password')}" th:utext="${err}">errors</div>
+								</div>
+								<div class="form-group mb-4">
+									<label class="form-control-label"
+										th:text="#{common.passwordconfirm}">Password Confirm</label>
+									<div class="input-group input-group-merge">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="far fa-key"></i></span>
+										</div>
+										<input type="password" th:field="*{passwordConfirm}"
+											class="form-control" placeholder="********" required
+											th:errorclass="is-invalid">
+										<div class="input-group-append"></div>
+									</div>
+									<div th:if="${#fields.hasErrors('passwordConfirm')}"
+										th:each="err: ${#fields.errors('passwordConfirm')}"
+										th:utext="${err}">errors</div>
+								</div>
+								<div class="mt-4">
+									<button type="submit"
+										class="btn btn-sm btn-primary btn-icon rounded-pill">
+										<span class="btn-inner--text"
+											th:text="#{common.createaccount}">Create account</span> <span
+											class="btn-inner--icon"><i
+											class="far fa-long-arrow-alt-right"></i></span>
+									</button>
+								</div>
+							</form>
+						</div>
+						<div class="card-footer px-md-5">
+							<small>[(#{common.alreadyregistered})]? </small> <a href="#"
+								th:href="@{/login}" class="small font-weight-bold"
+								th:text="#{common.signin}">Sign in</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

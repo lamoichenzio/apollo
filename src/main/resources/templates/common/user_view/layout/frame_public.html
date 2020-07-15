@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description"
+              content="Purpose Application UI is the following chapter we've finished in order to create a complete and robust solution next to the already known Purpose Website UI.">
+        <meta name="author" content="Webpixels">
+        <title th:text="#{common.applicationtitle}">Apollo</title>
+        <!-- Favicon -->
+        <link rel="icon" href="./dist/img/brand/favicon.png" th:href="@{/dist/img/brand/favicon.png}" type="image/png">
+        <!-- Font Awesome 5 -->
+        <link rel="stylesheet" href="./dist/libs/%40fortawesome/fontawesome-pro/css/all.min.css"
+              th:href="@{/dist/libs/fontawesome-pro/css/all.min.css}">
+        <!-- Purpose CSS -->
+        <link rel="stylesheet" href="./dist/css/purpose.css" id="stylesheet" th:href="@{/dist/css/purpose.css}">
+
+        <!-- Custom css -->
+        <link rel="stylesheet" href="./dist/css/custom.css"
+              th:href="@{/dist/css/custom.css}">
+
+        <!-- Scripts -->
+        <!-- Core JS - includes jquery, bootstrap, popper, in-view and sticky-kit -->
+        <script src="./dist/js/purpose.core.js" th:src="@{/dist/js/purpose.core.js}"></script>
+        <!-- Purpose JS -->
+        <script src="./dist/js/purpose.js" th:src="@{/dist/js/purpose.js}"></script>
+        <!-- JQuery serialize to JSON -->
+        <script scr="/static/dist/js/jquery.serializeToJSON.min.js"
+                th:src="@{/dist/js/jquery.serializeToJSON.min.js}"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-104437451-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+
+            gtag('js', new Date());
+            gtag('config', 'UA-104437451-1');
+        </script>
+        <script th:src="@{/script/user_view.js}"></script>
+        <script th:src="@{/script/utility.js}"></script>
+    </head>
+
+    <body class="application application-offset">
+
+        <!-- Application container -->
+        <div class="container-fluid container-application">
+
+            <!-- Content -->
+            <div class="main-content scroll-content">
+
+                <!-- Page content -->
+                <div class="page-content" layout:fragment="page-content"></div>
+
+            </div>
+        </div>
+    </body>
+
+</html>

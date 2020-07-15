@@ -1,0 +1,32 @@
+<!-- OPTIONS BLOCK -->
+<div th:id="'option_value_' + ${stat.index}" class="row form-group" th:fragment="value">
+	<div th:id="'value-' + ${stat.index}" name="input_value_container" class="col-11">
+		<input class="form-control choice-value" type="text" th:value="${value}" th:field="*{optionValues[__${stat.index}__]}" th:placeholder="#{question.optionplaceholder}" required>
+	</div>
+	<!-- DELETE BUTTON -->
+	<div name="delete_value_container" class="col-1 align-self-center">
+		<a th:id="'delete_value_' + ${stat.index}" href="#" th:onclick="deleteOptionValue(event, [[${stat.index}]])">
+			<i class="far fa-trash text-danger"></i>
+		</a>
+	</div>
+	<div id="option_value_error" class="col-6 align-self-center">
+		<span class="error-message">[[#{common.cannotdelete}]]</span>
+	</div>
+</div>
+
+
+<!-- OPTIONS BLOCK -->
+<div th:id="'choice_option_' + ${stat.index}" class="row form-group" th:fragment="option">
+	<div th:id="'option-' + ${stat.index}" name="input_container" class="col-11">
+		<input class="form-control choice-option" type="text" th:value="${option}" th:field="*{options[__${stat.index}__]}" th:placeholder="#{question.optionplaceholder}" required>
+	</div>
+	<!-- DELETE BUTTON -->
+	<div name="delete_container" class="col-1 align-self-center">
+		<a th:id="'delete_choice_' + ${stat.index}" href="#" th:onclick="deleteOption(event, [[${stat.index}]])">
+			<i class="far fa-trash text-danger"></i>
+		</a>
+	</div>
+	<div id="option_error" class="col-6 align-self-center">
+		<span class="error-message">[[#{common.cannotdelete}]]</span>
+	</div>
+</div>

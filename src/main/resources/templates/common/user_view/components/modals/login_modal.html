@@ -1,0 +1,61 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- MODAL PRIVATE SURVEY LOGIN-->
+<div class="modal fade" id="modal_login" tabindex="-1" role="dialog" aria-hidden="true" th:fragment="loginForm">
+
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="modal-title align-items-center">
+                    <!-- MODAL TITLE -->
+                    <h6 class="mb-0" th:text="#{common.access}"></h6>
+                </div>
+            </div>
+
+            <form id="login_form" th:action="${#request.getRequestURI()}" th:object="${credentials}"
+                  class="form-horizontal" method="post">
+                <input type="hidden" name="survey" th:field="*{surveyId}">
+
+                <div class="modal-body">
+                    <div class="alert alert-danger" role="alert" id="error_alert" th:text="#{common.invalidcredentials}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="form-control-label"
+                               th:text="#{common.emailaddress}"></label>
+                        <input type="text" th:field="*{email}" class="form-control" maxlength="60" required/>
+                        <span th:if="${#fields.hasErrors('email')}"
+                              th:each="err: ${#fields.errors('email')}" th:utext="${err}"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-control-label"
+                               th:text="#{common.password}"></label>
+                        <input type="password" th:field="*{password}" class="form-control" />
+                        <span th:if="${#fields.hasErrors('password')}"
+                              th:each="err: ${#fields.errors('password')}" th:utext="${err}"></span>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-link text-danger"
+                            data-dismiss="modal" th:text="#{common.cancel}"></button>
+                    <button id="question_group_submit" type="submit"
+                            class="btn btn-sm btn-primary rounded-pill"
+                            th:text="#{common.access}"
+                            th:onclick="surveyLogin('[(${#request.getRequestURI()})]')">
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+    <script>
+        $("#error_alert").hide();
+    </script>
+</div>
+</body>
+</html>

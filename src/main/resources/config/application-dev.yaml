@@ -1,0 +1,41 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/apollo?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: apollo
+    password: apollo
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/apollo
+      authentication-database: apollo
+      #host: localhost
+      #port: 27017
+      database: apollo
+      username: apollo
+      password: apollo
+      auto-index-creation: true
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: giordano.daloisio@gmail.com
+    password: tbfduwugiwzxruzv
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true   
+        
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: debug
+         
+###############################################
+############# APOLLO PROPERTIES #############
+###############################################

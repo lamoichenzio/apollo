@@ -1,0 +1,170 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+<!-- MODAL NEW SURVEY -->
+<div class="modal fade" id="modal-create-new-survey" tabindex="-1" role="dialog" aria-hidden="true"
+     th:fragment="surveyForm">
+    <script th:src="@{/script/forms_validation.js}"></script>
+
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <div class="modal-title align-items-center">
+                    <!-- MODAL TITLE -->
+                    <h6 th:if="${#request.getRequestURI().endsWith('create')}" class="mb-0"
+                        th:text="#{survey.create}"></h6>
+                    <h6 th:if="${#request.getRequestURI().endsWith('update')}" class="mb-0"
+                        th:text="#{survey.edit}"></h6>
+                </div>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="survey_form" th:action="${#request.getRequestURI()}" enctype="multipart/form-data"
+                      th:object="${survey}" class="form-horizontal" method="post">
+
+                    <!-- Input for update case -->
+                    <div class="hidden">
+                        <input th:if="${survey.id != null}" type="hidden" th:field="*{id}"/>
+                        <input th:if="${survey.user != null}" type="hidden" th:field="*{user}"/>
+                        <input th:if="${survey.questionGroups != null}" type="hidden" th:field="*{questionGroups}"/>
+                        <input th:if="${survey.invitationPool != null}" type="hidden" th:field="*{invitationPool}"/>
+                        <input th:if="${survey.active != null}" type="hidden" th:field="*{active}"/>
+                        <input th:if="${survey.urlId != null}" type="hidden" th:field="*{urlId}"/>
+                        <input th:if="${survey.creationDate != null}" type="hidden" th:field="*{creationDate}"/>
+                    </div>
+
+
+                    <!-- TITLE -->
+                    <div class="form-group">
+                        <label for="name" class="form-control-label"
+                               th:text="#{survey.name}"></label>
+                        <input type="text" th:field="*{name}" class="form-control form-element" maxlength="50" required/>
+                        <span th:if="${#fields.hasErrors('name')}"
+                              th:each="err: ${#fields.errors('name')}" th:utext="${err}"></span>
+                    </div>
+
+                    <!-- DESCRIPTION -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="description" class="form-control-label"
+                                       th:text="#{survey.description}"></label>
+                                <textarea class="form-control form-element" data-toggle="autosize" rows="2"
+                                          th:field="*{description}"></textarea>
+                                <span th:if="${#fields.hasErrors('description')}"
+                                      th:each="err: ${#fields.errors('description')}" th:utext="${err}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECRET -->
+                    <div class="row">
+                        <div class="col-6 my-1">
+                            <div class="form-group custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input form-element" name="secret" id="secret"
+                                       th:field="*{secret}">
+                                <label class="custom-control-label form-control-label" for="secret"
+                                       th:text="#{survey.secret}"></label>
+                                <span th:if="${#fields.hasErrors('secret')}" th:each="err: ${#fields.errors('secret')}"
+                                      th:utext="${err}"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  DATES -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="startDate" class="form-control-label" th:text="#{survey.startDate}"></label>
+                                <input type="date" name="startDate" th:field="*{startDate}" class="form-control form-element"/>
+                                <span th:if="${#fields.hasErrors('startDate')}"
+                                      th:each="err: ${#fields.errors('startDate')}" th:utext="${err}"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="endDate" class="form-control-label" th:text="#{survey.endDate}"></label>
+                                <input type="date" name="endDate" th:field="*{endDate}" class="form-control form-element"/>
+                                <span th:if="${#fields.hasErrors('endDate')}"
+                                      th:each="err: ${#fields.errors('endDate')}" th:utext="${err}"></span>
+                            </div>
+                        </div>
+                        <small class="col-12 pl-3 pr-3 pb-3" th:text="#{survey.datedisclamer}">
+                        </small>
+                    </div>
+
+                    <!-- Icon container -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group mb-0">
+                                <label class="form-control-label mb-0" th:text="#{survey.icon}">Icon</label>
+
+                                <!--Creation fase-->
+
+                                <div class="form-control-label">
+                                    <input type="file" id="iconfile" name="iconfile" class="custom-input-file form-element"
+                                           th:value="${iconfile}" accept="image/*" data-max-size="5"/>
+                                    <label for="iconfile"><i class="fa fa-upload"></i><span id="iconfile_label" th:text="#{file.label}"></span>
+                                    </label>
+                                    <span id="file_error" class="text-danger text-sm hidden"></span>
+                                </div>
+
+                                <!--Update case-->
+                                <div class="form-control-label mt-2" th:if="${survey.id != null}">
+                                    <div th:if="${survey.icon != null}">
+                                        <input type="hidden" th:field="*{icon.id}"/>
+                                        <small>
+                                            File: [[*{icon.name}]]
+                                        </small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <span id="file_error" class="text-danger text-sm hidden"></span>
+                        </div>
+                    </div>
+
+                    <!-- Error container -->
+                    <div class="row">
+                        <div class="col-10 pt-2 pb-1 mt-2">
+                            <span id="errors" class="text-danger text-sm hidden"></span>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <a type="button" class="btn btn-sm btn-link text-danger" data-dismiss="modal">
+                    [[#{common.cancel}]]
+                </a>
+                <button id="survey_submit" type="submit" form="survey_form" class="btn btn-sm btn-primary rounded-pill form-element"
+                        th:text="#{common.submit}" th:disabled="*{active}"></button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script th:inline="javascript">
+        $(function () {
+            // Register file change event
+            $('#iconfile').change(() => {
+                $('#iconfile_label').text($('#iconfile')[0].files[0].name);
+                fileSizeValidation('#iconfile','#file_error');
+            });
+
+            if ([[${survey.active}]]) {
+                $(".form-element").attr('disabled', 'disabled');
+            }
+        });
+    </script>
+</div>
+
+</body>
+</html>

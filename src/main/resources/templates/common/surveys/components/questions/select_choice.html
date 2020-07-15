@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- SELECTION CHOICE QUESTION -->
+<div class="col-12" th:fragment="selectionQuestion">
+    <div class="row align-items-center mx-0 mb-4 justify-content-center">
+        <div class="col-11 card border shadow-none mb-0 p-3">
+            <!-- TITLE -->
+            <div class="m-1">
+                <h6 class="mb-0">
+                    [[${stat.index +1} + '. ' + ${question.title}]]
+                    <span class="text-danger" th:if="${question.mandatory}">*</span>
+                </h6>
+            </div>
+            <div class="row align-items-center mx-0 mt-2 mb-2 justify-content-center">
+
+                <div class="col-auto" th:if="${question.file != null}">
+                    <div class="rounded-lg shadow">
+                        <img class="rounded-lg border question-image" th:src="${'data:image/png;base64,'+question.file.data}">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- OPTIONS -->
+            <div class="row">
+                <div class="col-12 px-3 py-2">
+                    <label class="form-control-label">[[#{question.options}]]</label>
+                    <select class="custom-select" >
+                        <option th:each="option, stat : ${question.options}" th:value="${option}" th:text="${option}"
+                                th:selected="${stat.index == 0} ? 'selected' : null" disabled></option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Settings -->
+        <div class="col-auto bg-gray-100 pr-0 modify">
+            <div class="dropdown" data-toggle="dropdown">
+                <a href="#" class="action-item pr-0" role="button" data-toggle="dropdown" aria-haspopup="true" title="Open"
+                   aria-expanded="false">
+                    <i class="far fa-cog"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a href="#"
+                       th:onclick="openQuestionModal([[@{/questions/selectionquestion/update}]], 'SELECT', '#modal-new-selection-question', [[${question.id}]] )"
+                       class="dropdown-item" th:text="#{common.edit}"></a>
+                    <a href="#"
+                       th:onclick="openQuestionModal([[@{/questions/selectionquestion/delete}]], null, '#modal-delete-question', [[${question.id}]])"
+                       class="dropdown-item text-danger" th:text="#{common.delete}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

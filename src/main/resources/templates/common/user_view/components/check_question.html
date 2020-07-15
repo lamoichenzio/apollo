@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="question">
+		<!-- MULTI CHOICE QUESTION -->
+		<div class="row"
+			th:each="checkAnswer, stat : *{choiceQuestionMultiAnswers}"
+			th:if="${checkAnswer.question.id == question.id}">
+			<!-- Related Question -->
+			<input type="hidden"
+				th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].question}">
+
+			<div class="col-12">
+				<!-- OPTIONS -->
+				<div th:each="option, optionStat : ${question.options}" class="custom-control custom-checkbox" th:id="@{question_} + ${stat.index}">
+					<input type="checkbox" class="custom-control-input"
+						th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
+						th:value="${option}" th:disabled="${readonly}" th:required="${question.mandatory && readonly == null}">
+					<label
+						th:for="choiceQuestionMultiAnswers+${stat.index}+.answers+${optionStat.index+1}"
+						th:text="${option}" class="custom-control-label"></label>
+				</div>
+
+				<!-- Other -->
+				<div th:if="${question.otherChoice}" class="bootstrap-tagsinput">
+
+					<!-- Other -->
+					<div class="custom-control custom-checkbox" th:if="${question.otherChoice}">
+						<input type="checkbox"
+							   name="customCheckbox" class="custom-control-input"
+							   th:id="@{other_choice-} + ${question.id}"
+							   th:field="*{choiceQuestionMultiAnswers[__${stat.index}__].answers}"
+							   th:value="${readonly != null && (checkAnswer.answers.size() > 0 && checkAnswer.answers[checkAnswer.answers.size()-1] != checkAnswer.question.options[checkAnswer.question.options.size()-1]) ? checkAnswer.answers[checkAnswer.answers.size()-1]: null}"
+							   th:disabled="${readonly}"
+							   th:required="${question.mandatory && readonly == null}">
+						<label class="custom-control-label pl-0 col-12" th:for="@{other_choice-} + ${question.id}">
+							<div class="border-bottom custom-input-text">
+								<input th:if="${readonly != null}" type="text" th:name="@{other_choice-} + ${question.id}" th:value="${checkAnswer.answers.size() > 0 && (checkAnswer.answers[checkAnswer.answers.size()-1] != checkAnswer.question.options[checkAnswer.question.options.size()-1]) ? checkAnswer.answers[checkAnswer.answers.size()-1] : null}" th:disabled="${readonly}" />
+								<input th:if="${readonly == null}" type="text" th:name="@{other_choice-} + ${question.id}" th:disabled="${readonly}" th:placeholder="#{common.textinput.placeholder}"  oninput="otherChoiceValueSetter(this)">							</div>
+						</label>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- Error container -->
+			<div class="col-12 mt-3">
+				<span class="error-message" th:id="Error_choiceQuestionMultiAnswers + ${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlankQuestion}"></span>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

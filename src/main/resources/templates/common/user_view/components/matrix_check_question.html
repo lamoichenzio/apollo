@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="question">
+	<div class="row mb-n3 shadow-none overflow-auto"
+		th:each="matrixAnswer, stat : *{multiChoiceMatrixAnswers}"
+		th:if="${matrixAnswer.question.id == question.id}">
+
+		<!-- Related Question -->
+		<input type="hidden"
+			th:field="*{multiChoiceMatrixAnswers[__${stat.index}__].question}">
+
+		<table class="table table-cards shadow-none align-items-center mx-2" width="100%"
+			cellspacing="0">
+			<!-- Show options label -->
+			<thead>
+				<tr class="table-divider">
+					<th scope="col"></th>
+					<th th:each="optionValue : ${question.optionValues}" scope="col">[[${optionValue}]]</th>
+				</tr>
+			</thead>
+			<!-- Show questions -->
+			<tbody>
+				<span th:each="option, optionStat : ${question.options}">
+					<tr>
+						<th scope="row">[[${option}]]</th>
+						<td th:each="optionValue : ${question.optionValues}">
+
+							<div class="custom-control custom-checkbox">
+								<input type="checkbox" 
+									th:id="multiMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}" name="customCheckbox" class="custom-control-input"
+									th:field="*{multiChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__].values}"
+								   	th:value="${optionValue}"
+									th:disabled="${readonly}"
+									th:required="${question.mandatory && readonly == null}">
+								<label class="custom-control-label" th:for="multiMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}"></label>
+							</div>
+						</td>
+					</tr>
+					<tr class="table-divider"></tr>
+				</span>
+			</tbody>
+		</table>
+
+		<!-- Error container -->
+		<div class="col-12 mt-3">
+			<span class="error-message" th:id="Error_multiMatrix + ${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlankQuestion}"></span>
+		</div>
+		
+	</div>
+</div>
+</body>
+</html>

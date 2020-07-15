@@ -1,0 +1,52 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="question">
+    <div class="row mb-n3 shadow-none overflow-auto"
+         th:each="matrixAnswer, stat : *{singleChoiceMatrixAnswers}"
+         th:if="${matrixAnswer.question.id == question.id}">
+
+        <!-- Related Question -->
+        <input type="hidden"
+               th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].question}">
+
+        <table class="table table-cards shadow-none align-items-center mx-2 " width="100%" cellspacing="0">
+            <!-- Show options label -->
+            <thead>
+            <tr class="table-divider">
+                <th scope="col"></th>
+                <th th:each="optionValue : ${question.optionValues}" scope="col">
+                    [[${optionValue}]]
+                </th>
+            </tr>
+            </thead>
+            <!-- Show questions -->
+            <tbody>
+            <span th:each="option, optionStat : ${question.options}">
+						<tr>
+							<th scope="row shadow-none">[[${option}]]</th>
+							<td th:each="optionValue : ${question.optionValues}">
+
+								<div class="custom-control custom-radio">
+                                    <input type="radio" 
+                                        th:id="singleMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}" name="customRadio" class="custom-control-input"
+                                        th:field="*{singleChoiceMatrixAnswers[__${stat.index}__].answers[__${option}__]}"
+                                        th:value="${optionValue}"
+                                        th:disabled="${readonly}"
+                                        th:required="${question.mandatory && readonly == null}">
+                                    <label class="custom-control-label" th:for="singleMatrix + ${stat.index} + @{_option[__${optionStat.index}__].answers[__${optionValue}__]}"></label>
+                                </div>
+                            </td>
+						</tr>
+						<tr class="table-divider"></tr>
+					</span>
+            </tbody>
+        </table>
+
+        <!-- Error container -->
+        <div class="col-12 mt-3">
+            <span class="error-message" th:id="Error_singleMatrix + ${stat.index}" th:if="${question.mandatory}" th:utext="@{*} + #{NotBlankQuestion}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/user_view/layout/frame_public}">
+<body>
+<div layout:fragment="page-content" class="row mt-8">
+
+    <div id="modal_holder"></div>
+
+    <div class="modal hide fade" id="answered_modal" tabindex="-1" role="dialog" aria-hidden="true" th:fragment="loginForm">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title align-items-center">
+                        <!-- MODAL TITLE -->
+                        <h6 class="mb-0" th:text="#{common.warning}"></h6>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p th:utext="#{survey.alreadyanswered}"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger rounded-pill"
+                            data-dismiss="modal" th:text="#{common.cancel}"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Page title -->
+    <div class="col-12 page-title my-4">
+
+        <div class="row mb-2">
+
+            <img class="col-auto logo my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
+
+        </div>
+    </div>
+
+    <div class="card col-lg-6 col-md-6 col-sm-10 mx-auto mt-7">
+        <div class="card-body p-5 mx-auto">
+            <div class="row justify-content-center">
+                <h4 th:text="#{survey.issecret}" class="card-title mx-auto col-auto"></h4>
+                <p class="col-12 mx-auto text-center mb-0" th:utext="#{survey.issecret.desc}"></p>
+                <button type="button" class="btn btn-primary rounded-pill mt-3" th:text="#{common.access}"
+                        th:onclick="openLoginModal('[(@{/forms/survey/validate})]','[(${survey.id})]','#modal_login')"></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

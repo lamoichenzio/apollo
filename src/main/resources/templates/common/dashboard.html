@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{common/layout/frame_public}">
+
+<body>
+<div layout:fragment="page-content">
+    <script th:src="@{/script/survey_ajax.js}"></script>
+
+    <div class="col-12">
+        <div id="modal_holder"></div>
+    </div>
+
+    <!-- Page title -->
+    <div class="page-title my-4 mx-2">
+
+        <div class="row justify-content-between align-items-center">
+            <div class="col-auto pl-1 d-flex">
+                <!-- Page title + Go Back button -->
+                <div class="d-inline-block">
+                    <h5 class="h4 d-inline-block font-weight-400 mb-0 text-white">[[#{common.surveys}]]</h5>
+                </div>
+            </div>
+
+            <div class="col-auto justify-content-md-end">
+                <a id="create_survey" href="#"
+                   th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)"
+                   class="btn btn-sm btn-white btn-icon-only rounded-circle">
+						<span class="btn-inner--icon">
+							<i class="far fa-plus"></i>
+						</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <!-- Listing -->
+    <div class="card">
+
+        <!-- Error alert -->
+        <div th:if="${param.error != null}" class="row justify-content-between align-items-center">
+            <div class="col-12 card-body alert alert-danger alert-dismissible fade show mt-4 mx-4 mb-0"
+                 role="alert">
+                [[#{apollo.surveyerror}]]
+                <button type="button" class="close" data-dismiss="alert"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Table -->
+
+        <div class="table-responsive">
+            <table class="table" id="survey_table" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th th:text="#{survey.icon}">Icon</th>
+                    <th th:text="#{survey.name}">Name</th>
+                    <th th:text="#{survey.status}">Status</th>
+                    <th th:text="#{survey.secret}">Private</th>
+                    <th th:text="#{survey.creationDate}">Creation Date</th>
+                    <th th:text="#{common.action}">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        $(document).ready(function () {
+            $('#survey_table').DataTable({
+                "language": {
+                    "emptyTable": "No data available in table"
+                },
+                "columns": [{
+                    "data": "icon",
+                    "render": function (data, type, row, meta) {
+                        if (row.icon) {
+                            return '<img class="dashboard-survey-image" src="data:image/;base64,' +
+                                row.icon.data + '"/>';
+                        }
+                        return '<img class="dashboard-survey-image" src="[(@{/dist/img/theme/light/brand-avatar-3.png})]"/>';
+                    }
+                },
+                    {
+                        "data": "name",
+                        "render": function (data, type, row, meta) {
+                            return '<a href="[(@{/surveys/overview})]/' + row.id + '" class="name mb-0 h6 text-md">' + row.name + '</a>';
+                        }
+                    },
+                    {
+                        "data": "active",
+                        "render": function (data, type, row, meta) {
+                            return '<span class="badge badge-dot mr-4"><i class="' + (row.active ? 'bg-success' : 'bg-danger') + '"></i><span class="status">' + (row.active ? [[#{common.active}]] : [[#{common.inactive}]]) +
+                                '</span></span>';
+                        }
+                    },
+                    {
+                        "data": "secret",
+                        "render": function (data, type, row, meta) {
+                            return '<span class="badge badge-dot mr-4"><i class="' + (row.secret ?
+                                'bg-success' : 'bg-danger') + '"></i><span class="status">' + (
+                                row.secret ? 'Yes' : 'No') + '</span></span>';
+                        }
+                    },
+                    {
+                        "data": "creationDate",
+                        "render": function (data, type, row, meta) {
+                            let creationDate = new Date(row.creationDate);
+                            return '<span>' + creationDate.getDate() + '/' + (creationDate
+                                .getMonth() + 1) + '/' + creationDate.getFullYear() + '</span>';
+                        }
+                    },
+                    {
+                        "data": "action",
+                        "searchable": false,
+                        "sortable": false,
+                        "defaultContent": "",
+                        "render": function (data, type, row, meta) {
+                            let links = '<a href="[(@{/surveys/detail/})]' + row.id +
+                                '" data-toggle="tooltip" title="Detail"><i class="far fa-clipboard"></i></a>';
+                            
+                            if(!row.active){
+                            	 links += '  |  ' +
+                                 '<a href="#" data-toggle="tooltip" title="Delete" onclick="getSurveyRequest(\'\/apollo\/surveys\/delete\', \'#modal-delete-survey\', \'' +
+                                 row.id + '\')"><i class="fas fa-trash"></a>';
+                            }
+                            return links;
+                        }
+                    }
+                ],
+                "ajax": {
+                    "url": "[(@{/surveys/findallpaginated})]"
+                },
+            });
+        });
+    </script>
+</div>
+</body>
+
+</html>

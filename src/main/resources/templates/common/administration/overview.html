@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{common/layout/frame_public}">
+
+<body>
+<div layout:fragment="page-content">
+    <script th:src="@{/script/admin_script.js}"></script>
+
+    <div class="col-md-12">
+        <div id="modal_holder"></div>
+    </div>
+
+    <!-- Page title -->
+    <div class="page-title my-4 mx-2">
+        <div class="row justify-content-between align-items-center">
+            <!-- Page title + Go Back button -->
+            <div class="d-inline-block p-1">
+
+                <div class="row">
+
+                    <a href="#" th:href="@{/administration/users}"
+                       class="link font-weight-400 pt-1 col-auto my-auto text-white">
+                        <i class="fas fa-arrow-left"></i></a>
+
+                    <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">[[${managedUser.username}]]</h4>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- Survey overview -->
+        <div class="col-xl-6 col-sm-12">
+            <div class="row">
+                <div class="col-xl-12 col-sm-12">
+                    <div class="card card-fluid">
+                        <div class="card-body py-3 flex-grow-1">
+                            <!-- Progress -->
+                            <div class="my-3">
+                                <div class="row align-items-center">
+                                    <div class="col-12 text-center">
+                                        <!-- Avatar -->
+                                            <img th:if="${managedUser.pic != null}" class="overview-image" alt="User Icon" th:src="${'data:image/;base64,'+ user.pic}"/>
+                                            <img th:if="${managedUser.pic == null}" class="overview-image" alt="Image Default" th:src="@{/dist/img/icons/user/user.png}">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer py-0 pb-2">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-4">
+                                            <span class="form-control-label">[[#{user.username}]]:</span>
+                                        </div>
+                                        <div class="col-8 text-right">
+                                            <span id="username" class="text-right" th:text="${managedUser.username}"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-4">
+                                            <span class="form-control-label">[[#{user.firstname}]]:</span>
+                                        </div>
+                                        <div class="col-8 text-right">
+                                            <span id="firstname" class="text-right" th:text="${managedUser.firstname}"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-4">
+                                            <span class="form-control-label">[[#{user.lastname}]]:</span>
+                                        </div>
+                                        <div class="col-8 text-right">
+                                            <span id="lastname" class="text-right" th:text="${managedUser.lastname}"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-4">
+                                            <span class="form-control-label">[[#{user.email}]]:</span>
+                                        </div>
+                                        <div class="col-8 text-right">
+                                            <span id="email" class="text-right" th:text="${managedUser.email}"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-4">
+                                            <span class="form-control-label">[[#{user.role}]]:</span>
+                                        </div>
+                                        <div class="col-8 text-right">
+                                            <span id="role" class="text-right" th:text="${managedUser.role.name}"></span>
+                                        </div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-6 col-sm-12">
+            <div class="row">
+                <!-- stats card 1 -->
+                <div class="col-xl-12 col-sm-6">
+                    <!-- Stats card -->
+                    <div class="card card-stats border-0">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h6 class="text-muted mb-1">[[#{survey.created}]]</h6>
+                                    <span class="h3 font-weight-bold mb-0">[[${createdSurveys}]]</span>
+                                </div>
+                                <div class="col-auto">
+                                        <span class="h3 font-weight-bold mb-0 text-warning">
+                                            <i class="far fa-poll fa-2x"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats card 2 -->
+                <div class="col-xl-12 col-sm-6">
+                    <!-- Stats card -->
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h6 class="text-muted mb-1">[[#{survey.active}]]</h6>
+                                    <span class="h3 font-weight-bold mb-0">[[${activeSurveys}]]</span>
+                                </div>
+                                <div class="col-auto">
+                                        <span class="h3 font-weight-bold mb-0 text-success">
+                                            <i class="fas fa-globe fa-2x"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Stats card 2 -->
+                <div class="col-xl-12 col-sm-6">
+                    <button type="button"
+                            class="btn btn-lg btn-danger rounded-pill text-sm"
+                            th:text="#{common.deleteaccount}"
+                            th:onclick="displayalert('[(@{/administration/delete})]' + '/' + '[[${managedUser.id}]]')"></button>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+</body>
+
+</html>

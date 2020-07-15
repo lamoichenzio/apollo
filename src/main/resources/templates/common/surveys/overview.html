@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{common/layout/frame_public}">
+
+<body>
+    <div layout:fragment="page-content">
+        <script th:src="@{/script/overview.js}"></script>
+
+    <div class="col-md-12">
+        <div id="modal_holder"></div>
+    </div>
+
+        <!-- Page title -->
+        <div class="page-title my-4 mx-2">
+            <div class="row justify-content-between align-items-center">
+                <!-- Page title + Go Back button -->
+                <div class="d-inline-block p-1">
+
+                <div class="row">
+
+                    <a href="#" th:href="@{/surveys/dashboard}"
+                       class="link font-weight-400 pt-1 col-auto my-auto text-white">
+                        <i class="fas fa-arrow-left"></i></a>
+
+                    <h4 class="font-weight-400 col-auto mb-0 text-white ml-2">[[${survey.name}]]</h4>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+
+        <!-- Survey overview -->
+        <div class="col-xl-6 col-sm-12">
+            <div class="row">
+                <div class="col-xl-12 col-sm-12">
+                    <div class="card card-fluid">
+                        <div class="card-header">
+                            <h6 class="mb-0">[[#{survey.overview}]]</h6>
+                        </div>
+                        <div class="card-body py-3 flex-grow-1">
+                            <!-- Progress -->
+                            <div class="pb-4 my-3 border-bottom">
+                                <div class="row align-items-center">
+                                    <div class="col-12 text-center">
+                                        <!-- Avatar -->
+                                        <img th:if="${survey.icon != null}" class="overview-image" alt="User Icon" th:src="${'data:image/;base64,'+ survey.icon.data}"/>
+                                        <img th:if="${survey.icon == null}" class="overview-image" alt="Image Default" th:src="@{/dist/img/theme/light/brand-avatar-3.png}">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Description -->
+                            <p class="text-sm my-1 py-1">[[${survey.description}]]</p>
+                        </div>
+
+                        <div class="card-footer py-0 pb-2">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-4">
+                                            <span class="form-control-label">[[#{survey.secret}]]:</span>
+                                        </div>
+                                        <div class="col-8 text-right">
+                                            <span id="survey_secret" th:if="${survey.secret}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
+                                            <span id="survey_secret" th:if="${!survey.secret}" class="text-right badge badge-danger badge-pill mx-2">No</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col-4">
+                                            <span class="form-control-label">[[#{common.published}]]:</span>
+                                        </div>
+                                        <div class="col-8 text-right">
+                                            <span id="survey_active" th:if="${survey.active}" class="text-right badge badge-success badge-pill mx-2">[[#{common.yes}]]</span>
+                                            <span id="survey_active" th:if="${!survey.active}" class="text-right badge badge-danger badge-pill mx-2">No</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <span class="form-control-label">[[#{common.publiclink}]]</span>
+                                        </div>
+                                        <div class="col text-right">
+                                            <span id="urlId" class="text-right" th:text="${survey.urlId != null ? survey.urlId : ''}"></span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item px-0">
+                                    <div class="row justify-content-between">
+                                        <div class="col-6">
+                                            <small>[[#{survey.startDate}]]</small>
+                                            <div class="h6 mb-0" th:if="${survey.startDate != null}" th:text="${#temporals.format(survey.startDate)}"></div>
+                                            <div class="h6 mb-0" th:text="#{not.provided}" th:if="${survey.startDate == null}"></div>
+                                        </div>
+                                        <div class="col-3">
+                                            <small>[[#{survey.endDate}]]</small>
+                                            <div class="h6 mb-0" th:if="${survey.endDate != null}" th:text="${#temporals.format(survey.endDate)}"></div>
+                                            <div class="h6 mb-0" th:text="#{not.provided}" th:if="${survey.endDate == null}"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-xl-6 col-sm-12">
+            <div class="row">
+                <!-- stats card 1 -->
+                <div class="col-xl-12 col-sm-6">
+                    <!-- Stats card -->
+                    <div class="card card-stats border-0">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h6 class="text-muted mb-1">[[#{common.answers}]]</h6>
+                                    <span class="h3 font-weight-bold mb-0">[[${answers.size()}]]</span>
+                                </div>
+                                <div class="col-auto">
+                                        <span class="h3 font-weight-bold mb-0" style="color: rgb(54, 179, 126);">
+                                            <i class="far fa-user-edit fa-2x"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats card 2 -->
+                <div class="col-xl-12 col-sm-6">
+                    <!-- Stats card -->
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h6 class="text-muted mb-1">[[#{common.invitations}]]</h6>
+                                    <span th:if="${survey.secret}" class="h3 font-weight-bold mb-0" th:text="${survey.invitationPool != null && survey.invitationPool.emails != null ? survey.invitationPool.emails.size() : 0}"></span>
+                                    <span th:if="${!survey.secret}" class="h4 font-weight-bold mb-0">[[#{common.notallowed}]]</span>
+                                </div>
+                                <div class="col-auto">
+                                        <span class="h3 font-weight-bold mb-0" style="color: rgb(51, 80, 211);">
+                                            <i class="far fa-paper-plane fa-2x"></i>
+                                        </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question Overview -->
+                <div class="col-xl-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row justify-content-between">
+
+                                <div class="col-6">
+                                    <label class="form-control-label">[[#{common.group}]]</label>
+                                    <select id="group_select" class="custom-select">
+                                        <option value="" selected="true">-- None --</option>
+                                        <th:block th:if="${groups != null && groups.size() > 0}">
+                                            <option th:each="group, stat : ${groups}" th:value="${group.id}">[[${group.title}]]</option>
+                                        </th:block>
+                                    </select>
+                                </div>
+
+                                <div class="col-6">
+                                    <label class="form-control-label">[[#{question.title}]]</label>
+                                    <select id="question_select" class="custom-select">
+                                        <option id="default_option" value="" selected="true">-- None --</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body answers-container">
+                            <!-- Question Title -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <h6 id="question_title" class="text-sm mb-0"></h6>
+                                </div>
+                            </div>
+
+                            <!-- Answers -->
+                            <!-- Answer placeholder -->
+                            <div id="answers_paceholder" class="row justify-content-center">
+                                <div class="col-12 text-center">
+                                            <span id="title_placeholder" class="text-sm text-muted">
+                                                [[#{common.choosequestion}]]
+                                            </span>
+                                </div>
+                                <div class="col-2 my-3">
+                                    <span><i class="fas fa-list fa-4x"></i></span>
+                                </div>
+                            </div>
+
+                            <div id="spinner_container" class="d-flex justify-content-center"></div>
+
+                            <!-- Answers container -->
+                            <div id="answers_container">
+                                <!-- Replace content via js -->
+                            </div>
+                            <!-- ./Answers container -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Answers list -->
+    <div class="row">
+        <div class="col-xl-12">
+            <!-- Listing -->
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="mb-0">[[#{common.answerlist}]]</h6>
+                        </div>
+                        <div class="col-auto">
+                            <!-- <div class="actions">
+                                <a href="#!" class="action-item">
+                                    <i class="far fa-file-export"></i>
+                                    <span class="d-none d-sm-inline-block mr-4">Export</span>
+                                </a>
+                                <a href="#!" class="action-item">
+                                    <i class="far fa-print"></i>
+                                    <span class="d-none d-sm-inline-block">Print</span>
+                                </a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table" id="survey_table" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th th:text="#{answer.name}">Name</th>
+                            <th>Email</th>
+                            <th th:text="#{answer.groups}">Groups</th>
+                            <th th:text="#{answer.completion}">Completion</th>
+                            <th th:text="#{common.submitteddate}">Submitted Date</th>
+                        </tr>
+                        </thead>
+                        <tbody class="list">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- ./Answers list-->
+    <script th:inline="javascript">
+        var groups = [[${ groups }]];
+
+        $(document).ready(function () {
+            let row_index = 0;
+
+            $('#survey_table').DataTable({
+                "columns": [
+                    {
+                        "data": "name",
+                        "render": function (data, type, row, meta) {
+                            row_index += 1;
+                            let url = row.survey.id + '/answer/' + row.id + '?group=0';
+
+                            if (row.name) {
+                                return '<div class="media-body ml-3"><a href="#" class="name mb-0 h6 text-sm">' + row.name + '</a></div>';
+                            } else {
+                                return '<div class="media-body ml-3"><a href="[(@{/forms/survey})]/' + url + '" class="name mb-0 h6 text-sm">Answer ' + row.id + '</a></div>';
+                            }
+                        }
+                    },
+                    {
+                        "data": "email",
+                        "render": function (data, type, row, meta) {
+                            return '<span class="d-block text-sm text-muted mb-3">' + (data ? data : '-') + '</a>';
+                        }
+                    },
+                    {
+                        "data": "groupAnswers",
+                        "render": function (data, type, row, meta) {
+                            let elem = '';
+                            let index = 0;
+
+                            for (let item of groups) {
+                                let url = row.survey.id + '/answer/' + row.id + '?group=' + index;
+                                elem += '<a href="[(@{/forms/survey})]/' + url + '" class="badge badge-secondary">' + item.title + '</a>&nbsp;'
+                                index += 1;
+                            }
+                            return elem;
+                        }
+                    },
+                    {
+                        "data": "totAnswers",
+                        "render": function (data, type, row, meta) {
+                            let completion = (row.totAnswers / getTotQuestions(groups)) * 100;
+                            return '<div class="d-flex align-items-center"><span class="completion mr-2">' + completion + '%</span><div><div class="progress" style="width:100px;"><div class="progress-bar bg-success" role="progressbar" aria-valuenow="' + completion + '" aria-valuemin="0" aria-valuemax="100" style="width: ' + completion + '%;"></div></div></div></div>';
+                        }
+                    },
+                    {
+                        "data": "date",
+                        "render": function (data, type, row, meta) {
+                            let submittedDate = new Date(row.date);
+                            return '<span>' + submittedDate.getDate() + '/' + (submittedDate.getMonth() + 1) + '/' + submittedDate.getFullYear() + ' ' + submittedDate.getHours() + ':' + submittedDate.getMinutes() + '</span>';
+                        }
+                    }
+                ],
+                "ajax": {
+                    "url": "[(@{/forms/survey/findbysurveypaginated})]" + "?id=[(${survey.id})]"
+                },
+            });
+        });
+    </script>
+</div>
+
+</body>
+
+</html>

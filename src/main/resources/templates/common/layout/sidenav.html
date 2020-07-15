@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <body>
+
+        <!-- Sidenav -->
+        <div class="fixed-content show ml-4 d-none d-lg-block" id="sidenav-main" th:fragment="sidenav"
+             sec:authorize="isAuthenticated()">
+
+            <!-- Sidenav header -->
+            <div class="sidenav-header d-flex mt-1">
+                <div class="row mx-auto">
+                    <a href="#" th:href="@{/surveys/dashboard}">
+                        <img class="col-12 logo pt-1 my-auto mx-auto" th:src="@{/dist/img/icons/custom/logo.svg}">
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <!-- Sidenav toggler -->
+                <div class="sidenav-toggler sidenav-toggler-dark d-md-none"
+                     data-action="sidenav-unpin" data-target="#sidenav-main">
+                    <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
+                        <i class="sidenav-toggler-line bg-white"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User mini profile -->
+            <div class="sidenav-user d-flex flex-column align-items-center justify-content-between text-center">
+
+                <!-- Avatar -->
+                <div class="row">
+                    <h5 class="mb-0 text-white col-auto mx-auto">
+                        [[#{common.hi}]]
+                        <span th:if="${user.firstname != null && user.firstname != ''}"
+                              th:text="${user.firstname}"></span>
+                        <span th:if="${user.firstname == null || user.firstname == ''}"
+                              th:text="${user.username}"></span>!
+                    </h5>
+                </div>
+
+                <!-- User pic -->
+                <div class="row ">
+                    <span class="col-auto px-0 py-0">
+                        <img alt="Image placeholder"
+                             class="profile-image"
+                             src="./dist/img/theme/light/team-4-800x800.jpg"
+                             th:src="@{/dist/img/icons/user/user.png}"
+                             th:if="${user.pic == null}">
+
+                        <img alt="Image placeholder"
+                             class="profile-image"
+                             src="./dist/img/theme/light/team-4-800x800.jpg"
+                             th:src="${'data:image/jpg;base64,'+user.pic}"
+                             th:if="${user.pic != null}">
+                    </span>
+
+                </div>
+
+                <div class="row">
+
+                    <nav class="navbar mx-0 my-0 force-padding-0 col-auto" id="navbar-main">
+                        <div class="container-fluid">
+                            <div class="navbar-user">
+                                <ul class="navbar-nav flex-row align-items-center">
+
+                                    <li class="nav-item dropdown dropdown-animate mr-2">
+                                        <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <img class="locale-image"
+                                                 alt="Image placeholder"
+                                                 src="(${#locale.language}=='en' ? './dist/img/icons/flags/en.svg' : './dist/img/icons/flags/it.svg'"
+                                                 th:src="(${#locale.language}=='en' ? @{/dist/img/icons/flags/en.svg} : @{/dist/img/icons/flags/it.svg})">
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
+                                            <a href="#" th:href="@{?lang=en}" class="dropdown-item">
+                                                <img alt="Image placeholder" src="./dist/img/icons/flags/en.svg"
+                                                     th:src="@{/dist/img/icons/flags/en.svg}"
+                                                     class="mr-2">[[#{common.english}]]
+                                            </a>
+                                            <a href="#"
+                                               th:href="@{?lang=it}"
+                                               class="dropdown-item"><img
+                                                    alt="Image placeholder"
+                                                    src="./dist/img/icons/flags/it.svg"
+                                                    th:src="@{/dist/img/icons/flags/it.svg}"
+                                                    class="mr-2">[[#{common.italian}]]
+                                            </a>
+                                        </div>
+                                    </li>
+
+                                    <li class="nav-item dropdown dropdown-animate">
+                                        <a href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="fas fa-cog text-white"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-left">
+                                            <a class="dropdown-item" href="/apollo/user/update">
+                                                <i class="far fa-user"></i>
+                                                <span>[[#{common.updateprofile}]]</span>
+                                            </a>
+                                            <div class="dropdown-divider"></div>
+                                            <a href="/apollo/logout" class="dropdown-item">
+                                                <i class="far fa-sign-out-alt"></i>
+                                                <span>[[#{menu.logout}]]</span>
+                                            </a>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                </div>
+
+                <!-- Menu -->
+                <div class="w-100 mt-4 actions d-flex justify-content-center">
+
+                    <a th:classappend="${#request.requestURI == '/apollo/surveys/dashboard' ? 'active':''}" href="#"
+                       th:href="@{/surveys/dashboard}" class="btn btn-square text-sm mr-0">
+                        <span class="btn-inner--icon d-block">
+                            <i class="far fa-home fa-1x"></i>
+                        </span>
+                        <span class="btn-inner--icon d-block pt-2">[[#{menu.home}]]</span>
+                    </a>
+
+                    <a id="create_survey" class="btn btn-square text-sm" href="#"
+                       th:onclick="getSurveyRequest([[@{/surveys/create}]], '#modal-create-new-survey', null)">
+                        <span class="btn-inner--icon d-block">
+                            <i class="far fa-plus"></i>
+                        </span>
+                        <span class="btn-inner--icon d-block pt-2">[[#{menu.new}]]</span>
+                    </a>
+
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a th:classappend="${#request.requestURI.startsWith('/apollo/administration') ? 'active':''}"
+                           href="#" th:href="@{/administration/users}" class="btn btn-square text-sm mr-0">
+                            <span class="btn-inner--icon d-block">
+                                <i class="far fa-users"></i>
+                            </span>
+                            <span class="btn-inner--icon d-block pt-2">[[#{menu.users}]]</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer -->
+            <div th:replace="~{common/layout/footer :: footer}"></div>
+
+        </div>
+
+    </body>
+</html>
