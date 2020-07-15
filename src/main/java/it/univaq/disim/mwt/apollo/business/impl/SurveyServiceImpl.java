@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.univaq.disim.mwt.apollo.business.ConversionUtility;
-import it.univaq.disim.mwt.apollo.business.DocumentFileService;
+import it.univaq.disim.mwt.apollo.business.SurveyFileService;
 import it.univaq.disim.mwt.apollo.business.InvitationPoolService;
 import it.univaq.disim.mwt.apollo.business.QuestionGroupService;
 import it.univaq.disim.mwt.apollo.business.SurveyService;
@@ -26,7 +26,7 @@ import it.univaq.disim.mwt.apollo.business.datatable.RequestGrid;
 import it.univaq.disim.mwt.apollo.business.datatable.ResponseGrid;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyRepository;
-import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
+import it.univaq.disim.mwt.apollo.domain.SurveyFile;
 import it.univaq.disim.mwt.apollo.domain.Survey;
 import it.univaq.disim.mwt.apollo.domain.User;
 import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
@@ -44,7 +44,7 @@ public class SurveyServiceImpl implements SurveyService {
     private QuestionGroupService questionGroupService;
 
     @Autowired
-    private DocumentFileService documentFileService;
+    private SurveyFileService surveyFileService;
 
     @Autowired
     private InvitationPoolService invitationPoolService;
@@ -123,8 +123,8 @@ public class SurveyServiceImpl implements SurveyService {
                 if (!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
                     throw new BusinessException("File format not valid: " + file.getContentType());
                 }
-                SurveyIcon icon = ConversionUtility.multipartFile2DocumentFile(file);
-                documentFileService.create(icon);
+                SurveyFile icon = ConversionUtility.multipartFile2DocumentFile(file);
+                surveyFileService.create(icon);
                 survey.setIcon(icon);
             }
 
@@ -142,13 +142,13 @@ public class SurveyServiceImpl implements SurveyService {
                 if (!file.getContentType().equals("image/png") && !file.getContentType().equals("image/jpeg")) {
                     throw new BusinessException("File format not valid: " + file.getContentType());
                 }
-                SurveyIcon icon = ConversionUtility.multipartFile2DocumentFile(file);
+                SurveyFile icon = ConversionUtility.multipartFile2DocumentFile(file);
                 if (survey.getIcon() != null) {
                     // Delete old icon
-                    documentFileService.delete(survey.getIcon());
+                    surveyFileService.delete(survey.getIcon());
                 }
                 // Set new icon
-                documentFileService.create(icon);
+                surveyFileService.create(icon);
                 survey.setIcon(icon);
             }
 

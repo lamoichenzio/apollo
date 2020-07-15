@@ -1,7 +1,7 @@
 package it.univaq.disim.mwt.apollo.domain.questions;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
+import it.univaq.disim.mwt.apollo.domain.SurveyFile;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -39,7 +39,7 @@ public abstract class Question {
 	private Date creationDate;
 
 	@DBRef
-	private SurveyIcon file;
+	private SurveyFile file;
 
 	@DBRef
 	private QuestionGroup questionGroup;

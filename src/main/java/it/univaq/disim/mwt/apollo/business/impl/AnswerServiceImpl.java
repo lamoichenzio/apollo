@@ -32,58 +32,88 @@ import it.univaq.disim.mwt.apollo.domain.questions.SelectionQuestion;
 public class AnswerServiceImpl implements AnswerService {
 
 	@Autowired
-	ChoiceQuestionMultiAnswerRepository choiceQuestionMultiAnswerRepository;
+	private ChoiceQuestionMultiAnswerRepository choiceQuestionMultiAnswerRepository;
 
 	@Autowired
-	ChoiceQuestionSingleAnswerRepository choiceQuestionSingleAnswerRepository;
+	private ChoiceQuestionSingleAnswerRepository choiceQuestionSingleAnswerRepository;
 
 	@Autowired
-	InputQuestionAnswerRepository inputQuestionAnswerRepository;
+	private InputQuestionAnswerRepository inputQuestionAnswerRepository;
 
 	@Autowired
-	MultiChoiceMatrixAnswerRepository multiChoiceMatrixAnswerRepository;
+	private MultiChoiceMatrixAnswerRepository multiChoiceMatrixAnswerRepository;
 
 	@Autowired
-	SelectionQuestionAnswerRepository selectionQuestionAnswerRepository;
+	private SelectionQuestionAnswerRepository selectionQuestionAnswerRepository;
 
 	@Autowired
-	SingleChoiceMatrixAnswerRepository singleChoiceMatrixAnswerRepository;
+	private SingleChoiceMatrixAnswerRepository singleChoiceMatrixAnswerRepository;
 
 	/** FIND BY QUESTION **/
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<ChoiceQuestionMultiAnswer> findChoiceQuestionMultiAnswersByQuestion(ChoiceQuestion question)
 			throws BusinessException {
-		return choiceQuestionMultiAnswerRepository.findByQuestion(question);
+		try{
+			return choiceQuestionMultiAnswerRepository.findByQuestion(question);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<ChoiceQuestionSingleAnswer> findChoiceQuestionSingleAnswersByQuestion(ChoiceQuestion question)
 			throws BusinessException {
-		return choiceQuestionSingleAnswerRepository.findByQuestion(question);
+		try{
+			return choiceQuestionSingleAnswerRepository.findByQuestion(question);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<InputQuestionAnswer> findInputQuestionAnswersByQuestion(InputQuestion question) throws BusinessException {
-		return inputQuestionAnswerRepository.findByQuestion(question);
+		try{
+			return inputQuestionAnswerRepository.findByQuestion(question);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<MultiChoiceMatrixAnswer> findMultiChoiceMatrixAnswersByQuestion(MatrixQuestion question)
 			throws BusinessException {
-		return multiChoiceMatrixAnswerRepository.findByQuestion(question);
+		try{
+			return multiChoiceMatrixAnswerRepository.findByQuestion(question);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<SelectionQuestionAnswer> findSelectionQuestionAnswersByQuestion(SelectionQuestion question)
 			throws BusinessException {
-		return selectionQuestionAnswerRepository.findByQuestion(question);
+		try{
+			return selectionQuestionAnswerRepository.findByQuestion(question);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<SingleChoiceMatrixAnswer> findSingleChoiceMatrixAnswersByQuestion(MatrixQuestion question)
 			throws BusinessException {
-		return singleChoiceMatrixAnswerRepository.findByQuestion(question);
+		try{
+			return singleChoiceMatrixAnswerRepository.findByQuestion(question);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override

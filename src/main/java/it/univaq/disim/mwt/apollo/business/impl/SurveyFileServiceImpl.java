@@ -5,50 +5,50 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.univaq.disim.mwt.apollo.business.DocumentFileService;
+import it.univaq.disim.mwt.apollo.business.SurveyFileService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
-import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.DocumentFileRepository;
-import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
+import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SurveyFileRepository;
+import it.univaq.disim.mwt.apollo.domain.SurveyFile;
 
 @Service
 @Transactional
-public class DocumentFileServiceImpl implements DocumentFileService {
+public class SurveyFileServiceImpl implements SurveyFileService {
 
 	@Autowired
-	DocumentFileRepository documentFileRepository;
+	private SurveyFileRepository surveyFileRepository;
 	
 	@Override
 	@Transactional(readOnly = true)
-	public SurveyIcon findById(String id) throws BusinessException {
+	public SurveyFile findById(String id) throws BusinessException {
 		try {
-			return documentFileRepository.findById(id).get();
+			return surveyFileRepository.findById(id).get();
 		} catch (DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}
 
 	@Override
-	public void create(SurveyIcon file) throws BusinessException {
+	public void create(SurveyFile file) throws BusinessException {
 		try {
-			documentFileRepository.save(file);
+			surveyFileRepository.save(file);
 		} catch (DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}
 
 	@Override
-	public void update(SurveyIcon file) throws BusinessException {
+	public void update(SurveyFile file) throws BusinessException {
 		try {
-			documentFileRepository.save(file);
+			surveyFileRepository.save(file);
 		} catch (DataAccessException e) {
 			throw new BusinessException(e);
 		}
 	}
 
 	@Override
-	public void delete(SurveyIcon file) throws BusinessException {
+	public void delete(SurveyFile file) throws BusinessException {
 		try {
-			documentFileRepository.delete(file);
+			surveyFileRepository.delete(file);
 		} catch (DataAccessException e) {
 			throw new BusinessException(e);
 		}

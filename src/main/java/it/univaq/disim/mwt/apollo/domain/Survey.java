@@ -49,7 +49,7 @@ public class Survey {
 	private String description;
 
 	@DBRef
-	private SurveyIcon icon;
+	private SurveyFile icon;
 	
 	private boolean secret;
 	private boolean active;

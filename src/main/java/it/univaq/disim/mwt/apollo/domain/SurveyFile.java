@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 @Document(collection = "SurveyFiles")
 @TypeAlias("SurveyFile")
-public class SurveyIcon {
+public class SurveyFile {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

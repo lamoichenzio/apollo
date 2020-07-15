@@ -1,6 +1,7 @@
 package it.univaq.disim.mwt.apollo.business.impl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import it.univaq.disim.mwt.apollo.business.impl.repositories.jpa.UserRepository;
 import it.univaq.disim.mwt.apollo.domain.User;
 
 @Service
-@Transactional(rollbackFor = DoubleEntryException.class)
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -47,6 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseGrid<User> findAllPaginated(RequestGrid requestGrid) throws BusinessException {
         try {
         	
@@ -70,9 +72,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(User user) throws BusinessException {
-//        if (userExistsByUsername(user.getUsername())) {
-//            throw new DoubleEntryException("double username");
-//        }
         user.setPassword(encoder.encode(user.getPassword()));
         try {
             userRepository.save(user);
@@ -89,7 +88,7 @@ public class UserServiceImpl implements UserService {
                 user.setPassword(passEncoded);
             }
             if (file != null && !file.isEmpty()) {
-                user.setPic(new String(Base64.getEncoder().encode(file.getBytes()), "UTF-8"));
+                user.setPic(new String(Base64.getEncoder().encode(file.getBytes()), StandardCharsets.UTF_8));
             }
             userRepository.save(user);
         } catch (DataAccessException | IOException e) {

@@ -41,13 +41,13 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 	private AnswerService answerService;
 
 	@Override
-	public List<SurveyAnswer> findAllSurveyAnswers() throws BusinessException {
-		return surveyAnswerRepository.findAll();
-	}
-
-	@Override
+	@Transactional(readOnly = true)
 	public List<SurveyAnswer> findAllBySurvey(Survey survey) throws BusinessException {
-		return surveyAnswerRepository.findAllBySurvey(survey);
+		try{
+			return surveyAnswerRepository.findAllBySurvey(survey);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 	
 	@Override
@@ -88,8 +88,13 @@ public class SurveyAnswerServiceImpl implements SurveyAnswerService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public SurveyAnswer findSurveyAnswerById(String id) throws BusinessException {
-		return surveyAnswerRepository.findById(id).get();
+		try{
+			return surveyAnswerRepository.findById(id).get();
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 	@Override

@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import it.univaq.disim.mwt.apollo.business.DocumentFileService;
+import it.univaq.disim.mwt.apollo.business.SurveyFileService;
 import it.univaq.disim.mwt.apollo.business.QuestionService;
 import it.univaq.disim.mwt.apollo.business.exceptions.BusinessException;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.ChoiceQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.InputQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.MatrixQuestionRepository;
 import it.univaq.disim.mwt.apollo.business.impl.repositories.mongo.SelectQuestionRepository;
-import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
+import it.univaq.disim.mwt.apollo.domain.SurveyFile;
 import it.univaq.disim.mwt.apollo.domain.questions.ChoiceQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.InputQuestion;
 import it.univaq.disim.mwt.apollo.domain.questions.MatrixQuestion;
@@ -43,7 +43,7 @@ public class QuestionServiceImpl implements QuestionService {
     private SelectQuestionRepository selectQuestionRepository;
 
     @Autowired
-    private DocumentFileService documentFileService;
+    private SurveyFileService surveyFileService;
 
     @Override
     @Transactional(readOnly = true)
@@ -91,9 +91,9 @@ public class QuestionServiceImpl implements QuestionService {
             try {
                 question.setCreationDate(new Date());
                 if (file != null && !file.isEmpty()) {
-                    SurveyIcon surveyIcon = ConversionUtility.multipartFile2DocumentFile(file);
-                    documentFileService.create(surveyIcon);
-                    question.setFile(surveyIcon);
+                    SurveyFile surveyFile = ConversionUtility.multipartFile2DocumentFile(file);
+                    surveyFileService.create(surveyFile);
+                    question.setFile(surveyFile);
                 }
                 saveQuestion(question);
             } catch (IOException | DataAccessException e) {
@@ -108,15 +108,15 @@ public class QuestionServiceImpl implements QuestionService {
             try {
                 question.setCreationDate(new Date());
                 if (file != null && !file.isEmpty()) {
-                    SurveyIcon surveyIcon = ConversionUtility.multipartFile2DocumentFile(file);
-                    documentFileService.create(surveyIcon);
+                    SurveyFile surveyFile = ConversionUtility.multipartFile2DocumentFile(file);
+                    surveyFileService.create(surveyFile);
                     if (question.getFile() != null) {
-                        documentFileService.delete(question.getFile());
+                        surveyFileService.delete(question.getFile());
                     }
-                    question.setFile(surveyIcon);
+                    question.setFile(surveyFile);
                 }
                 else if (question.getFile() != null && deleteFile){
-                            documentFileService.delete(question.getFile());
+                            surveyFileService.delete(question.getFile());
                             question.setFile(null);
                 }
 
@@ -132,7 +132,7 @@ public class QuestionServiceImpl implements QuestionService {
         if (!question.getQuestionGroup().getSurvey().isActive()) {
             try {
                 if (question.getFile() != null) {
-                    documentFileService.delete(question.getFile());
+                    surveyFileService.delete(question.getFile());
                 }
                 if (question instanceof InputQuestion) {
                     inputQuestionRepository.delete((InputQuestion) question);
