@@ -1,6 +1,6 @@
 package it.univaq.disim.mwt.apollo.business;
 
-import it.univaq.disim.mwt.apollo.domain.SurveyIcon;
+import it.univaq.disim.mwt.apollo.domain.SurveyFile;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -87,8 +87,8 @@ public class ConversionUtility {
 		return surveyAnswer;
 	}
 
-	public static SurveyIcon multipartFile2DocumentFile(MultipartFile file) throws IOException {
-		SurveyIcon icon = new SurveyIcon();
+	public static SurveyFile multipartFile2DocumentFile(MultipartFile file) throws IOException {
+		SurveyFile icon = new SurveyFile();
 		icon.setName(file.getOriginalFilename());
 		icon.setData(new String(Base64.getEncoder().encode(file.getBytes()), StandardCharsets.UTF_8));
 		return icon;

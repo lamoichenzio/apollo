@@ -33,6 +33,8 @@ build/
 ### MacOS ###
 *.DS_Store
 
+/bin/
+.settings/
 .metadata/
 .mvn/
 /mvnw

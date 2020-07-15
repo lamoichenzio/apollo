@@ -8,10 +8,7 @@ import it.univaq.disim.mwt.apollo.domain.Survey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -19,18 +16,6 @@ public class InvitationPoolServiceImpl implements InvitationPoolService {
 
 	@Autowired
 	private InvitationPoolRepository invitationPoolRepository;
-
-	@Override
-	@Transactional(readOnly = true, isolation = Isolation.SERIALIZABLE)
-	public List<InvitationPool> findAllInvitationPools() throws BusinessException {
-		return invitationPoolRepository.findAll();
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public InvitationPool findInvitationPoolByPassword(String password) throws BusinessException {
-		return invitationPoolRepository.findByPassword(password);
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -43,28 +28,21 @@ public class InvitationPoolServiceImpl implements InvitationPoolService {
 	}
 
 	@Override
-	@Transactional(readOnly = true)
-	public InvitationPool findInvitationPoolById(String id) throws BusinessException {
-		try {
-			return invitationPoolRepository.findById(id).get();
+	public void updateInvitationPool(InvitationPool invitationPool) throws BusinessException {
+		try{
+			invitationPoolRepository.save(invitationPool);
 		}catch (DataAccessException e){
 			throw new BusinessException(e);
 		}
 	}
 
 	@Override
-	public void createInvitationPool(InvitationPool invitationPool) throws BusinessException {
-		invitationPoolRepository.save(invitationPool);
-	}
-
-	@Override
-	public void updateInvitationPool(InvitationPool invitationPool) throws BusinessException {
-		invitationPoolRepository.save(invitationPool);
-	}
-
-	@Override
 	public void deleteInvitationPool(InvitationPool invitationPool) throws BusinessException {
-		invitationPoolRepository.delete(invitationPool);
+		try{
+			invitationPoolRepository.delete(invitationPool);
+		}catch (DataAccessException e){
+			throw new BusinessException(e);
+		}
 	}
 
 }

@@ -22,10 +22,10 @@ import it.univaq.disim.mwt.apollo.domain.questions.QuestionGroup;
 public class QuestionGroupServiceImpl implements QuestionGroupService {
 	
 	@Autowired
-	QuestionGroupRepository questionGroupRepository;
+	private QuestionGroupRepository questionGroupRepository;
 	
 	@Autowired
-	QuestionService questionService;
+	private QuestionService questionService;
 
 	@Override
 	@Transactional(readOnly = true)
