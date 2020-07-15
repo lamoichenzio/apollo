@@ -35,6 +35,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public AccessDeniedHandler accessDeniedHandler(){
 	    return new CustomAccessDeniedHandler();
 	}
+
+    @Bean
+    public AjaxAwareAuthenticationEntryPoint authenticationEntryPoint() {
+        return new AjaxAwareAuthenticationEntryPoint("/login");
+    }
 	
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -44,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/?error=invalidlogin")
                 .defaultSuccessUrl("/surveys/dashboard", false).and().logout()
                 .logoutSuccessUrl("/").and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
                 .authorizeRequests()
                 .antMatchers("/administration/**").authenticated()
                 .antMatchers("/administration/**").hasRole("ADMIN")
