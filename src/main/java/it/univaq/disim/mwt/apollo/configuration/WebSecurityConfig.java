@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import it.univaq.disim.mwt.apollo.presentation.AjaxAwareAuthenticationEntryPoint;
 import it.univaq.disim.mwt.apollo.presentation.CustomAccessDeniedHandler;
 
 @Configuration
@@ -37,11 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    return new CustomAccessDeniedHandler();
 	}
 	
-	@Bean
-	public AjaxAwareAuthenticationEntryPoint authenticationEntryPoint() {
-		return new AjaxAwareAuthenticationEntryPoint("/login");
-	}
-	
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.headers().disable().csrf().disable().formLogin()
@@ -50,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/?error=invalidlogin")
                 .defaultSuccessUrl("/surveys/dashboard", false).and().logout()
                 .logoutSuccessUrl("/").and().exceptionHandling().accessDeniedHandler(accessDeniedHandler()).and()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint()).and()
                 .authorizeRequests()
                 .antMatchers("/administration/**").authenticated()
                 .antMatchers("/administration/**").hasRole("ADMIN")
