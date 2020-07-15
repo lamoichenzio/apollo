@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{common/layout/frame_public}">
-
 <body>
 <div layout:fragment="page-content">
     <script th:src="@{/script/admin_script.js}"></script>
-
 
     <!-- Modal container -->
     <div class="col-md-12">
@@ -30,17 +28,7 @@
 
     <!-- Listing -->
     <div class="card">
-        <!--        &lt;!&ndash; Card header &ndash;&gt;-->
-        <!--        <div class="card-header actions-toolbar">-->
-        <!--            <div class="row justify-content-between">-->
-
-        <!--            </div>-->
-        <!--        </div>-->
-        <!-- ./Card header -->
-
-
         <!-- Table -->
-
         <div class="table-responsive">
             <table class="table" id="user_table" width="100%" cellspacing="0">
                 <thead>
@@ -104,8 +92,6 @@
             });
         });
     </script>
-
-
 </div>
 </body>
 
